@@ -6,6 +6,14 @@
 /dataSources.local.xml
 # Editor-based HTTP Client requests
 /httpRequests/
-# Push only code
-*.class
-../*.class
+# Intellij
+.idea/
+*.iml
+*.iws
+
+# Mac
+.DS_Store
+
+# Maven
+log/
+target/
