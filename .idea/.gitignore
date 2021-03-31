@@ -8,3 +8,4 @@
 /httpRequests/
 # Push only code
 *.class
+../*.class
