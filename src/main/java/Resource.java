@@ -1,2 +1,3 @@
-public class Resource {
+public abstract class Resource {
+
 }
