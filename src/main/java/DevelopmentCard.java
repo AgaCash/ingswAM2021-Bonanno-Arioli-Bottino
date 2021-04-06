@@ -1,6 +1,8 @@
+import cards.Card;
+
 import java.util.ArrayList;
 
-public class DevelopmentCard extends Card{
+public class DevelopmentCard extends Card {
     private Colour colour;
     private int level;
     private int points;
