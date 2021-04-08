@@ -1,3 +1,3 @@
-public class Faith extends Resource {
+public class Faith {
         private Faith faith;
     }

@@ -1,4 +1,4 @@
-public class Servant extends Resource {
+public class Servant {
     private Servant servant;
 
     }

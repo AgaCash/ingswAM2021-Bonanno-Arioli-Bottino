@@ -1,4 +1,5 @@
 import cards.Card;
+import resources.Resource;
 
 import java.util.ArrayList;
 

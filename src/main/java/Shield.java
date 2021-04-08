@@ -1,4 +1,4 @@
-public class Shield extends Resource {
+public class Shield {
     private Shield shield;
 
 }

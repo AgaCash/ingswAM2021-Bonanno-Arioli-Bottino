@@ -1,3 +1,3 @@
-public class Stone extends Resource {
+public class Stone {
     private Stone stone;
 }

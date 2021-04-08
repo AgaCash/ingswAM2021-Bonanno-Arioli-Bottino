@@ -1,4 +1,4 @@
-public class Coin extends Resource {
+public class Coin {
     private Coin coin;
 
 }
