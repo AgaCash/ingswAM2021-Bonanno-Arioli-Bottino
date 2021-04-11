@@ -2,7 +2,7 @@ package resources;
 
 public class Faith extends Resource{
 	
-	public void create(){
-		System.out.println("Faith created\n");
+	public Faith(){
+		//System.out.println("Faith created\n");
 	}
 }

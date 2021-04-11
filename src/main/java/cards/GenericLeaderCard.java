@@ -1,7 +1,5 @@
 package cards;
-
-import resources.*;
-
+//this is a provisional class
 public class GenericLeaderCard extends LeaderCard{
 
 	public GenericLeaderCard(boolean en){

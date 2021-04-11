@@ -1,6 +1,6 @@
 package cards;
 import resources.*;
-
+//this is a provisional class
 public class LeaderCard extends Card{
 	protected boolean isEnabled=true;
 	protected Resource whichResource;
