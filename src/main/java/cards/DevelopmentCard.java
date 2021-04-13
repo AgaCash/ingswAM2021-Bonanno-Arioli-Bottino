@@ -1,5 +1,9 @@
-import cards.Card;
+package cards;
+
+import colour.Colour;
 import resources.Resource;
+import strongbox.Strongbox;
+import warehouse.WarehouseDepot;
 
 import java.util.ArrayList;
 

@@ -1,10 +1,19 @@
 package cards;
 import resources.*;
-//this is a provisional class
-public class WhiteConverter extends LeaderCard{
+import java.util.ArrayList;
 
-	public WhiteConverter(Resource res, boolean en){
-		whichResource = res;
-		isEnabled = en;
+public class WhiteConverter extends LeaderCard{
+	private Resource resource;
+	private ArrayList<DevelopmentCard> requirements;
+	private static int victoryPoints = 5;
+
+	public WhiteConverter(Resource res, boolean en, ArrayList<DevelopmentCard> req){
+		this.resource = res;
+		this.isEnabled = en;
+		this.requirements = req;
+	}
+	@Override
+	public Resource whichResource(){
+		return this.resource;
 	}
 }

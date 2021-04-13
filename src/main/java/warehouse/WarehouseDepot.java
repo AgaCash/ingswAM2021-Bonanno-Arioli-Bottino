@@ -1,3 +1,5 @@
+package warehouse;
+
 import cards.LeaderCard;
 import resources.Resource;
 

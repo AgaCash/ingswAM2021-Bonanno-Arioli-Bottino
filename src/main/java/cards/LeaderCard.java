@@ -1,15 +1,18 @@
 package cards;
-import resources.*;
+import resources.Resource;
+
+import java.util.ArrayList;
 //this is a provisional class
-public class LeaderCard extends Card{
-	protected boolean isEnabled=true;
-	protected Resource whichResource;
+abstract public class LeaderCard extends Card{
+	public boolean isEnabled;
+	protected int victoryPoints;
+	protected ArrayList<Object> requirements;
 
-	public boolean isEnabled(){
-		return this.isEnabled;
-	}
+	abstract public Resource whichResource();
 
-	public Resource whichResource(){
-		return this.whichResource;
-	}
+	//abstract public boolean isEnabled();
+
+	//public Resource whichResource(){
+	//	return this.whichResource;
+	//}
 }

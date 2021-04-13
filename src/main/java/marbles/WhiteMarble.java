@@ -1,6 +1,6 @@
 package marbles;
-import cards.LeaderCard;
 import cards.WhiteConverter;
+import cards.LeaderCard;
 import resources.Resource;
 
 
@@ -17,8 +17,9 @@ public class WhiteMarble extends Marble{
 
 	public Resource convertMarble(LeaderCard card){
 		extraResource= null;
-		if(card!=null && (card instanceof WhiteConverter))
-			extraResource=card.whichResource();
+		if(card!=null && (card instanceof WhiteConverter)) {
+			extraResource = card.whichResource();
+		}
 		return extraResource;
 	}
 }

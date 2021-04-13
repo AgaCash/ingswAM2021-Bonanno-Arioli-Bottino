@@ -1,3 +1,5 @@
+package colour;
+
 public enum Colour {
     BLUE,
     GREEN,

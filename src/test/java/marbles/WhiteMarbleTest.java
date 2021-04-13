@@ -1,6 +1,5 @@
 package marbles;
-
-import cards.GenericLeaderCard;
+/*
 import cards.LeaderCard;
 import cards.WhiteConverter;
 import org.junit.jupiter.api.Test;
@@ -31,4 +30,4 @@ class WhiteMarbleTest {
         assertNull(wmar.convertMarble(extraNotActive));
 
     }
-}
+}*/

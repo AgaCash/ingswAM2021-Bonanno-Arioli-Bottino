@@ -1,6 +1,8 @@
-import resources.* ;
+package strongbox;
+
+import resources.Resource;
+
 import java.util.ArrayList;
-import java.util.Scanner ;
 
 public class Strongbox {
 

@@ -1,12 +1,6 @@
 package marbles;
 
-import cards.GenericLeaderCard;
-import cards.LeaderCard;
-import cards.WhiteConverter;
-import org.junit.jupiter.api.Test;
-import resources.*;
-import static org.junit.jupiter.api.Assertions.*;
-
+/*
 class BlueMarbleTest {
     //We consider BlueMarble Test valid also for all the others Marbles classes (except for White Marble)
     //as the internal code has the same structure
@@ -34,4 +28,4 @@ class BlueMarbleTest {
 
 
     }
-}
+}*/

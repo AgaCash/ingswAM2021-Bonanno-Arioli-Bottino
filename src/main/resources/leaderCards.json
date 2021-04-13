@@ -1,0 +1,206 @@
+{
+  "Discount" : [
+    {
+      "cardId": "1",
+      "requirements": [
+        {
+          "_comment": "developmentCard lv 1 colour yellow",
+          "_comment": "developmentCard lv 1 colour green"
+        }
+      ],
+      "resource" : "Servant"
+    },
+    {
+      "cardId": "2",
+      "requirements": [
+        {
+          "_comment": "developmentCard lv 1 colour blue",
+          "_comment": "developmentCard lv 1 colour purple"
+        }
+      ],
+      "resource" : "Shield"
+    },
+    {
+      "cardId": "3",
+      "requirements": [
+        {
+          "_comment": "developmentCard lv 1 colour green",
+          "_comment": "developmentCard lv 1 colour blue"
+        }
+      ],
+      "resource" : "Stone"
+    },
+    {
+      "cardId": "4",
+      "requirements": [
+        {
+          "_comment": "developmentCard lv 1 colour yellow",
+          "_comment": "developmentCard lv 1 colour purple"
+        }
+      ],
+      "resource" : "Coin"
+    }
+  ],
+  "ExtraDepot": [
+    {
+      "cardId": "5",
+      "requirements" : [
+        {
+          "Resource": "Coin",
+          "Resource": "Coin",
+          "Resource": "Coin",
+          "Resource": "Coin",
+          "Resource": "Coin"
+        }
+      ],
+      "resource" : [
+        {
+          "Resource": "Stone",
+          "Resource": "Stone"
+        }
+      ]
+
+    },
+    {
+      "cardId": "6",
+      "requirements" : [
+        {
+          "Resource": "Stone",
+          "Resource": "Stone",
+          "Resource": "Stone",
+          "Resource": "Stone",
+          "Resource": "Stone"
+        }
+      ],
+      "resource" : [
+        {
+          "Resource": "Servant",
+          "Resource": "Servant"
+        }
+      ]
+
+    },
+    {
+      "cardId": "7",
+      "requirements" : [
+        {
+          "Resource": "Servant",
+          "Resource": "Servant",
+          "Resource": "Servant",
+          "Resource": "Servant",
+          "Resource": "Servant"
+        }
+      ],
+      "resource" : [
+        {
+          "Resource": "Shield",
+          "Resource": "Shield"
+        }
+      ]
+
+    },
+    {
+      "cardId": "8",
+      "requirements" : [
+        {
+          "Resource": "Shield",
+          "Resource": "Shield",
+          "Resource": "Shield",
+          "Resource": "Shield",
+          "Resource": "Shield"
+        }
+      ],
+      "resource" : [
+        {
+          "Resource": "Coin",
+          "Resource": "Coin"
+        }
+      ]
+
+    }
+  ],
+  "WhiteConverter" : [
+    {
+      "cardId": "9",
+      "requirements": [
+        {
+          "_comment": "developmentCard lv 1 colour yellow",
+          "_comment": "developmentCard lv 1 colour yellow",
+          "_comment": "developmentCard lv 1 colour blue"
+        }
+      ],
+      "resource" : "Servant"
+    },
+    {
+      "cardId": "10",
+      "requirements": [
+        {
+          "_comment": "developmentCard lv 1 colour green",
+          "_comment": "developmentCard lv 1 colour green",
+          "_comment": "developmentCard lv 1 colour purple"
+        }
+      ],
+      "resource" : "Shield"
+    },
+    {
+      "cardId": "11",
+      "requirements": [
+        {
+          "_comment": "developmentCard lv 1 colour blue",
+          "_comment": "developmentCard lv 1 colour blue",
+          "_comment": "developmentCard lv 1 colour yellow"
+        }
+      ],
+      "resource" : "Stone"
+    },
+    {
+      "cardId": "12",
+      "requirements": [
+        {
+          "_comment": "developmentCard lv 1 colour purple",
+          "_comment": "developmentCard lv 1 colour purple",
+          "_comment": "developmentCard lv 1 colour green"
+        }
+      ],
+      "resource" : "Coin"
+    }
+  ],
+  "ExtraProd" : [
+    {
+      "cardId": "13",
+      "requirements": [
+        {
+          "_comment": "developmentCard lv 2 colour yellow"
+        }
+      ],
+      "input" : "Shield"
+    },
+    {
+      "cardId": "14",
+      "requirements": [
+        {
+          "_comment": "developmentCard lv 2 colour blue"
+        }
+      ],
+      "input" : "Servant"
+    },
+    {
+      "cardId": "15",
+      "requirements": [
+        {
+          "_comment": "developmentCard lv 2 colour purple"
+        }
+      ],
+      "input" : "Stone"
+    },
+    {
+      "cardId": "16",
+      "requirements": [
+        {
+          "_comment": "developmentCard lv 2 colour green"
+        }
+      ],
+      "input" : "Coin"
+    }
+  ]
+}
