@@ -83,4 +83,19 @@ public class WarehouseDepot {
         }
         return error;
     }
+
+    public boolean isPresent (ArrayList<Resource> res){
+        boolean isPresent = true;
+        ArrayList<Resource> clonedList = (ArrayList<Resource>) depot.clone();
+        for(int pos = 0; res.get(pos) != null; pos++ )
+        {
+            if(clonedList.contains(res.get(pos))) {
+                int index = clonedList.indexOf(res.get(pos));
+                clonedList.remove(index);
+            }
+            else
+                isPresent = false;
+        }
+        return isPresent;
+    }
 }
