@@ -1,14 +1,18 @@
 <leaderCard>
-    <extraProd id="13" isEnabled="false" prodResource="SHIELD">
+    <extraProd id="13" isEnabled="false">
         <requirement colour="YELLOW" level="2"></requirement>
+        <prodResource>SHIELD</prodResource>
     </extraProd>
-    <extraProd id="14" isEnabled="false" prodResource="SERVANT">
-    <requirement colour="BLUE" level="2"></requirement>
+    <extraProd id="14" isEnabled="false">
+        <requirement colour="BLUE" level="2"></requirement>
+        <prodResource>SERVANT</prodResource>
+    </extraProd>
+    <extraProd id="15" isEnabled="false" >
+        <requirement colour="PURPLE" level="2"></requirement>
+        <prodResource>STONE</prodResource>
 </extraProd>
-    <extraProd id="15" isEnabled="false" prodResource="STONE">
-    <requirement colour="PURPLE" level="2"></requirement>
-</extraProd>
-    <extraProd id="16" isEnabled="false" prodResource="COIN">
-    <requirement colour="GREEN" level="2"></requirement>
-</extraProd>
-</leaderCard
+    <extraProd id="16" isEnabled="false">
+        <requirement colour="GREEN" level="2"></requirement>
+        <prodResource>COIN</prodResource>
+    </extraProd>
+</leaderCard>

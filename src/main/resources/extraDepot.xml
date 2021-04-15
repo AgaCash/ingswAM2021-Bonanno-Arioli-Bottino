@@ -1,10 +1,39 @@
 <?xml version="1.0" ?>
 <leaderCard>
-    <extraDepot id="5" requiredResource="COIN" extraDepotResource="STONE"></extraDepot>
-    <extraDepot id="6" requiredResource="STONE" extraDepotResource="SERVANT">
-</extraDepot>
-    <extraDepot id="7" requiredResource="SERVANT" extraDepotResource="SHIELD">
-</extraDepot>
-    <extraDepot id="8" requiredResource="SHIELD" extraDepotResource="COIN">
-</extraDepot>
+    <extraDepot id="5">
+        <requiredResource>COIN</requiredResource>
+        <requiredResource>COIN</requiredResource>
+        <requiredResource>COIN</requiredResource>
+        <requiredResource>COIN</requiredResource>
+        <requiredResource>COIN</requiredResource>
+        <extraDepotResource>STONE</extraDepotResource>
+        <extraDepotResource>STONE</extraDepotResource>
+    </extraDepot>
+    <extraDepot id="6">
+        <requiredResource>STONE</requiredResource>
+        <requiredResource>STONE</requiredResource>
+        <requiredResource>STONE</requiredResource>
+        <requiredResource>STONE</requiredResource>
+        <requiredResource>STONE</requiredResource>
+        <extraDepotResource>SERVANT</extraDepotResource>
+        <extraDepotResource>SERVANT</extraDepotResource>
+    </extraDepot>
+    <extraDepot id="7">
+        <requiredResource>SERVANT</requiredResource>
+        <requiredResource>SERVANT</requiredResource>
+        <requiredResource>SERVANT</requiredResource>
+        <requiredResource>SERVANT</requiredResource>
+        <requiredResource>SERVANT</requiredResource>
+        <extraDepotResource>SHIELD</extraDepotResource>
+        <extraDepotResource>SHIELD</extraDepotResource>
+    </extraDepot>
+    <extraDepot id="8">
+        <requiredResource>SHIELD</requiredResource>
+        <requiredResource>SHIELD</requiredResource>
+        <requiredResource>SHIELD</requiredResource>
+        <requiredResource>SHIELD</requiredResource>
+        <requiredResource>SHIELD</requiredResource>
+        <extraDepotResource>COIN</extraDepotResource>
+        <extraDepotResource>COIN</extraDepotResource>
+    </extraDepot>
 </leaderCard>

@@ -1,6 +1,11 @@
 package marbles;
 
-/*
+import cards.LeaderCard;
+import cards.WhiteConverter;
+import org.junit.jupiter.api.Test;
+import resources.Resource;
+
+import static org.junit.jupiter.api.Assertions.*;
 class BlueMarbleTest {
     //We consider BlueMarble Test valid also for all the others Marbles classes (except for White Marble)
     //as the internal code has the same structure
@@ -8,9 +13,9 @@ class BlueMarbleTest {
     @Test
     void convertMarbleTest() {
         BlueMarble bmar = new BlueMarble();
-        Shield sh = new Shield();
-        LeaderCard extraActive = new WhiteConverter(new Servant(), true);
-        LeaderCard extraNotActive = new GenericLeaderCard(true);
+        Resource sh = Resource.SHIELD;
+        LeaderCard extraActive = new WhiteConverter(true, null , Resource.SERVANT);
+        LeaderCard extraNotActive = new WhiteConverter(false, null, Resource.COIN);
 
         //convertMarble return an object
         assertNotNull(bmar.convertMarble(extraNotActive));
@@ -28,4 +33,4 @@ class BlueMarbleTest {
 
 
     }
-}*/
+}

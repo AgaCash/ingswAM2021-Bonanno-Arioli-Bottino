@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<leaderCard>
+<root>
     <discount id="1" isEnabled="false" resource="SERVANT">
         <requirement colour="YELLOW" level="1"></requirement>
         <requirement colour="GREEN" level="1"></requirement>
@@ -16,4 +16,4 @@
     <requirement colour="YELLOW" level="1"></requirement>
     <requirement colour="PURPLE" level="1"></requirement>
 </discount>
-</leaderCard>
+</root>
