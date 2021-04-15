@@ -1,6 +1,6 @@
 package marbles;
 import cards.LeaderCard;
-import resources.Faith;
+import resources.Resource;
 
 public class RedMarble extends Marble{
 	/**
@@ -8,7 +8,7 @@ public class RedMarble extends Marble{
 	 * It has an only the convertMarble method to return a Faith after the picked up from the Market Board.
 	 * @param card ignored in this Marble
 	 */
-	public Faith convertMarble(LeaderCard card){
-		return new Faith();
+	public Resource convertMarble(LeaderCard card){
+		return Resource.FAITH;
 	}
 }

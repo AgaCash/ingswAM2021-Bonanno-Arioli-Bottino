@@ -24,6 +24,11 @@ public class DevelopmentCard extends Card {
         this.prodOutput = prodOutput;
     }
 
+    public DevelopmentCard(Colour colour, int level) {
+        this.colour = colour;
+        this.level = level;
+    }
+
     public Colour getColour() {
         return colour;
     }

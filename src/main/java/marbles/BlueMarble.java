@@ -1,6 +1,6 @@
 package marbles;
 import cards.LeaderCard;
-import resources.Shield;
+import resources.Resource;
 
 public class BlueMarble extends Marble{
 	/**
@@ -8,7 +8,7 @@ public class BlueMarble extends Marble{
 	 * It has an only the convertMarble method to return a Shield after the picked up from the Market Board.
 	 * @param card ignored in this Marble
 	 */
-	public Shield convertMarble(LeaderCard card){
-		return new Shield();
+	public Resource convertMarble(LeaderCard card){
+		return Resource.SHIELD;
 	}
 }

@@ -1,10 +1,10 @@
 package marbles;
-/*
+
 import cards.LeaderCard;
 import cards.WhiteConverter;
 import org.junit.jupiter.api.Test;
 import resources.Resource;
-import resources.Shield;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class WhiteMarbleTest {
@@ -12,8 +12,8 @@ class WhiteMarbleTest {
     @Test
     void convertMarbleTest() {
         WhiteMarble wmar = new WhiteMarble();
-        LeaderCard extraActive = new WhiteConverter(new Shield(), true);
-        LeaderCard extraNotActive = new GenericLeaderCard(true);
+        LeaderCard extraActive = new WhiteConverter(Resource.SHIELD, true, null );
+        //LeaderCard extraNotActive = new GenericLeaderCard(true);
 
         //convertMarble return an Object
         assertNotNull(wmar.convertMarble(extraActive));
@@ -23,11 +23,11 @@ class WhiteMarbleTest {
 
         //correct restitutions of an object of the same class of the LeaderCard's one
         Resource ans =  wmar.convertMarble(extraActive);
-        Shield sh = new Shield();
+        Resource sh = Resource.SHIELD;
         assertEquals(ans.getClass().getSimpleName(), sh.getClass().getSimpleName());
 
         //Testing error: convertMarble get a non-white converter LeaderCard (generic)
-        assertNull(wmar.convertMarble(extraNotActive));
+        //assertNull(wmar.convertMarble(extraNotActive));
 
     }
-}*/
+}

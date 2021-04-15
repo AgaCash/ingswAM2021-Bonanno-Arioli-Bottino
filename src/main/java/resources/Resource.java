@@ -1,5 +1,9 @@
 package resources;
 
-abstract public class Resource{
-
+public enum Resource {
+    COIN,
+    FAITH,
+    SERVANT,
+    SHIELD,
+    STONE
 }
