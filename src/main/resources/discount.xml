@@ -1,19 +1,23 @@
 <?xml version="1.0" ?>
 <root>
-    <discount id="1" isEnabled="false" resource="SERVANT">
+    <discount id="1" isEnabled="false">
         <requirement colour="YELLOW" level="1"></requirement>
         <requirement colour="GREEN" level="1"></requirement>
+        <resource>SERVANT</resource>
     </discount>
-    <discount id="2" isEnabled="false" resource="SHIELD">
-    <requirement colour="BLUE" level="1"></requirement>
-    <requirement colour="PURPLE" level="1"></requirement>
-</discount>
-    <discount id="3" isEnabled="false" resource="STONE">
-    <requirement colour="GREEN" level="1"></requirement>
-    <requirement colour="BLUE" level="1"></requirement>
-</discount>
-    <discount id="4" isEnabled="false" resource="COIN">
-    <requirement colour="YELLOW" level="1"></requirement>
-    <requirement colour="PURPLE" level="1"></requirement>
-</discount>
+    <discount id="2" isEnabled="false">
+        <requirement colour="BLUE" level="1"></requirement>
+        <requirement colour="PURPLE" level="1"></requirement>
+        <resource>SHIELD</resource>
+    </discount>
+    <discount id="3" isEnabled="false">
+        <requirement colour="GREEN" level="1"></requirement>
+        <requirement colour="BLUE" level="1"></requirement>
+        <resource>STONE</resource>
+    </discount>
+    <discount id="4" isEnabled="false">
+        <requirement colour="YELLOW" level="1"></requirement>
+        <requirement colour="PURPLE" level="1"></requirement>
+        <resource>COIN</resource>
+    </discount>
 </root>

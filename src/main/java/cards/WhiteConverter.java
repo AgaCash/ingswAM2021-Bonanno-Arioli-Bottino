@@ -13,13 +13,12 @@ public class WhiteConverter extends LeaderCard{
 		this.isEnabled = en;
 		this.requirements = req;
 	}
-	public WhiteConverter(boolean en, ArrayList<DevelopmentCard> req, Resource res){
-		this.resource = res;
-		this.isEnabled = en;
-		this.requirements = req;
-	}
 	@Override
 	public Resource whichResource(){
 		return this.resource;
+	}
+	@Override
+	public boolean isEnabled(){
+		return this.isEnabled;
 	}
 }

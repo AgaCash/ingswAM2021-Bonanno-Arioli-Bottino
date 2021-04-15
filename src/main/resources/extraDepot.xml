@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <leaderCard>
-    <extraDepot id="5">
+    <extraDepot id="5" isEnabled="false">
         <requiredResource>COIN</requiredResource>
         <requiredResource>COIN</requiredResource>
         <requiredResource>COIN</requiredResource>
@@ -9,7 +9,7 @@
         <extraDepotResource>STONE</extraDepotResource>
         <extraDepotResource>STONE</extraDepotResource>
     </extraDepot>
-    <extraDepot id="6">
+    <extraDepot id="6"  isEnabled="false">
         <requiredResource>STONE</requiredResource>
         <requiredResource>STONE</requiredResource>
         <requiredResource>STONE</requiredResource>
@@ -18,7 +18,7 @@
         <extraDepotResource>SERVANT</extraDepotResource>
         <extraDepotResource>SERVANT</extraDepotResource>
     </extraDepot>
-    <extraDepot id="7">
+    <extraDepot id="7" isEnabled="false">
         <requiredResource>SERVANT</requiredResource>
         <requiredResource>SERVANT</requiredResource>
         <requiredResource>SERVANT</requiredResource>
@@ -27,7 +27,7 @@
         <extraDepotResource>SHIELD</extraDepotResource>
         <extraDepotResource>SHIELD</extraDepotResource>
     </extraDepot>
-    <extraDepot id="8">
+    <extraDepot id="8" isEnabled="false">
         <requiredResource>SHIELD</requiredResource>
         <requiredResource>SHIELD</requiredResource>
         <requiredResource>SHIELD</requiredResource>

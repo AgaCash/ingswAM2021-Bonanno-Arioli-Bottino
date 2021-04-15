@@ -14,13 +14,13 @@ class BlueMarbleTest {
     void convertMarbleTest() {
         BlueMarble bmar = new BlueMarble();
         Resource sh = Resource.SHIELD;
-        LeaderCard extraActive = new WhiteConverter(true, null , Resource.SERVANT);
-        LeaderCard extraNotActive = new WhiteConverter(false, null, Resource.COIN);
+        LeaderCard extraActive = new WhiteConverter(0, true, null , Resource.SERVANT);
+        LeaderCard extraNotActive = new WhiteConverter(0, false, null, Resource.COIN);
 
         //convertMarble return an object
         assertNotNull(bmar.convertMarble(extraNotActive));
 
-        //convertMarble always return a Shield() with all types of cards:
+        //convertMarble always return a SHIELD with all types of cards:
         //with no Leader Card
         Resource ans = bmar.convertMarble(null);
         assertEquals(ans.getClass().getSimpleName(), sh.getClass().getSimpleName());
