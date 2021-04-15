@@ -1,0 +1,14 @@
+<leaderCard>
+    <extraProd id="13" isEnabled="false" prodResource="SHIELD">
+        <requirement colour="YELLOW" level="2"></requirement>
+    </extraProd>
+    <extraProd id="14" isEnabled="false" prodResource="SERVANT">
+    <requirement colour="BLUE" level="2"></requirement>
+</extraProd>
+    <extraProd id="15" isEnabled="false" prodResource="STONE">
+    <requirement colour="PURPLE" level="2"></requirement>
+</extraProd>
+    <extraProd id="16" isEnabled="false" prodResource="COIN">
+    <requirement colour="GREEN" level="2"></requirement>
+</extraProd>
+</leaderCard

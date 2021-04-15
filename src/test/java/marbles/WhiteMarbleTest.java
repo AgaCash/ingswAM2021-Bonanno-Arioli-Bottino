@@ -12,7 +12,7 @@ class WhiteMarbleTest {
     @Test
     void convertMarbleTest() {
         WhiteMarble wmar = new WhiteMarble();
-        LeaderCard extraActive = new WhiteConverter(Resource.SHIELD, true, null );
+        LeaderCard extraActive = new WhiteConverter(true, null ,Resource.SHIELD);
         //LeaderCard extraNotActive = new GenericLeaderCard(true);
 
         //convertMarble return an Object

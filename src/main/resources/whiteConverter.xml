@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<leaderCard>
+    <whiteConverter id="9" isEnabled="false" resource="SERVANT">
+        <requirement colour="YELLOW" level="1"></requirement>
+        <requirement colour="YELLOW" level="1"></requirement>
+        <requirement colour="BLUE" level="1"></requirement>
+    </whiteConverter>
+    <whiteConverter id="10" isEnabled="false" resource="SHIELD">
+    <requirement colour="GREEN" level="1"></requirement>
+    <requirement colour="GREEN" level="1"></requirement>
+    <requirement colour="PURPLE" level="1"></requirement>
+</whiteConverter>
+    <whiteConverter id="11" isEnabled="false" resource="STONE">
+    <requirement colour="BLUE" level="1"></requirement>
+    <requirement colour="BLUE" level="1"></requirement>
+    <requirement colour="YELLOW" level="1"></requirement>
+</whiteConverter>
+    <whiteConverter id="12" isEnabled="false" resource="COIN">
+    <requirement colour="PURPLE" level="1"></requirement>
+    <requirement colour="PURPLE" level="1"></requirement>
+    <requirement colour="GREEN" level="1"></requirement>
+</whiteConverter>
+</leaderCard>

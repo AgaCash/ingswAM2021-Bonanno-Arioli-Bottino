@@ -13,10 +13,10 @@ public class ExtraDepot extends LeaderCard{
         return null;
     }
 
-    public ExtraDepot(boolean en, ArrayList<Resource> req, ArrayList<Resource> extra){
+    public ExtraDepot(int id, boolean en, ArrayList<Resource> req, ArrayList<Resource> extra){
+        this.cardId = id;
         this.isEnabled = en;
         this.requirements = req;
         this.extraResource = extra;
     }
-
 }

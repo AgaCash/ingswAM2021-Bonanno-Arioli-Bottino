@@ -7,7 +7,13 @@ public class WhiteConverter extends LeaderCard{
 	private ArrayList<DevelopmentCard> requirements;
 	private static int victoryPoints = 5;
 
-	public WhiteConverter(Resource res, boolean en, ArrayList<DevelopmentCard> req){
+	public WhiteConverter(int id, boolean en, ArrayList<DevelopmentCard> req, Resource res){
+		this.cardId = id;
+		this.resource = res;
+		this.isEnabled = en;
+		this.requirements = req;
+	}
+	public WhiteConverter(boolean en, ArrayList<DevelopmentCard> req, Resource res){
 		this.resource = res;
 		this.isEnabled = en;
 		this.requirements = req;

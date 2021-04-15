@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<leaderCard>
+    <discount id="1" isEnabled="false" resource="SERVANT">
+        <requirement colour="YELLOW" level="1"></requirement>
+        <requirement colour="GREEN" level="1"></requirement>
+    </discount>
+    <discount id="2" isEnabled="false" resource="SHIELD">
+    <requirement colour="BLUE" level="1"></requirement>
+    <requirement colour="PURPLE" level="1"></requirement>
+</discount>
+    <discount id="3" isEnabled="false" resource="STONE">
+    <requirement colour="GREEN" level="1"></requirement>
+    <requirement colour="BLUE" level="1"></requirement>
+</discount>
+    <discount id="4" isEnabled="false" resource="COIN">
+    <requirement colour="YELLOW" level="1"></requirement>
+    <requirement colour="PURPLE" level="1"></requirement>
+</discount>
+</leaderCard>
