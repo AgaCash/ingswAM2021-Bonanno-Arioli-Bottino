@@ -56,8 +56,10 @@ public class DevelopmentCard extends Card {
 
     public void createProduction(WarehouseDepot warehouseDepot, Strongbox strongbox){
 
-        if(!warehouseDepot.isPresent(prodInput))
+        if(!warehouseDepot.isPresent(prodInput)) {
             System.out.println("RESOURCES NOT PRESENT");
+            return;
+        }
 
         prodInput.forEach(warehouseDepot::removeResource);
 
