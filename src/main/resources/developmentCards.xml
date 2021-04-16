@@ -1,0 +1,192 @@
+<?xml version="1.0"?>
+<root>
+    <developmentCard id="1" colour="GREEN" level="1" victoryPoints="1">
+        <cost>
+            <resource>SHIELD</resource>
+            <resource>SHIELD</resource>
+        </cost>
+        <prodInput>
+            <resource>COIN</resource>
+        </prodInput>
+        <prodOutput>
+            <resource>FAITH</resource>
+        </prodOutput>
+    </developmentCard>
+
+    <developmentCard id="2" colour="GREEN" level="1" victoryPoints="2">
+        <cost>
+            <resource>SHIELD</resource>
+            <resource>STONE</resource>
+            <resource>SERVANT</resource>
+        </cost>
+        <prodInput>
+            <resource>SHIELD</resource>
+        </prodInput>
+        <prodOutput>
+            <resource>SERVANT</resource>
+        </prodOutput>
+    </developmentCard>
+
+    <developmentCard id="3" colour="GREEN" level="1" victoryPoints="3">
+        <cost>
+            <resource>SHIELD</resource>
+            <resource>SHIELD</resource>
+            <resource>SHIELD</resource>
+        </cost>
+        <prodInput>
+            <resource>SERVANT</resource>
+            <resource>SERVANT</resource>
+        </prodInput>
+        <prodOutput>
+            <resource>COIN</resource>
+            <resource>SHIELD</resource>
+            <resource>STONE</resource>
+        </prodOutput>
+    </developmentCard>
+
+    <developmentCard id="4" colour="GREEN" level="1" victoryPoints="4">
+        <cost>
+            <resource>SHIELD</resource>
+            <resource>SHIELD</resource>
+            <resource>COIN</resource>
+            <resource>COIN</resource>
+        </cost>
+        <prodInput>
+            <resource>STONE</resource>
+            <resource>SERVANT</resource>
+        </prodInput>
+        <prodOutput>
+            <resource>COIN</resource>
+            <resource>COIN</resource>
+            <resource>FAITH</resource>
+        </prodOutput>
+    </developmentCard>
+
+    <developmentCard id="5" colour="BLUE" level="1" victoryPoints="1">
+        <cost>
+            <resource>COIN</resource>
+            <resource>COIN</resource>
+        </cost>
+        <prodInput>
+            <resource>SHIELD</resource>
+        </prodInput>
+        <prodOutput>
+            <resource>FAITH</resource>
+        </prodOutput>
+    </developmentCard>
+
+    <developmentCard id="6" colour="BLUE" level="1" victoryPoints="2">
+        <cost>
+            <resource>COIN</resource>
+            <resource>STONE</resource>
+            <resource>SERVANT</resource>
+        </cost>
+        <prodInput>
+            <resource>SERVANT</resource>
+        </prodInput>
+        <prodOutput>
+            <resource>STONE</resource>
+        </prodOutput>
+    </developmentCard>
+
+    <developmentCard id="7" colour="BLUE" level="1" victoryPoints="3">
+        <cost>
+            <resource>COIN</resource>
+            <resource>COIN</resource>
+            <resource>COIN</resource>
+        </cost>
+        <prodInput>
+            <resource>STONE</resource>
+            <resource>STONE</resource>
+        </prodInput>
+        <prodOutput>
+            <resource>COIN</resource>
+            <resource>SERVANT</resource>
+            <resource>SHIELD</resource>
+        </prodOutput>
+    </developmentCard>
+
+    <developmentCard id="8" colour="BLUE" level="1" victoryPoints="4">
+        <cost>
+            <resource>COIN</resource>
+            <resource>COIN</resource>
+            <resource>SERVANT</resource>
+            <resource>SERVANT</resource>
+        </cost>
+        <prodInput>
+            <resource>SHIELD</resource>
+            <resource>STONE</resource>
+        </prodInput>
+        <prodOutput>
+            <resource>SERVANT</resource>
+            <resource>SERVANT</resource>
+            <resource>FATIH</resource>
+        </prodOutput>
+    </developmentCard>
+
+    <developmentCard id="9" colour="YELLOW" level="1" victoryPoints="1">
+        <cost>
+            <resource>STONE</resource>
+            <resource>STONE</resource>
+        </cost>
+        <prodInput>
+            <resource>SERVANT</resource>
+        </prodInput>
+        <prodOutput>
+            <resource>FAITH</resource>
+        </prodOutput>
+    </developmentCard>
+
+    <developmentCard id="10" colour="YELLOW" level="1" victoryPoints="2">
+        <cost>
+            <resource>SHIELD</resource>
+            <resource>COIN</resource>
+            <resource>STONE</resource>
+        </cost>
+        <prodInput>
+            <resource>SHIELD</resource>
+        </prodInput>
+        <prodOutput>
+            <resource>COIN</resource>
+        </prodOutput>
+    </developmentCard>
+
+    <developmentCard id="11" colour="YELLOW" level="1" victoryPoints="3">
+        <cost>
+            <resource>STONE</resource>
+            <resource>STONE</resource>
+            <resource>STONE</resource>
+        </cost>
+        <prodInput>
+            <resource>SHIELD</resource>
+            <resource>SHIELD</resource>
+        </prodInput>
+        <prodOutput>
+            <resource>COIN</resource>
+            <resource>SERVANT</resource>
+            <resource>STONE</resource>
+        </prodOutput>
+    </developmentCard>
+
+    <developmentCard id="12" colour="YELLOW" level="1" victoryPoints="4">
+        <cost>
+            <resource>STONE</resource>
+            <resource>STONE</resource>
+            <resource>SHIELD</resource>
+            <resource>SHIELD</resource>
+        </cost>
+        <prodInput>
+            <resource>COIN</resource>
+            <resource>SERVANT</resource>
+        </prodInput>
+        <prodOutput>
+            <resource>SHIELD</resource>
+            <resource>SHIELD</resource>
+            <resource>FAITH</resource>
+        </prodOutput>
+    </developmentCard>
+
+
+
+
+</root>
