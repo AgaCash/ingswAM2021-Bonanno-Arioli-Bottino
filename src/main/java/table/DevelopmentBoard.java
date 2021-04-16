@@ -56,7 +56,7 @@ public final class DevelopmentBoard {
                 tmpProdOut.clear();
 
                 Node cardsNode = nodeList.item(i);
-                System.out.println("Node Name :" + cardsNode.getNodeName());
+                //System.out.println("Node Name :" + cardsNode.getNodeName());
                 if (cardsNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element devCardElement = (Element) cardsNode;
 
@@ -111,7 +111,7 @@ public final class DevelopmentBoard {
                 tmpDeck.add(new DevelopmentCard(tmpId, tmpColour, tmpLevel, tmpVPoints, tmpCost, tmpProdIn, tmpProdOut));
                 if(nCardInDeck == 4) {
                     nCardInDeck = 0;
-                    Deck tmpD = new Deck(tmpDeck);
+                    Deck tmpD = new Deck( (ArrayList<DevelopmentCard>) tmpDeck.clone() );
                     tmpD.shuffleDeck();
                     decks.add(tmpD);
                     tmpDeck.clear();
@@ -142,10 +142,11 @@ public final class DevelopmentBoard {
      */
 
     public DevelopmentCard popCardFromDeck(int deckNumber){
-        if(getDeck(deckNumber) != null)
-            return Objects.requireNonNull(getDeck(deckNumber)).popCard();
-        else
+        Deck d = this.getDeck(deckNumber);
+        if(d == null)
             return null;
+        else
+            return d.popCard();
     }
 }
 
