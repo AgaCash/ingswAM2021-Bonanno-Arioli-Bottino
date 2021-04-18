@@ -1,7 +1,13 @@
 package marbles;
-import resources.Resource;
-import cards.LeaderCard;
 
-abstract public class Marble{
-	abstract public Resource convertMarble(LeaderCard card);
+import cards.LeaderCard;
+import resources.Resource;
+
+public class Marble{
+
+	public Resource convertMarble(LeaderCard card){
+		return null;
+	}
+
+
 }

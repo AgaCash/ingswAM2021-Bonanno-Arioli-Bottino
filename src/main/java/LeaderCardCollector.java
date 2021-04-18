@@ -1,15 +1,11 @@
 import cards.*;
-import resources.*;
-import colour.*;
-
-import org.w3c.dom.Document;
+import colour.Colour;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import resources.Resource;
+import utilities.Parser;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,62 +25,42 @@ public class LeaderCardCollector{
      * It reads the XML file src/main/resources/discount.xml
      */
     public void discountConstructor() {
-        //document BuilderFactory
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         //ArrayList of DevelopmentCards required to activate Discount card ability in the game
         ArrayList<DevelopmentCard> requirements = new ArrayList<>();
         //Resource which will be discounted from the buying in the market during the game
         Resource discountResource = null;
+        Parser parser = new Parser();
         try {
-            //document Builder
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            //object parsing the XML
-            Document discountXML = builder.parse("src/main/resources/discount.xml");
-            //list of all nodes by tag <discount>
-            NodeList discountNodes = discountXML.getElementsByTagName("discount");
+            NodeList discountNodes = parser.getByTag("src/main/resources/discount.xml", "discount");
             for (int i = 0; i < discountNodes.getLength(); i++) {
-                //each single node by tag <discount>
-                Node discountNode = discountNodes.item(i);
-                if (discountNode.getNodeType() == Node.ELEMENT_NODE) {
-                    //Element containing the node
-                    Element discountElement = (Element) discountNode;
-                    //list of all <discount> node child (<requirement> and <resource>)
-                    NodeList requirementsNodes = discountElement.getChildNodes();
-                    for (int j = 0; j < requirementsNodes.getLength(); j++) {
-                        //each single node by tag <requirement> and <resource>
-                        Node reqNode = requirementsNodes.item(j);
-                        if (reqNode.getNodeType() == Node.ELEMENT_NODE) {
-                            //Element containing the node
-                            Element reqDevElement = (Element) reqNode;
-                            //if is a <requirement> node
-                            if(reqDevElement.getTagName() == "requirement"){
-                                //add Development card in requirements ArrayList
-                                requirements.add(new DevelopmentCard(Colour.valueOf(reqDevElement.getAttribute("colour")),
-                                        Integer.parseInt(reqDevElement.getAttribute("level"))));
-                            }
-                            //if is a <resource>
-                            else if(reqDevElement.getTagName()=="resource"){
-                                //parse the Resource in dicountResource
-                                discountResource = Resource.valueOf(reqDevElement.getTextContent());
-                            }
-
-                        }
+                Element discountElement = parser.convert(discountNodes.item(i));
+                NodeList requirementsNodes = discountElement.getChildNodes();
+                for (int j = 0; j < requirementsNodes.getLength(); j++) {
+                    Element reqDevElement = parser.convert(requirementsNodes.item(j));
+                    if (reqDevElement.getTagName() == "requirement") {
+                        //add Development card in requirements ArrayList
+                        requirements.add(new DevelopmentCard(Colour.valueOf(reqDevElement.getAttribute("colour")),
+                                Integer.parseInt(reqDevElement.getAttribute("level"))));
                     }
-                    //instancing the single Discount card
-                    leaderCardDeck.add(new Discount(Integer.parseInt(discountElement.getAttribute("id")),
-                            Boolean.parseBoolean((discountElement.getAttribute("isEnabled"))),
-                            requirements,
-                            discountResource));
+                    //if is a <resource>
+                    else if (reqDevElement.getTagName() == "resource") {
+                        //parse the Resource in discountResource
+                        discountResource = Resource.valueOf(reqDevElement.getTextContent());
+                    }
 
                 }
+                leaderCardDeck.add(new Discount(Integer.parseInt(discountElement.getAttribute("id")),
+                        Boolean.parseBoolean((discountElement.getAttribute("isEnabled"))),
+                        requirements,
+                        discountResource));
             }
         }
         //exceptions
-        catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        catch (IOException e) {
             e.printStackTrace();
         } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
             e.printStackTrace();
         }
     }
@@ -94,32 +70,24 @@ public class LeaderCardCollector{
      * It reads the XML file src/main/resources/extraDepot.xml
      */
     public void extraDepotConstructor() {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        Parser parser = new Parser();
         //ArrayList of DevelopmentCard required to activate Discount card ability in the game
         ArrayList<Resource> requirements = new ArrayList<>();
         //ArrayList of Resource which have extra space in the WareHouse
         ArrayList<Resource> discountResources = new ArrayList<>();
         try {
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document extraDepotXML = builder.parse("src/main/resources/extraDepot.xml");
-            //list of all nodes by tag <extraDepot>
-            NodeList extraDepotNodes = extraDepotXML.getElementsByTagName("extraDepot");
+            NodeList extraDepotNodes = parser.getByTag("src/main/resources/extraDepot.xml", "extraDepot");
             for (int i = 0; i < extraDepotNodes.getLength(); i++) {
-                Node extraDepotNode = extraDepotNodes.item(i);
-                if (extraDepotNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element extraDepotElement = (Element) extraDepotNode;
+                    Element extraDepotElement = parser.convert(extraDepotNodes.item(i));
                     //list of all <extraDepot> node child (<requiredResource> and <extraDepotResource>
-                    NodeList requirementsNodes = extraDepotNode.getChildNodes();
+                    NodeList requirementsNodes = extraDepotElement.getChildNodes();
                     for (int j = 0; j < requirementsNodes.getLength(); j++) {
-                        Node reqNode = requirementsNodes.item(j);
-                        if (reqNode.getNodeType() == Node.ELEMENT_NODE) {
-                            Element reqDevElement = (Element) reqNode;
+                            Element reqDevElement = parser.convert(requirementsNodes.item(j));
                             if (reqDevElement.getTagName() == "requiredResource") {
                                 requirements.add(Resource.valueOf(reqDevElement.getTextContent()));
                             } else if (reqDevElement.getTagName() == "extraDepotResource") {
                                 discountResources.add(Resource.valueOf(reqDevElement.getTextContent()));
                             }
-                        }
                     }
                     leaderCardDeck.add(new ExtraDepot(Integer.parseInt(extraDepotElement.getAttribute("id")),
                             Boolean.parseBoolean((extraDepotElement.getAttribute("isEnabled"))),
@@ -127,7 +95,7 @@ public class LeaderCardCollector{
                             discountResources));
 
                 }
-            }
+
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -142,26 +110,19 @@ public class LeaderCardCollector{
      * It reads the XML file src/main/resources/whiteConverter.xml
      */
     public void whiteConverterConstructor() {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        Parser parser = new Parser();
         //ArrayList of DevelopmentCard required to activate Discount card ability in the game
         ArrayList<DevelopmentCard> requirements = new ArrayList<>();
         //Resource in which could be converted WhiteMarble
         Resource convertResource = null;
         try {
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document whiteConverterXML = builder.parse("src/main/resources/whiteConverter.xml");
-            //list of all nodes by tag <whiteConverter>
-            NodeList whiteConverterNodes = whiteConverterXML.getElementsByTagName("whiteConverter");
+            NodeList whiteConverterNodes = parser.getByTag("src/main/resources/whiteConverter.xml", "whiteConverter");
             for (int i = 0; i < whiteConverterNodes.getLength(); i++) {
-                Node whiteConverterNode = whiteConverterNodes.item(i);
-                if (whiteConverterNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element whiteConverterElement = (Element) whiteConverterNode;
+                    Element whiteConverterElement = parser.convert(whiteConverterNodes.item(i));
                     //list of all <whiteConverter> node child (<requirement> and <resource>)
                     NodeList requirementsNodes = whiteConverterElement.getChildNodes();
                     for (int j = 0; j < requirementsNodes.getLength(); j++) {
-                        Node reqNode = requirementsNodes.item(j);
-                        if (reqNode.getNodeType() == Node.ELEMENT_NODE) {
-                            Element reqDevElement = (Element) reqNode;
+                            Element reqDevElement = parser.convert(requirementsNodes.item(j));
                             if(reqDevElement.getTagName() == "requirement"){
                                 requirements.add(new DevelopmentCard(Colour.valueOf(reqDevElement.getAttribute("colour")),
                                         Integer.parseInt(reqDevElement.getAttribute("level"))));
@@ -170,15 +131,13 @@ public class LeaderCardCollector{
                                 convertResource = Resource.valueOf(reqDevElement.getTextContent());
                             }
 
-
-                        }
                     }
                     leaderCardDeck.add(new WhiteConverter(Integer.parseInt(whiteConverterElement.getAttribute("id")),
                             Boolean.parseBoolean((whiteConverterElement.getAttribute("isEnabled"))),
                             requirements,
                             convertResource));
 
-                }
+
             }
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
@@ -194,26 +153,20 @@ public class LeaderCardCollector{
      * It reads the XML file src/main/resources/extraProd.xml
      */
     public void extraProdConstructor() {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        Parser parser = new Parser();
         //DevelopmentCard required to activate Discount card ability in the game
         DevelopmentCard requirement = null;
         //Resource which could be produced in surplus
         Resource prodResource = null;
         try {
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document extraProdXML = builder.parse("src/main/resources/extraProd.xml");
             //list of all nodes by tag <extraProd>
-            NodeList extraProdNodes = extraProdXML.getElementsByTagName("extraProd");
+            NodeList extraProdNodes = parser.getByTag("src/main/resources/extraProd.xml", "extraProd");
             for (int i = 0; i < extraProdNodes.getLength(); i++) {
-                Node extraProdNode = extraProdNodes.item(i);
-                if (extraProdNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element extraProdElement = (Element) extraProdNode;
+                    Element extraProdElement = parser.convert(extraProdNodes.item(i));
                     //list of all <extraProd> node child (<requirement> and <prodResource>)
-                    NodeList requirementsNodes = extraProdNode.getChildNodes();
+                    NodeList requirementsNodes = extraProdElement.getChildNodes();
                     for (int j = 0; j < requirementsNodes.getLength(); j++) {
-                        Node reqNode = requirementsNodes.item(j);
-                        if (reqNode.getNodeType() == Node.ELEMENT_NODE){
-                            Element reqDevElement = (Element) reqNode;
+                            Element reqDevElement = parser.convert(requirementsNodes.item(j));
                             if(reqDevElement.getTagName()=="requirement"){
                                 requirement = new DevelopmentCard(Colour.valueOf(reqDevElement.getAttribute("colour")),
                                         Integer.parseInt(reqDevElement.getAttribute("level")));
@@ -221,14 +174,13 @@ public class LeaderCardCollector{
                             else if(reqDevElement.getTagName()=="prodResource"){
                                 prodResource = Resource.valueOf(reqDevElement.getTextContent());
                             }
-                        }
                     }
                     leaderCardDeck.add(new ExtraProd(Integer.parseInt(extraProdElement.getAttribute("id")),
                             Boolean.parseBoolean((extraProdElement.getAttribute("isEnabled"))),
                             requirement,
                             prodResource));
 
-                }
+
             }
         } catch (ParserConfigurationException e) {
             e.printStackTrace();

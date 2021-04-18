@@ -9,6 +9,7 @@ public class BlueMarble extends Marble{
 	 * @param card ignored in this Marble
 	 */
 	public Resource convertMarble(LeaderCard card){
+
 		return Resource.SHIELD;
 	}
 }
