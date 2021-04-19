@@ -10,5 +10,6 @@ abstract public class LeaderCard extends Card{
 
 	abstract public Resource whichResource();
 	abstract public boolean isEnabled();
+	abstract public Resource whichDiscount();
 
 }

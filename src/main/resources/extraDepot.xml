@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <leaderCard>
-    <extraDepot id="5" isEnabled="false">
+    <extraDepot id="5" isEnabled="false" >
         <requiredResource>COIN</requiredResource>
         <requiredResource>COIN</requiredResource>
         <requiredResource>COIN</requiredResource>

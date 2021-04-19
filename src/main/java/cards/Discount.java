@@ -24,6 +24,10 @@ public class Discount extends LeaderCard{
     public boolean isEnabled(){
         return this.isEnabled;
     }
+    @Override
+    public Resource whichDiscount(){
+        return this.discount;
+    }
 
 
 }

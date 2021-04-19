@@ -22,6 +22,10 @@ public class ExtraProd extends LeaderCard{
         return null;
     }
     @Override
+    public Resource whichDiscount(){
+        return null;
+    }
+    @Override
     public boolean isEnabled(){
         return this.isEnabled;
     }

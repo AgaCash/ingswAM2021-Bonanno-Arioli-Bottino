@@ -1,6 +1,5 @@
 import cards.DevelopmentCard;
 import colour.Colour;
-import table.DevelopmentBoard;
 
 import java.util.ArrayList;
 
@@ -10,5 +9,6 @@ public class CardSlot {
     private boolean isEnable;
 
     public void addCard (int level, Colour col){
+        //pila
     }
 }
