@@ -1,3 +1,5 @@
+package table;
+
 public class FaithBox {
     private int position;
     private boolean flagPopeOne;

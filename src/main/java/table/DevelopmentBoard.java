@@ -10,6 +10,7 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 import resources.Resource;
+import utilities.Parser;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -26,58 +27,47 @@ public final class DevelopmentBoard {
      * Default constructor that extract the data from xml and create the cards
      */
 
-    public DevelopmentBoard() {
+    public DevelopmentBoard() throws NullPointerException{
         try {
+            Parser parser = new Parser();
             String pathToXml = "src/main/resources/developmentCards.xml";
-            File file = new File(pathToXml);
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(file);
-            doc.getDocumentElement().normalize();
-            NodeList nodeList = doc.getElementsByTagName("developmentCard");
-
+            NodeList nodeList = parser.getByTag(pathToXml, "developmentCard");
             Node nodeChild;
             NodeList resourcesChild;
-            int tmpId = 0;
-            Colour tmpColour = null;
-            int tmpLevel = 0;
-            int tmpVPoints = 0;
+            int tmpId;
+            Colour tmpColour;
+            int tmpLevel;
+            int tmpVPoints;
             ArrayList<Resource> tmpCost = new ArrayList<>();
             ArrayList<Resource> tmpProdIn = new ArrayList<>();
             ArrayList<Resource> tmpProdOut = new ArrayList<>();
             int nCardInDeck = 0; //andra' da 1 a 4 in loop
             ArrayList<DevelopmentCard> tmpDeck = new ArrayList<>();
 
-
+            System.out.println(nodeList.getLength());
             for (int i = 0; i < nodeList.getLength(); i++) {
                 nCardInDeck++;
                 tmpCost.clear();
                 tmpProdIn.clear();
                 tmpProdOut.clear();
 
-                Node cardsNode = nodeList.item(i);
-                //System.out.println("Node Name :" + cardsNode.getNodeName());
-                if (cardsNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element devCardElement = (Element) cardsNode;
-
+                Element devCardElement = parser.convert(nodeList.item(i));
+                if(devCardElement != null){
                     tmpId = Integer.parseInt(devCardElement.getAttribute("id"));
                     tmpColour = Colour.valueOf(devCardElement.getAttribute("colour"));
                     tmpLevel = Integer.parseInt(devCardElement.getAttribute("level"));
                     tmpVPoints = Integer.parseInt(devCardElement.getAttribute("victoryPoints"));
 
-                    NodeList insideTagChild = cardsNode.getChildNodes();
+                    NodeList insideTagChild = nodeList.item(i).getChildNodes();
                     for (int j = 0; j < insideTagChild.getLength(); j++) {
-                        Node insideTagNode = insideTagChild.item(j);
-                        if (insideTagNode.getNodeType() == Node.ELEMENT_NODE) {
-                            Element insideTagElement = (Element) insideTagNode;
+                        Element insideTagElement = parser.convert(insideTagChild.item(j));
+                        if(insideTagElement!=null){
                             switch (insideTagElement.getNodeName()) {
                                 case "cost" -> {
                                     resourcesChild = insideTagElement.getChildNodes();
                                     for (int k = 0; k < resourcesChild.getLength(); k++) {
-                                        Node resourcesTagNode = resourcesChild.item(k);
-                                        if (resourcesTagNode.getNodeType() == Node.ELEMENT_NODE) {
-                                            Element resourcesTagElement = (Element) resourcesTagNode;
-                                            //System.out.println("cost: " + resourcesTagElement.getTextContent());
+                                        Element resourcesTagElement = parser.convert(resourcesChild.item(k));
+                                        if(resourcesTagElement != null){
                                             tmpCost.add(Resource.valueOf(resourcesTagElement.getTextContent()));
                                         }
                                     }
@@ -85,10 +75,8 @@ public final class DevelopmentBoard {
                                 case "prodInput" -> {
                                     resourcesChild = insideTagElement.getChildNodes();
                                     for (int k = 0; k < resourcesChild.getLength(); k++) {
-                                        Node resourcesTagNode = resourcesChild.item(k);
-                                        if (resourcesTagNode.getNodeType() == Node.ELEMENT_NODE) {
-                                            Element resourcesTagElement = (Element) resourcesTagNode;
-                                            //System.out.println("pIn: " + resourcesTagElement.getTextContent());
+                                        Element resourcesTagElement = parser.convert(resourcesChild.item(k));
+                                        if(resourcesTagElement != null){
                                             tmpProdIn.add(Resource.valueOf(resourcesTagElement.getTextContent()));
                                         }
                                     }
@@ -96,10 +84,8 @@ public final class DevelopmentBoard {
                                 case "prodOutput" -> {
                                     resourcesChild = insideTagElement.getChildNodes();
                                     for (int k = 0; k < resourcesChild.getLength(); k++) {
-                                        Node resourcesTagNode = resourcesChild.item(k);
-                                        if (resourcesTagNode.getNodeType() == Node.ELEMENT_NODE) {
-                                            Element resourcesTagElement = (Element) resourcesTagNode;
-                                            //System.out.println("pOut: " + resourcesTagElement.getTextContent());
+                                        Element resourcesTagElement = parser.convert(resourcesChild.item(k));
+                                        if(resourcesTagElement != null){
                                             tmpProdOut.add(Resource.valueOf(resourcesTagElement.getTextContent()));
                                         }
                                     }
@@ -107,14 +93,14 @@ public final class DevelopmentBoard {
                             }
                         }
                     }
-                }
-                tmpDeck.add(new DevelopmentCard(tmpId, tmpColour, tmpLevel, tmpVPoints, tmpCost, tmpProdIn, tmpProdOut));
-                if(nCardInDeck == 4) {
-                    nCardInDeck = 0;
-                    Deck tmpD = new Deck( (ArrayList<DevelopmentCard>) tmpDeck.clone() );
-                    tmpD.shuffleDeck();
-                    decks.add(tmpD);
-                    tmpDeck.clear();
+                    tmpDeck.add(new DevelopmentCard(tmpId, tmpColour, tmpLevel, tmpVPoints, tmpCost, tmpProdIn, tmpProdOut));
+                    if(nCardInDeck == 4) {
+                        nCardInDeck = 0;
+                        Deck tmpD = new Deck( (ArrayList<DevelopmentCard>) tmpDeck.clone() );
+                        tmpD.shuffleDeck();
+                        decks.add(tmpD);
+                        tmpDeck.clear();
+                    }
                 }
             }
         }
@@ -148,5 +134,6 @@ public final class DevelopmentBoard {
         else
             return d.popCard();
     }
+
 }
 

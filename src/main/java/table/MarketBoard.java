@@ -1,3 +1,5 @@
+package table;
+
 import cards.LeaderCard;
 import marbles.*;
 import org.w3c.dom.NodeList;
@@ -33,7 +35,7 @@ public class MarketBoard {
                 return new RedMarble();
             }
             case "WHITE" -> {
-                new WhiteMarble();
+                return new WhiteMarble();
             }
             case "YELLOW" -> {
                 return new YellowMarble();
@@ -68,11 +70,7 @@ public class MarketBoard {
                     k++;
                 }
             freeMarble = marbles.get(k);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
+        } catch (IOException | ParserConfigurationException | SAXException e) {
             e.printStackTrace();
         }
     }
@@ -119,7 +117,7 @@ public class MarketBoard {
     /** getter method for the market board
      * @param whichOneLine arraylist's line requested for the get
      * @param whichOneCol arraylist's column requested for the get
-     * @return
+     * @return marble
      */
     public Marble getMarble (int whichOneLine, int whichOneCol){
         Marble mar;
