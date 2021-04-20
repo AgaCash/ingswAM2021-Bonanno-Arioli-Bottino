@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 public class WhiteConverter extends LeaderCard{
 	private Resource resource;
-	private ArrayList<DevelopmentCard> requirements;
+	private ArrayList<DevelopmentCard> requires;
 	private static int victoryPoints = 5;
 
 	public WhiteConverter(int id, boolean en, ArrayList<DevelopmentCard> req, Resource res){
 		this.cardId = id;
 		this.resource = res;
 		this.isEnabled = en;
-		this.requirements = req;
+		this.requires = req;
 	}
 	@Override
 	public Resource whichResource(){

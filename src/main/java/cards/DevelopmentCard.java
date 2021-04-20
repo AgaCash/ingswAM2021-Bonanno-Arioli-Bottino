@@ -66,5 +66,9 @@ public class DevelopmentCard extends Card {
         prodOutput.forEach(strongbox::addResource);
     }
 
+    public Colour getColour(){
+        return colour;
+    }
+
 
 }

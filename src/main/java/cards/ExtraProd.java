@@ -3,7 +3,7 @@ package cards;
 import resources.*;
 
 public class ExtraProd extends LeaderCard{
-    private DevelopmentCard requirements;
+    private DevelopmentCard requires;
     private static int victoryPoints = 4;
     private Resource input;
     private Resource output = Resource.FAITH;
@@ -12,7 +12,7 @@ public class ExtraProd extends LeaderCard{
     public ExtraProd(int id, boolean en, DevelopmentCard req, Resource input){
         this.cardId=id;
         this.isEnabled=en;
-        this.requirements=req;
+        this.requires=req;
         this.input=input;
 
     }

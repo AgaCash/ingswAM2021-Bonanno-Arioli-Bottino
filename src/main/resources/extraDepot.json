@@ -1,0 +1,62 @@
+[
+  {
+    "requiredResource": [
+      "COIN",
+      "COIN",
+      "COIN",
+      "COIN",
+      "COIN"
+    ],
+    "extraDepotResource": [
+      "STONE",
+      "STONE"
+    ],
+    "id": "5",
+    "isEnabled": "false"
+  },
+  {
+    "requiredResource": [
+      "STONE",
+      "STONE",
+      "STONE",
+      "STONE",
+      "STONE"
+    ],
+    "extraDepotResource": [
+      "SERVANT",
+      "SERVANT"
+    ],
+    "id": "6",
+    "isEnabled": "false"
+  },
+  {
+    "requiredResource": [
+      "SERVANT",
+      "SERVANT",
+      "SERVANT",
+      "SERVANT",
+      "SERVANT"
+    ],
+    "extraDepotResource": [
+      "SHIELD",
+      "SHIELD"
+    ],
+    "id": "7",
+    "isEnabled": "false"
+  },
+  {
+    "requiredResource": [
+      "SHIELD",
+      "SHIELD",
+      "SHIELD",
+      "SHIELD",
+      "SHIELD"
+    ],
+    "extraDepotResource": [
+      "COIN",
+      "COIN"
+    ],
+    "id": "8",
+    "isEnabled": "false"
+  }
+]

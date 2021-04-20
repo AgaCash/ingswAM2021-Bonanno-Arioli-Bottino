@@ -1,27 +1,27 @@
 <?xml version="1.0" ?>
 <leaderCard>
     <whiteConverter id="9" isEnabled="false">
-        <requirement colour="YELLOW" level="1"></requirement>
-        <requirement colour="YELLOW" level="1"></requirement>
-        <requirement colour="BLUE" level="1"></requirement>
+        <requires colour="YELLOW" level="1"></requires>
+        <requires colour="YELLOW" level="1"></requires>
+        <requires colour="BLUE" level="1"></requires>
         <resource>SERVANT</resource>
     </whiteConverter>
     <whiteConverter id="10" isEnabled="false">
-        <requirement colour="GREEN" level="1"></requirement>
-        <requirement colour="GREEN" level="1"></requirement>
-        <requirement colour="PURPLE" level="1"></requirement>
+        <requires colour="GREEN" level="1"></requires>
+        <requires colour="GREEN" level="1"></requires>
+        <requires colour="PURPLE" level="1"></requires>
         <resource>SHIELD</resource>
     </whiteConverter>
     <whiteConverter id="11" isEnabled="false">
-        <requirement colour="BLUE" level="1"></requirement>
-        <requirement colour="BLUE" level="1"></requirement>
-        <requirement colour="YELLOW" level="1"></requirement>
+        <requires colour="BLUE" level="1"></requires>
+        <requires colour="BLUE" level="1"></requires>
+        <requires colour="YELLOW" level="1"></requires>
         <resource>STONE</resource>
     </whiteConverter>
     <whiteConverter id="12" isEnabled="false">
-        <requirement colour="PURPLE" level="1"></requirement>
-        <requirement colour="PURPLE" level="1"></requirement>
-        <requirement colour="GREEN" level="1"></requirement>
+        <requires colour="PURPLE" level="1"></requires>
+        <requires colour="PURPLE" level="1"></requires>
+        <requires colour="GREEN" level="1"></requires>
         <resource>COIN</resource>
     </whiteConverter>
 </leaderCard>

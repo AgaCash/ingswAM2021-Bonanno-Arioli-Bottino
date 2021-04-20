@@ -1,32 +1,36 @@
 package table;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.DocumentBuilder;
 
 import cards.DevelopmentCard;
-import colour.Colour;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
-import org.w3c.dom.Element;
-import resources.Resource;
-import utilities.Parser;
-
-import java.io.File;
+import utilities.JsonParser;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public final class DevelopmentBoard {
     /**
-     * Class that load all the development cards from a configuration xml file
+     * Class that load all the development cards from a configuration Json file
      */
 
     private ArrayList<Deck> decks = new ArrayList<>();  //12 decks
 
     /**
-     * Default constructor that extract the data from xml and create the cards
+     * Default constructor that extract the data from Json and create the cards
      */
-
+    public DevelopmentBoard(){
+        ArrayList<DevelopmentCard> tmpCards =
+                new JsonParser("src/main/resources/developmentCards.json").getDevelopmentCards();
+        ArrayList<DevelopmentCard> tmpDeck = new ArrayList<>();
+        int i = 1;
+        for (DevelopmentCard card:tmpCards) {
+            tmpDeck.add(card);
+            if(i == 4){
+                decks.add(new Deck((ArrayList<DevelopmentCard>) tmpDeck.clone()));
+                tmpDeck.clear();
+                i = 0;
+            }
+            i++;
+        }
+    }
+  /*
     public DevelopmentBoard() throws NullPointerException{
         try {
             Parser parser = new Parser();
@@ -108,6 +112,7 @@ public final class DevelopmentBoard {
             e.printStackTrace();
         }
     }
+*/
 
     /**
      * Method getter that returns the reference to selected deck

@@ -5,13 +5,13 @@ import resources.Resource;
 import java.util.ArrayList;
 
 public class Discount extends LeaderCard{
-    public ArrayList<DevelopmentCard> requirements;
+    public ArrayList<DevelopmentCard> requires;
     public Resource discount;
     public static int victoryPoints = 2;
 
     public Discount(int id, boolean en, ArrayList<DevelopmentCard> req, Resource dis){
         this.cardId = id;
-        this.requirements = req;
+        this.requires = req;
         this.discount = dis;
         this.isEnabled = en;
     }

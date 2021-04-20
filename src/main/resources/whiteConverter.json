@@ -1,0 +1,78 @@
+[
+  {
+    "requires": [
+      {
+        "colour": "YELLOW",
+        "level": "1"
+      },
+      {
+        "colour": "YELLOW",
+        "level": "1"
+      },
+      {
+        "colour": "BLUE",
+        "level": "1"
+      }
+    ],
+    "resource": "SERVANT",
+    "id": "9",
+    "isEnabled": "false"
+  },
+  {
+    "requires": [
+      {
+        "colour": "GREEN",
+        "level": "1"
+      },
+      {
+        "colour": "GREEN",
+        "level": "1"
+      },
+      {
+        "colour": "PURPLE",
+        "level": "1"
+      }
+    ],
+    "resource": "SHIELD",
+    "id": "10",
+    "isEnabled": "false"
+  },
+  {
+    "requires": [
+      {
+        "colour": "BLUE",
+        "level": "1"
+      },
+      {
+        "colour": "BLUE",
+        "level": "1"
+      },
+      {
+        "colour": "YELLOW",
+        "level": "1"
+      }
+    ],
+    "resource": "STONE",
+    "id": "11",
+    "isEnabled": "false"
+  },
+  {
+    "requires": [
+      {
+        "colour": "PURPLE",
+        "level": "1"
+      },
+      {
+        "colour": "PURPLE",
+        "level": "1"
+      },
+      {
+        "colour": "GREEN",
+        "level": "1"
+      }
+    ],
+    "resource": "COIN",
+    "id": "12",
+    "isEnabled": "false"
+  }
+]
