@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<root comment="root node">
+    <element comment="node representing an object" attribute="primitive attribute">
+        <requirement comment="this is a leader card always">
+
+        </requirement>
+        <somethingResource comment1="this is a resource" comment2="something depends by xml">VALUE</somethingResource>
+
+    </element>
+
+</root>
