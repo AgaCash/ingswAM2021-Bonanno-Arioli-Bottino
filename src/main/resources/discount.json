@@ -10,7 +10,7 @@
         "level": "1"
       }
     ],
-    "resource": "SERVANT",
+    "discount": "SERVANT",
     "id": "1",
     "isEnabled": "false"
   },
@@ -25,7 +25,7 @@
         "level": "1"
       }
     ],
-    "resource": "SHIELD",
+    "discount": "SHIELD",
     "id": "2",
     "isEnabled": "false"
   },
@@ -40,7 +40,7 @@
         "level": "1"
       }
     ],
-    "resource": "STONE",
+    "discount": "STONE",
     "id": "3",
     "isEnabled": "false"
   },
@@ -55,7 +55,7 @@
         "level": "1"
       }
     ],
-    "resource": "COIN",
+    "discount": "COIN",
     "id": "4",
     "isEnabled": "false"
   }

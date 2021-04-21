@@ -5,17 +5,17 @@ import resources.Resource;
 import strongbox.Strongbox;
 import warehouse.WarehouseDepot;
 
+import javax.naming.OperationNotSupportedException;
 import java.util.ArrayList;
 
+/**
+ * Class representing the real Development Card
+ */
 public class DevelopmentCard extends Card {
-    /**
-     * Class representing the real Development Card
-     */
-
 
     private Colour colour;
     private int level;
-    private int points;
+    private int victoryPoints;
     private ArrayList<Resource> cost;
     private ArrayList<Resource> prodInput;
     private ArrayList<Resource> prodOutput;
@@ -34,10 +34,10 @@ public class DevelopmentCard extends Card {
 
 
     public DevelopmentCard(int id, Colour colour, int level, int points, ArrayList<Resource> cost, ArrayList<Resource> prodInput, ArrayList<Resource> prodOutput) {
-        this.cardId = id;
+        this.id = id;
         this.colour = colour;
         this.level = level;
-        this.points = points;
+        this.victoryPoints = points;
         this.cost = cost;
         this.prodInput = prodInput;
         this.prodOutput = prodOutput;
@@ -48,14 +48,19 @@ public class DevelopmentCard extends Card {
         this.level = level;
     }
 
+    private boolean isUsable(){
+        return this.cost != null || this.prodInput != null || this.prodOutput != null;
+    }
+
     /**
      *  Method that allow to activate the production
      * @param warehouseDepot user warehouse
      * @param strongbox user strongbox
      */
 
-    public void createProduction(WarehouseDepot warehouseDepot, Strongbox strongbox){
-
+    public void createProduction(WarehouseDepot warehouseDepot, Strongbox strongbox) throws OperationNotSupportedException {
+        if(!isUsable())
+            throw new OperationNotSupportedException();
         if(!warehouseDepot.isPresent(prodInput)) {
             System.out.println("RESOURCES NOT PRESENT");
             return;
@@ -66,9 +71,31 @@ public class DevelopmentCard extends Card {
         prodOutput.forEach(strongbox::addResource);
     }
 
-    public Colour getColour(){
-        return colour;
+    @Override
+    public String toString(){
+        String s = "";
+        s += "\nColour: "+colour;
+        s += "\nLevel: "+level;
+        if(isUsable()){
+            s += "\nID: "+id;
+            s += "\nVictory Points: "+victoryPoints;
+            s += "\nCost: ";
+            for (Resource resource : cost) {
+                s += "\n\t"+ resource;
+            }
+            s += "\nProdInput: ";
+            for (Resource resource : prodInput) {
+                s += "\n\t"+ resource;
+            }
+            s += "\nProdOutput: ";
+            for (Resource resource : prodOutput) {
+                s += "\n\t"+ resource;
+            }
+        }
+        return s;
     }
 
 
 }
+
+

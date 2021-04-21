@@ -10,7 +10,7 @@ public class Discount extends LeaderCard{
     public static int victoryPoints = 2;
 
     public Discount(int id, boolean en, ArrayList<DevelopmentCard> req, Resource dis){
-        this.cardId = id;
+        this.id = id;
         this.requires = req;
         this.discount = dis;
         this.isEnabled = en;
@@ -28,6 +28,18 @@ public class Discount extends LeaderCard{
     public Resource whichDiscount(){
         return this.discount;
     }
-
+    @Override
+    public String toString(){
+        String s = "\nDISCOUNT";
+        s+= "\nID: "+id;
+        s+= "\nRequires: ";
+        for (DevelopmentCard d:requires) {
+         s+="\n\t "+d;
+        }
+        s+= "\nDiscount: " +discount;
+        s+= "\nVictory Points: "+victoryPoints;
+        s+= "\nIs Enabled: "+ isEnabled;
+        return s;
+    }
 
 }

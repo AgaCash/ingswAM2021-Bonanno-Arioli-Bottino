@@ -9,7 +9,7 @@ public class ExtraDepot extends LeaderCard{
     private ArrayList<Resource> extraResource;
 
     public ExtraDepot(int id, boolean en, ArrayList<Resource> req, ArrayList<Resource> extra){
-        this.cardId = id;
+        this.id = id;
         this.isEnabled = en;
         this.requires = req;
         this.extraResource = extra;

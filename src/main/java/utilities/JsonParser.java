@@ -93,4 +93,10 @@ public class JsonParser {
         return gson.fromJson(fileReader, arrayListType);
     }
 
+    public static void main(String[] args){
+        JsonParser j = new JsonParser("src/main/resources/discount.json");
+
+        j.getDiscountCards().forEach(System.out::println);
+    }
+
 }

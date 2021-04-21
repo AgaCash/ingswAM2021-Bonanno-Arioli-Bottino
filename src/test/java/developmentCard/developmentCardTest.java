@@ -7,6 +7,7 @@ import resources.Resource;
 import strongbox.Strongbox;
 import warehouse.WarehouseDepot;
 
+import javax.naming.OperationNotSupportedException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -62,7 +63,7 @@ public class developmentCardTest {
     }
 
     @Test
-    void createProductionTest(){
+    void createProductionTest() throws OperationNotSupportedException {
         ArrayList<Resource> cost = new ArrayList<>();
         ArrayList<Resource> pi = new ArrayList<>();
         ArrayList<Resource> po = new ArrayList<>();

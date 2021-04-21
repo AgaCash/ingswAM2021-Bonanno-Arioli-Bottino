@@ -10,7 +10,7 @@ public class ExtraProd extends LeaderCard{
     private Resource choosenOutput;
 
     public ExtraProd(int id, boolean en, DevelopmentCard req, Resource input){
-        this.cardId=id;
+        this.id=id;
         this.isEnabled=en;
         this.requires=req;
         this.input=input;
