@@ -83,4 +83,9 @@ public class developmentCardTest {
         assertTrue(s.isPresent(po));
         assertFalse(w.isPresent(pi));
     }
+
+    @Test
+    void checkErrorsTest(){
+
+    }
 }

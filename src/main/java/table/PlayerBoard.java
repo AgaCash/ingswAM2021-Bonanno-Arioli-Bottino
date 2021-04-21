@@ -1,13 +1,13 @@
 package table;
 
-import cards.CardSlot;
+import cards.CardSlots;
 import cards.LeaderCard;
 import warehouse.WarehouseDepot;
 
 import java.util.ArrayList;
 
 public class PlayerBoard {
-    private ArrayList<CardSlot> cardSlots;
+    private ArrayList<CardSlots> cardSlots;
     private WarehouseDepot warehouseDepot;
     private FaithTrack faithTrack;
     private ArrayList<LeaderCard> leaderSlots;

@@ -71,6 +71,10 @@ public class DevelopmentCard extends Card {
         prodOutput.forEach(strongbox::addResource);
     }
 
+    public int getLevel() {
+        return level;
+    }
+
     @Override
     public String toString(){
         String s = "";
