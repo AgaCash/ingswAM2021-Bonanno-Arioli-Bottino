@@ -114,11 +114,11 @@ public class JsonParser {
         return gson.fromJson(fileReader, arrayListType);
     }
 
-
+    /*
     public static void main(String[] args){
         JsonParser j = new JsonParser("src/main/resources/tokensList.json");
 
         j.getTokens().forEach(System.out::println);
-    }
+    }*/
 
 }

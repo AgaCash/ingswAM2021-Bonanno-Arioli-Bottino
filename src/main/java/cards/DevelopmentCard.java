@@ -75,28 +75,32 @@ public class DevelopmentCard extends Card {
         return level;
     }
 
+    public Colour getColour(){
+        return colour;
+    }
+
     @Override
     public String toString(){
-        String s = "";
-        s += "\nColour: "+colour;
-        s += "\nLevel: "+level;
+        StringBuilder s = new StringBuilder();
+        s.append("\nColour: ").append(colour);
+        s.append("\nLevel: ").append(level);
         if(isUsable()){
-            s += "\nID: "+id;
-            s += "\nVictory Points: "+victoryPoints;
-            s += "\nCost: ";
+            s.append("\nID: ").append(id);
+            s.append("\nVictory Points: ").append(victoryPoints);
+            s.append("\nCost: ");
             for (Resource resource : cost) {
-                s += "\n\t"+ resource;
+                s.append("\n\t").append(resource);
             }
-            s += "\nProdInput: ";
+            s.append("\nProdInput: ");
             for (Resource resource : prodInput) {
-                s += "\n\t"+ resource;
+                s.append("\n\t").append(resource);
             }
-            s += "\nProdOutput: ";
+            s.append("\nProdOutput: ");
             for (Resource resource : prodOutput) {
-                s += "\n\t"+ resource;
+                s.append("\n\t").append(resource);
             }
         }
-        return s;
+        return s.toString();
     }
 
 

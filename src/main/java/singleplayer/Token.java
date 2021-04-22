@@ -1,6 +1,9 @@
 package singleplayer;
 
+import cards.DevelopmentCard;
 import colour.Colour;
+import table.DevelopmentBoard;
+import table.FaithTrack;
 
 public class Token {
     private int tokenID;
@@ -8,6 +11,7 @@ public class Token {
     private int removeQuantity;
     private int blackCrossFaithPoints;
     private boolean shuffle;
+    private boolean isAboutLorenzo;
 
     public Token(int tokenID, Colour colour, int removeQuantity) {
         this.tokenID = tokenID;
@@ -15,12 +19,14 @@ public class Token {
         this.removeQuantity = removeQuantity;
         this.blackCrossFaithPoints = 0;
         this.shuffle = false;
+        this.isAboutLorenzo = false;
     }
 
     public Token(int tokenID, int blackCrossFaithPoints) {
         this.tokenID = tokenID;
         this.blackCrossFaithPoints = blackCrossFaithPoints;
         this.shuffle = blackCrossFaithPoints == 1;
+        this.isAboutLorenzo = true;
     }
 
     public int getTokenID() {
@@ -31,10 +37,23 @@ public class Token {
         return colour;
     }
 
-    public void execute(){
+    private void lorenzoAction(FaithTrack faithTrack){
+        //faithtrack.qualcosaAvanza(blackCrossFaithPoints);
+    }
 
-        // executes the action declared by the token, when picked
+    private void cardAction(DevelopmentBoard developmentBoard){
+        DevelopmentCard d = developmentBoard.popCardFromDeckColour(colour);
+        if(d == null){
+            //GIOCO FINITO, GIOCATORE PERDE
+            System.out.println("GIOCO FINITO, GIOCATORE PERDE");
+        }
+    }
 
+    public void execute(FaithTrack faithTrack, DevelopmentBoard developmentBoard){
+        if(isAboutLorenzo)
+            lorenzoAction(faithTrack);
+        else
+            cardAction(developmentBoard);
     }
 
     @Override

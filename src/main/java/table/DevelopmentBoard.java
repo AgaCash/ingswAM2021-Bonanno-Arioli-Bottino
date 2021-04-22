@@ -2,6 +2,7 @@ package table;
 
 
 import cards.DevelopmentCard;
+import colour.Colour;
 import utilities.JsonParser;
 import java.util.ArrayList;
 
@@ -32,7 +33,7 @@ public final class DevelopmentBoard {
     }
 
     /**
-     * Method getter that returns the reference to selected deck
+     * Method getter that returns the reference to selected deck by position
      * @param deckNumber index of the deck (0-11)
      * @return the reference of the selected deck
      */
@@ -44,6 +45,20 @@ public final class DevelopmentBoard {
     }
 
     /**
+     * Method getter that returns the reference to selected deck by colour
+     * @param colour colour of the deck
+     * @return  the reference of the selected deck
+     */
+    public Deck getDeck(Colour colour){
+        Deck tmpDeck = null;
+        for (Deck d:decks) {
+            if(d.getColourDeck()==colour && !d.isEmpty())
+                tmpDeck = d;
+        }
+        return tmpDeck;
+    }
+
+    /**
      * Method that pop the first card of the selected deck
      * @param deckNumber index of the deck (0-11)
      * @return the card on the top of the selected deck
@@ -51,6 +66,14 @@ public final class DevelopmentBoard {
 
     public DevelopmentCard popCardFromDeck(int deckNumber){
         Deck d = this.getDeck(deckNumber);
+        if(d == null)
+            return null;
+        else
+            return d.popCard();
+    }
+
+    public DevelopmentCard popCardFromDeckColour(Colour colour){
+        Deck d = this.getDeck(colour);
         if(d == null)
             return null;
         else
