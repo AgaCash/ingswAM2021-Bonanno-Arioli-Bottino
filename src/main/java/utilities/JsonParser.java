@@ -4,6 +4,7 @@ import cards.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import marbles.Marble;
+import singleplayer.Token;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -103,11 +104,21 @@ public class JsonParser {
         return gson.fromJson(fileReader, arrayListType);
     }
 
-    /*
-    public static void main(String[] args){
-        JsonParser j = new JsonParser("src/main/resources/discount.json");
+    public ArrayList<Token> getTokens(){
+        Type arrayListType = new TypeToken<ArrayList<Token>>(){}.getType();
+        try {
+            fileReader = new BufferedReader(new FileReader(path));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return gson.fromJson(fileReader, arrayListType);
+    }
 
-        j.getDiscountCards().forEach(System.out::println);
-    }*/
+
+    public static void main(String[] args){
+        JsonParser j = new JsonParser("src/main/resources/tokensList.json");
+
+        j.getTokens().forEach(System.out::println);
+    }
 
 }
