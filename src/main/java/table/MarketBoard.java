@@ -1,14 +1,9 @@
 package table;
 
 import cards.LeaderCard;
-import marbles.*;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import marbles.Marble;
 import resources.Resource;
-import utilities.Parser;
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -20,36 +15,9 @@ public class MarketBoard {
     private ArrayList<ArrayList<Marble>> marbleGrid = new ArrayList<>(3);
     private Marble freeMarble;
 
-    public Marble instancer(String name) {
-        switch (name) {
-            case "BLUE" -> {
-                return new BlueMarble();
-            }
-            case "GREY" -> {
-                return new GreyMarble();
-            }
-            case "PURPLE" -> {
-                return new PurpleMarble();
-            }
-            case "RED" -> {
-                return new RedMarble();
-            }
-            case "WHITE" -> {
-                return new WhiteMarble();
-            }
-            case "YELLOW" -> {
-                return new YellowMarble();
-            }
-        }
-        return new Marble();
-    }
 
-    public void builder(ArrayList<Marble> marbles, String docSource, String tag) throws IOException, ParserConfigurationException, SAXException {
-        Parser parser = new Parser();
-        NodeList marbleNodes = parser.getByTag(docSource, tag);
-        for (int i = 0; i < marbleNodes.getLength(); i++) {
-             marbles.add(instancer(parser.convert(marbleNodes.item(i)).getTextContent()));
-        }
+    public void builder(ArrayList<Marble> marbles, String docSource, String tag) {
+       //
     }
     
     /**
@@ -59,7 +27,7 @@ public class MarketBoard {
         ArrayList<Marble> marbles = new ArrayList<>();
         for (int n = 0; n < 4; n++)
             marbleGrid.add(new ArrayList(3));
-        try {
+
             builder(marbles, "src/main/resources/marketBoard.xml", "marble");
             Collections.shuffle(marbles);
 
@@ -70,9 +38,7 @@ public class MarketBoard {
                     k++;
                 }
             freeMarble = marbles.get(k);
-        } catch (IOException | ParserConfigurationException | SAXException e) {
-            e.printStackTrace();
-        }
+
     }
 
     /** method to obtain resources from the market by line

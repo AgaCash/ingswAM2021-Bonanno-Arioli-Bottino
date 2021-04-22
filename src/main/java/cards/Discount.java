@@ -17,17 +17,14 @@ public class Discount extends LeaderCard{
     }
 
     @Override
-    public Resource whichResource() {
-        return null;
-    }
-    @Override
-    public boolean isEnabled(){
-        return this.isEnabled;
-    }
-    @Override
     public Resource whichDiscount(){
         return this.discount;
     }
+
+    /**
+     * for tests
+     * @return
+     */
     @Override
     public String toString(){
         String s = "\nDISCOUNT";

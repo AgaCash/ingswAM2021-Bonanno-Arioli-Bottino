@@ -17,12 +17,23 @@ public class WhiteConverter extends LeaderCard{
 	public Resource whichResource(){
 		return this.resource;
 	}
+
+	/**
+	 * for tests
+	 * @return
+	 */
 	@Override
-	public boolean isEnabled(){
-		return this.isEnabled;
+	public String toString(){
+		String s = "\nWHITE CONVERTER";
+		s+= "\nID: "+id;
+		s+= "\nRequires: ";
+		for (DevelopmentCard d:requires) {
+			s+="\n\t "+d;
+		}
+		s+= "\nConvert: " +resource;
+		s+= "\nVictory Points: "+victoryPoints;
+		s+= "\nIs Enabled: "+ isEnabled;
+		return s;
 	}
-	@Override
-	public Resource whichDiscount(){
-		return null;
-	}
+
 }

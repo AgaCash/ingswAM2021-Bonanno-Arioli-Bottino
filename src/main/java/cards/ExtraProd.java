@@ -1,13 +1,13 @@
 package cards;
 
-import resources.*;
+import resources.Resource;
 
 public class ExtraProd extends LeaderCard{
     private DevelopmentCard requires;
     private static int victoryPoints = 4;
     private Resource input;
     private Resource output = Resource.FAITH;
-    private Resource choosenOutput;
+    private Resource chosenOutput;
 
     public ExtraProd(int id, boolean en, DevelopmentCard req, Resource input){
         this.id=id;
@@ -17,16 +17,20 @@ public class ExtraProd extends LeaderCard{
 
     }
 
+    /**
+     * for tests
+     * @return
+     */
     @Override
-    public Resource whichResource(){
-        return null;
+    public String toString(){
+        String s = "\nEXTRA PROD";
+        s+= "\nID: "+id;
+        s+= "\nRequires: ";
+        s+="\n\t Input: "+input;
+        s+="\nProduce: \n\t"+output+" and a chosen resource";
+        s+= "\nVictory Points: "+victoryPoints;
+        s+= "\nIs Enabled: "+ isEnabled;
+        return s;
     }
-    @Override
-    public Resource whichDiscount(){
-        return null;
-    }
-    @Override
-    public boolean isEnabled(){
-        return this.isEnabled;
-    }
+
 }

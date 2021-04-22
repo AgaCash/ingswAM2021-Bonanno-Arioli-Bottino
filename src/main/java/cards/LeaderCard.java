@@ -8,8 +8,17 @@ abstract public class LeaderCard extends Card{
 	protected int victoryPoints;
 	protected ArrayList<Object> requirements;
 
-	abstract public Resource whichResource();
-	abstract public boolean isEnabled();
-	abstract public Resource whichDiscount();
+	public Resource whichResource(){
+		return null;
+	}
+	public boolean isEnabled(){
+		return isEnabled;
+	}
+	public Resource whichDiscount(){
+		return null;
+	}
+	public ArrayList<Resource> whichExtra(){
+		return null;
+	}
 
 }
