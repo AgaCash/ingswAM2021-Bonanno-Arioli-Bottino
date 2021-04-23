@@ -12,6 +12,10 @@ public class CardSlots {
         this.isEnable = false;
     }
 
+    public DevelopmentCard getCard(int slot){
+        return slots.get(slot).get(getIndexLastCard(slot));
+    }
+
     private int getIndexLastCard(int slot){
         return slots.get(slot).size()-1;
     }

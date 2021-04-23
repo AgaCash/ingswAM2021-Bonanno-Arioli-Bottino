@@ -2,12 +2,12 @@ package table;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class MarketBoardTest {
 
     @Test
     void initializeMarbleGrid() {
+        MarketBoard market = new MarketBoard();
+        market.initializeMarbleGrid();
     }
 
     @Test
@@ -20,5 +20,8 @@ class MarketBoardTest {
 
     @Test
     void getMarble() {
+        MarketBoard market = new MarketBoard();
+        market.initializeMarbleGrid();
+        market.getMarble(1,1);
     }
 }

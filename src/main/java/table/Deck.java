@@ -2,6 +2,7 @@ package table;
 
 import cards.DevelopmentCard;
 import colour.Colour;
+import resources.Resource;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,6 +43,10 @@ public class Deck {
      * Method that gives to the caller the first card in this deck, removing that from the stack
      * @return the card on top
      */
+
+    public ArrayList<Resource> getCost(){
+        return cards.get(cards.size()-1).getCost();
+    }
 
     public DevelopmentCard popCard(){
         DevelopmentCard tmpCard;

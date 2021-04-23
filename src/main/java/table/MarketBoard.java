@@ -1,8 +1,9 @@
 package table;
 
 import cards.LeaderCard;
-import marbles.Marble;
+import marbles.*;
 import resources.Resource;
+import utilities.JsonParser;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,29 +17,39 @@ public class MarketBoard {
     private Marble freeMarble;
 
 
-    public void builder(ArrayList<Marble> marbles, String docSource, String tag) {
-       //
+    private ArrayList<Marble> builder() {
+        ArrayList<Marble> marbles = new ArrayList<>();
+        ArrayList<String> tmpMarbles =
+                new JsonParser("src/main/resources/marketBoard.json").getMarbles();
+        for(String marble : tmpMarbles){
+            switch(marble){
+                case "BLUE" : marbles.add(new BlueMarble());
+                case "GREY" : marbles.add(new GreyMarble());
+                case "PURPLE" : marbles.add(new PurpleMarble());
+                case "RED" : marbles.add(new RedMarble());
+                case "WHITE" : marbles.add(new WhiteMarble());
+                case "YELLOW" : marbles.add(new YellowMarble());
+            }
+        }
+        return marbles;
     }
     
     /**
      * method called at the start of the game that initializes the marble grid
      */
     public void initializeMarbleGrid() {
-        ArrayList<Marble> marbles = new ArrayList<>();
+        ArrayList<Marble> marbles = builder();;
         for (int n = 0; n < 4; n++)
             marbleGrid.add(new ArrayList(3));
+        Collections.shuffle(marbles);
 
-            builder(marbles, "src/main/resources/marketBoard.xml", "marble");
-            Collections.shuffle(marbles);
-
-            int k =0;
-            for(int i=0; i<3; i++)
-                for(int j =0; j<4; j++){
-                    marbleGrid.get(i).add(j, marbles.get(k));
-                    k++;
-                }
-            freeMarble = marbles.get(k);
-
+        int k =0;
+        for(int i=0; i<3; i++)
+            for(int j =0; j<4; j++){
+                marbleGrid.get(i).add(j, marbles.get(k));
+                k++;
+            }
+        freeMarble = marbles.get(k);
     }
 
     /** method to obtain resources from the market by line

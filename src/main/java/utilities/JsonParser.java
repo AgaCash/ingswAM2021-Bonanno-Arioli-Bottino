@@ -3,7 +3,6 @@ package utilities;
 import cards.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import marbles.Marble;
 import singleplayer.Token;
 
 import java.io.BufferedReader;
@@ -40,8 +39,8 @@ public class JsonParser {
         return newList;
     }
     */
-    public ArrayList<Marble> getMarbles(){
-        Type arrayListType = new TypeToken<ArrayList<Marble>>(){}.getType();
+    public ArrayList<String> getMarbles(){
+        Type arrayListType = new TypeToken<ArrayList<String>>(){}.getType();
         try {
             fileReader = new BufferedReader(new FileReader(path));
         } catch (FileNotFoundException e) {

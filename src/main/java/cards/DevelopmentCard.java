@@ -79,6 +79,10 @@ public class DevelopmentCard extends Card {
         return colour;
     }
 
+    public ArrayList<Resource> getCost(){
+        return this.cost;
+    }
+
     @Override
     public String toString(){
         StringBuilder s = new StringBuilder();
@@ -102,6 +106,8 @@ public class DevelopmentCard extends Card {
         }
         return s.toString();
     }
+
+
 
 
 }
