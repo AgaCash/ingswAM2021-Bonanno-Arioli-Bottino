@@ -4,6 +4,7 @@ import cards.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import singleplayer.Token;
+import table.FaithBox;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -105,6 +106,16 @@ public class JsonParser {
 
     public ArrayList<Token> getTokens(){
         Type arrayListType = new TypeToken<ArrayList<Token>>(){}.getType();
+        try {
+            fileReader = new BufferedReader(new FileReader(path));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return gson.fromJson(fileReader, arrayListType);
+    }
+
+    public ArrayList<FaithBox> getFaithBoxes(){
+        Type arrayListType = new TypeToken<ArrayList<FaithBox>>(){}.getType();
         try {
             fileReader = new BufferedReader(new FileReader(path));
         } catch (FileNotFoundException e) {

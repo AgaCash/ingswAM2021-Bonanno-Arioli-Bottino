@@ -2,9 +2,7 @@ package table;
 
 public class FaithBox {
     private int position;
-    private boolean flagPopeOne;
-    private boolean isFlagPopeTwo;
-    private boolean flagPopeThree;
+    private boolean[] popeFlag = new boolean[3];
     private int points;
 
     public void setPosition (int position){
@@ -15,35 +13,31 @@ public class FaithBox {
         return position;
     }
 
-    public boolean getIsFlagPopeOne() {
-        return flagPopeOne;
-    }
-
-    public void setFlagPopeOne(boolean flagPopeOne) {
-        this.flagPopeOne = flagPopeOne;
-    }
-
-    public boolean getIsFlagPopeTwo() {
-        return isFlagPopeTwo;
-    }
-
-    public void setFlagPopeTwo(boolean flagPopeTwo) {
-        isFlagPopeTwo = flagPopeTwo;
-    }
-
-    public boolean getIsFlagPopeThree() {
-        return flagPopeThree;
-    }
-
-    public void setFlagPopeThree(boolean flagPopeThree) {
-        this.flagPopeThree = flagPopeThree;
-    }
-
     public int getPoints() {
         return points;
     }
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    public boolean[] getPopeFlag() {
+        return popeFlag;
+    }
+
+    public void setPopeFlag(boolean flagOne, boolean flagTwo, boolean flagThree) {
+        popeFlag[0] = flagOne;
+        popeFlag[1] = flagTwo;
+        popeFlag[2] = flagThree;
+    }
+
+    @Override
+    public String toString(){
+        String s = "FaithBox";
+        s+="\n"+position;
+        s+="\n"+points;
+        s+="\n"+popeFlag[0]+" "+popeFlag[1]+" "+popeFlag[2];
+        s+="\n---";
+        return s;
     }
 }

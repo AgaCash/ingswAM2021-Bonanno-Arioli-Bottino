@@ -79,16 +79,25 @@ public class PlayerBoard {
     }
     //--------------------------------------------------------------
 
-    //@Cisco
     public void buyResources(boolean line, boolean column, int num){
         ArrayList<Resource> bought = new ArrayList<>();
-        if(line && !column &&  num>=0 && num<=2)
+        if(line && !column &&  num>=0 && num<=2) {
             bought = marketBoard.addMarketLine(num, chooseCard());
-        else if(!line && column /*&& ecc*/)
-                System.out.println("finire");
-        //dopo
-
-
+            for (Resource res : bought) {
+                if (res == Resource.FAITH)
+                    faithTrack.faithAdvance(faithBox, faithTrack, 1);
+                else
+                    warehouseDepot.addResource(res);
+            }
+        }
+        else if(!line && column && num>=0 && num<=3) {
+            bought = marketBoard.addMarketColumn(num, chooseCard());
+            for (Resource res : bought) {
+                if (res == Resource.FAITH)
+                    faithTrack.faithAdvance(faithBox, faithTrack, 1);
+                warehouseDepot.addResource(res);
+            }
+        }
     }
 
     private LeaderCard chooseCard(){
@@ -100,11 +109,4 @@ public class PlayerBoard {
     public void devCardProduction(int slot) throws OperationNotSupportedException {
         this.cardSlots.getCard(slot).createProduction(warehouseDepot, strongbox);
     }
-    //--------------------------------------------------------------
-
-    //@Cisco
-    //tracciato fede
-
-
-
 }
