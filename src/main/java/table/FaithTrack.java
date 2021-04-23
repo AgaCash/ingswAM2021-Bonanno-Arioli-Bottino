@@ -32,9 +32,9 @@ public class FaithTrack {
         //dopodichè per ogni player.nickname != chiamante.nickname verifica se la FaithBox ha una position>x.
     }
     public void secondPopeCheck(String nickname){
-        //lo deve fare il game.
+        //lo deve fare il game...
     }
     public void thirdPopeCheck(String nickname){
-        //lo deve fare il game.
+        //lo deve fare il game...
     }
 }
