@@ -2,6 +2,8 @@ package cards;
 
 import resources.Resource;
 
+import java.util.ArrayList;
+
 public class ExtraProd extends LeaderCard{
     private DevelopmentCard requires;
     private static int victoryPoints = 4;
@@ -15,6 +17,28 @@ public class ExtraProd extends LeaderCard{
         this.requires=req;
         this.input=input;
 
+    }
+
+    @Override
+    public Resource getRequirement(){
+        return this.input;
+    }
+
+    public void setChosenOutput(Resource chosenOutput){
+        this.chosenOutput = chosenOutput;
+    }
+
+    @Override
+    public ArrayList<Resource> production(){
+        ArrayList products = new ArrayList();
+        products.add(this.output);
+        products.add(chosenOutput);
+        return products;
+    }
+
+    @Override
+    public boolean isExtraProd(){
+        return true;
     }
 
     /**

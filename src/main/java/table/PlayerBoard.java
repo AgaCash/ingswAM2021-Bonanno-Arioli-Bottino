@@ -1,6 +1,7 @@
 package table;
 
 import cards.CardSlots;
+import cards.ExtraProd;
 import cards.LeaderCard;
 import resources.Resource;
 import strongbox.Strongbox;
@@ -21,6 +22,8 @@ public class PlayerBoard {
     private int faithPoints = 0;
     private FaithBox faithBox = new FaithBox();
 
+    //--------------------INITIALIZE--------------------
+
     public PlayerBoard(DevelopmentBoard developmentBoard, MarketBoard marketBoard){
         this.developmentBoard = developmentBoard;
         this.marketBoard = marketBoard;
@@ -30,54 +33,62 @@ public class PlayerBoard {
     public void setInkwell(boolean value){
         this.hasInkwell=value;
     }
-    public void defaultProduction(ArrayList<Resource> input, Resource output){
-        for(Resource ptr : input)
-            this.warehouseDepot.removeResource(ptr);
-        this.strongbox.addResource(output);
+
+    //quando farete il controller stronzi?
+    public void selectLeader(ArrayList<LeaderCard> quartet, int first, int second){
+        //controller sceglie due delle quattre carte
+        this.leaderSlots.add(quartet.get(first));
+        this.leaderSlots.add(quartet.get(second));
     }
 
-    //da completare
-    public void buyDevCard(Deck deck, int slotPosition) throws OperationNotSupportedException {
-        Resource discount = checkDiscountLeaderCards();
-        ArrayList<Resource> cost = deck.getCost();
-        ArrayList<Resource> payment = new ArrayList<>();
-        if(checkResources(cost, payment)){
-            cardSlots.addCard(slotPosition, deck.popCard());
-        }
-        else
-            //notificare al controller
-            System.out.println("provv");
+    //--------------------UTILITIES--------------------
+
+    //@Controller
+    private LeaderCard chooseCard(){
+        //casino fra
+        return null;
     }
 
     //@AgaCash
-    private boolean checkResources(ArrayList<Resource> cost, ArrayList<Resource> payment){
+    private boolean checkResources(ArrayList<Resource> cost){
         //facciamo dopo dai?
         return false;
 
     }
 
-    //@teo
+    //--------------------BUY DEV CARDS--------------------
+
+    //@Controller
+    public void buyDevCard(Deck deck, int slotPosition) throws OperationNotSupportedException {
+        Resource discount = checkDiscountLeaderCards();
+        ArrayList<Resource> cost = deck.getCost();
+        ArrayList<Resource> payment = new ArrayList<>();
+
+        if(discount!=null)
+            cost.remove(discount);
+
+        if(checkResources(cost)){
+            cardSlots.addCard(slotPosition, deck.popCard());
+        }
+        else {
+            //notificare al controller
+        }
+    }
+
+    //@Controller
     private Resource checkDiscountLeaderCards(){
-        return null;
+        Resource discount = null;
+        LeaderCard card = chooseCard();
+        try {
+            if(card.isEnabled() && card.isDiscount())
+                discount = card.whichDiscount();
+        }catch(NullPointerException e){
+            return null;
+        }
+        return discount;
     }
-    //---------------------------------------------------------------
-   //quando farete il controller stronzi?
-   public void selectLeader(ArrayList<LeaderCard> quartet, int first, int second){
-        //controller sceglie due delle quattre carte
-       this.leaderSlots.add(quartet.get(first));
-       this.leaderSlots.add(quartet.get(second));
-   }
 
-    //---------------------------------------------------------------
-
-    //@Teo
-    public void leaderProduction(){
-        //controlla carte leader isEnabled() e ExtraProd
-        //controlla se carta leader.input c'è in warehouse o strongbox
-        //toglie risorsa
-        //avvia leaderCard.production()
-    }
-    //--------------------------------------------------------------
+    //--------------------MARKET--------------------
 
     public void buyResources(boolean line, boolean column, int num){
         ArrayList<Resource> bought = new ArrayList<>();
@@ -100,13 +111,22 @@ public class PlayerBoard {
         }
     }
 
-    private LeaderCard chooseCard(){
-        //casino fra
-        return null;
+
+    //--------------------PRODUCTION--------------------
+
+    public void devCardProduction(int slot, Resource chosenOutput) throws OperationNotSupportedException {
+        LeaderCard card = chooseCard();
+        if(card.isEnabled() && card.isExtraProd()){
+            card.setChosenOutput(chosenOutput);
+        }
+        else
+            card = null;
+        this.cardSlots.getCard(slot).createProduction(warehouseDepot, strongbox, (ExtraProd) card);
     }
 
-    //--------------------------------------------------------------
-    public void devCardProduction(int slot) throws OperationNotSupportedException {
-        this.cardSlots.getCard(slot).createProduction(warehouseDepot, strongbox);
+    public void defaultProduction(ArrayList<Resource> input, Resource output){
+        for(Resource ptr : input)
+            this.warehouseDepot.removeResource(ptr);
+        this.strongbox.addResource(output);
     }
 }

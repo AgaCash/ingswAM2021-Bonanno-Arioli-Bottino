@@ -1,6 +1,8 @@
 package developmentCard;
 
 import cards.DevelopmentCard;
+import cards.ExtraProd;
+import cards.WhiteConverter;
 import colour.Colour;
 import org.junit.jupiter.api.Test;
 import resources.Resource;
@@ -67,19 +69,24 @@ public class developmentCardTest {
         ArrayList<Resource> cost = new ArrayList<>();
         ArrayList<Resource> pi = new ArrayList<>();
         ArrayList<Resource> po = new ArrayList<>();
+        ExtraProd extraProd = new ExtraProd(0, true, null, Resource.COIN);
+        WhiteConverter whiteConverter = new WhiteConverter(0, true, null, Resource.COIN);
         cost.add(Resource.STONE);
         pi.add(Resource.COIN);
         po.add(Resource.SHIELD);
         DevelopmentCard d = new DevelopmentCard(2, Colour.BLUE, 1, 1, cost, pi, po);
 
         WarehouseDepot w = new WarehouseDepot();
+        w.addResource(Resource.COIN);
+        w.addResource(Resource.SHIELD);
         Strongbox s = new Strongbox();
 
-        d.createProduction(w, s);
+
+        d.createProduction(w, s, extraProd);
         assertFalse(s.isPresent(po));
 
-        w.addResource(pi.get(0));
-        d.createProduction(w, s);
+        s.addResource(Resource.FAITH);
+        d.createProduction(w, s, extraProd);
         assertTrue(s.isPresent(po));
         assertFalse(w.isPresent(pi));
     }

@@ -20,6 +20,10 @@ public class Discount extends LeaderCard{
     public Resource whichDiscount(){
         return this.discount;
     }
+    @Override
+    public boolean isDiscount(){
+        return true;
+    }
 
     /**
      * for tests

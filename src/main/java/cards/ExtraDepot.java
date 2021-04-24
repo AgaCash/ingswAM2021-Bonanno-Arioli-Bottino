@@ -19,6 +19,11 @@ public class ExtraDepot extends LeaderCard{
     public ArrayList<Resource> whichExtra(){
         return this.extraDepotResource;
     }
+    @Override
+    public boolean isExtraDepot(){
+        return true;
+    }
+
 
     /**
      * for tests

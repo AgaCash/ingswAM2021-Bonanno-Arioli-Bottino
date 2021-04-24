@@ -18,6 +18,11 @@ public class WhiteConverter extends LeaderCard{
 		return this.resource;
 	}
 
+	@Override
+	public boolean isWhiteConverter(){
+		return true;
+	}
+
 	/**
 	 * for tests
 	 * @return

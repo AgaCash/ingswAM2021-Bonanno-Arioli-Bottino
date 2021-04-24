@@ -58,17 +58,23 @@ public class DevelopmentCard extends Card {
      * @param strongbox user strongbox
      */
 
-    public void createProduction(WarehouseDepot warehouseDepot, Strongbox strongbox) throws OperationNotSupportedException {
+    public void createProduction(WarehouseDepot warehouseDepot, Strongbox strongbox, ExtraProd extraProd) throws OperationNotSupportedException {
+        ArrayList<Resource> inputResources = prodInput;
         if(!isUsable())
             throw new OperationNotSupportedException();
-        if(!warehouseDepot.isPresent(prodInput)) {
+        if(!warehouseDepot.isPresent(inputResources)) {
+            //notify controller
             System.out.println("RESOURCES NOT PRESENT");
-            return;
         }
-
-        prodInput.forEach(warehouseDepot::removeResource);
-
-        prodOutput.forEach(strongbox::addResource);
+        else {
+            ArrayList<Resource> extraProdInput = inputResources;
+            extraProdInput.add(extraProd.getRequirement());
+            if(warehouseDepot.isPresent(extraProdInput)){
+                inputResources = extraProdInput;
+            }
+            inputResources.forEach(warehouseDepot::removeResource);
+            inputResources.forEach(strongbox::addResource);
+        }
     }
 
     public int getLevel() {
@@ -81,6 +87,14 @@ public class DevelopmentCard extends Card {
 
     public ArrayList<Resource> getCost(){
         return this.cost;
+    }
+
+    public void updateInput(ArrayList<Resource> update){
+        this.prodInput.addAll(update);
+    }
+
+    public void updateOutput(ArrayList<Resource> update){
+        this.prodOutput.addAll(update);
     }
 
     @Override
