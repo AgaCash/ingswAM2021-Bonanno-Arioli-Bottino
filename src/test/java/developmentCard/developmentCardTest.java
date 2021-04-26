@@ -64,6 +64,7 @@ public class developmentCardTest {
 
     }
 
+    /*
     @Test
     void createProductionTest() throws OperationNotSupportedException {
         ArrayList<Resource> cost = new ArrayList<>();
@@ -89,7 +90,7 @@ public class developmentCardTest {
         d.createProduction(w, s, extraProd);
         assertTrue(s.isPresent(po));
         assertFalse(w.isPresent(pi));
-    }
+    }*/
 
     @Test
     void checkErrorsTest(){

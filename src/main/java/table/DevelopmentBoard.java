@@ -59,7 +59,7 @@ public final class DevelopmentBoard {
     }
 
     /**
-     * Method that pop the first card of the selected deck
+     * Method that pop the first card of the selected deck (by index)
      * @param deckNumber index of the deck (0-11)
      * @return the card on the top of the selected deck
      */
@@ -72,6 +72,11 @@ public final class DevelopmentBoard {
             return d.popCard();
     }
 
+    /**
+     * Method that pop the first card of the selected deck (by colour)
+     * @param colour colour of the deck
+     * @return the first card in the deck
+     */
     public DevelopmentCard popCardFromDeckColour(Colour colour){
         Deck d = this.getDeck(colour);
         if(d == null)

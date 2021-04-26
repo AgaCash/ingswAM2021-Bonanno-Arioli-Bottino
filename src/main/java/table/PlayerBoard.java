@@ -51,9 +51,31 @@ public class PlayerBoard {
 
     //@AgaCash
     private boolean checkResources(ArrayList<Resource> cost){
-        //facciamo dopo dai?
-        return false;
+        ArrayList<Resource> warehouseResources = new ArrayList<>();
+        ArrayList<Resource> strongboxResources = new ArrayList<>();
+        ArrayList<Resource> tmp = new ArrayList<>();
 
+        for(Resource r :cost){
+            tmp.clear();
+            tmp.add(r);
+            if(warehouseDepot.isPresent(tmp)){
+                warehouseResources.add(r);
+            }else if(strongbox.isPresent(tmp)){
+                strongboxResources.add(r);
+            }else{
+                return false;
+            }
+        }
+        //TEORICAMENTE SE LE RISORSE NON CI SONO NON RAGGIUNGERA' MAI QUESTO PUNTO DELLA FUNZIONE
+
+        for(Resource r: warehouseResources){
+            warehouseDepot.removeResource(r);
+        }
+        for(Resource r: strongboxResources){
+            strongbox.removeResource(r);
+        }
+
+        return true;
     }
 
     //--------------------BUY DEV CARDS--------------------
