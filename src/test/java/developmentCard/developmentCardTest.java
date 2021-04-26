@@ -2,7 +2,6 @@ package developmentCard;
 
 import cards.DevelopmentCard;
 import cards.ExtraProd;
-import cards.WhiteConverter;
 import colour.Colour;
 import org.junit.jupiter.api.Test;
 import resources.Resource;
@@ -64,13 +63,16 @@ public class developmentCardTest {
 
     }
 
+    /*
     @Test
     void createProductionTest() throws OperationNotSupportedException {
         ArrayList<Resource> cost = new ArrayList<>();
         ArrayList<Resource> pi = new ArrayList<>();
         ArrayList<Resource> po = new ArrayList<>();
         ExtraProd extraProd = new ExtraProd(0, true, null, Resource.COIN);
-        WhiteConverter whiteConverter = new WhiteConverter(0, true, null, Resource.COIN);
+        extraProd.setChosenOutput(Resource.SERVANT);
+        //WhiteConverter whiteConverter = new WhiteConverter(0, true, null, Resource.COIN);
+
         cost.add(Resource.STONE);
         pi.add(Resource.COIN);
         po.add(Resource.SHIELD);
@@ -79,17 +81,19 @@ public class developmentCardTest {
         WarehouseDepot w = new WarehouseDepot();
         w.addResource(Resource.COIN);
         w.addResource(Resource.SHIELD);
+        w.addResource(Resource.COIN);
         Strongbox s = new Strongbox();
 
 
-        d.createProduction(w, s, extraProd);
-        assertFalse(s.isPresent(po));
+        //d.createProduction(extraProd);
+        //assertFalse(s.isPresent(po));
 
-        s.addResource(Resource.FAITH);
-        d.createProduction(w, s, extraProd);
-        assertTrue(s.isPresent(po));
-        assertFalse(w.isPresent(pi));
-    }
+        //s.addResource(Resource.COIN);
+        ArrayList<Resource> prod = d.createProduction(extraProd);
+        po.add(Resource.COIN);
+        assertEquals(po, prod);
+        //assertFalse(w.isPresent(pi));
+    }*/
 
     @Test
     void checkErrorsTest(){

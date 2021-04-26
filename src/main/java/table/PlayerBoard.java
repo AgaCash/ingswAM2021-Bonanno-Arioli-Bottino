@@ -56,9 +56,31 @@ public class PlayerBoard {
 
     //@AgaCash
     private boolean checkResources(ArrayList<Resource> cost){
-        //facciamo dopo dai?
-        return false;
+        ArrayList<Resource> warehouseResources = new ArrayList<>();
+        ArrayList<Resource> strongboxResources = new ArrayList<>();
+        ArrayList<Resource> tmp = new ArrayList<>();
 
+        for(Resource r :cost){
+            tmp.clear();
+            tmp.add(r);
+            if(warehouseDepot.isPresent(tmp)){
+                warehouseResources.add(r);
+            }else if(strongbox.isPresent(tmp)){
+                strongboxResources.add(r);
+            }else{
+                return false;
+            }
+        }
+        //TEORICAMENTE SE LE RISORSE NON CI SONO NON RAGGIUNGERA' MAI QUESTO PUNTO DELLA FUNZIONE
+
+        for(Resource r: warehouseResources){
+            warehouseDepot.removeResource(r);
+        }
+        for(Resource r: strongboxResources){
+            strongbox.removeResource(r);
+        }
+
+        return true;
     }
 
     //--------------------BUY DEV CARDS--------------------
@@ -120,13 +142,23 @@ public class PlayerBoard {
     //--------------------PRODUCTION--------------------
 
     public void devCardProduction(int slot, Resource chosenOutput) throws OperationNotSupportedException {
-        LeaderCard card = chooseCard();
-        if(card.isEnabled() && card.isExtraProd()){
-            card.setChosenOutput(chosenOutput);
+        ArrayList<Resource> prodResources = new ArrayList<>();
+        if(checkResources(this.cardSlots.getCard(slot).getCost())){
+            LeaderCard card = chooseCard();
+            if(card.isEnabled() && card.isExtraProd()){
+                card.setChosenOutput(chosenOutput);
+                if(!checkResources(card.production()))
+                    card = null;
+            }
+            else{
+                //notify the controller
+            }
+            prodResources =  this.cardSlots.getCard(slot).createProduction((ExtraProd) card);
+            prodResources.forEach(this.strongbox :: addResource);
         }
-        else
-            card = null;
-        this.cardSlots.getCard(slot).createProduction(warehouseDepot, strongbox, (ExtraProd) card);
+        else {
+            //notify the controller
+        }
     }
 
     public void defaultProduction(ArrayList<Resource> input, Resource output){

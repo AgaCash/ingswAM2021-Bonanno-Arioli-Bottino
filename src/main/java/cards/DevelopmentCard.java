@@ -2,8 +2,6 @@ package cards;
 
 import colour.Colour;
 import resources.Resource;
-import strongbox.Strongbox;
-import warehouse.WarehouseDepot;
 
 import javax.naming.OperationNotSupportedException;
 import java.util.ArrayList;
@@ -54,27 +52,20 @@ public class DevelopmentCard extends Card {
 
     /**
      *  Method that allow to activate the production
-     * @param warehouseDepot user warehouse
-     * @param strongbox user strongbox
+     *
      */
 
-    public void createProduction(WarehouseDepot warehouseDepot, Strongbox strongbox, ExtraProd extraProd) throws OperationNotSupportedException {
-        ArrayList<Resource> inputResources = prodInput;
+    public ArrayList<Resource> createProduction(ExtraProd extraProd) throws OperationNotSupportedException {
+        ArrayList<Resource> inputResources = (ArrayList<Resource>) prodInput.clone();
+        ArrayList<Resource> outputResources = (ArrayList<Resource>) prodOutput.clone();
         if(!isUsable())
             throw new OperationNotSupportedException();
-        if(!warehouseDepot.isPresent(inputResources)) {
-            //notify controller
-            System.out.println("RESOURCES NOT PRESENT");
+
+        if(extraProd!=null){
+                inputResources.add(extraProd.getRequirement());
+                outputResources.addAll(extraProd.production());
         }
-        else {
-            ArrayList<Resource> extraProdInput = inputResources;
-            extraProdInput.add(extraProd.getRequirement());
-            if(warehouseDepot.isPresent(extraProdInput)){
-                inputResources = extraProdInput;
-            }
-            inputResources.forEach(warehouseDepot::removeResource);
-            inputResources.forEach(strongbox::addResource);
-        }
+        return outputResources;
     }
 
     public int getLevel() {
@@ -87,14 +78,6 @@ public class DevelopmentCard extends Card {
 
     public ArrayList<Resource> getCost(){
         return this.cost;
-    }
-
-    public void updateInput(ArrayList<Resource> update){
-        this.prodInput.addAll(update);
-    }
-
-    public void updateOutput(ArrayList<Resource> update){
-        this.prodOutput.addAll(update);
     }
 
     @Override

@@ -33,28 +33,12 @@ public class MarketBoard {
     }  singleton initialization for MarketBoard
 */
 
-    private ArrayList<Marble> builder() {
-        ArrayList<Marble> marbles = new ArrayList<>();
-        ArrayList<String> tmpMarbles =
-                new JsonParser("src/main/resources/marketBoard.json").getMarbles();
-        for(String marble : tmpMarbles){
-            switch(marble){
-                case "BLUE" : marbles.add(new BlueMarble());
-                case "GREY" : marbles.add(new GreyMarble());
-                case "PURPLE" : marbles.add(new PurpleMarble());
-                case "RED" : marbles.add(new RedMarble());
-                case "WHITE" : marbles.add(new WhiteMarble());
-                case "YELLOW" : marbles.add(new YellowMarble());
-            }
-        }
-        return marbles;
-    }
-    
+
     /**
      * method called at the start of the game that initializes the marble grid
      */
     public void initializeMarbleGrid() {
-        ArrayList<Marble> marbles = builder();;
+        ArrayList<Marble> marbles =  new JsonParser("src/main/resources/marketBoard.json").getMarbles();
         for (int n = 0; n < 4; n++)
             marbleGrid.add(new ArrayList(3));
         Collections.shuffle(marbles);
