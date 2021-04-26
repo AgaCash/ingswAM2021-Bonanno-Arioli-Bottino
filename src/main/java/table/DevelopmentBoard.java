@@ -7,6 +7,36 @@ import utilities.JsonParser;
 import java.util.ArrayList;
 
 public final class DevelopmentBoard {
+
+
+       /*private static DevelopmentBoard instance = null;
+
+    private DevelopmentBoard(){
+    ArrayList<DevelopmentCard> tmpCards =
+                new JsonParser("src/main/resources/developmentCards.json").getDevelopmentCards();
+        ArrayList<DevelopmentCard> tmpDeck = new ArrayList<>();
+        int i = 1;
+        for (DevelopmentCard card:tmpCards) {
+            tmpDeck.add(card);
+            if(i == 4){
+                decks.add(new Deck((ArrayList<DevelopmentCard>) tmpDeck.clone()));
+                tmpDeck.clear();
+                i = 0;
+            }
+            i++;
+            }
+
+    public static DevelopmentBoard getDevBoardInstance(){
+        if (instance == null)
+            //synchronized(DevelopmentBoard.class){
+            //    if(instance == null)
+            //        instance = new DevelopmentBoard();
+            //    }   double-checked locking
+            instance = new DevelopmentBoard();
+        return instance;
+    }  singleton initialization for DevBoard
+*/
+
     /**
      * Class that load all the development cards from a configuration Json file
      */

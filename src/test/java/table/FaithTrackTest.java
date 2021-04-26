@@ -19,7 +19,11 @@ class FaithTrackTest {
         nextBox2 = track.faithAdvance(startBox, track, 3);
         nextBox2 = track.faithAdvance(nextBox2, track, 5);
         assertEquals(nextBox1, nextBox2);
-        s = startBox.toString();
+        s = nextBox1.toString();
+        System.out.println(s);
+        nextBox2 = track.faithAdvance(nextBox2, track,1);
+        assertNotEquals(nextBox1, nextBox2);
+        s = nextBox2.toString();
         System.out.println(s);
     }
 }

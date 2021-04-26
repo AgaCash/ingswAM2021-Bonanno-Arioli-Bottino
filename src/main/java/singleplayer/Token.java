@@ -3,6 +3,7 @@ package singleplayer;
 import cards.DevelopmentCard;
 import colour.Colour;
 import table.DevelopmentBoard;
+import table.FaithBox;
 import table.FaithTrack;
 
 public class Token {
@@ -12,6 +13,7 @@ public class Token {
     private int blackCrossFaithPoints;
     private boolean shuffle;
     private boolean isAboutLorenzo;
+
 
     public Token(int tokenID, Colour colour, int removeQuantity) {
         this.tokenID = tokenID;
@@ -25,7 +27,7 @@ public class Token {
     public Token(int tokenID, int blackCrossFaithPoints) {
         this.tokenID = tokenID;
         this.blackCrossFaithPoints = blackCrossFaithPoints;
-        this.shuffle = blackCrossFaithPoints == 1;
+        this.shuffle = (blackCrossFaithPoints == 1);
         this.isAboutLorenzo = true;
     }
 
@@ -37,11 +39,26 @@ public class Token {
         return colour;
     }
 
-    private void lorenzoAction(FaithTrack faithTrack){
-        //faithtrack.qualcosaAvanza(blackCrossFaithPoints);
+    public int getRemoveQuantity(){ return removeQuantity;}
+
+    public boolean getShuffle(){ return shuffle;}
+
+    public int getBlackCrossFaithPoints(){ return blackCrossFaithPoints;}
+
+    public boolean getIsAboutLorenzo() {
+        return isAboutLorenzo;
     }
 
-    private void cardAction(DevelopmentBoard developmentBoard){
+
+    /*private FaithBox lorenzoAction(FaithBox box, FaithTrack faithTrack){
+        FaithBox nextLorenzoBox;
+        nextLorenzoBox = faithTrack.faithAdvance()
+    }
+*/
+    /** executes a token action by eliminating cards from the development board
+     * @param developmentBoard passed to link Lorenzo with the development cards to discard
+     */
+    public void cardAction(DevelopmentBoard developmentBoard){
         DevelopmentCard d = developmentBoard.popCardFromDeckColour(colour);
         if(d == null){
             //GIOCO FINITO, GIOCATORE PERDE
@@ -49,12 +66,15 @@ public class Token {
         }
     }
 
-    public void execute(FaithTrack faithTrack, DevelopmentBoard developmentBoard){
-        if(isAboutLorenzo)
-            lorenzoAction(faithTrack);
+    /*public void execute(DevelopmentBoard developmentBoard){
+        if(isAboutLorenzo) {
+            FaithBox nextLorenzoBox;
+            nextLorenzoBox = faithTrack.faithAdvance(box, faithTrack);
+        }
         else
             cardAction(developmentBoard);
     }
+    */
 
     @Override
     public String toString(){
@@ -67,4 +87,5 @@ public class Token {
         s+="\n---";
         return s;
     }
+
 }

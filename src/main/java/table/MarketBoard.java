@@ -16,6 +16,22 @@ public class MarketBoard {
     private ArrayList<ArrayList<Marble>> marbleGrid = new ArrayList<>(3);
     private Marble freeMarble;
 
+    /*private static MarketBoard instance = null;
+
+    private MarketBoard(){
+       initializeMarbleGrid();
+       }
+
+    public static MarketBoard getMarketInstance(){
+        if (instance == null)
+            //synchronized(MarketBoard.class){
+            //    if(instance ==null)
+            //        instance = new MarketBoard();
+            //    }   double-checked locking
+            instance = new MarketBoard();
+        return instance;
+    }  singleton initialization for MarketBoard
+*/
 
     private ArrayList<Marble> builder() {
         ArrayList<Marble> marbles = new ArrayList<>();

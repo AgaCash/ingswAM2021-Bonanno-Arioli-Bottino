@@ -29,6 +29,7 @@ public class Deck {
             if(card.getLevel() != levelDeck || card.getColour() != colourDeck)
                 throw new InputMismatchException();
         });
+        //shuffleDeck();
     }
 
     /**

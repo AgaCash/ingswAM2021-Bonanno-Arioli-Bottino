@@ -15,14 +15,19 @@ public class PlayerBoard {
     private WarehouseDepot warehouseDepot = new WarehouseDepot();
     private Strongbox strongbox = new Strongbox();
     private FaithTrack faithTrack = new FaithTrack();
+    private FaithBox faithBox = new FaithBox();
     private ArrayList<LeaderCard> leaderSlots;
     private DevelopmentBoard developmentBoard;
     private MarketBoard marketBoard;
     private boolean hasInkwell;
     private int faithPoints = 0;
-    private FaithBox faithBox = new FaithBox();
 
     //--------------------INITIALIZE--------------------
+
+    // public PlayerBoard (){
+    //     this.developmentBoard = getDevBoardInstance();
+    //     this.marketBoard = getMarketInstance();
+    //     this.hasInkwell = false;  initialization with singleton MarketBoard and DevBoard
 
     public PlayerBoard(DevelopmentBoard developmentBoard, MarketBoard marketBoard){
         this.developmentBoard = developmentBoard;
@@ -128,5 +133,34 @@ public class PlayerBoard {
         for(Resource ptr : input)
             this.warehouseDepot.removeResource(ptr);
         this.strongbox.addResource(output);
+    }
+
+    //--------------------FAITH TRACK--------------------
+
+    /** advances the player's pawn position in the Faith Track, calling faithAdvance in FaitTrack
+     * @param advance how many position the player gets
+     */
+    public void faithAdvance (int advance){
+        boolean[] check;
+        faithBox = faithTrack.faithAdvance(faithBox, faithTrack, advance);
+        check = faithBox.getPopeFlag();
+        checkPopeFlags(check);
+    }
+
+    public FaithBox getFaithBox(){
+        return faithBox;
+    }
+
+    public void checkPopeFlags(boolean[] flags){
+        if (flags[0])
+            //serve che controller faccia chiamare al game il metodo, dandogli indicazione
+            //di quale player ha chiamato
+            ;
+        if (flags[1])
+            //same
+            ;
+        if(flags[2])
+            //same
+            ;
     }
 }
