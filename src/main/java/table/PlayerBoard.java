@@ -1,8 +1,6 @@
 package table;
 
-import cards.CardSlots;
-import cards.ExtraProd;
-import cards.LeaderCard;
+import cards.*;
 import resources.Resource;
 import strongbox.Strongbox;
 import warehouse.WarehouseDepot;
@@ -48,12 +46,6 @@ public class PlayerBoard {
 
     //--------------------UTILITIES--------------------
 
-    //@Controller
-    private LeaderCard chooseCard(){
-        //casino fra
-        return null;
-    }
-
     //@AgaCash
     private boolean checkResources(ArrayList<Resource> cost){
         ArrayList<Resource> warehouseResources = new ArrayList<>();
@@ -90,8 +82,8 @@ public class PlayerBoard {
     //--------------------BUY DEV CARDS--------------------
 
     //@Controller
-    public void buyDevCard(Deck deck, int slotPosition) throws OperationNotSupportedException {
-        Resource discount = checkDiscountLeaderCards();
+    public void buyDevCard(Deck deck, int slotPosition, Discount card) throws OperationNotSupportedException {
+        Resource discount = card.whichDiscount();
         ArrayList<Resource> cost = deck.getCost();
         ArrayList<Resource> payment = new ArrayList<>();
 
@@ -106,25 +98,12 @@ public class PlayerBoard {
         }
     }
 
-    //@Controller
-    private Resource checkDiscountLeaderCards(){
-        Resource discount = null;
-        LeaderCard card = chooseCard();
-        try {
-            if(card.isEnabled() && card.isDiscount())
-                discount = card.whichDiscount();
-        }catch(NullPointerException e){
-            return null;
-        }
-        return discount;
-    }
-
     //--------------------MARKET--------------------
 
-    public void buyResources(boolean line, boolean column, int num){
-        ArrayList<Resource> bought = new ArrayList<>();
+    public void buyResources(boolean line, boolean column, int num, WhiteConverter card){
+        ArrayList<Resource> bought;
         if(line && !column &&  num>=0 && num<=2) {
-            bought = marketBoard.addMarketLine(num, chooseCard());
+            bought = marketBoard.addMarketLine(num, card);
             for (Resource res : bought) {
                 if (res == Resource.FAITH)
                     faithTrack.faithAdvance(faithBox, faithTrack, 1);
@@ -133,7 +112,7 @@ public class PlayerBoard {
             }
         }
         else if(!line && column && num>=0 && num<=3) {
-            bought = marketBoard.addMarketColumn(num, chooseCard());
+            bought = marketBoard.addMarketColumn(num, card);
             for (Resource res : bought) {
                 if (res == Resource.FAITH)
                     faithTrack.faithAdvance(faithBox, faithTrack, 1);
@@ -145,21 +124,23 @@ public class PlayerBoard {
 
     //--------------------PRODUCTION--------------------
 
-    public void devCardProduction(int slot, Resource chosenOutput) throws OperationNotSupportedException {
-        ArrayList<Resource> prodResources = new ArrayList<>();
+    public void devCardProduction(int slot, Resource chosenOutput, ExtraProd card) throws OperationNotSupportedException {
+        ArrayList<Resource> prodResources;
         if(checkResources(this.cardSlots.getCard(slot).getCost())){
-            LeaderCard card = chooseCard();
             if(card.isEnabled() && card.isExtraProd()){
                 card.setChosenOutput(chosenOutput);
                 if(!checkResources(card.production()))
                     card = null;
-                //continua...
             }
             else{
                 //notify the controller
             }
-            prodResources =  this.cardSlots.getCard(slot).createProduction((ExtraProd) card);
-            prodResources.forEach(this.strongbox :: addResource);
+            prodResources =  this.cardSlots.getCard(slot).createProduction(card);
+            for(Resource res : prodResources)
+                if(res == Resource.FAITH)
+                    faithTrack.faithAdvance(faithBox, faithTrack, 1);
+                else
+                    strongbox.addResource(res);
         }
         else {
             //notify the controller
