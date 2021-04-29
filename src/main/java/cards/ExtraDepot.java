@@ -1,30 +1,51 @@
 package cards;
 
 import resources.Resource;
+
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 public class ExtraDepot extends LeaderCard{
     private ArrayList<Resource> requiredResource;
     private static int victoryPoints = 3;
     private ArrayList<Resource> extraDepotResource;
+    private TreeMap<Resource, Integer> extraWarehouseDepot = new TreeMap<>();
 
     public ExtraDepot(int id, boolean en, ArrayList<Resource> req, ArrayList<Resource> extra){
         this.id = id;
         this.isEnabled = en;
         this.requiredResource = req;
         this.extraDepotResource = extra;
+        for(Resource ptr : extraDepotResource)
+            extraWarehouseDepot.put(ptr, 0);
+    }
+    @Override
+    public boolean addResource(Resource tmp){
+        if(extraWarehouseDepot.containsKey(tmp)) {
+            int dim = extraWarehouseDepot.get(tmp);
+            if (dim < extraDepotResource.size()) {
+                extraWarehouseDepot.put(tmp, dim+1);
+                return true;
+            }
+        }
+        return false;
+    }
+    @Override
+    public boolean removeResource(Resource tmp){
+        if(extraWarehouseDepot.containsKey(tmp)){
+            int dim = extraWarehouseDepot.get(tmp);
+            if(dim > 0){
+                extraWarehouseDepot.put(tmp, dim-1);
+                return true;
+            }
+        }
+        return false;
     }
 
-    @Override
-    public ArrayList<Resource> whichExtra(){
-        return this.extraDepotResource;
-    }
     @Override
     public boolean isExtraDepot(){
         return true;
     }
-
-
     /**
      * for tests
      * @return

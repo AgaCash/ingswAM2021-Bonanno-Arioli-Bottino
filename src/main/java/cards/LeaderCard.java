@@ -17,10 +17,8 @@ abstract public class LeaderCard extends Card{
 	public Resource whichDiscount(){
 		return null;
 	}
-	public ArrayList<Resource> whichExtra(){
-		return null;
-	}
-
+	public boolean addResource(Resource tmp){return false;}
+	public boolean removeResource(Resource tmp){return false;}
 	public boolean isDiscount(){
 		return false;
 	}

@@ -1,133 +1,103 @@
 package warehouse;
 
-import cards.LeaderCard;
+import cards.ExtraDepot;
 import resources.Resource;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 
-/**
- *  class that stores the resources obtained from the marketboard
- */
 public class WarehouseDepot {
-    private ArrayList<Resource> depot = new ArrayList<Resource>(6);
-    private ArrayList<LeaderCard> extra = new ArrayList<LeaderCard>(2);
+    TreeMap<Resource, Integer> warehouse = new TreeMap<>();
+    ArrayList<ExtraDepot> cards = new ArrayList<>();
 
-    /** this method checks if is possible to add the requested resource, then adds it
-     * @param resource the resource to add
-     */
-    public void addResource(Resource resource) {
-        boolean check;
-        check = checkArray(resource);
-        if(!check)
-            depot.add(resource);
-        else
-            System.out.println("cannot add the resource in the warehouse");
+    public void addNewExtraDepot(ExtraDepot card){
+        if(card.isEnabled() && card.isExtraDepot())
+            cards.add(card);
     }
 
-    /** method to remove the requested resource from the depot's arraylist
-     * @param resource the resource to remove
-     */
-    public void removeResource (Resource resource){
-        boolean result;
-        result=depot.remove(resource);
-        if(!result)
-            System.out.println("resource not found");
-    }
-
-    /** method called by addResource to check if is possible to add a new resource to the depot
-     * @param resource the resource to add
-     * @return boolean false if the check is correct ( error = false), true otherwise
-     */
-    public boolean checkArray(Resource resource) {
-        boolean triplet = false;
-        boolean couple = false;
-        boolean single = false;
-        boolean error = false;
-        Resource top;
-        Resource elem;
-        ArrayList<Resource> clonedList =new ArrayList<>(6);
-        for(int i=0; i < depot.size(); i++)
-            clonedList.add(depot.get(i));
-        if(clonedList.size() < 6)
-            clonedList.add(resource);
-        else
-            error = true;
-        int count = 1;
-        while (!clonedList.isEmpty()&&(!error)) {
-            top = clonedList.get(0);
-            clonedList.remove(0);
-            count = 1;
-            for (int position = 0; position < clonedList.size(); position++) {
-                elem = clonedList.get(position);
-                if (top.equals(elem)) {
-                    count++;
-                    clonedList.remove(position);
-                    position--;
-                }
+    public void addResource(Resource tmp) {
+        boolean added = false;
+        for (ExtraDepot card : cards) {
+            if (card.addResource(tmp)) {
+                added = true;
+                break;
             }
-                if (count == 1){
-                    if (!single)
-                        single = true;
-                    else if (!couple)
-                        couple = true;
-                    else if (!triplet)
-                        triplet = true;
-                    else{
-                        error = true;
-                        break;
-                    }
-                }
-                if (count == 2){
-                    if(!couple)
-                        couple = true;
-                    else if (!triplet)
-                        triplet = true;
-                    else{
-                        error = true;
-                        break;
-                    }
-                }
-                if (count == 3){
-                    if(!triplet)
-                        triplet = true;
-                    else{
-                        error = true;
-                        break;
-                    }
-                }
         }
-        return error;
-    }
-
-    /** method to check if the arraylist contains the requested resource
-     * @param res the resource to check
-     * @return boolean true if the arraylist contains the resource, otherwise false
-     */
-    public boolean isPresent (ArrayList<Resource> res){
-        ArrayList<Resource> clonedList =new ArrayList<Resource>();
-        boolean isPresent = true;
-        for(int i=0; i < depot.size(); i++)
-            clonedList.add(depot.get(i));
-        // clonedList = (ArrayList<Resource>) strongbox.clone();
-        for(int pos = 0; pos<res.size(); pos++){
-            if(clonedList.contains(res.get(pos))) {
-                int num = clonedList.indexOf(res.get(pos));
-                clonedList.remove(num);
-            }
+        if (!added){
+            if (warehouse.containsKey(tmp)) {
+                int level = warehouse.get(tmp);
+                /*if ((level == 2 && !warehouse.containsValue(3))
+                    || (level == 1 &&
+                        (!warehouse.containsValue(2) || !warehouse.containsValue(3))))*/
+                if(level < 3 && (!warehouse.containsValue(level+1) || (!warehouse.containsValue(level+2))))
+                    warehouse.put(tmp, level + 1);
+                else
+                    throwResource();
+            } else if (warehouse.containsValue(1) && warehouse.containsValue(2) && warehouse.containsValue(3))
+                throwResource();
             else
-                isPresent = false;
+                warehouse.put(tmp, 1);
         }
-        return isPresent;
     }
 
-    /** getter method for the depot
-     * @param whichOne arraylist's position requested for the get
-     * @return the resource at the requested position
-     */
-    public Resource getResource (int whichOne){
-        Resource res;
-        res = depot.get(whichOne);
-        return res;
+    private void throwResource(){
+        //notifica al controller
+        //System.out.println("pienooooo");
     }
 
+    public Resource removeResource(Resource tmp){
+        for(ExtraDepot card : cards)
+                if(card.removeResource(tmp))
+                    return tmp;
+        if(warehouse.containsKey(tmp)){
+            int i = warehouse.get(tmp);
+            if(i == 1)
+                warehouse.remove(tmp);
+            else
+                warehouse.put(tmp, i-1);
+            return tmp;
+        }
+        else {
+            //notifica al controller
+            //System.out.println("non presente");
+            return null;
+        }
+
+    }
+
+    public boolean isPresent(ArrayList<Resource> res){
+        TreeMap<Resource, Integer> clonedWarehouse = (TreeMap<Resource, Integer>) warehouse.clone();
+        ArrayList<ExtraDepot> clonedCards = (ArrayList<ExtraDepot>) this.cards.clone();
+        for(Resource ptr: res){
+            if(!clonedWarehouse.containsKey(ptr)) {
+                boolean found = false;
+                for(ExtraDepot card : clonedCards) {
+                    if (card.removeResource(ptr)) {
+                        found = true;
+                        break;
+                    }
+                }
+                if(!found)
+                    return false;
+            }
+            else{
+                int count = clonedWarehouse.get(ptr);
+                if(count == 1)
+                    clonedWarehouse.remove(ptr);
+                else
+                    clonedWarehouse.put(ptr, count-1);
+            }
+        }
+
+        return true;
+    }
+
+    public void print(){
+        ArrayList<Map.Entry<Resource, Integer>> orderedWarehouse = new ArrayList<>(warehouse.entrySet());
+        orderedWarehouse.sort(Map.Entry.comparingByValue());
+        //orderedWarehouse.forEach(System.out::println);
+        //System.out.println("--------------------------");
+        //notifica al controller
+    }
 }

@@ -83,6 +83,10 @@ public class PlayerBoard {
         return true;
     }
 
+    public void activateLeaderCard(){
+
+    }
+
     //--------------------BUY DEV CARDS--------------------
 
     //@Controller
@@ -161,7 +165,7 @@ public class PlayerBoard {
         }
     }
 
-    public void defaultProduction(ArrayList<Resource> input, Resource output){
+    public void defaultProduction(ArrayList<Resource> input, Resource output){//aggiungi carta leader
         for(Resource ptr : input)
             this.warehouseDepot.removeResource(ptr);
         this.strongbox.addResource(output);
