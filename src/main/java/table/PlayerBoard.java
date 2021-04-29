@@ -153,6 +153,7 @@ public class PlayerBoard {
                 card.setChosenOutput(chosenOutput);
                 if(!checkResources(card.production()))
                     card = null;
+                //continua...
             }
             else{
                 //notify the controller

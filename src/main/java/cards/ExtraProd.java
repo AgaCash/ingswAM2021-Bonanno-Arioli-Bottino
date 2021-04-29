@@ -21,7 +21,9 @@ public class ExtraProd extends LeaderCard{
 
     @Override
     public Resource getRequirement(){
-        return this.input;
+        if(isEnabled())
+            return this.input;
+        return null;
     }
 
     public void setChosenOutput(Resource chosenOutput){
@@ -30,10 +32,13 @@ public class ExtraProd extends LeaderCard{
 
     @Override
     public ArrayList<Resource> production(){
-        ArrayList products = new ArrayList();
-        products.add(this.output);
-        products.add(chosenOutput);
-        return products;
+        if(isEnabled()) {
+            ArrayList products = new ArrayList();
+            products.add(this.output);
+            products.add(chosenOutput);
+            return products;
+        }
+        return null;
     }
 
     @Override

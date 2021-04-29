@@ -21,24 +21,26 @@ public class ExtraDepot extends LeaderCard{
     }
     @Override
     public boolean addResource(Resource tmp){
-        if(extraWarehouseDepot.containsKey(tmp)) {
-            int dim = extraWarehouseDepot.get(tmp);
-            if (dim < extraDepotResource.size()) {
-                extraWarehouseDepot.put(tmp, dim+1);
-                return true;
+        if(isEnabled())
+            if(extraWarehouseDepot.containsKey(tmp)) {
+                int dim = extraWarehouseDepot.get(tmp);
+                if (dim < extraDepotResource.size()) {
+                    extraWarehouseDepot.put(tmp, dim+1);
+                    return true;
+                }
             }
-        }
         return false;
     }
     @Override
     public boolean removeResource(Resource tmp){
-        if(extraWarehouseDepot.containsKey(tmp)){
-            int dim = extraWarehouseDepot.get(tmp);
-            if(dim > 0){
-                extraWarehouseDepot.put(tmp, dim-1);
-                return true;
+        if(isEnabled())
+            if(extraWarehouseDepot.containsKey(tmp)){
+                int dim = extraWarehouseDepot.get(tmp);
+                if(dim > 0){
+                    extraWarehouseDepot.put(tmp, dim-1);
+                    return true;
+                }
             }
-        }
         return false;
     }
 

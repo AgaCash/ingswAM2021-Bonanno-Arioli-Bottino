@@ -15,7 +15,9 @@ public class WhiteConverter extends LeaderCard{
 	}
 	@Override
 	public Resource whichResource(){
-		return this.resource;
+		if(isEnabled())
+			return this.resource;
+		return null;
 	}
 
 	@Override
