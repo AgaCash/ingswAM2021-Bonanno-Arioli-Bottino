@@ -37,7 +37,7 @@ public class PlayerBoard {
         this.hasInkwell=value;
     }
 
-    //quando farete il controller stronzi?
+
     public void selectLeader(ArrayList<LeaderCard> quartet, int first, int second){
         //controller sceglie due delle quattre carte
         this.leaderSlots.add(quartet.get(first));
@@ -46,7 +46,6 @@ public class PlayerBoard {
 
     //--------------------UTILITIES--------------------
 
-    //@AgaCash
     private boolean checkResources(ArrayList<Resource> cost){
         ArrayList<Resource> warehouseResources = new ArrayList<>();
         ArrayList<Resource> strongboxResources = new ArrayList<>();
@@ -106,7 +105,7 @@ public class PlayerBoard {
             bought = marketBoard.addMarketLine(num, card);
             for (Resource res : bought) {
                 if (res == Resource.FAITH)
-                    faithTrack.faithAdvance(faithBox, faithTrack, 1);
+                    faithTrack.faithAdvance(faithBox, faithTrack);
                 else
                     warehouseDepot.addResource(res);
             }
@@ -115,7 +114,7 @@ public class PlayerBoard {
             bought = marketBoard.addMarketColumn(num, card);
             for (Resource res : bought) {
                 if (res == Resource.FAITH)
-                    faithTrack.faithAdvance(faithBox, faithTrack, 1);
+                    faithTrack.faithAdvance(faithBox, faithTrack);
                 warehouseDepot.addResource(res);
             }
         }
@@ -138,7 +137,7 @@ public class PlayerBoard {
             prodResources =  this.cardSlots.getCard(slot).createProduction(card);
             for(Resource res : prodResources)
                 if(res == Resource.FAITH)
-                    faithTrack.faithAdvance(faithBox, faithTrack, 1);
+                    faithTrack.faithAdvance(faithBox, faithTrack);
                 else
                     strongbox.addResource(res);
         }
@@ -160,9 +159,15 @@ public class PlayerBoard {
      */
     public void faithAdvance (int advance){
         boolean[] check;
-        faithBox = faithTrack.faithAdvance(faithBox, faithTrack, advance);
-        check = faithBox.getPopeFlag();
-        checkPopeFlags(check);
+        for(int i=0; i<advance ;i++) {
+            faithBox = faithTrack.faithAdvance(faithBox, faithTrack);
+            if (faithBox.getPosition() == 24)
+                System.out.println("faith track completed");
+                //endgame
+                ;
+            check = faithBox.getPopeFlag();
+            checkPopeFlags(check);
+        }
     }
 
     public FaithBox getFaithBox(){

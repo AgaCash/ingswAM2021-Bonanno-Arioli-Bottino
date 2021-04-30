@@ -15,15 +15,19 @@ class FaithTrackTest {
         String s;
         s = startBox.toString();
         System.out.println(s);
-        nextBox1 = track.faithAdvance(startBox, track, 8);
-        nextBox2 = track.faithAdvance(startBox, track, 3);
-        nextBox2 = track.faithAdvance(nextBox2, track, 5);
-        assertEquals(nextBox1, nextBox2);
+        nextBox1 = track.faithAdvance(startBox, track);
+        nextBox2 = track.faithAdvance(startBox, track);
+        nextBox2 = track.faithAdvance(nextBox2, track);
+        assertNotEquals(nextBox1, nextBox2);
         s = nextBox1.toString();
         System.out.println(s);
-        nextBox2 = track.faithAdvance(nextBox2, track,1);
-        assertNotEquals(nextBox1, nextBox2);
+        nextBox1 = track.faithAdvance(nextBox1, track);
+        assertEquals(nextBox1, nextBox2);
         s = nextBox2.toString();
+        System.out.println(s);
+        for(int i=0;i<10;i++)
+            nextBox1 = track.faithAdvance(nextBox1, track);
+        s = nextBox1.toString();
         System.out.println(s);
     }
 }

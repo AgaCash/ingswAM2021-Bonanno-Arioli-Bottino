@@ -2,6 +2,7 @@ package table;
 
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PlayerBoardTest {
@@ -46,5 +47,17 @@ class PlayerBoardTest {
         //PlayerBoard player = new PlayerBoard();
         player.faithAdvance(2);
         assertTrue(player.getFaithBox().getPosition() == 2);
+        boolean[] check = player.getFaithBox().getPopeFlag();
+        for(int i=0; i<3; i++) {
+            System.out.println(check[i]);
+            assertFalse(check[i]);
+        }
+        player.faithAdvance(6);
+        check = player.getFaithBox().getPopeFlag();
+        for(int i=0; i<3; i++)
+            System.out.println(check[i]);
+        //System.out.println(player.getFaithBox().toString());
+        assertTrue(check[0]);
+        player.faithAdvance(16);
     }
 }

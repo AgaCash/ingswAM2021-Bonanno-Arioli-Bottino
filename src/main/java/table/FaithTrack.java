@@ -19,11 +19,19 @@ public class FaithTrack {
      * @param playerTrack player's track
      * @return new player position in the track
      */
-    public FaithBox faithAdvance (FaithBox playerBox, FaithTrack playerTrack, int advance){
+    /*public FaithBox faithAdvance (FaithBox playerBox, FaithTrack playerTrack, int advance){
         FaithBox nextBox;
         int pos;
         pos = playerBox.getPosition();
         nextBox = playerTrack.box.get(pos+advance);
+        return nextBox;
+    }
+*/
+    public FaithBox faithAdvance (FaithBox playerBox, FaithTrack playerTrack){
+        FaithBox nextBox;
+        int pos;
+        pos = playerBox.getPosition();
+        nextBox = playerTrack.box.get(pos+1);
         return nextBox;
     }
 

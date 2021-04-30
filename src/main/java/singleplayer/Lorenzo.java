@@ -42,15 +42,19 @@ public class Lorenzo {
             for (int i = 0; i < token.getRemoveQuantity(); i++)
                 token.cardAction(developmentBoard);
         } else {
-            faithBox = faithTrack.faithAdvance(faithBox, faithTrack, token.getBlackCrossFaithPoints());
-            if (faithBox.getPosition() == 24)
-                //endgame
-                ;
+            for(int i=0; i< token.getBlackCrossFaithPoints();i++) {
+                faithBox = faithTrack.faithAdvance(faithBox, faithTrack);
+                if (faithBox.getPosition() == 24)
+                    //endgame
+                    ;
+                boolean[] check = faithBox.getPopeFlag();
+                checkPopeFlags(check);
+            }
             if (token.getShuffle())
                 shuffle();
         }
         tmp = tokens.get(0);
-        for(int i=0; i<tokens.size();i++){
+        for(int i=0; i<tokens.size()-1; i++){
             tokens.set(i, tokens.get(i+1));
         }
         tokens.set(tokens.size()-1, tmp);
@@ -61,6 +65,19 @@ public class Lorenzo {
      */
     public void shuffle(){
         Collections.shuffle(tokens);
+    }
+
+    public void checkPopeFlags(boolean[] flags){
+        if (flags[0])
+            //serve che controller faccia chiamare al game il metodo, dandogli indicazione
+            //di quale player ha chiamato
+            ;
+        if (flags[1])
+            //same
+            ;
+        if(flags[2])
+            //same
+            ;
     }
 
 
