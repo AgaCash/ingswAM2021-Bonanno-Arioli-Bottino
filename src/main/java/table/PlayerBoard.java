@@ -21,6 +21,20 @@ public class PlayerBoard {
     private int faithPoints = 0;
 
     //--------------------INITIALIZE--------------------
+    //just 4 tests
+    public PlayerBoard(CardSlots cardSlots, WarehouseDepot warehouseDepot,
+                       Strongbox strongbox, FaithTrack faithTrack,
+                       DevelopmentBoard developmentBoard, MarketBoard marketBoard,
+                       ArrayList<LeaderCard> couple){
+        this.cardSlots = cardSlots;
+        this.warehouseDepot = warehouseDepot;
+        this.strongbox = strongbox;
+        this.faithTrack = faithTrack;
+        this.developmentBoard = developmentBoard;
+        this.marketBoard = marketBoard;
+        this.hasInkwell = false;
+        this.leaderSlots = couple;
+    }
 
     // public PlayerBoard (){
     //     this.developmentBoard = getDevBoardInstance();
@@ -46,7 +60,16 @@ public class PlayerBoard {
 
     //--------------------UTILITIES--------------------
 
-    private boolean checkResources(ArrayList<Resource> cost){
+    private boolean checkDevCards(ArrayList<DevelopmentCard> requirements){
+        for(DevelopmentCard card : requirements){
+            if(!cardSlots.isPresent(card))
+                return false;
+        }
+        return true;
+
+    }
+
+    private boolean checkResources(ArrayList<Resource> cost, boolean remove){
         ArrayList<Resource> warehouseResources = new ArrayList<>();
         ArrayList<Resource> strongboxResources = new ArrayList<>();
         ArrayList<Resource> tmp = new ArrayList<>();
@@ -63,36 +86,36 @@ public class PlayerBoard {
             }
         }
         //TEORICAMENTE SE LE RISORSE NON CI SONO NON RAGGIUNGERA' MAI QUESTO PUNTO DELLA FUNZIONE
-
-        for(Resource r: warehouseResources){
-            warehouseDepot.removeResource(r);
-        }
-        for(Resource r: strongboxResources){
-            strongbox.removeResource(r);
+        if(remove){
+            for(Resource r: warehouseResources){
+                warehouseDepot.removeResource(r);
+            }
+            for(Resource r: strongboxResources){
+                strongbox.removeResource(r);
+            }
         }
 
         return true;
-    }
-
-    public void activateLeaderCard(){
-
     }
 
     //--------------------BUY DEV CARDS--------------------
 
     //@Controller
     public void buyDevCard(Deck deck, int slotPosition, Discount card) throws OperationNotSupportedException {
-        Resource discount = card.whichDiscount();
+        Resource discount = null;
+        if(card!=null)
+            if(card.isEnabled())
+                discount = card.whichDiscount();
         ArrayList<Resource> cost = deck.getCost();
         ArrayList<Resource> payment = new ArrayList<>();
 
         if(discount!=null)
             cost.remove(discount);
 
-        if(checkResources(cost)){
+        if(checkResources(cost, true)){
             cardSlots.addCard(slotPosition, deck.popCard());
         }
-        else {
+        else{
             //notificare al controller
         }
     }
@@ -115,7 +138,8 @@ public class PlayerBoard {
             for (Resource res : bought) {
                 if (res == Resource.FAITH)
                     faithTrack.faithAdvance(faithBox, faithTrack);
-                warehouseDepot.addResource(res);
+                else
+                    warehouseDepot.addResource(res);
             }
         }
     }
@@ -125,14 +149,15 @@ public class PlayerBoard {
 
     public void devCardProduction(int slot, Resource chosenOutput, ExtraProd card) throws OperationNotSupportedException {
         ArrayList<Resource> prodResources;
-        if(checkResources(this.cardSlots.getCard(slot).getCost())){
-            if(card.isEnabled() && card.isExtraProd()){
+        if(checkResources(this.cardSlots.getCard(slot).getProdInput(), true)){
+            if(card!= null && card.isEnabled() && card.isExtraProd()){
                 card.setChosenOutput(chosenOutput);
-                if(!checkResources(card.production()))
+                if(!checkResources(card.production(), true))
                     card = null;
             }
             else{
                 //notify the controller
+
             }
             prodResources =  this.cardSlots.getCard(slot).createProduction(card);
             for(Resource res : prodResources)
@@ -186,4 +211,22 @@ public class PlayerBoard {
             //same
             ;
     }
+    //--------------------LEADER CARDS--------------------
+
+    public void activateLeaderCard(LeaderCard card){
+        if(card.isExtraDepot()){
+            ArrayList<Resource> requirements = card.getRequiredResources();
+            if(checkResources(requirements, false))
+                card.activate();
+            else{ /* notifica il controller */ }
+        }
+        else{
+            ArrayList<DevelopmentCard> requirements = card.getRequiredCards();
+            if(checkDevCards(requirements))
+                card.activate();
+            else{ /* notifica il controller */ }
+
+        }
+    }
+
 }

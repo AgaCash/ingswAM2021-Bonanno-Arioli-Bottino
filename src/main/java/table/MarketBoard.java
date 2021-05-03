@@ -1,7 +1,7 @@
 package table;
 
 import cards.LeaderCard;
-import marbles.*;
+import marbles.Marble;
 import resources.Resource;
 import utilities.JsonParser;
 
@@ -58,12 +58,13 @@ public class MarketBoard {
      * @return arraylist of requested resources
      */
     public ArrayList<Resource> addMarketLine (int line, LeaderCard card){
+        Resource convertResource = checkWhiteConverter(card);
         ArrayList<Resource> resLine = new ArrayList<>(4);
         Marble toConvert;
 
         for(int i = 0; i<4; i++){
             toConvert = marbleGrid.get(line).get(i);
-            resLine.add(toConvert.convertMarble(card));
+            resLine.add(toConvert.convertMarble(convertResource));
         }
         freeMarble = marbleGrid.get(line).get(3);
         int i;
@@ -79,11 +80,12 @@ public class MarketBoard {
      * @return arraylist of requested resources
      */
     public ArrayList<Resource> addMarketColumn (int col, LeaderCard card){
+        Resource convertResource = checkWhiteConverter(card);
         ArrayList<Resource> resColumn = new ArrayList<>(3);
         Marble toConvert;
         for(int i = 0; i<3; i++){
             toConvert = marbleGrid.get(i).get(col);
-            resColumn.add(toConvert.convertMarble(card));
+            resColumn.add(toConvert.convertMarble(convertResource));
         }
         freeMarble = marbleGrid.get(2).get(col);
         marbleGrid.get(1).set(col, marbleGrid.get(0).get(col));
@@ -101,5 +103,12 @@ public class MarketBoard {
         mar = marbleGrid.get(whichOneLine).get(whichOneCol);
         return mar;
     }
+
+    private Resource checkWhiteConverter(LeaderCard card) {
+        if (card != null && card.isWhiteConverter())
+            return card.whichResource();
+        return null;
+    }
+
 }
 

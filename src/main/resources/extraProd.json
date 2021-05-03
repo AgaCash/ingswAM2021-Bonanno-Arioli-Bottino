@@ -1,36 +1,44 @@
 [
   {
-    "requires": {
+    "requires": [
+      {
       "colour": "YELLOW",
       "level": "2"
-    },
+      }
+    ],
     "prodResource": "SHIELD",
     "id": "13",
     "isEnabled": "false"
   },
   {
-    "requires": {
+    "requires":[
+      {
       "colour": "BLUE",
       "level": "2"
-    },
+      }
+    ],
     "prodResource": "SERVANT",
     "id": "14",
     "isEnabled": "false"
   },
   {
-    "requires": {
+    "requires":[
+      {
       "colour": "PURPLE",
       "level": "2"
-    },
+      }
+    ],
     "prodResource": "STONE",
     "id": "15",
     "isEnabled": "false"
   },
   {
-    "requires": {
+    "requires": [
+      {
       "colour": "GREEN",
       "level": "2"
-    },
+      }
+    ],
     "prodResource": "COIN",
     "id": "16",
     "isEnabled": "false"

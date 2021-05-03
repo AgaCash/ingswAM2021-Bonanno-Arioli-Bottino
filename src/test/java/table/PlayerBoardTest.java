@@ -1,9 +1,16 @@
 package table;
 
+import cards.*;
+import colour.Colour;
 import org.junit.jupiter.api.Test;
+import resources.Resource;
+import strongbox.Strongbox;
+import warehouse.WarehouseDepot;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import javax.naming.OperationNotSupportedException;
+import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerBoardTest {
 
@@ -16,27 +23,161 @@ class PlayerBoardTest {
 
     @Test
     void selectLeader() {
+        ArrayList<LeaderCard> chosenCards = new ArrayList<>();
+        ArrayList<LeaderCard> quartet = new ArrayList<>();
+        PlayerBoard player = new PlayerBoard(new CardSlots(), new WarehouseDepot(),
+                                           new Strongbox(), new FaithTrack(),
+                                            new DevelopmentBoard(),
+                                            new MarketBoard(), chosenCards);
+
+        quartet.add(new ExtraDepot(1, false, new ArrayList<>(), new ArrayList<>()));
+        quartet.add(new WhiteConverter(2, false, new ArrayList<>(), Resource.SERVANT));
+        quartet.add(new Discount(3, false, new ArrayList<>(), Resource.COIN));
+        quartet.add(new ExtraDepot(16, false, new ArrayList<>(), new ArrayList<>()));
+
+        player.selectLeader(quartet, 1, 2);
+        LeaderCard first = quartet.get(1);
+        LeaderCard second = quartet.get(2);
+        assertEquals(chosenCards.get(0), first);
+        assertEquals(chosenCards.get(1), second);
     }
 
     @Test
-    void buyDevCard() {
+    void buyDevCard() throws OperationNotSupportedException {
+        DevelopmentBoard board = new DevelopmentBoard();
+        Strongbox strongbox = new Strongbox();
+        WarehouseDepot warehouseDepot = new WarehouseDepot();
+        CardSlots cardSlots = new CardSlots();
+
+        PlayerBoard player = new PlayerBoard(cardSlots, warehouseDepot,
+                strongbox, new FaithTrack(),
+                board,
+                new MarketBoard(), new ArrayList<>());
+        Deck deck = board.getDeck(1);
+        DevelopmentCard card = deck.getCard();
+        assertNotNull(card);
+        player.buyDevCard(deck, 1, null);
+        //warehouse/ strongbox are empty
+        assertNull(cardSlots.getCard(1));
+
+        ArrayList<Resource> cost = card.getCost();
+        for(Resource res : cost)
+            warehouseDepot.addResource(res);
+        assertTrue(warehouseDepot.isPresent(cost));
+        player.buyDevCard(deck, 1, null);
+        assertEquals(cardSlots.getCard(1), card);
+        assertFalse(warehouseDepot.isPresent(cost));
+
+        card = deck.getCard();
+        assertNotNull(card);
+        cost = deck.getCost();
+        for(Resource res : cost)
+            warehouseDepot.addResource(res);
+        assertTrue(warehouseDepot.isPresent(cost));
+        Resource discount = cost.get(0);
+        Discount leaderCard = new Discount(0, true, null, discount);
+        player.buyDevCard(deck, 2, leaderCard);
+        assertEquals(cardSlots.getCard(2), card);
+        assertFalse(warehouseDepot.isPresent(cost));
+        ArrayList<Resource> discounts = new ArrayList<>();
+        discounts.add(discount);
+        assertTrue(warehouseDepot.isPresent(discounts));
+
+        //spaccarlo...
     }
 
     @Test
     void buyResources() {
-        //MarketBoard market = new MarketBoard();
-        //PlayerBoard player = new PlayerBoard(new DevelopmentBoard(), market);
+        WarehouseDepot warehouseDepot = new WarehouseDepot();
+        Strongbox strongbox = new Strongbox();
+        MarketBoard market = new MarketBoard();
+        market.initializeMarbleGrid();
 
-       // player.buyResources(true, false, 1, null);
+        PlayerBoard player = new PlayerBoard(new CardSlots(), warehouseDepot,
+                strongbox, new FaithTrack(),
+                new DevelopmentBoard(),
+                market, new ArrayList<>());
+
+        ArrayList<Resource> tokenResources = new ArrayList<>();
+
+        for(int i = 0; i<=2; i++)
+            tokenResources.add(market.getMarble(i, 1).convertMarble(null));
+        player.buyResources(false, true, 1, null);
+        tokenResources.addAll(warehouseDepot.getThrown());
+        tokenResources.remove(Resource.FAITH);
+        assertTrue(warehouseDepot.isPresent(tokenResources));
+
+        tokenResources = new ArrayList<>();
+        for(int i = 0; i<=2; i++)
+            tokenResources.add(market.getMarble(i, 1).convertMarble(null));
+        player.buyResources(false, true, 1, null);
+        tokenResources.addAll(warehouseDepot.getThrown());
+        tokenResources.remove(Resource.FAITH);
+        assertTrue(warehouseDepot.isPresent(tokenResources));
+
+        //spaccalo !!
+        /*
+        ArrayList<Resource> extra = new ArrayList<>();
+        extra.add(Resource.COIN);
+        extra.add(Resource.COIN);
+        ExtraDepot card = new ExtraDepot(0, true, null, extra);
+        tokenResources = new ArrayList<>();
+        for(int i = 0; i<=2; i++)
+            tokenResources.add(market.getMarble(i, 1).convertMarble(null));
+        player.buyResources(false, true, 1, null);
+        tokenResources.addAll(warehouseDepot.getThrown());
+        tokenResources.remove(Resource.FAITH);
+        //assertTrue(warehouseDepot.isPresent(tokenResources));*/
+
 
     }
 
     @Test
-    void devCardProduction(){
+    void devCardProduction() throws OperationNotSupportedException {
+        WarehouseDepot warehouseDepot = new WarehouseDepot();
+        Strongbox strongbox = new Strongbox();
+        CardSlots cardSlots = new CardSlots();
+        ArrayList<Resource> prodInput = new ArrayList<>();
+        prodInput.add(Resource.COIN);
+        prodInput.add(Resource.COIN);
+        ArrayList<Resource> prodOutput = new ArrayList<>();
+        prodOutput.add(Resource.SERVANT);
+        prodOutput.add(Resource.SERVANT);
+        DevelopmentCard card = new DevelopmentCard(0, Colour.BLUE, 1,1,  new ArrayList<Resource>(),
+                prodInput, prodOutput);
+        cardSlots.addCard(1, card);
+        PlayerBoard player = new PlayerBoard(cardSlots, warehouseDepot,
+                strongbox, new FaithTrack(),
+                new DevelopmentBoard(),
+                new MarketBoard(), new ArrayList<>());
+
+        warehouseDepot.addResource(prodInput.get(0));
+        strongbox.addResource(prodInput.get(1));
+
+        player.devCardProduction(1, Resource.COIN, null);
+        ArrayList<Resource> prodInputFromWarehouse = new ArrayList<>();
+        prodInputFromWarehouse.add(Resource.COIN);
+        assertFalse(warehouseDepot.isPresent(prodInputFromWarehouse));
+        assertTrue(strongbox.isPresent(prodOutput));
+
+        ExtraProd leaderCard = new ExtraProd(0, true, null, Resource.SHIELD);
+        warehouseDepot.addResource(Resource.SHIELD);
+        warehouseDepot.addResource(prodInput.get(0));
+        warehouseDepot.addResource(prodInput.get(1));
+
+        player.devCardProduction(1, Resource.COIN, leaderCard);
+        prodOutput.add(Resource.COIN);
+        assertFalse(warehouseDepot.isPresent(prodInput));
+        assertTrue(strongbox.isPresent(prodOutput));
+
+        //spaccalo!!!!!!!!!!
+
+
     }
 
     @Test
     void defaultProduction() {
+
     }
 
     @Test

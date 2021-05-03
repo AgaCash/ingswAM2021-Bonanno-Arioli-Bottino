@@ -11,13 +11,13 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 class ExtraProdTest {
 
     @Test
-    void getRequirement() {
+    void getExtraProdInput() {
         ExtraProd card = new ExtraProd(0, true,null, Resource.COIN);
-        assertEquals(card.getRequirement(), Resource.COIN);
-        assertNotEquals(card.getRequirement(), Resource.FAITH);
+        assertEquals(card.getExtraProdInput(), Resource.COIN);
+        assertNotEquals(card.getExtraProdInput(), Resource.FAITH);
 
         card = new ExtraProd(0, false, null, Resource.COIN);
-        assertNotEquals(card.getRequirement(), Resource.COIN);
+        assertNotEquals(card.getExtraProdInput(), Resource.COIN);
     }
 
     @Test
@@ -45,7 +45,7 @@ class ExtraProdTest {
     @Test
     void testToString() {
         int id = 0;
-        DevelopmentCard req = null;
+        ArrayList<DevelopmentCard> req = new ArrayList<>();
         Resource input = Resource.COIN;
         int victoryPoints = 4;
         boolean isEnabled = false;

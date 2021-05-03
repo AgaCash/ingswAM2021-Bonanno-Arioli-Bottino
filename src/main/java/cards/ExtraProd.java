@@ -5,13 +5,13 @@ import resources.Resource;
 import java.util.ArrayList;
 
 public class ExtraProd extends LeaderCard{
-    private DevelopmentCard requires;
+    private ArrayList<DevelopmentCard> requires;
     private static int victoryPoints = 4;
     private Resource input;
     private Resource output = Resource.FAITH;
     private Resource chosenOutput;
 
-    public ExtraProd(int id, boolean en, DevelopmentCard req, Resource input){
+    public ExtraProd(int id, boolean en, ArrayList<DevelopmentCard> req, Resource input){
         this.id=id;
         this.isEnabled=en;
         this.requires=req;
@@ -20,7 +20,12 @@ public class ExtraProd extends LeaderCard{
     }
 
     @Override
-    public Resource getRequirement(){
+    public void activate() {
+        this.isEnabled = true;
+    }
+
+    @Override
+    public Resource getExtraProdInput(){
         if(isEnabled())
             return this.input;
         return null;
@@ -44,6 +49,11 @@ public class ExtraProd extends LeaderCard{
     @Override
     public boolean isExtraProd(){
         return true;
+    }
+
+    @Override
+    public ArrayList<DevelopmentCard> getRequiredCards(){
+        return this.requires;
     }
 
     /**

@@ -17,16 +17,26 @@ public class Discount extends LeaderCard{
     }
 
     @Override
+    public void activate() {
+        this.isEnabled = true;
+    }
+
+    @Override
     public Resource whichDiscount(){
         if(isEnabled())
             return this.discount;
         return null;
     }
+
     @Override
     public boolean isDiscount(){
         return true;
     }
 
+    @Override
+    public ArrayList<DevelopmentCard> getRequiredCards(){
+        return this.requires;
+    }
     /**
      * for tests
      * @return

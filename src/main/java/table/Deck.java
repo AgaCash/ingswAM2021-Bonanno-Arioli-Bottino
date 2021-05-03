@@ -70,4 +70,11 @@ public class Deck {
     public boolean isEmpty(){
         return cards.isEmpty();
     }
+
+    //only 4 tests
+    public DevelopmentCard getCard(){
+        if(isEmpty())
+            return null;
+        return cards.get(cards.size()-1);
+    }
 }

@@ -47,8 +47,10 @@ class CardSlotsTest {
         }catch(Exception e){}
         assertNull(slots.getCard(1));
         //
-
-
+    }
+    @Test
+    void isPresent(){
 
     }
+
 }

@@ -62,6 +62,7 @@ class WarehouseDepotTest {
         assertTrue(w3.isPresent(addedResources));
 
 
+
     }
 
     @Test

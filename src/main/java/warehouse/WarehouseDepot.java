@@ -8,8 +8,11 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class WarehouseDepot {
-    TreeMap<Resource, Integer> warehouse = new TreeMap<>();
-    ArrayList<ExtraDepot> cards = new ArrayList<>();
+    private TreeMap<Resource, Integer> warehouse = new TreeMap<>();
+    private ArrayList<ExtraDepot> cards = new ArrayList<>();
+    //just 4 tests
+    private ArrayList<Resource> trash = new ArrayList<>();
+
 
     public void addNewExtraDepot(ExtraDepot card){
         if(card.isEnabled() && card.isExtraDepot())
@@ -27,29 +30,30 @@ public class WarehouseDepot {
         if (!added){
             if (warehouse.containsKey(tmp)) {
                 int level = warehouse.get(tmp);
-                /*if ((level == 2 && !warehouse.containsValue(3))
+                if ((level == 2 && !warehouse.containsValue(3))
                     || (level == 1 &&
-                        (!warehouse.containsValue(2) || !warehouse.containsValue(3))))*/
-                if(level < 3 && (!warehouse.containsValue(level+1) || (!warehouse.containsValue(level+2))))
+                        (!warehouse.containsValue(2) || !warehouse.containsValue(3))))
                     warehouse.put(tmp, level + 1);
                 else
-                    throwResource();
+                    throwResource(tmp);
             } else if (warehouse.containsValue(1) && warehouse.containsValue(2) && warehouse.containsValue(3))
-                throwResource();
+                throwResource(tmp);
             else
                 warehouse.put(tmp, 1);
         }
     }
 
-    private void throwResource(){
+    private void throwResource(Resource res){
         //notifica al controller
         //System.out.println("pienooooo");
+        this.trash.add(res);
     }
 
     public Resource removeResource(Resource tmp){
         for(ExtraDepot card : cards)
-                if(card.removeResource(tmp))
+                if(card.removeResource(tmp)) {
                     return tmp;
+                }
         if(warehouse.containsKey(tmp)){
             int i = warehouse.get(tmp);
             if(i == 1)
@@ -93,11 +97,24 @@ public class WarehouseDepot {
         return true;
     }
 
-    public void print(){
+
+    public ArrayList<Resource> status(){
+        ArrayList<Resource> image = new ArrayList<>();
         ArrayList<Map.Entry<Resource, Integer>> orderedWarehouse = new ArrayList<>(warehouse.entrySet());
         orderedWarehouse.sort(Map.Entry.comparingByValue());
-        //orderedWarehouse.forEach(System.out::println);
-        //System.out.println("--------------------------");
-        //notifica al controller
+        orderedWarehouse.forEach(System.out::println);
+        System.out.println("--------------------------");
+        for (Map.Entry<Resource, Integer> entry : orderedWarehouse) {
+            for(int i = 0; i<entry.getValue(); i++)
+                image.add(entry.getKey());
+        }
+        return image;
     }
+    //just 4 tests
+    public ArrayList<Resource> getThrown(){
+        ArrayList<Resource> trash = (ArrayList<Resource>) this.trash.clone();
+        this.trash = new ArrayList<>();
+        return trash;
+    }
+
 }

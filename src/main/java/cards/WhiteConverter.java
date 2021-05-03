@@ -13,6 +13,12 @@ public class WhiteConverter extends LeaderCard{
 		this.isEnabled = en;
 		this.requires = req;
 	}
+
+	@Override
+	public void activate() {
+		this.isEnabled = true;
+	}
+
 	@Override
 	public Resource whichResource(){
 		if(isEnabled())
@@ -23,6 +29,11 @@ public class WhiteConverter extends LeaderCard{
 	@Override
 	public boolean isWhiteConverter(){
 		return true;
+	}
+
+	@Override
+	public ArrayList<DevelopmentCard> getRequiredCards(){
+		return this.requires;
 	}
 
 	/**

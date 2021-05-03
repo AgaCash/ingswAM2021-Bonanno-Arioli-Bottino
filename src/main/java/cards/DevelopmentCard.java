@@ -62,7 +62,7 @@ public class DevelopmentCard extends Card {
             throw new OperationNotSupportedException();
 
         if(extraProd!=null){
-                inputResources.add(extraProd.getRequirement());
+                inputResources.add(extraProd.getExtraProdInput());
                 outputResources.addAll(extraProd.production());
         }
         return outputResources;
@@ -70,6 +70,10 @@ public class DevelopmentCard extends Card {
 
     public int getLevel() {
         return level;
+    }
+
+    public ArrayList<Resource> getProdInput(){
+        return this.prodInput;
     }
 
     public Colour getColour(){

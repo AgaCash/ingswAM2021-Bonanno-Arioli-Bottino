@@ -6,19 +6,15 @@ import java.util.ArrayList;
 abstract public class LeaderCard extends Card{
 	protected boolean isEnabled;
 	protected int victoryPoints;
-	protected ArrayList<Object> requirements;
-
-	public Resource whichResource(){
-		return null;
-	}
+	//universal methods
+	abstract public void activate();
+	//consult methods
 	public boolean isEnabled(){
 		return isEnabled;
 	}
-	public Resource whichDiscount(){
-		return null;
-	}
-	public boolean addResource(Resource tmp){return false;}
-	public boolean removeResource(Resource tmp){return false;}
+	public ArrayList<DevelopmentCard> getRequiredCards(){return null;}
+	public ArrayList<Resource> getRequiredResources(){return null;}
+	//identification methods
 	public boolean isDiscount(){
 		return false;
 	}
@@ -31,7 +27,16 @@ abstract public class LeaderCard extends Card{
 	public boolean isWhiteConverter(){
 		return false;
 	}
-	public Resource getRequirement(){ return null;}
+	//subclasses specific methods
+	public Resource whichResource(){
+		return null;
+	}
+	public Resource whichDiscount(){
+		return null;
+	}
+	public boolean addResource(Resource tmp){return false;}
+	public boolean removeResource(Resource tmp){return false;}
+	public Resource getExtraProdInput(){ return null;}
 	public ArrayList<Resource> production(){return null;}
 	public void setChosenOutput(Resource chosenOutput){}
 

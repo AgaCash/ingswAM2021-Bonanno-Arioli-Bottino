@@ -20,6 +20,11 @@ public class ExtraDepot extends LeaderCard{
             extraWarehouseDepot.put(ptr, 0);
     }
     @Override
+    public void activate() {
+        this.isEnabled = true;
+    }
+
+    @Override
     public boolean addResource(Resource tmp){
         if(isEnabled())
             if(extraWarehouseDepot.containsKey(tmp)) {
@@ -47,6 +52,11 @@ public class ExtraDepot extends LeaderCard{
     @Override
     public boolean isExtraDepot(){
         return true;
+    }
+
+    @Override
+    public ArrayList<Resource> getRequiredResources(){
+        return this.requiredResource;
     }
     /**
      * for tests

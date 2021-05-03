@@ -16,6 +16,15 @@ public class CardSlots {
         this.isEnable = false;
     }
 
+    public boolean isPresent(DevelopmentCard toFind){
+        for(Stack<DevelopmentCard> slot : slots){
+            for(DevelopmentCard card : slot)
+                if(card.getId() == toFind.getId())
+                    return true;
+        }
+        return false;
+    }
+
     public DevelopmentCard getCard(int slot){
         try {
             DevelopmentCard getCard = slots.get(slot).pop();

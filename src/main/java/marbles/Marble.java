@@ -1,6 +1,5 @@
 package marbles;
 
-import cards.LeaderCard;
 import resources.Resource;
 
 public enum Marble{
@@ -11,14 +10,11 @@ public enum Marble{
 	WHITE,
 	YELLOW;
 
-	public Resource convertMarble(LeaderCard card){
+	public Resource convertMarble(Resource convertWhiteMarble){
 		switch(this){
 			case WHITE : {
-				Resource extraResource= null;
-				if(card!=null && card.isWhiteConverter()) {
-					extraResource = card.whichResource();
-				}
-				return extraResource;
+				if(convertWhiteMarble != null)
+					return convertWhiteMarble;
 			}
 			case BLUE: return Resource.SHIELD;
 			case GREY: return Resource.STONE;
