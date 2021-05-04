@@ -1,0 +1,202 @@
+[
+
+{
+  "position": "0"
+  ,
+  "points" : "0"
+  ,
+  "popeFlag" : [false, false, false]
+  }
+  ,
+  {
+    "position": "1"
+  ,
+    "points" : "0"
+  ,
+    "popeFlag" : [false, false, false]
+  }
+  ,
+  {
+    "position": "2"
+  ,
+    "points" : "0"
+  ,
+    "popeFlag" : [false, false, false]
+  }
+  ,
+  {
+    "position": "3"
+  ,
+    "points" : "1"
+  ,
+    "popeFlag" : [false, false, false]
+  }
+  ,
+  {
+    "position": "4"
+  ,
+    "points" : "1"
+  ,
+    "popeFlag" : [false, false, false]
+  }
+  ,
+  {
+    "position": "5"
+  ,
+    "points" : "1"
+  ,
+    "popeFlag" : [false, false, false]
+  }
+  ,
+  {
+    "position": "6"
+  ,
+    "points" : "2"
+  ,
+    "popeFlag" : [false, false, false]
+  }
+  ,
+  {
+    "position": "7"
+  ,
+    "points" : "2"
+  ,
+    "popeFlag" : [false, false, false]
+  }
+  ,
+  {
+    "position": "8"
+  ,
+    "points" : "2"
+  ,
+    "popeFlag" : [true, false, false]
+  }
+  ,
+  {
+    "position": "9"
+  ,
+    "points" : "4"
+  ,
+    "popeFlag" : [false, false, false]
+  }
+  ,
+  {
+    "position": "10"
+  ,
+    "points" : "4"
+  ,
+    "popeFlag" : [false, false, false]
+  }
+  ,
+  {
+    "position": "11"
+  ,
+    "points" : "4"
+  ,
+    "popeFlag" : [false, false, false]
+  }
+  ,
+  {
+    "position": "12"
+  ,
+    "points" : "6"
+  ,
+    "popeFlag" : [false, false, false]
+  }
+  ,
+  {
+    "position": "13"
+  ,
+    "points" : "6"
+  ,
+    "popeFlag" : [false, false, false]
+  }
+  ,
+  {
+    "position": "14"
+  ,
+    "points" : "6"
+  ,
+    "popeFlag" : [false, false, false]
+  }
+  ,
+  {
+    "position": "15"
+  ,
+    "points" : "9"
+  ,
+    "popeFlag" : [false, false, false]
+  }
+  ,
+  {
+    "position": "16"
+  ,
+    "points" : "9"
+  ,
+    "popeFlag" : [false, true, false]
+  }
+  ,
+  {
+    "position": "17"
+  ,
+    "points" : "9"
+  ,
+    "popeFlag" : [false, false, false]
+  }
+  ,
+  {
+    "position": "18"
+  ,
+    "points" : "12"
+  ,
+    "popeFlag" : [false, false, false]
+  }
+  ,
+  {
+    "position": "19"
+  ,
+    "points" : "12"
+  ,
+    "popeFlag" : [false, false, false]
+  }
+  ,
+  {
+    "position": "20"
+  ,
+    "points" : "12"
+  ,
+    "popeFlag" : [false, false, false]
+  }
+  ,
+  {
+    "position": "21"
+  ,
+    "points" : "16"
+  ,
+    "popeFlag" : [false, false, false]
+  }
+  ,
+  {
+    "position": "22"
+  ,
+    "points" : "16"
+  ,
+    "popeFlag" : [false, false, false]
+  }
+  ,
+  {
+    "position": "23"
+  ,
+    "points" : "16"
+  ,
+    "popeFlag" : [false, false, false]
+  }
+  ,
+  {
+    "position": "24"
+  ,
+    "points" : "20"
+  ,
+    "popeFlag" : [false, false, true]
+  }
+]

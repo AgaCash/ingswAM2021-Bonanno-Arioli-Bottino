@@ -1,0 +1,62 @@
+[
+  {
+    "requires": [
+      {
+        "colour": "YELLOW",
+        "level": "1"
+      },
+      {
+        "colour": "GREEN",
+        "level": "1"
+      }
+    ],
+    "discount": "SERVANT",
+    "id": "1",
+    "isEnabled": "false"
+  },
+  {
+    "requires": [
+      {
+        "colour": "BLUE",
+        "level": "1"
+      },
+      {
+        "colour": "PURPLE",
+        "level": "1"
+      }
+    ],
+    "discount": "SHIELD",
+    "id": "2",
+    "isEnabled": "false"
+  },
+  {
+    "requires": [
+      {
+        "colour": "GREEN",
+        "level": "1"
+      },
+      {
+        "colour": "BLUE",
+        "level": "1"
+      }
+    ],
+    "discount": "STONE",
+    "id": "3",
+    "isEnabled": "false"
+  },
+  {
+    "requires": [
+      {
+        "colour": "YELLOW",
+        "level": "1"
+      },
+      {
+        "colour": "PURPLE",
+        "level": "1"
+      }
+    ],
+    "discount": "COIN",
+    "id": "4",
+    "isEnabled": "false"
+  }
+]
