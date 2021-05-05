@@ -21,8 +21,8 @@ class PlayerBoardTest {
         ArrayList<LeaderCard> quartet = new ArrayList<>();
         PlayerBoard player = new PlayerBoard(new CardSlots(), new WarehouseDepot(),
                                            new Strongbox(), new FaithTrack(),
-                                            new DevelopmentBoard(),
-                                            new MarketBoard(), chosenCards);
+                                            DevelopmentBoard.getDevBoardInstance(),
+                                            MarketBoard.getMarketInstance(), chosenCards);
 
         quartet.add(new ExtraDepot(1, false, new ArrayList<>(), new ArrayList<>()));
         quartet.add(new WhiteConverter(2, false, new ArrayList<>(), Resource.SERVANT));
@@ -38,7 +38,7 @@ class PlayerBoardTest {
 
     @Test
     void buyDevCard() throws OperationNotSupportedException {
-        DevelopmentBoard board = new DevelopmentBoard();
+        DevelopmentBoard board = DevelopmentBoard.getDevBoardInstance();
         Strongbox strongbox = new Strongbox();
         WarehouseDepot warehouseDepot = new WarehouseDepot();
         CardSlots cardSlots = new CardSlots();
@@ -46,7 +46,7 @@ class PlayerBoardTest {
         PlayerBoard player = new PlayerBoard(cardSlots, warehouseDepot,
                 strongbox, new FaithTrack(),
                 board,
-                new MarketBoard(), new ArrayList<>());
+                MarketBoard.getMarketInstance(), new ArrayList<>());
         Deck deck = board.getDeck(1);
         DevelopmentCard card = deck.getCard();
         assertNotNull(card);
@@ -83,12 +83,12 @@ class PlayerBoardTest {
     void buyResources() {
         WarehouseDepot warehouseDepot = new WarehouseDepot();
         Strongbox strongbox = new Strongbox();
-        MarketBoard market = new MarketBoard();
+        MarketBoard market = MarketBoard.getMarketInstance();
         market.initializeMarbleGrid();
 
         PlayerBoard player = new PlayerBoard(new CardSlots(), warehouseDepot,
                 strongbox, new FaithTrack(),
-                new DevelopmentBoard(),
+                DevelopmentBoard.getDevBoardInstance(),
                 market, new ArrayList<>());
 
         ArrayList<Resource> tokenResources = new ArrayList<>();
@@ -125,7 +125,7 @@ class PlayerBoardTest {
         //assertTrue(warehouseDepot.isPresent(tokenResources));*/
 
 
-    }
+     }
 
     @Test
     void devCardProduction() throws OperationNotSupportedException {
@@ -147,8 +147,8 @@ class PlayerBoardTest {
         cardSlots.addCard(1, card);
         PlayerBoard player = new PlayerBoard(cardSlots, warehouseDepot,
                 strongbox, new FaithTrack(),
-                new DevelopmentBoard(),
-                new MarketBoard(), new ArrayList<>());
+                DevelopmentBoard.getDevBoardInstance(),
+                MarketBoard.getMarketInstance(), new ArrayList<>());
         //1 coin in model.warehouse 1 in model.strongbox
         warehouseDepot.addResource(prodInput.get(0));
         strongbox.addResource(prodInput.get(1));
@@ -157,12 +157,14 @@ class PlayerBoardTest {
             System.out.println("+++++");
             strongbox.status().forEach(System.out::println);
             System.out.println("+++++");*/
+
         player.devCardProduction(1, Resource.STONE, null);
             /*
             warehouseDepot.status().forEach(System.out::println);
             System.out.println("+++++");
             strongbox.status().forEach(System.out::println);
             System.out.println("+++++");*/
+
         ArrayList<Resource> prodInputFromWarehouse = new ArrayList<>();
         prodInputFromWarehouse.add(Resource.COIN);
         assertFalse(warehouseDepot.isPresent(prodInputFromWarehouse));
@@ -181,7 +183,7 @@ class PlayerBoardTest {
         //spaccalo!!!!!!!!!! */
 
 
-    }
+  }
 
     @Test
     void defaultProduction() {
@@ -189,8 +191,8 @@ class PlayerBoardTest {
         Strongbox strongbox = new Strongbox();
         PlayerBoard player = new PlayerBoard(new CardSlots(), warehouseDepot,
                 strongbox, new FaithTrack(),
-                new DevelopmentBoard(),
-                new MarketBoard(), new ArrayList<>());
+                DevelopmentBoard.getDevBoardInstance(),
+                MarketBoard.getMarketInstance(), new ArrayList<>());
         ExtraProd card = new ExtraProd(0, true, new ArrayList<DevelopmentCard>(),
                                         Resource.COIN);
         //ExtraProdInput
@@ -205,7 +207,7 @@ class PlayerBoardTest {
             System.out.println("+++++");
             strongbox.status().forEach(System.out::println);
             System.out.println("+++++");*/
-        player.defaultProduction(prodInput, Resource.STONE, card, Resource.STONE);
+      player.defaultProduction(prodInput, Resource.STONE, card, Resource.STONE);
 
         ArrayList<Resource> prodOutput = new ArrayList<>();
         prodOutput.add(Resource.STONE);
@@ -227,8 +229,8 @@ class PlayerBoardTest {
 
     @Test
     void faithAdvanceTest() {
-        DevelopmentBoard board = new DevelopmentBoard();
-        MarketBoard market = new MarketBoard();
+        DevelopmentBoard board = DevelopmentBoard.getDevBoardInstance();
+        MarketBoard market = MarketBoard.getMarketInstance();
         PlayerBoard player = new PlayerBoard(new Player(), board, market);
         //PlayerBoard player = new PlayerBoard();
         player.faithAdvance(2);

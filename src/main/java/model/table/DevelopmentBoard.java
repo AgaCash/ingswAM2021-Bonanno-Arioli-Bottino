@@ -7,24 +7,12 @@ import model.utilities.JsonParser;
 import java.util.ArrayList;
 
 public final class DevelopmentBoard {
-
-
-       /*private static DevelopmentBoard instance = null;
+    private static DevelopmentBoard instance = null;
+    private final ArrayList<Deck> decks = new ArrayList<>();  //12 decks
 
     private DevelopmentBoard(){
-    ArrayList<DevelopmentCard> tmpCards =
-                new JsonParser("src/main/model.resources/developmentCards.json").getDevelopmentCards();
-        ArrayList<DevelopmentCard> tmpDeck = new ArrayList<>();
-        int i = 1;
-        for (DevelopmentCard card:tmpCards) {
-            tmpDeck.add(card);
-            if(i == 4){
-                decks.add(new Deck((ArrayList<DevelopmentCard>) tmpDeck.clone()));
-                tmpDeck.clear();
-                i = 0;
-            }
-            i++;
-            }
+        initializeBoard();
+    }
 
     public static DevelopmentBoard getDevBoardInstance(){
         if (instance == null)
@@ -34,19 +22,17 @@ public final class DevelopmentBoard {
             //    }   double-checked locking
             instance = new DevelopmentBoard();
         return instance;
-    }  singleton initialization for DevBoard
-*/
+    }
+
+    public void deleteInstance(){
+        instance = null;
+    }
 
     /**
-     * Class that load all the development model.cards from a configuration Json file
+     * Method that load all the development model.cards from a configuration Json file
      */
 
-    private ArrayList<Deck> decks = new ArrayList<>();  //12 decks
-
-    /**
-     * Default constructor that extract the data from Json and create the model.cards
-     */
-    public DevelopmentBoard(){
+    private void initializeBoard(){
         ArrayList<DevelopmentCard> tmpCards =
                 new JsonParser("src/main/resources/developmentCards.json").getDevelopmentCards();
         ArrayList<DevelopmentCard> tmpDeck = new ArrayList<>();

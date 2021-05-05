@@ -4,24 +4,37 @@ import model.cards.LeaderCard;
 import model.utilities.JsonParser;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Table {
-    private ArrayList<LeaderCard> cards = new ArrayList<>();
-    DevelopmentBoard developmentBoard;
-    MarketBoard marketBoard;
+    private static Table instance = null;
+    private ArrayList<LeaderCard> cards;
+    private DevelopmentBoard developmentBoard;
+    private MarketBoard marketBoard;
 
-    //public Table(){
-    //    developmentBoard = getDevBoardInstance();
-    //    marketBoard = getMarketInstance();
-    //}
+    private Table(){
+        developmentBoard.getDevBoardInstance();
+        marketBoard.getMarketInstance();
+        cards = initializeLeaderCards();
+    }
 
- //make it a singleton?
+    public static Table getTableInstance(){
+        if(instance == null)
+            instance = new Table();
+        return instance;
 
-    public ArrayList<LeaderCard> initialize(){
+    }
+
+    public void deleteInstance(){
+        instance = null;
+    }
+
+    private ArrayList<LeaderCard> initializeLeaderCards(){
         this.cards.addAll(new JsonParser("src/main/resources/discount.json").getDiscountCards());
         this.cards.addAll(new JsonParser("src/main/resources/extraDepot.json").getExtraDepotCards());
         this.cards.addAll(new JsonParser("src/main/resources/whiteConverter.json").getWhiteConverterCard());
         this.cards.addAll(new JsonParser("src/main/resources/extraProd.json").getExtraProdCards());
+        Collections.shuffle(cards);
         return this.cards;
     }
 
@@ -32,4 +45,18 @@ public class Table {
     public MarketBoard getMarketBoard(){
         return this.marketBoard;
     }
+
+    public ArrayList<LeaderCard> sendQuartet(){
+        ArrayList<LeaderCard> quartet = new ArrayList<>();
+        for(int i=0; i<4; i++)
+            quartet.add(pop());
+        return quartet;
+    }
+
+    private LeaderCard pop(){
+        LeaderCard card = cards.get(0);
+        cards.remove(card);
+        return card;
+    }
+
 }

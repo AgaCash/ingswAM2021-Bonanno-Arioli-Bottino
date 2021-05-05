@@ -6,7 +6,7 @@ class MarketBoardTest {
 
     @Test
     void initializeMarbleGrid() {
-        MarketBoard market = new MarketBoard();
+        MarketBoard market = MarketBoard.getMarketInstance();
         market.initializeMarbleGrid();
     }
 
@@ -20,8 +20,7 @@ class MarketBoardTest {
 
     @Test
     void getMarble() {
-        MarketBoard market = new MarketBoard();
-        market.initializeMarbleGrid();
+        MarketBoard market = MarketBoard.getMarketInstance();
         market.getMarble(1,1);
     }
 }

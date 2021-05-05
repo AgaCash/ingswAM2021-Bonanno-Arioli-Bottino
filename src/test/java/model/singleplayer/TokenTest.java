@@ -23,7 +23,7 @@ public class TokenTest {
 
     @Test
     public void cardActionTest(){
-        DevelopmentBoard devBoard = new DevelopmentBoard();
+        DevelopmentBoard devBoard = DevelopmentBoard.getDevBoardInstance();
         Token token = new Token(1, Colour.BLUE, 4);
         Deck deck = devBoard.getDeck(Colour.BLUE);
         boolean isEmpty = deck.isEmpty();

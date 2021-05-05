@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Game {
-
     private static Game instance = null;
     ArrayList<PlayerBoard> players = new ArrayList<>();
-    Table table = new Table();
+    Table table;
     //Lorenzo cpu = new Lorenzo();  will be ok when DevBoard will adopt singleton pattern
 
     private Game(){
+        initializeGame();
     }
 
     public static Game getGameInstance(){
@@ -28,7 +28,7 @@ public class Game {
 
     public void initializeGame(){
         Collections.shuffle(this.players);
-
+        table = Table.getTableInstance();
         //players.get(0).serInkwell
         //players.get(1).chooseResource()
         //players.get(2).

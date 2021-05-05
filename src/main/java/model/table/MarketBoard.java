@@ -15,8 +15,7 @@ import java.util.Collections;
 public class MarketBoard {
     private ArrayList<ArrayList<Marble>> marbleGrid = new ArrayList<>(3);
     private Marble freeMarble;
-
-    /*private static MarketBoard instance = null;
+    private static MarketBoard instance = null;
 
     private MarketBoard(){
        initializeMarbleGrid();
@@ -28,11 +27,14 @@ public class MarketBoard {
             //    if(instance ==null)
             //        instance = new MarketBoard();
             //    }   double-checked locking
+            //marketBoard è solo sul server no?
             instance = new MarketBoard();
         return instance;
-    }  singleton initialization for MarketBoard
-*/
+    }
 
+    public void deleteInstance(){
+        instance = null;
+    }
 
     /**
      * method called at the start of the game that initializes the marble grid
