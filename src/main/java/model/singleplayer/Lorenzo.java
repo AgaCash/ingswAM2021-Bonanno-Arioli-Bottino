@@ -62,7 +62,7 @@ public class Lorenzo {
     /**
      * method that shuffles the token's deck
      */
-    public void shuffle(){
+    private void shuffle(){
         Collections.shuffle(tokens);
     }
 

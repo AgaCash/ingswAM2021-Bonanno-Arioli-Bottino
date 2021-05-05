@@ -10,6 +10,7 @@ import javax.naming.OperationNotSupportedException;
 import java.util.ArrayList;
 
 public class PlayerBoard {
+    private int playerPos;
     private Player player;
     private CardSlots cardSlots = new CardSlots();
     private WarehouseDepot warehouseDepot = new WarehouseDepot();
@@ -48,15 +49,11 @@ public class PlayerBoard {
     public void setInkwell(boolean value){
         this.hasInkwell=value;
     }
-    /*selectLeader: permits to choose the 2 leader cards at starting
-    @quartet, @first and @second are set by @Controller
-     */
-    public void selectLeader(ArrayList<LeaderCard> quartet, int first, int second){
-        //DA RIVEDERE STO METODO QUA EH
-        this.leaderSlots.add(quartet.get(first));
-        this.leaderSlots.add(quartet.get(second));
-    }
 
+    public void addLeaderCards(LeaderCard card1, LeaderCard card2){
+        leaderSlots.add(card1);
+        leaderSlots.add(card2);
+    }
     //--------------------UTILITIES--------------------
     /*checkDevCards: checks if @requirements is present in this.cardSlots
     */
@@ -285,6 +282,10 @@ public class PlayerBoard {
             else{ /* notifica il controller */ }
 
         }
+    }
+
+    public Player getPlayer(){
+        return player;
     }
 
 }
