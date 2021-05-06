@@ -36,6 +36,12 @@ public class Game {
             instance = new Game(singlePlayer);
         return instance;
     }
+
+    //deleteme
+    public boolean isSinglePlayer(){
+        return singlePlayer;
+    }
+
     //primo: @controller aggiunge i player
     public void addPlayer(Player newPlayer){
         if(players.size()<4){

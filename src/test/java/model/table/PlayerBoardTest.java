@@ -29,7 +29,7 @@ class PlayerBoardTest {
         quartet.add(new Discount(3, false, new ArrayList<>(), Resource.COIN));
         quartet.add(new ExtraDepot(16, false, new ArrayList<>(), new ArrayList<>()));
 
-        player.selectLeader(quartet, 1, 2);
+        //player.selectLeader(quartet, 1, 2);
         LeaderCard first = quartet.get(1);
         LeaderCard second = quartet.get(2);
         assertEquals(chosenCards.get(0), first);
