@@ -126,7 +126,6 @@ public class Game {
 
     public void ingConti(){
         System.out.println("ಠ_ಠ");
-
     }
 
     private PlayerBoard getPlayerBoard(String username){

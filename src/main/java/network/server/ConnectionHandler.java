@@ -6,10 +6,7 @@ import controller.Controller;
 import model.Game;
 import network.JsonParserNetwork;
 import network.messages.*;
-import network.messages.lobbyMessages.CreateLobbyRequest;
-import network.messages.lobbyMessages.GetLobbyRequest;
-import network.messages.lobbyMessages.LoginMultiPlayerRequest;
-import network.messages.lobbyMessages.LoginSinglePlayerRequest;
+import network.messages.lobbyMessages.*;
 
 import java.io.*;
 import java.net.Socket;
@@ -32,42 +29,24 @@ public class ConnectionHandler extends Thread{
         controller = null;
     }
 
-    /*
-    private void handleMessageOld(String s){
-        Message message = jsonParserNetwork.getMessage(s);
-        switch (message.getMessageType()){
-            case JOIN_SINGLEPLAYER:
-                System.out.println("SINGLEPLAYER, username: "+((LoginSinglePlayerRequest) message).getUsername());
-                break;
-            case JOINMULTIPLAYER:
-                LoginMultiPlayerRequest loginMultiPlayerRequest = (LoginMultiPlayerRequest) message;
-                System.out.println("MULTIPLAYER, username: "+ loginMultiPlayerRequest.getUsername()+
-                        "  --  lobbyId: "+loginMultiPlayerRequest.getLobbyId());
-                break;
-            case GETLOBBIES:
-                GetLobbyRequest getLobbyRequest = (GetLobbyRequest) message;
-                System.out.println("Sending lobbyList");
-                out.println(jsonParserNetwork.getMessage(lobbyHandler.getLobbies().toString()));
-                break;
-            case CREATEMULTIPLAYER:
-                CreateLobbyRequest createLobbyRequest = (CreateLobbyRequest) message;
-                System.out.println("Creating lobby");
-                break;
-
-        }
-    }
-
-     */
-
     private void handleMessage(String s){
         Gson gson = new Gson();
-        JsonObject jsonObject = gson.fromJson(s, JsonObject.class);;
+
+        JsonObject jsonObject = gson.fromJson(s, JsonObject.class);
+        MessageType messageType = MessageType.valueOf(jsonObject.get("messageType").getAsString());
+        switch (messageType.megaType){
+            case "LOBBY":
+                ((LobbyMessage) gson.fromJson(s, messageType.c)).executeCommand(lobbyHandler, out);
+        }
+        /*
         switch (MessageType.valueOf(jsonObject.get("messageType").getAsString())){
             case CREATEMULTIPLAYER:
                 CreateLobbyRequest createLobbyRequest = gson.fromJson(s, CreateLobbyRequest.class);
                 createLobbyRequest.executeCommand(lobbyHandler, out);
                 break;
+
         }
+        */
     }
 
 

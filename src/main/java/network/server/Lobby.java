@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Lobby {
     private int id;
     private ArrayList<Player> players;
-    Controller sharedController;
+    private Controller sharedController;
 
     public Lobby(int id){
         players = new ArrayList<>();
@@ -43,6 +43,10 @@ public class Lobby {
         if(players.size() < 2)
             throw new Exception("Not enaugh players");
         sharedController = new Controller(id);
+    }
+
+    public Controller getSharedController(){
+        return sharedController;
     }
 
     @Override

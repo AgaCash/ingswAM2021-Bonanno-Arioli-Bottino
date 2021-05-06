@@ -34,6 +34,7 @@ public class LobbyHandler {
         Lobby l = new Lobby(currId);
         currId++;
         l.joinLobby(player);
+        lobbies.add(l);
     }
 
     public void joinLobby(Player player, int id) throws SizeLimitExceededException {
@@ -47,6 +48,10 @@ public class LobbyHandler {
 
     public ArrayList<Lobby> getLobbies() {
         return lobbies;
+    }
+
+    public Lobby getLobby(int id){
+        return lobbies.get(id);
     }
 
 }

@@ -17,7 +17,6 @@ public class CreateLobbyRequest extends LobbyMessage{
 
     @Override
     public void executeCommand(LobbyHandler lobbyHandler, PrintWriter out) {
-        lobbyHandler = LobbyHandler.getInstance();
         try {
             lobbyHandler.createLobby(new Player(super.getUsername()));
             out.println(new JsonParserNetwork().createLobbyResponse(true));
