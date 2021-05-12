@@ -3,7 +3,6 @@ package model.cards;
 import model.colour.Colour;
 import model.resources.Resource;
 
-import javax.naming.OperationNotSupportedException;
 import java.util.ArrayList;
 
 /**
@@ -55,10 +54,11 @@ public class DevelopmentCard extends Card {
      *
      */
 
-    public ArrayList<Resource> createProduction(ExtraProd extraProd) throws OperationNotSupportedException {
+    public ArrayList<Resource> createProduction(ExtraProd extraProd){
         ArrayList<Resource> outputResources = (ArrayList<Resource>) prodOutput.clone();
+        //paranoico
         if(!isUsable())
-            throw new OperationNotSupportedException();
+            return null;
 
         if(extraProd!=null && extraProd.isEnabled())
                 outputResources.addAll(extraProd.production());

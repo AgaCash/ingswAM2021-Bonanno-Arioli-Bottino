@@ -1,9 +1,9 @@
 package network.server;
 
 import controller.Controller;
+import view.VirtualView;
 
 import javax.naming.SizeLimitExceededException;
-import java.nio.BufferOverflowException;
 import java.util.ArrayList;
 
 public class Lobby {
@@ -42,7 +42,7 @@ public class Lobby {
     public void startGame() throws Exception {
         if(players.size() < 2)
             throw new Exception("Not enaugh players");
-        sharedController = new Controller(id);
+        sharedController = new Controller(0, new ArrayList<VirtualView>());
     }
 
     public Controller getSharedController(){

@@ -1,6 +1,8 @@
 package model.cards;
 
-import javax.naming.OperationNotSupportedException;
+import exceptions.FullCardSlotException;
+import exceptions.NonCorrectLevelCardException;
+
 import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.Stack;
@@ -39,15 +41,18 @@ public class CardSlots {
         return oldCard.getLevel() == newCard.getLevel() - 1;
     }
 
-    public void addCard (int slot, DevelopmentCard card) throws OperationNotSupportedException {
+    public void addCard (int slot, DevelopmentCard card) throws IndexOutOfBoundsException,
+                                                                FullCardSlotException,
+                                                                NonCorrectLevelCardException {
         if(this.slots.get(slot).isEmpty() && card.getLevel()==1){}
         else {
             if (slot < 0 || slot > 2)
                 throw new IndexOutOfBoundsException();  //Index out of bound
+            //è davvero necessaria?
             if (slots.get(slot).size() > 2)
-                throw new OperationNotSupportedException();//Card Slot Full
+                throw new FullCardSlotException("Can't add the card in this slot: it's full!");//Card Slot Full
             if (!checkCardLevelIntegrity(slot, card))
-                throw new OperationNotSupportedException(); //New card level not correct
+                throw new NonCorrectLevelCardException("Can't add the card in this slot: incorrect level!"); //New card level not correct
         }
         slots.get(slot).push(card);
     }

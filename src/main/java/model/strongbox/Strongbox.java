@@ -43,20 +43,6 @@ public class Strongbox {
      * @return boolean true if is present, otherwise false
      */
     public boolean isPresent (ArrayList<Resource> res){
-       /* ArrayList<Resource> clonedList =new ArrayList<Resource>();
-        boolean isPresent = true;
-        for(int i=0; i < strongbox.size(); i++)
-            clonedList.add(strongbox.get(i));
-
-        for(int pos = 0; pos<res.size(); pos++){
-            if(clonedList.contains(res.get(pos))) {
-                int num = clonedList.indexOf(res.get(pos));
-                clonedList.remove(num);
-            }
-            else
-                isPresent = false;
-        }
-        return isPresent;*/
         ArrayList<Resource> clonedStrongbox = (ArrayList<Resource>) strongbox.clone();
         for(Resource r : res) {
             boolean found = false;

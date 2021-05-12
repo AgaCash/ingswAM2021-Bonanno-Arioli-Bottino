@@ -12,7 +12,7 @@ public abstract class GameMessage extends Message {
     }
 
     public void executeCommand(Controller controller, PrintWriter out){
-        System.out.println("default executeCommand CONTROLLER");
+        //System.out.println("default executeCommand CONTROLLER");
     }
 
 

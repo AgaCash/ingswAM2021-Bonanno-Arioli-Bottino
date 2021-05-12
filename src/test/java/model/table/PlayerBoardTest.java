@@ -1,4 +1,4 @@
-package model.table;
+/*package model.table;
 
 import model.Player;
 import model.cards.*;
@@ -15,26 +15,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerBoardTest {
 
-    @Test
-    void selectLeader() {
-        ArrayList<LeaderCard> chosenCards = new ArrayList<>();
-        ArrayList<LeaderCard> quartet = new ArrayList<>();
-        PlayerBoard player = new PlayerBoard(new CardSlots(), new WarehouseDepot(),
-                                           new Strongbox(), new FaithTrack(),
-                                            DevelopmentBoard.getDevBoardInstance(),
-                                            MarketBoard.getMarketInstance(), chosenCards);
-
-        quartet.add(new ExtraDepot(1, false, new ArrayList<>(), new ArrayList<>()));
-        quartet.add(new WhiteConverter(2, false, new ArrayList<>(), Resource.SERVANT));
-        quartet.add(new Discount(3, false, new ArrayList<>(), Resource.COIN));
-        quartet.add(new ExtraDepot(16, false, new ArrayList<>(), new ArrayList<>()));
-
-        //player.selectLeader(quartet, 1, 2);
-        LeaderCard first = quartet.get(1);
-        LeaderCard second = quartet.get(2);
-        assertEquals(chosenCards.get(0), first);
-        assertEquals(chosenCards.get(1), second);
-    }
 
     @Test
     void buyDevCard() throws OperationNotSupportedException {
@@ -124,7 +104,7 @@ class PlayerBoardTest {
         tokenResources.remove(Resource.FAITH);
         //assertTrue(warehouseDepot.isPresent(tokenResources));*/
 
-
+/*
      }
 
     @Test
@@ -157,14 +137,14 @@ class PlayerBoardTest {
             System.out.println("+++++");
             strongbox.status().forEach(System.out::println);
             System.out.println("+++++");*/
-
+/*
         player.devCardProduction(1, Resource.STONE, null);
             /*
             warehouseDepot.status().forEach(System.out::println);
             System.out.println("+++++");
             strongbox.status().forEach(System.out::println);
             System.out.println("+++++");*/
-
+/*
         ArrayList<Resource> prodInputFromWarehouse = new ArrayList<>();
         prodInputFromWarehouse.add(Resource.COIN);
         assertFalse(warehouseDepot.isPresent(prodInputFromWarehouse));
@@ -182,7 +162,7 @@ class PlayerBoardTest {
 
         //spaccalo!!!!!!!!!! */
 
-
+/*
   }
 
     @Test
@@ -207,7 +187,7 @@ class PlayerBoardTest {
             System.out.println("+++++");
             strongbox.status().forEach(System.out::println);
             System.out.println("+++++");*/
-      player.defaultProduction(prodInput, Resource.STONE, card, Resource.STONE);
+/*      player.defaultProduction(prodInput, Resource.STONE, card, Resource.STONE);
 
         ArrayList<Resource> prodOutput = new ArrayList<>();
         prodOutput.add(Resource.STONE);
@@ -253,4 +233,4 @@ class PlayerBoardTest {
     void activateLeaderCard(){
         
     }
-}
+}*/

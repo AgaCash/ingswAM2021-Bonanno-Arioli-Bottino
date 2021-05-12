@@ -1,4 +1,4 @@
-package model.warehouse;
+/*package model.warehouse;
 
 import model.cards.ExtraDepot;
 import org.junit.jupiter.api.Test;
@@ -108,4 +108,4 @@ class WarehouseDepotTest {
         assertTrue(w.isPresent(removedResources));
     }
 
-}
+}*/
