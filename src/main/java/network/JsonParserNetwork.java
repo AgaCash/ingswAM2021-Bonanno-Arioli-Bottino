@@ -3,10 +3,9 @@ package network;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import network.messages.*;
-import network.messages.gameMessages.GameMessage;
 import network.messages.lobbyMessages.GetLobbyRequest;
 import network.messages.lobbyMessages.LoginMultiPlayerRequest;
-import network.messages.lobbyMessages.LoginSinglePlayerRequest;
+import network.messages.lobbyMessages.StartSinglePlayerRequest;
 
 import java.io.BufferedReader;
 
@@ -41,11 +40,11 @@ public class JsonParserNetwork {
         return m;
     }
 
-    public LoginSinglePlayerRequest getLoginSingleMessage(String message){
+    public StartSinglePlayerRequest getLoginSingleMessage(String message){
         System.out.println(message);
-        LoginSinglePlayerRequest m = null;
+        StartSinglePlayerRequest m = null;
         try{
-            m = gson.fromJson(message, LoginSinglePlayerRequest.class);
+            m = gson.fromJson(message, StartSinglePlayerRequest.class);
         }catch (Exception e){
             e.printStackTrace();
         }

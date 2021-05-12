@@ -23,6 +23,10 @@ public class Game {
     private ArrayList<Resource> bufferStrongbox = new ArrayList<>();
     //Lorenzo cpu = new Lorenzo();  will be ok when DevBoard will adopt singleton pattern
 
+    public Game(boolean singlePlayer){
+        this.singlePlayer = singlePlayer;
+    }
+
     //primo: @controller aggiunge i player
     public void addPlayer(Player newPlayer){
         if(players.size()<4){

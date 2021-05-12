@@ -8,7 +8,8 @@ import model.resources.Resource;
 import network.messages.MessageType;
 import network.messages.notifies.FailedActionNotify;
 
-import java.io.PrintWriter;
+import view.VirtualView;
+import java.util.ArrayList;
 
 public class DevCardProductionRequest extends GameMessage{
     private int slot;
@@ -20,14 +21,14 @@ public class DevCardProductionRequest extends GameMessage{
     }
 
     @Override
-    public void executeCommand(Controller controller, PrintWriter out){
+    public void executeCommand(Controller controller, ArrayList<VirtualView> views){
         Gson gson = new Gson();
         try {
             controller.devCardProduction(slot, chosenResource, card);
-            out.println(gson.toJson(new DevCardProductionResponse(this.getUsername()), MarketResponse.class));
+           //out.println(gson.toJson(new DevCardProductionResponse(this.getUsername()), MarketResponse.class));
             update();
         } catch (InsufficientResourcesException e){
-            out.println(gson.toJson(new FailedActionNotify(this.getUsername(), e.getMessage()), FailedActionNotify.class));
+           //out.println(gson.toJson(new FailedActionNotify(this.getUsername(), e.getMessage()), FailedActionNotify.class));
         }
     }
 

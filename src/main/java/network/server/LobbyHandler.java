@@ -1,10 +1,11 @@
 package network.server;
 
 import controller.Controller;
+import exceptions.LobbyFullException;
+import model.Player;
 
 import javax.naming.SizeLimitExceededException;
 import java.util.ArrayList;
-import java.util.Map;
 
 
 /*
@@ -31,19 +32,39 @@ public class LobbyHandler {
     }
 
     public void createLobby(Player player) throws SizeLimitExceededException {
-        Lobby l = new Lobby(currId);
+        Lobby l = new Lobby(currId, player);
         currId++;
-        l.joinLobby(player);
         lobbies.add(l);
     }
 
-    public void joinLobby(Player player, int id) throws SizeLimitExceededException {
+    public Controller createSinglePlayer(Player player){
+        Lobby l = new Lobby(currId, player, true);
+        currId++;
+        lobbies.add(l);
+        try {
+            l.startGame();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return l.getSharedController();
+    }
+
+    public void joinLobby(Player player, int id) throws LobbyFullException, IndexOutOfBoundsException {
         for (Lobby l: lobbies) {
             if(l.getId()==id){
                 l.joinLobby(player);
                 break;
             }
         }
+        throw new IndexOutOfBoundsException();
+    }
+
+    public boolean checkUsername(String username){
+        for (Lobby l: lobbies) {
+            if(l.getUsernameList().contains(username))
+                return false;
+        }
+        return true;
     }
 
     public ArrayList<Lobby> getLobbies() {
@@ -53,5 +74,7 @@ public class LobbyHandler {
     public Lobby getLobby(int id){
         return lobbies.get(id);
     }
+
+
 
 }

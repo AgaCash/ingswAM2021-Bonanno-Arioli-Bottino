@@ -3,6 +3,9 @@ package network.messages.lobbyMessages;
 import network.messages.MessageType;
 import network.server.Lobby;
 import network.server.LobbyHandler;
+import view.View;
+import view.VirtualClient;
+import view.VirtualView;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -20,7 +23,7 @@ public class GetLobbyResponse extends LobbyMessage{
     }
 
     @Override
-    public void executeCommand(LobbyHandler lobbyHandler, PrintWriter out) {
+    public void executeCommand(LobbyHandler lobbyHandler, View view, VirtualClient virtualClient) {
         System.out.println("Sono QUA?");
     }
 

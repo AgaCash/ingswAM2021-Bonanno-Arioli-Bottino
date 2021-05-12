@@ -8,25 +8,32 @@ import model.cards.LeaderCard;
 import model.cards.WhiteConverter;
 import model.resources.Resource;
 import model.table.Deck;
+import network.messages.Message;
 import network.messages.gameMessages.GameMessage;
 import view.VirtualView;
 
+import javax.naming.OperationNotSupportedException;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+
 public class Controller {
     private int id;
     private Game game;
     private ArrayList<VirtualView> views;
+
     public Controller(int id, ArrayList<VirtualView> views){
         System.out.println("CONTORLLER CREATO");
         this.views = views;
         this.id = id;
-        //game = new Game();
+        boolean isSinglePlayer = (views.size()==1);
+        game = new Game(isSinglePlayer);
     }
-    public void executeCommand(GameMessage message) throws FileNotFoundException {
-        message.executeCommand(this,new PrintWriter("a"));
+
+    public void executeCommand(GameMessage message) {
+        message.executeCommand(this, views);
     }
+
     public int getId() {
         return id;
     }

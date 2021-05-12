@@ -46,16 +46,21 @@ public class Client {
         Gson gson = new Gson();
         Client client = new Client("localhost", 1234);
         client.connect();
+
+        //FASE LOGIN
         Scanner s = new Scanner(System.in);
         System.out.println("Inserisci il tuo username:");
         String username = s.nextLine();
-        while (true){
+
+        //FASE MENU'
+        boolean success = false;
+        while (!success){
             System.out.println("Scegli cosa vuoi fare \n1- Singleplayer \n2- Join Multiplayer Lobby"+
                     " \n3- Create Multiplayer Lobby");
 
             switch (s.nextInt()){
                 case 1:
-                    LoginSinglePlayerRequest loginSinglePlayerRequest = new LoginSinglePlayerRequest(username);
+                    StartSinglePlayerRequest loginSinglePlayerRequest = new StartSinglePlayerRequest(username);
                     client.send(gson.toJson(loginSinglePlayerRequest));
                     break;
                 case 2:
@@ -73,8 +78,14 @@ public class Client {
                     client.send(gson.toJson(createLobbyRequest));
                     break;
             }
-            System.out.println(client.recv());
+            StandardLobbyResponse slr = gson.fromJson(client.recv(), StandardLobbyResponse.class);
+            System.out.println(slr);
+            success = slr.isSuccess();
         }
+
+        //FASE WAITING GAME STARTING (ifMulti)
+
+        //FASE START GAME
 
         //client.close();
     }

@@ -6,6 +6,13 @@ public class Player {
     private int points = 0;
     //private PlayerBoard playerBoard = new PlayerBoard(); will be okay after singleton application
 
+    public Player(String nickname){
+        this.nickname = nickname;
+    }
+
+    public Player(){
+    }
+
     public void addPoints(int pts){
         points += pts;
     }

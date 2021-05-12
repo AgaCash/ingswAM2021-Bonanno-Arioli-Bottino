@@ -7,8 +7,8 @@ import exceptions.InsufficientResourcesException;
 import model.cards.LeaderCard;
 import network.messages.MessageType;
 import network.messages.notifies.FailedActionNotify;
-
-import java.io.PrintWriter;
+import view.VirtualView;
+import java.util.ArrayList;
 
 public class LeaderCardActivationRequest extends GameMessage{
     private LeaderCard card;
@@ -19,14 +19,14 @@ public class LeaderCardActivationRequest extends GameMessage{
 
 
     @Override
-    public void executeCommand(Controller controller, PrintWriter out) {
+    public void executeCommand(Controller controller, ArrayList<VirtualView> views) {
         Gson gson = new Gson();
         try {
             controller.activateLeaderCard(card);
-            out.println(gson.toJson(new LeaderCardActivationResponse(this.getUsername()), LeaderCardActivationResponse.class));
+           //out.println(gson.toJson(new LeaderCardActivationResponse(this.getUsername()), LeaderCardActivationResponse.class));
             update();
         } catch (InsufficientRequirementsException | InsufficientResourcesException e){
-            out.println(gson.toJson(new FailedActionNotify(this.getUsername(), e.getMessage()), FailedActionNotify.class));
+           //out.println(gson.toJson(new FailedActionNotify(this.getUsername(), e.getMessage()), FailedActionNotify.class));
 
         }
 

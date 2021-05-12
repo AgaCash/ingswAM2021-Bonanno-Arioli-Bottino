@@ -1,5 +1,7 @@
 package network.server;
 
+import view.VirtualClient;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -36,7 +38,7 @@ public class Server {
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
-                executor.submit(new ConnectionHandler(socket, id));
+                executor.submit(new VirtualClient(socket));
             } catch(IOException e) {
                 e.printStackTrace();
             }

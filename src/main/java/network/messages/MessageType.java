@@ -1,17 +1,20 @@
+
 package network.messages;
 
-import network.messages.lobbyMessages.CreateLobbyRequest;
-import network.messages.lobbyMessages.GetLobbyRequest;
-import network.messages.lobbyMessages.GetLobbyResponse;
+        import network.messages.lobbyMessages.*;
 
 public enum MessageType {
+    //SETUP
+    CHECK_USERNAME_REQUEST,
+    CHECK_USERNAME_RESPONSE,
+
     //LOGIN
-    JOIN_SINGLEPLAYER,
-    JOINMULTIPLAYER,
+    JOIN_SINGLEPLAYER(StartSinglePlayerRequest.class, "LOBBY"),
+    JOINMULTIPLAYER(LoginMultiPlayerRequest.class, "LOBBY"),
     CREATEMULTIPLAYER(CreateLobbyRequest.class, "LOBBY"),
     GETLOBBIES(GetLobbyRequest.class, "LOBBY"),
     LOBBYLISTRESPONSE(GetLobbyResponse.class, "LOBBY"),
-    STANDARDRESPONSE,
+    STANDARDRESPONSE(StandardLobbyResponse.class, "LOBBY"),
     STARTGAME,
 
     //ACTIONS
@@ -30,18 +33,25 @@ public enum MessageType {
     //notify
     FAILEDACTIONNOTIFY;
 
-    public final Class<? extends Message> c;
-    public final String megaType;
+    private final Class<? extends Message> classType;
+    private final String upperType;
 
-    private MessageType(Class<? extends Message> c, String megaType){
-        this.c = c;
-        this.megaType = megaType;
+    private MessageType(Class<? extends Message> classType, String upperType){
+        this.classType = classType;
+        this.upperType = upperType;
     }
 
 
     private MessageType(){
-        c = null;
-        megaType = null;
+        classType = null;
+        upperType = null;
     }
 
+    public String getUpperType() {
+        return upperType;
+    }
+
+    public Class<? extends Message> getClassType() {
+        return classType;
+    }
 }

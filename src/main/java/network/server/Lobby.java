@@ -1,24 +1,36 @@
 package network.server;
 
 import controller.Controller;
+import exceptions.LobbyFullException;
+import model.Player;
 import view.VirtualView;
 
-import javax.naming.SizeLimitExceededException;
 import java.util.ArrayList;
 
-public class Lobby {
+public class Lobby { //LOBBY E' IL CONTROLLER
     private int id;
     private ArrayList<Player> players;
+    private ArrayList<VirtualView> views;
     private Controller sharedController;
+    private boolean singlePlayerMode;
 
-    public Lobby(int id){
+    public Lobby(int id, Player player, boolean singlePlayerMode){
+        this.singlePlayerMode = singlePlayerMode;
         players = new ArrayList<>();
         this.id = id;
+        players.add(player);
+
     }
 
-    public void joinLobby(Player player) throws SizeLimitExceededException {
+    public Lobby(int id, Player player){
+        players = new ArrayList<>();
+        this.id = id;
+        players.add(player);
+    }
+
+    public void joinLobby(Player player) throws LobbyFullException{
         if(players.size() > 3)
-            throw new SizeLimitExceededException();
+            throw new LobbyFullException();
 
         player.setStartingTurn(players.size()+1);
         players.add(player);
@@ -31,6 +43,14 @@ public class Lobby {
         }
     }
 
+    public ArrayList<String> getUsernameList(){
+        ArrayList<String> names = new ArrayList<>();
+        for (Player p : players) {
+            names.add(p.getNickname());
+        }
+        return names;
+    }
+
     public int getId(){
         return id;
     }
@@ -40,9 +60,10 @@ public class Lobby {
     }
 
     public void startGame() throws Exception {
-        if(players.size() < 2)
-            throw new Exception("Not enaugh players");
-        sharedController = new Controller(0, new ArrayList<VirtualView>());
+        if(players.size() < 2 && !singlePlayerMode)
+            throw new Exception("Not enough players");
+        //CREA VIEWS PASSANDOGLI in e out
+        sharedController = new Controller(id, views);
     }
 
     public Controller getSharedController(){
@@ -52,8 +73,8 @@ public class Lobby {
     @Override
     public String toString() {
         return "Lobby{" +
-                "id=" + id +
-                ", players=" + players +
+                " id: " + id +
+                ", player: " + players +
                 '}';
     }
 }

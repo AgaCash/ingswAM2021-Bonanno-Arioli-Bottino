@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import network.messages.MessageType;
 import network.server.Lobby;
 import network.server.LobbyHandler;
+import view.View;
+import view.VirtualClient;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -15,13 +17,13 @@ public class GetLobbyRequest extends LobbyMessage{
     }
 
     @Override
-    public void executeCommand(LobbyHandler lobbyHandler, PrintWriter out) {
+    public void executeCommand(LobbyHandler lobbyHandler, View view, VirtualClient virtualClient) {
         Gson gson = new Gson();
         System.out.println("SON dentro?");
         ArrayList<Lobby> lobbies = lobbyHandler.getLobbies();
         System.out.println("LOBBIES: "+lobbies);
         GetLobbyResponse response = new GetLobbyResponse(this.getUsername(),lobbies);
-        out.println( gson.toJson(response) );
+        //out.println( gson.toJson(response) );
     }
 
     @Override

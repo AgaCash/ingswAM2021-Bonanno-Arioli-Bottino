@@ -2,7 +2,7 @@ package network;
 
 import network.server.Lobby;
 import network.server.LobbyHandler;
-import network.server.Player;
+import model.Player;
 import org.junit.jupiter.api.Test;
 
 import javax.naming.SizeLimitExceededException;
@@ -12,12 +12,11 @@ import static org.junit.jupiter.api.Assertions.*;
 public class LobbyTest {
     @Test
     public void creationTest() throws Exception {
-        Lobby lobby = new Lobby(7);
+        Player player = new Player("user1");
+        Lobby lobby = new Lobby(7, player);
         assertNotNull(lobby);
         System.out.println((lobby.toString()));
 
-        Player player = new Player("user1");
-        lobby.joinLobby(player);
         lobby.joinLobby(player);
         lobby.joinLobby(player);
         lobby.joinLobby(player);
