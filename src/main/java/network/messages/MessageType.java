@@ -3,7 +3,6 @@ package network.messages;
 import network.messages.lobbyMessages.CreateLobbyRequest;
 import network.messages.lobbyMessages.GetLobbyRequest;
 import network.messages.lobbyMessages.GetLobbyResponse;
-import network.messages.lobbyMessages.LoginSinglePlayerRequest;
 
 public enum MessageType {
     //LOGIN
@@ -25,7 +24,11 @@ public enum MessageType {
     BUYDEVCARDS,
     BUYDEVCARDSUPDATE,
     LEADERCARD,
-    LEADERCARDUPDATE;
+    LEADERCARDUPDATE,
+    ENDTURN,
+    ENDTURNUPDATE,
+    //notify
+    FAILEDACTIONNOTIFY;
 
     public final Class<? extends Message> c;
     public final String megaType;

@@ -1,4 +1,4 @@
-package model.cards;
+/*package model.cards;
 
 import model.colour.Colour;
 import org.junit.jupiter.api.Test;
@@ -91,4 +91,4 @@ class CardSlotsTest {
 
     }
 
-}
+}*/

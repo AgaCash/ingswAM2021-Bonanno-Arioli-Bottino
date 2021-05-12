@@ -1,12 +1,12 @@
 package model.table;
 
+import exceptions.*;
 import model.Player;
 import model.cards.*;
 import model.resources.Resource;
 import model.strongbox.Strongbox;
 import model.warehouse.WarehouseDepot;
 
-import javax.naming.OperationNotSupportedException;
 import java.util.ArrayList;
 
 public class PlayerBoard {
@@ -24,20 +24,7 @@ public class PlayerBoard {
     private int faithPoints = 0;
 
     //--------------------INITIALIZE--------------------
-    //ONLY 4 TESTING
-    public PlayerBoard(CardSlots cardSlots, WarehouseDepot warehouseDepot,
-                       Strongbox strongbox, FaithTrack faithTrack,
-                       DevelopmentBoard developmentBoard, MarketBoard marketBoard,
-                       ArrayList<LeaderCard> couple){
-        this.cardSlots = cardSlots;
-        this.warehouseDepot = warehouseDepot;
-        this.strongbox = strongbox;
-        this.faithTrack = faithTrack;
-        this.developmentBoard = developmentBoard;
-        this.marketBoard = marketBoard;
-        this.hasInkwell = false;
-        this.leaderSlots = couple;
-    }
+
 
     public PlayerBoard(Player player, DevelopmentBoard developmentBoard, MarketBoard marketBoard){
         this.player = player;
@@ -69,32 +56,7 @@ public class PlayerBoard {
     @remove flag sets if remove @cost after the check from player's resources or not
      */
     private boolean checkResources(ArrayList<Resource> cost, boolean remove){
-        /*ArrayList<Resource> warehouseResources = new ArrayList<>();
-        ArrayList<Resource> strongboxResources = new ArrayList<>();
-        ArrayList<Resource> tmp = new ArrayList<>();
 
-        for(Resource r :cost){
-            tmp.clear();
-            tmp.add(r);
-            if(warehouseDepot.isPresent(tmp)){
-                warehouseResources.add(r);
-            }else if(strongbox.isPresent(tmp)){
-                strongboxResources.add(r);
-            }else{
-                return false;
-            }
-        }
-        //TEORICAMENTE SE LE RISORSE NON CI SONO NON RAGGIUNGERA' MAI QUESTO PUNTO DELLA FUNZIONE
-        if(remove){
-            for(Resource r: warehouseResources){
-                warehouseDepot.removeResource(r);
-            }
-            for(Resource r: strongboxResources){
-                strongbox.removeResource(r);
-            }
-        }
-
-        return true;*/
         ArrayList<Resource> clonedWarehouse = warehouseDepot.status();
         ArrayList<Resource> clonedStrongbox = strongbox.status();
         for(Resource r :cost){
@@ -124,12 +86,11 @@ public class PlayerBoard {
     //--------------------BUY DEV CARDS--------------------
 
     //@Controller
-    public void buyDevCard(Deck deck, int slotPosition, Discount card) throws OperationNotSupportedException {
+    public void buyDevCard(Deck deck, int slotPosition, Discount card) throws FullCardSlotException, NonCorrectLevelCardException, InsufficientResourcesException {
         Resource discount = null;
         if(cardIsUsable(card))
             discount = card.whichDiscount();
         ArrayList<Resource> cost = deck.getCost();
-        ArrayList<Resource> payment = new ArrayList<>();
 
         if(discount!=null)
             cost.remove(discount);
@@ -138,8 +99,7 @@ public class PlayerBoard {
             cardSlots.addCard(slotPosition, deck.popCard());
         }
         else{
-            //notificare al controller
-            //"ACQUISTO FALLITO"
+            throw new InsufficientResourcesException("Can't buy this card: insufficient resources!");
         }
     }
 
@@ -150,19 +110,33 @@ public class PlayerBoard {
         if(line && !column &&  num>=0 && num<=2) {
             bought = marketBoard.addMarketLine(num, card);
             for (Resource res : bought) {
-                if (res == Resource.FAITH)
+                if (res == Resource.FAITH) {
                     faithTrack.faithAdvance(faithBox, faithTrack);
-                else
-                    warehouseDepot.addResource(res);
+                }
+                else {
+                    try {
+                        warehouseDepot.addResource(res);
+                    } catch(FullWarehouseException e){
+                        //
+                    }
+                }
+
             }
         }
         else if(!line && column && num>=0 && num<=3) {
             bought = marketBoard.addMarketColumn(num, card);
             for (Resource res : bought) {
-                if (res == Resource.FAITH)
+                if (res == Resource.FAITH) {
                     faithTrack.faithAdvance(faithBox, faithTrack);
-                else
-                    warehouseDepot.addResource(res);
+                }
+                else {
+                    try{
+                        warehouseDepot.addResource(res);
+                    } catch(FullWarehouseException e){
+                        //
+                    }
+
+                }
             }
         }
     }
@@ -171,63 +145,60 @@ public class PlayerBoard {
     /*devCadProduction: activates production of the last card popped from @slot
     @chosenOutput is set by @Controller and it's the optional resource produced by @card
      */
-    public void devCardProduction(int slot, Resource chosenOutput, ExtraProd card) throws OperationNotSupportedException {
+    public ArrayList<Resource> devCardProduction(int slot, Resource chosenOutput, ExtraProd card) throws
+                                                                                            InsufficientResourcesException
+                                                                                            {
         ArrayList<Resource> prodResources;
         if(checkResources(this.cardSlots.getCard(slot).getProdInput(), true)){
-            if(checkExtraProd(card)==null){
-                // notifica il controller
-                // "CARTA NON USABILE"
-            }
+            if(checkExtraProd(card)==null){}
             else{
                 card.setChosenOutput(chosenOutput);
             }
             prodResources =  this.cardSlots.getCard(slot).createProduction(card);
-            for(Resource res : prodResources)
-                if(res == Resource.FAITH)
-                    faithTrack.faithAdvance(faithBox, faithTrack);
-                else
-                    strongbox.addResource(res);
+                for (Resource res : prodResources)
+                    if (res == Resource.FAITH) {
+                        faithTrack.faithAdvance(faithBox, faithTrack);
+                        prodResources.remove(Resource.FAITH);
+                return prodResources;
+            }
         }
         else {
-            //notify the controller
-            //"RISORSE NON SUFFICIENTI"
+            throw new InsufficientResourcesException("Can`t do this production: insufficient resources!");
         }
+        return null;
     }
     /*defaultProduction: activates production from the developmentBoard
     @input and @output are set by @Controller
      */
-    public void defaultProduction(ArrayList<Resource> input, Resource output, LeaderCard card, Resource chosenOutput){
+    public ArrayList<Resource> defaultProduction(ArrayList<Resource> input, Resource output, LeaderCard card, Resource chosenOutput) throws
+                                                                                                                                        InsufficientResourcesException {
+        ArrayList<Resource> prodResources = new ArrayList<>();
         if(checkExtraProd(card)!=null)
             card.setChosenOutput(chosenOutput);
-        else{
-            // notifica il controller
-            //"CARTA NON USABILE
-        }
         if(checkResources(input, true )){
-            this.strongbox.addResource(output);
+            prodResources.add(output);
+            //leaderCard
             if(card!=null){
                 for (Resource res : card.production())
-                    if (res == Resource.FAITH)
+                    if (res == Resource.FAITH) {
                         faithTrack.faithAdvance(faithBox, faithTrack);
-                    else
-                        strongbox.addResource(res);
+                        prodResources.remove(Resource.FAITH);
+                    }
             }
+            return prodResources;
         }
         else{
-            //notifica il controller
-            //"RISORSE NON SUFFICIENTI"
+            throw new InsufficientResourcesException("Can't do this production: insufficient resources!");
+
         }
     }
 
-    private ExtraProd checkExtraProd(LeaderCard card){
+    private ExtraProd checkExtraProd(LeaderCard card) {
         if(cardIsUsable(card) && card.isExtraProd()) {
             ArrayList<Resource> extraProdInput = new ArrayList<>();
             extraProdInput.add(card.getExtraProdInput());
             if (checkResources(extraProdInput, true))
                 return (ExtraProd) card;
-        }
-        else{
-            /*notificare il controller */
         }
         return null;
     }
@@ -255,6 +226,7 @@ public class PlayerBoard {
     }
 
     public void checkPopeFlags(boolean[] flags){
+        //dai figa cisco competitivo
         if (flags[0])
             //serve che controller faccia chiamare al game il metodo, dandogli indicazione
             //di quale player ha chiamato
@@ -268,24 +240,52 @@ public class PlayerBoard {
     }
     //--------------------LEADER CARDS--------------------
 
-    public void activateLeaderCard(LeaderCard card){
+    public void activateLeaderCard(LeaderCard card) throws InsufficientResourcesException,
+                                                            InsufficientRequirementsException {
         if(card.isExtraDepot()){
             ArrayList<Resource> requirements = card.getRequiredResources();
             if(checkResources(requirements, false))
                 card.activate();
-            else{ /* notifica il controller */ }
+            else{
+                throw new InsufficientResourcesException("Can't activate this leader card: insufficient resources!");
+            }
         }
         else{
             ArrayList<DevelopmentCard> requirements = card.getRequiredCards();
             if(checkDevCards(requirements))
                 card.activate();
-            else{ /* notifica il controller */ }
+            else{
+                throw new InsufficientRequirementsException("Can't activate this leader card: insufficient resources!");
+            }
 
         }
     }
 
     public Player getPlayer(){
         return player;
+    }
+
+    public Strongbox getStrongbox(){
+        return strongbox;
+    }
+
+
+
+
+
+    //ONLY 4 TESTING
+    public PlayerBoard(CardSlots cardSlots, WarehouseDepot warehouseDepot,
+                       Strongbox strongbox, FaithTrack faithTrack,
+                       DevelopmentBoard developmentBoard, MarketBoard marketBoard,
+                       ArrayList<LeaderCard> couple){
+        this.cardSlots = cardSlots;
+        this.warehouseDepot = warehouseDepot;
+        this.strongbox = strongbox;
+        this.faithTrack = faithTrack;
+        this.developmentBoard = developmentBoard;
+        this.marketBoard = marketBoard;
+        this.hasInkwell = false;
+        this.leaderSlots = couple;
     }
 
 }

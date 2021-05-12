@@ -1,5 +1,6 @@
 package model.warehouse;
 
+import exceptions.FullWarehouseException;
 import model.cards.ExtraDepot;
 import model.resources.Resource;
 
@@ -19,7 +20,7 @@ public class WarehouseDepot {
             cards.add(card);
     }
 
-    public void addResource(Resource tmp) {
+    public void addResource(Resource tmp) throws FullWarehouseException {
         boolean added = false;
         for (ExtraDepot card : cards) {
             if (card.addResource(tmp)) {
@@ -43,10 +44,8 @@ public class WarehouseDepot {
         }
     }
 
-    private void throwResource(Resource res){
-        //notifica al controller
-        //System.out.println("pienooooo");
-        this.trash.add(res);
+    private void throwResource(Resource res) throws FullWarehouseException {
+        throw new FullWarehouseException();
     }
 
     public Resource removeResource(Resource tmp){
@@ -63,8 +62,6 @@ public class WarehouseDepot {
             return tmp;
         }
         else {
-            //notifica al controller
-            //System.out.println("non presente");
             return null;
         }
 
