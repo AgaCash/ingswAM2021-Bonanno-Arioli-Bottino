@@ -247,17 +247,27 @@ public class Game {
     }
 
     public void checkPopeFlags(boolean[] flags){
-        //dai figa cisco competitivo
-        if (flags[0])
-            //serve che controller faccia chiamare al game il metodo, dandogli indicazione
-            //di quale player ha chiamato
-            ;
-        if (flags[1])
-            //same
-            ;
-        if(flags[2])
-            //same
-            ;
+        if (flags[0]){
+            for(PlayerBoard p : players){
+                if(p.getFaithBox().getPosition()>=5)
+                    p.getPlayer().addPoints(2);
+                p.getFaithBox().setPopeFlag(false,false,false);
+            }
+        }
+        if (flags[1]){
+            for(PlayerBoard p : players){
+                if(p.getFaithBox().getPosition()>=12)
+                    p.getPlayer().addPoints(3);
+                p.getFaithBox().setPopeFlag(false,false,false);
+            }
+        }
+        if(flags[2]){
+            for(PlayerBoard p : players){
+                if(p.getFaithBox().getPosition()>=19)
+                    p.getPlayer().addPoints(4);
+                p.getFaithBox().setPopeFlag(false,false,false);
+            }
+        }
     }
     //--------------------LEADER CARDS--------------------
 
@@ -282,8 +292,8 @@ public class Game {
         }
     }
     //============ENDGAME=======
-    //devi fare la classifica dei punti vittoria
-    //contare le carte dev per ogni giocatore
+    //contare i punti vittoria dei giocatori su faithTrack, leaderCards, devCards ecc...
+    //fare la classifica dei punti vittoria
     //============utilities
 
     private void updateStrongbox(){

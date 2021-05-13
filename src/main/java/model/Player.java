@@ -4,7 +4,6 @@ public class Player {
     private String nickname;
     private int startingTurn;
     private int points = 0;
-    //private PlayerBoard playerBoard = new PlayerBoard(); will be okay after singleton application
 
     public Player(String nickname){
         this.nickname = nickname;

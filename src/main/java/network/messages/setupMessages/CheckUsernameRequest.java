@@ -1,6 +1,6 @@
 package network.messages.setupMessages;
 
-import network.messages.MessageType;
+import network.messages.*;
 import network.server.ConnectionHandler;
 
 import java.io.PrintWriter;
