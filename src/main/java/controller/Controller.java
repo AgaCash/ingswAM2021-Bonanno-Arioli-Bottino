@@ -1,6 +1,9 @@
 package controller;
 
-import exceptions.*;
+import exceptions.FullCardSlotException;
+import exceptions.InsufficientRequirementsException;
+import exceptions.InsufficientResourcesException;
+import exceptions.NonCorrectLevelCardException;
 import model.Game;
 import model.cards.Discount;
 import model.cards.ExtraProd;
@@ -8,13 +11,9 @@ import model.cards.LeaderCard;
 import model.cards.WhiteConverter;
 import model.resources.Resource;
 import model.table.Deck;
-import network.messages.Message;
 import network.messages.gameMessages.GameMessage;
 import view.VirtualView;
 
-import javax.naming.OperationNotSupportedException;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class Controller {
@@ -43,9 +42,12 @@ public class Controller {
                                                                         InsufficientResourcesException {
         game.buyDevCard(deck, slot, card);
     }
-    public void buyResources(boolean line, int num, WhiteConverter card) throws FullWarehouseException {
-
+    public void buyResources(boolean line, int num, WhiteConverter card){
         game.buyResources(line, num, card);
+
+    }
+    public ArrayList getThrewResources(){
+        return game.getThrewResources();
     }
     public void devCardProduction(int slot, Resource chosenOutput, ExtraProd card) throws InsufficientResourcesException {
         game.devCardProduction(slot, chosenOutput, card);

@@ -43,5 +43,6 @@ public class BuyDevCardRequest extends GameMessage{
 
     private void update(){
 
+
     }
 }
