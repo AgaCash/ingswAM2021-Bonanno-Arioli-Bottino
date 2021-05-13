@@ -6,9 +6,8 @@ import exceptions.InsufficientResourcesException;
 import model.cards.ExtraProd;
 import model.resources.Resource;
 import network.messages.MessageType;
-import network.messages.notifies.FailedActionNotify;
-
 import view.VirtualView;
+
 import java.util.ArrayList;
 
 public class DefaultProductionRequest extends GameMessage{
@@ -27,14 +26,17 @@ public class DefaultProductionRequest extends GameMessage{
         try{
             controller.defaultProduction(input, output, card, chosenOutput);
            //out.println(gson.toJson(new DefaultProductionResponse(this.getUsername()), MarketResponse.class));
-            update();
+            update(controller, views);
         } catch (InsufficientResourcesException e) {
            //out.println(gson.toJson(new FailedActionNotify(this.getUsername(), e.getMessage()), FailedActionNotify.class));
 
         }
     }
 
-    private void update(){
-
+    private void update(Controller controller, ArrayList<VirtualView> views){
+        DefaultProductionResponse response = new DefaultProductionResponse(getUsername(),
+                                                                            controller.getCurrentPlayer().getWarehouseDepot(),
+                                                                            controller.getCurrentPlayer().getStrongbox());
+        //views.forEach((element)-> { element.updateBuyDevCard(response);});
     }
 }

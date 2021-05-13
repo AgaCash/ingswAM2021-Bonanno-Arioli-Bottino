@@ -5,12 +5,12 @@ import exceptions.InsufficientRequirementsException;
 import exceptions.InsufficientResourcesException;
 import exceptions.NonCorrectLevelCardException;
 import model.Game;
-import model.cards.Discount;
-import model.cards.ExtraProd;
-import model.cards.LeaderCard;
-import model.cards.WhiteConverter;
+import model.cards.*;
 import model.resources.Resource;
 import model.table.Deck;
+import model.table.DevelopmentBoard;
+import model.table.MarketBoard;
+import model.table.PlayerBoard;
 import network.messages.gameMessages.GameMessage;
 import view.VirtualView;
 
@@ -57,6 +57,18 @@ public class Controller {
     }
     public void activateLeaderCard(LeaderCard card) throws InsufficientRequirementsException, InsufficientResourcesException {
         game.activateLeaderCard(card);
+    }
+
+    public PlayerBoard getCurrentPlayer() {
+        return game.getCurrentPlayer();
+    }
+
+    public MarketBoard getMarketBoard(){
+        return game.getMarketBoard();
+    }
+
+    public DevelopmentBoard getDevBoard(){
+        return game.getDevBoard();
     }
 
     public void endTurn(){

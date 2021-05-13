@@ -8,11 +8,8 @@ import exceptions.NonCorrectLevelCardException;
 import model.cards.Discount;
 import model.table.Deck;
 import network.messages.MessageType;
-import network.messages.notifies.FailedActionNotify;
-import view.View;
-
-import view.View;
 import view.VirtualView;
+
 import java.util.ArrayList;
 
 public class BuyDevCardRequest extends GameMessage{
@@ -30,18 +27,22 @@ public class BuyDevCardRequest extends GameMessage{
         try {
             controller.buyDevCard(deck, slot, card);
            //out.println(gson.toJson(new BuyDevCardResponse(this.getUsername()), MarketResponse.class));
-            update();
+            update(controller, views);
         }
         catch(FullCardSlotException e){
-           //out.println(gson.toJson(new FailedActionNotify(this.getUsername(), e.getMessage()), FailedActionNotify.class));
+           //out.println(gson.toJson(new FailedActionNotify(this.getUsername(), e.getMessage())));
         } catch (NonCorrectLevelCardException e) {
-           //out.println(gson.toJson(new FailedActionNotify(this.getUsername(), e.getMessage()), FailedActionNotify.class));
+           //out.println(gson.toJson(new FailedActionNotify(this.getUsername(), e.getMessage())));
         } catch (InsufficientResourcesException e){
-           //out.println(gson.toJson(new FailedActionNotify(this.getUsername(), e.getMessage()), FailedActionNotify.class));
+           //out.println(gson.toJson(new FailedActionNotify(this.getUsername(), e.getMessage())));
         }
     }
 
-    private void update(){
+    private void update(Controller controller, ArrayList<VirtualView> views){
+        BuyDevCardResponse response = new BuyDevCardResponse(getUsername(),
+                                                            controller.getCurrentPlayer().getCardSlots(),
+                                                            controller.getDevBoard());
+        //views.forEach((element)-> { element.updateBuyDevCard(response);});
 
 
     }

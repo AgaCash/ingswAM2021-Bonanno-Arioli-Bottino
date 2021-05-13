@@ -24,14 +24,15 @@ public class BuyResourcesRequest extends GameMessage{
         //out.println(gson.toJson(new BuyDevCardResponse(this.getUsername()), MarketResponse.class));
         controller.getThrewResources();
         //out.println(gson.toJson(new ThrewResourcesNotify(this.getUsername(), controller.getThrewResources()), ThrewResourcesNotify));
-        update();
+        update(controller, views);
 
     }
 
-    public void update(){
-        //tmpMarketBoard = game.getTable().getMarket().status();
-        //tmpWarehouse = game.getPlayer().getWare
-        //CHIEDERE
+    public void update(Controller controller, ArrayList<VirtualView> views){
+        BuyResourcesResponse response = new BuyResourcesResponse(getUsername(),
+                                                                controller.getCurrentPlayer().getWarehouseDepot(),
+                                                                controller.getMarketBoard());
+        //views.forEach((element)-> { element.updateBuyDevCard(response);});
 
     }
 

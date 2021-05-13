@@ -4,10 +4,7 @@ import exceptions.*;
 import model.cards.*;
 import model.resources.Resource;
 import model.singleplayer.Lorenzo;
-import model.table.Deck;
-import model.table.FaithBox;
-import model.table.PlayerBoard;
-import model.table.Table;
+import model.table.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -321,6 +318,18 @@ public class Game {
                 turn += 1;
             currentPlayer = players.get(turn);
         }
+    }
+
+    public PlayerBoard getCurrentPlayer(){
+        return currentPlayer;
+    }
+
+    public DevelopmentBoard getDevBoard(){
+        return table.getDevBoard();
+    }
+
+    public MarketBoard getMarketBoard(){
+        return table.getMarketBoard();
     }
 
 
