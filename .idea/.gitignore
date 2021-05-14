@@ -17,3 +17,5 @@
 # Maven
 log/
 target/
+/target/
+src/target/
