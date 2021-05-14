@@ -1,6 +1,6 @@
 package model.table;
 
-import model.Player;
+import model.player.Player;
 import model.cards.CardSlots;
 import model.cards.LeaderCard;
 import model.strongbox.Strongbox;

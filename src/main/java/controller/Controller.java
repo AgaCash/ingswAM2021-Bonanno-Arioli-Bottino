@@ -12,6 +12,7 @@ import model.table.DevelopmentBoard;
 import model.table.MarketBoard;
 import model.table.PlayerBoard;
 import network.messages.gameMessages.GameMessage;
+import view.VirtualClient;
 import view.VirtualView;
 
 import java.util.ArrayList;
@@ -19,14 +20,14 @@ import java.util.ArrayList;
 public class Controller {
     private int id;
     private Game game;
-    private ArrayList<VirtualView> views;
+    private ArrayList<VirtualClient> views;
 
-    public Controller(int id, ArrayList<VirtualView> views){
-        System.out.println("CONTORLLER CREATO");
+    public Controller(int id, ArrayList<VirtualClient> views){
         this.views = views;
         this.id = id;
         boolean isSinglePlayer = (views.size()==1);
         game = new Game(isSinglePlayer);
+        System.out.println("CONTORLLER CREATO");
     }
 
     public void executeCommand(GameMessage message) {

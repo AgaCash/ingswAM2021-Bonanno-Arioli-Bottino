@@ -3,7 +3,7 @@ package network.messages.gameMessages;
 import com.google.gson.Gson;
 import controller.Controller;
 import network.messages.MessageType;
-import view.VirtualView;
+import view.*;
 import java.util.ArrayList;
 
 public class EndTurnRequest extends GameMessage{
@@ -13,7 +13,7 @@ public class EndTurnRequest extends GameMessage{
     }
 
     @Override
-    public void executeCommand(Controller controller, ArrayList<VirtualView> views){
+    public void executeCommand(Controller controller, ArrayList<VirtualClient> views){
         Gson gson = new Gson();
         controller.endTurn();
        //out.println(gson.toJson(new EndTurnResponse(this.getUsername()), MarketResponse.class));

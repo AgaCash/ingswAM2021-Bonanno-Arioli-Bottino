@@ -8,7 +8,7 @@ import exceptions.NonCorrectLevelCardException;
 import model.cards.Discount;
 import model.table.Deck;
 import network.messages.MessageType;
-import view.VirtualView;
+import view.*;
 
 import java.util.ArrayList;
 
@@ -22,7 +22,7 @@ public class BuyDevCardRequest extends GameMessage{
     }
 
     @Override
-    public void executeCommand(Controller controller, ArrayList<VirtualView> views) {
+    public void executeCommand(Controller controller, ArrayList<VirtualClient> views) {
         Gson gson = new Gson();
         try {
             controller.buyDevCard(deck, slot, card);
@@ -38,7 +38,7 @@ public class BuyDevCardRequest extends GameMessage{
         }
     }
 
-    private void update(Controller controller, ArrayList<VirtualView> views){
+    private void update(Controller controller, ArrayList<VirtualClient> views){
         BuyDevCardResponse response = new BuyDevCardResponse(getUsername(),
                                                             controller.getCurrentPlayer().getCardSlots(),
                                                             controller.getDevBoard());

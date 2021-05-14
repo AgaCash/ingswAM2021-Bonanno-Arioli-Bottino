@@ -1,10 +1,12 @@
 package network.messages.lobbyMessages;
 
 import network.messages.MessageType;
+import network.messages.notifies.FailedActionNotify;
 import network.server.LobbyHandler;
-import model.Player;
+import model.player.Player;
 import view.View;
 import view.VirtualClient;
+import view.*;
 
 import javax.naming.SizeLimitExceededException;
 
@@ -16,13 +18,13 @@ public class CreateLobbyRequest extends LobbyMessage{
     }
 
     @Override
-    public void executeCommand(LobbyHandler lobbyHandler, View view, VirtualClient virtualClient) {
+    public void executeCommand(LobbyHandler lobbyHandler, VirtualClient virtualClient) {
         try {
-            lobbyHandler.createLobby(new Player(super.getUsername()));
+            lobbyHandler.createLobby(new Player(super.getUsername()), virtualClient);
+            StandardLobbyResponse s = new StandardLobbyResponse(getUsername(), true);
+            virtualClient.getVirtualView().sendLobbyMessage(s);
         }catch (SizeLimitExceededException s){
-            System.out.println("Devo avvisare l'user, quindi a questo serve la virtual view?");
-        }finally {
-            //out.println( gson.toJson(standardLobbyResponse) );
+            //non entrerà mai qua
         }
     }
 }

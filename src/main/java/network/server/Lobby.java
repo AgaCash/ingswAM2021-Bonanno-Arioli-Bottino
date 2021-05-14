@@ -2,7 +2,8 @@ package network.server;
 
 import controller.Controller;
 import exceptions.LobbyFullException;
-import model.Player;
+import model.player.Player;
+import view.VirtualClient;
 import view.VirtualView;
 
 import java.util.ArrayList;
@@ -10,30 +11,43 @@ import java.util.ArrayList;
 public class Lobby { //LOBBY E' IL CONTROLLER
     private int id;
     private ArrayList<Player> players;
-    private ArrayList<VirtualView> views;
+    private ArrayList<VirtualClient> views;
     private Controller sharedController;
     private boolean singlePlayerMode;
 
-    public Lobby(int id, Player player, boolean singlePlayerMode){
+    private void initLobby(){
+        players = new ArrayList<>();
+        views = new ArrayList<>();
+    }
+
+    public Lobby(int id, Player player, VirtualClient virtualClient, boolean singlePlayerMode){
+        initLobby();
         this.singlePlayerMode = singlePlayerMode;
-        players = new ArrayList<>();
         this.id = id;
-        players.add(player);
-
+        try {
+            joinLobby(player, virtualClient);
+        } catch (LobbyFullException e) {
+            e.printStackTrace(); //NON SUCCEDERA' MAI!!
+        }
     }
 
-    public Lobby(int id, Player player){
-        players = new ArrayList<>();
+    public Lobby(int id, Player player, VirtualClient virtualClient){
+        initLobby();
         this.id = id;
-        players.add(player);
+        try {
+            joinLobby(player, virtualClient);
+        } catch (LobbyFullException e) {
+            e.printStackTrace(); //NON SUCCEDERA' MAI!!
+        }
     }
 
-    public void joinLobby(Player player) throws LobbyFullException{
+    public void joinLobby(Player player, VirtualClient virtualClient) throws LobbyFullException{
         if(players.size() > 3)
             throw new LobbyFullException();
 
         player.setStartingTurn(players.size()+1);
         players.add(player);
+        views.add(virtualClient);
     }
 
     public void leaveLobby(Player player){
@@ -72,9 +86,8 @@ public class Lobby { //LOBBY E' IL CONTROLLER
 
     @Override
     public String toString() {
-        return "Lobby{" +
-                " id: " + id +
-                ", player: " + players +
-                '}';
+        return "\nLobby " + id +
+                ": players " + players.size() +"/4"+
+                "\n";
     }
 }

@@ -2,7 +2,9 @@ package network.server;
 
 import controller.Controller;
 import exceptions.LobbyFullException;
-import model.Player;
+import model.player.Player;
+import view.VirtualClient;
+import view.VirtualView;
 
 import javax.naming.SizeLimitExceededException;
 import java.util.ArrayList;
@@ -31,14 +33,14 @@ public class LobbyHandler {
         return instance;
     }
 
-    public void createLobby(Player player) throws SizeLimitExceededException {
-        Lobby l = new Lobby(currId, player);
+    public void createLobby(Player player, VirtualClient virtualClient) throws SizeLimitExceededException {
+        Lobby l = new Lobby(currId, player, virtualClient);
         currId++;
         lobbies.add(l);
     }
 
-    public Controller createSinglePlayer(Player player){
-        Lobby l = new Lobby(currId, player, true);
+    public Controller createSinglePlayer(Player player, VirtualClient virtualClient){
+        Lobby l = new Lobby(currId, player, virtualClient, true);
         currId++;
         lobbies.add(l);
         try {
@@ -49,14 +51,15 @@ public class LobbyHandler {
         return l.getSharedController();
     }
 
-    public void joinLobby(Player player, int id) throws LobbyFullException, IndexOutOfBoundsException {
+    public void joinLobby(Player player, int id, VirtualClient virtualClient) throws LobbyFullException, IndexOutOfBoundsException {
+        if(id < 0 || id >= lobbies.size())
+            throw new IndexOutOfBoundsException();
         for (Lobby l: lobbies) {
             if(l.getId()==id){
-                l.joinLobby(player);
+                l.joinLobby(player, virtualClient);
                 break;
             }
         }
-        throw new IndexOutOfBoundsException();
     }
 
     public boolean checkUsername(String username){

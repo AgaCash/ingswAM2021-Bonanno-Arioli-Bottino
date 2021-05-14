@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import controller.Controller;
 import model.cards.WhiteConverter;
 import network.messages.MessageType;
-import view.VirtualView;
+import view.*;
 
 import java.util.ArrayList;
 
@@ -18,7 +18,7 @@ public class BuyResourcesRequest extends GameMessage{
     }
 
     @Override
-    public void executeCommand(Controller controller, ArrayList<VirtualView> views){
+    public void executeCommand(Controller controller, ArrayList<VirtualClient> views){
         Gson gson = new Gson();
         controller.buyResources(line, num, card);
         //out.println(gson.toJson(new BuyDevCardResponse(this.getUsername()), MarketResponse.class));
@@ -28,7 +28,7 @@ public class BuyResourcesRequest extends GameMessage{
 
     }
 
-    public void update(Controller controller, ArrayList<VirtualView> views){
+    public void update(Controller controller, ArrayList<VirtualClient> views){
         BuyResourcesResponse response = new BuyResourcesResponse(getUsername(),
                                                                 controller.getCurrentPlayer().getWarehouseDepot(),
                                                                 controller.getMarketBoard());

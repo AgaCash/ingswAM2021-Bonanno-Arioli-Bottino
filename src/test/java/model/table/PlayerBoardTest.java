@@ -1,6 +1,6 @@
 /*package model.table;
 
-import model.Player;
+import model.player.Player;
 import model.cards.*;
 import model.colour.Colour;
 import model.resources.Resource;

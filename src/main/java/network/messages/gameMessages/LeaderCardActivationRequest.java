@@ -7,7 +7,7 @@ import exceptions.InsufficientResourcesException;
 import model.cards.LeaderCard;
 import network.messages.MessageType;
 import network.messages.notifies.FailedActionNotify;
-import view.VirtualView;
+import view.*;
 import java.util.ArrayList;
 
 public class LeaderCardActivationRequest extends GameMessage{
@@ -19,7 +19,7 @@ public class LeaderCardActivationRequest extends GameMessage{
 
 
     @Override
-    public void executeCommand(Controller controller, ArrayList<VirtualView> views) {
+    public void executeCommand(Controller controller, ArrayList<VirtualClient> views) {
         Gson gson = new Gson();
         try {
             controller.activateLeaderCard(card);

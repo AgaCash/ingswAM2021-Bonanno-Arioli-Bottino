@@ -3,10 +3,10 @@ package network.messages.lobbyMessages;
 import controller.Controller;
 import network.messages.MessageType;
 import network.server.LobbyHandler;
-import model.Player;
+import model.player.Player;
 import view.View;
 import view.VirtualClient;
-import view.VirtualView;
+import view.*;
 
 public class StartSinglePlayerRequest extends LobbyMessage{
 
@@ -15,13 +15,13 @@ public class StartSinglePlayerRequest extends LobbyMessage{
     }
 
     @Override
-    public void executeCommand(LobbyHandler lobbyHandler, View view, VirtualClient virtualClient) {
-        VirtualView virtualView = (VirtualView) view;
-        Controller c = lobbyHandler.createSinglePlayer(new Player(super.getUsername()));
+    public void executeCommand(LobbyHandler lobbyHandler,  VirtualClient virtualClient) {
+        Controller c = lobbyHandler.createSinglePlayer(new Player(super.getUsername()), virtualClient);
         virtualClient.setController(c);
         //TODO:
         //  getData
         //  updateToView
+        virtualClient.getVirtualView().updateStartingSituation();
     }
 
     @Override

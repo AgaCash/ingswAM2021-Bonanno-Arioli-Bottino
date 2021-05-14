@@ -12,53 +12,62 @@ import java.io.*;
 import java.net.Socket;
 
 public class VirtualClient extends Thread{
-    private LobbyHandler lobbyHandler;
     private BufferedReader in;
-    private PrintWriter out;
+    private PrintWriter outStream;
     Controller controller;
     VirtualView virtualView;
 
     public VirtualClient(Socket clientSocket){
         try{
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            out = new PrintWriter(new BufferedWriter(
+            outStream = new PrintWriter(new BufferedWriter(
                     new OutputStreamWriter(clientSocket.getOutputStream())),true);
-            lobbyHandler = LobbyHandler.getInstance();
         }catch (IOException e){
-            e.printStackTrace();
+            //e.printStackTrace();
         }
+        virtualView = new VirtualView(outStream);
     }
 
     public void setController(Controller controller) {
         this.controller = controller;
     }
 
-    private void handleMessage(String s){
+    public VirtualView getVirtualView() {
+        return virtualView;
+    }
+
+    private void handleLobbyMessage(String s){
         Gson gson = new Gson();
         JsonObject jsonObject = gson.fromJson(s, JsonObject.class);
         MessageType messageType = MessageType.valueOf(jsonObject.get("messageType").getAsString());
+        ((LobbyMessage) gson.fromJson(s, messageType.getClassType()))
+                .executeCommand(LobbyHandler.getInstance(), this);
+    }
 
-
-        switch (messageType.getUpperType()){
-            case "LOBBY":
-                ((LobbyMessage) gson.fromJson(s, messageType.getClassType()))
-                        .executeCommand(lobbyHandler, virtualView, this);
-            case "GAME":
-                GameMessage msg = (GameMessage) gson.fromJson(s, messageType.getClassType());
-                controller.executeCommand(msg);
-                break;
-        }
+    private void handleGameMessage(String s){
+        Gson gson = new Gson();
+        JsonObject jsonObject = gson.fromJson(s, JsonObject.class);
+        MessageType messageType = MessageType.valueOf(jsonObject.get("messageType").getAsString());
+        GameMessage msg = (GameMessage) gson.fromJson(s, messageType.getClassType());
+        controller.executeCommand(msg);
     }
 
     private void readLoop(){
         String s = "";
         try {
-            while ((s = in.readLine()) != null) {
-                handleMessage(s);
+            //
+            //BISOGNA SETTARE I CONTROLLER A TUTTI I PLAYER
+            //
+            while (controller == null) {
+                s = in.readLine();
+                handleLobbyMessage(s);//handle lobby message
             }
-        } catch (Exception e) {
+            while ((s = in.readLine()) != null) {
+                handleGameMessage(s);//handle game message
+            }
+        } catch (IOException e) {
             //e.printStackTrace();
-            System.out.println("DISCONNESSO?");
+            System.out.println("Client disconnesso");
         }
     }
 
@@ -68,15 +77,4 @@ public class VirtualClient extends Thread{
     }
 }
 
-//TODO:
-//  StartGameSinglePlayerRequest:
-//      seeTODO
-//  multiplayer
-//  LOBBY HANDLER:
-//      messaggio:
-//          -crea Lobby
-//          -join lobby
-//          messaggioStartGame:
-//            -> avvia il gioco
-//              -> ritorna il controller a VirtualClient
 

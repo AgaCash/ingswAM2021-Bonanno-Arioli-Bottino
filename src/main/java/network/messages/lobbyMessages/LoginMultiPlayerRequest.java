@@ -3,9 +3,10 @@ package network.messages.lobbyMessages;
 import exceptions.LobbyFullException;
 import network.messages.MessageType;
 import network.server.LobbyHandler;
-import model.Player;
+import model.player.Player;
 import view.View;
 import view.VirtualClient;
+import view.*;
 
 public class LoginMultiPlayerRequest extends LobbyMessage{
     private int lobbyId;
@@ -16,16 +17,17 @@ public class LoginMultiPlayerRequest extends LobbyMessage{
     }
 
     @Override
-    public void executeCommand(LobbyHandler lobbyHandler, View view, VirtualClient virtualClient) {
+    public void executeCommand(LobbyHandler lobbyHandler,  VirtualClient virtualClient) {
+        StandardLobbyResponse s = null;
         try{
-            lobbyHandler.joinLobby(new Player(this.getUsername()), this.lobbyId);
-
-            //out.println( (new Gson()).toJson( new StandardLobbyResponse(super.getUsername(), true) ) );
-        }catch (LobbyFullException s){
-
-            //out.println( (new Gson()).toJson( new StandardLobbyResponse(super.getUsername(), false) ) );
+            lobbyHandler.joinLobby(new Player(this.getUsername()), this.lobbyId, virtualClient);
+            s = new StandardLobbyResponse(getUsername(), true);
+        }catch (LobbyFullException l){
+            s = new StandardLobbyResponse(getUsername(), false, "Lobby selected is full");
         }catch (IndexOutOfBoundsException i){
-            //out.println( (new Gson()).toJson( new StandardLobbyResponse(super.getUsername(), false) ) );
+            s = new StandardLobbyResponse(getUsername(), false, "Lobby selected doesn't exist");
+        }finally {
+            virtualClient.getVirtualView().sendStandardLobbyResponse(s);
         }
     }
 

@@ -2,6 +2,7 @@
 package network.messages;
 
         import network.messages.lobbyMessages.*;
+        import network.messages.notifies.FailedActionNotify;
 
 public enum MessageType {
     //SETUP
@@ -31,7 +32,7 @@ public enum MessageType {
     ENDTURN,
     ENDTURNUPDATE,
     //notify
-    FAILEDACTIONNOTIFY;
+    FAILEDACTIONNOTIFY(FailedActionNotify.class, "NOTIFY");
 
     private final Class<? extends Message> classType;
     private final String upperType;

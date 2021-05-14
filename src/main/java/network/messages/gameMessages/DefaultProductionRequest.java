@@ -6,7 +6,7 @@ import exceptions.InsufficientResourcesException;
 import model.cards.ExtraProd;
 import model.resources.Resource;
 import network.messages.MessageType;
-import view.VirtualView;
+import view.*;
 
 import java.util.ArrayList;
 
@@ -21,7 +21,7 @@ public class DefaultProductionRequest extends GameMessage{
     }
 
     @Override
-    public void executeCommand(Controller controller, ArrayList<VirtualView> views){
+    public void executeCommand(Controller controller, ArrayList<VirtualClient> views){
         Gson gson = new Gson();
         try{
             controller.defaultProduction(input, output, card, chosenOutput);
@@ -33,7 +33,7 @@ public class DefaultProductionRequest extends GameMessage{
         }
     }
 
-    private void update(Controller controller, ArrayList<VirtualView> views){
+    private void update(Controller controller, ArrayList<VirtualClient> views){
         DefaultProductionResponse response = new DefaultProductionResponse(getUsername(),
                                                                             controller.getCurrentPlayer().getWarehouseDepot(),
                                                                             controller.getCurrentPlayer().getStrongbox());

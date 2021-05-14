@@ -2,6 +2,7 @@ package model;
 
 import exceptions.*;
 import model.cards.*;
+import model.player.Player;
 import model.resources.Resource;
 import model.singleplayer.Lorenzo;
 import model.table.*;
