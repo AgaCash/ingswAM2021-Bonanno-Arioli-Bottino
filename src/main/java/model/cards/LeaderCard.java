@@ -1,4 +1,5 @@
 package model.cards;
+import exceptions.UnusableCardException;
 import model.resources.Resource;
 
 import java.util.ArrayList;
@@ -28,15 +29,15 @@ abstract public class LeaderCard extends Card{
 		return false;
 	}
 	//subclasses specific methods
-	public Resource whichResource(){
+	public Resource whichResource() throws UnusableCardException {
 		return null;
 	}
-	public Resource whichDiscount(){
+	public Resource whichDiscount() throws UnusableCardException {
 		return null;
 	}
 	public boolean addResource(Resource tmp){return false;}
 	public boolean removeResource(Resource tmp){return false;}
-	public Resource getExtraProdInput(){ return null;}
+	public Resource getExtraProdInput() throws UnusableCardException { return null;}
 	public ArrayList<Resource> production(){return null;}
 	public void setChosenOutput(Resource chosenOutput){}
 

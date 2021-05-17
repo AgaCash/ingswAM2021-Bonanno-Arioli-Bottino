@@ -1,4 +1,4 @@
-package model.cards;
+/*package model.cards;
 
 import org.junit.jupiter.api.Test;
 import model.resources.Resource;
@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-class WhiteConverterTest {
+class WhiteConverterTest {*/
 
-    @Test
+/*    @Test
     void whichResource(){
         WhiteConverter card = new WhiteConverter(0, true, new ArrayList<DevelopmentCard>(), Resource.COIN);
         assertEquals(card.whichResource(), Resource.COIN);
@@ -51,4 +51,4 @@ class WhiteConverterTest {
         s+= "\nIs Enabled: "+ isEnabled;
         assertEquals(card.toString(), s);
     }
-}
+}*/

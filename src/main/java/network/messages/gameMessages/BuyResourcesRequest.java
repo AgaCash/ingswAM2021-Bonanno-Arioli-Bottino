@@ -2,7 +2,9 @@ package network.messages.gameMessages;
 
 import com.google.gson.Gson;
 import controller.Controller;
+import exceptions.UnusableCardException;
 import model.cards.WhiteConverter;
+import model.resources.Resource;
 import network.messages.MessageType;
 import view.*;
 
@@ -18,22 +20,29 @@ public class BuyResourcesRequest extends GameMessage{
     }
 
     @Override
-    public void executeCommand(Controller controller, ArrayList<VirtualClient> views){
+    public void executeCommand(Controller controller, VirtualClient client){
         Gson gson = new Gson();
-        controller.buyResources(line, num, card);
-        //out.println(gson.toJson(new BuyDevCardResponse(this.getUsername()), MarketResponse.class));
-        controller.getThrewResources();
-        //out.println(gson.toJson(new ThrewResourcesNotify(this.getUsername(), controller.getThrewResources()), ThrewResourcesNotify));
-        update(controller, views);
-
+        try {
+            controller.buyResources(line, num, card);
+            controller.getThrewResources();
+            update(controller);
+        }catch(UnusableCardException e){
+            FailedActionNotify notify =  new FailedActionNotify(this.getUsername(), e.getMessage());
+            client.getVirtualView().update(notify);
+        }
     }
 
-    public void update(Controller controller, ArrayList<VirtualClient> views){
+    public void update(Controller controller){
         BuyResourcesResponse response = new BuyResourcesResponse(getUsername(),
-                                                                controller.getCurrentPlayer().getWarehouseDepot(),
+                                                                controller.getCurrentPlayer().getPlayerBoard().getWarehouseDepot(),
                                                                 controller.getMarketBoard());
-        //views.forEach((element)-> { element.updateBuyDevCard(response);});
-
+        controller.getViews().forEach((element)-> { element.getVirtualView().update(response);});
+        ArrayList<Resource> threwResources = controller.getThrewResources();
+        for(Resource res: threwResources) {
+            ThrewResourcesNotify threwNotify = new ThrewResourcesNotify(getUsername(),
+                    "Resource " + res + " couldn't be added: warehouse is full!");
+            controller.getViews().forEach((element)-> { element.getVirtualView().update(threwNotify);});
+        }
     }
 
 }

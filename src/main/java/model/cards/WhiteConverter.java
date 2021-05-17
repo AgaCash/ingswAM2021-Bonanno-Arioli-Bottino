@@ -1,4 +1,5 @@
 package model.cards;
+import exceptions.UnusableCardException;
 import model.resources.*;
 import java.util.ArrayList;
 
@@ -15,10 +16,10 @@ public class WhiteConverter extends LeaderCard{
 	}
 
 	@Override
-	public Resource whichResource(){
+	public Resource whichResource() throws UnusableCardException {
 		if(isEnabled())
-			return this.resource;
-		return null;
+			throw new UnusableCardException();
+		return this.resource;
 	}
 
 	@Override

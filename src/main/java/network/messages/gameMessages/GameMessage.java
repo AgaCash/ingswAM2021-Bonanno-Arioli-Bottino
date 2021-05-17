@@ -4,11 +4,7 @@ import controller.Controller;
 import network.messages.Message;
 import network.messages.MessageType;
 import view.View;
-
-import view.View;
-import view.*;
-
-import java.util.ArrayList;
+import view.VirtualClient;
 
 public abstract class GameMessage extends Message {
     public GameMessage(String username, MessageType messageType) {
@@ -19,7 +15,7 @@ public abstract class GameMessage extends Message {
         //System.out.println("default executeCommand CONTROLLER");
     }
 
-    public void executeCommand(Controller controller, ArrayList<VirtualClient> views){
+    public void executeCommand(Controller controller, VirtualClient client){
         //QUESTO SARA' ESEGUITO DAL SERVER
     }
 

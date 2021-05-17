@@ -1,4 +1,4 @@
-package model.cards;
+/*package model.cards;
 
 import org.junit.jupiter.api.Test;
 import model.resources.Resource;
@@ -59,4 +59,4 @@ class ExtraProdTest {
         s+= "\nVictory Points: "+victoryPoints;
         s+= "\nIs Enabled: "+ isEnabled;
     }
-}
+}*/

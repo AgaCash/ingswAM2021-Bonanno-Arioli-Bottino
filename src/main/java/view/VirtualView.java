@@ -5,7 +5,7 @@ import network.messages.gameMessages.*;
 import network.messages.lobbyMessages.GetLobbyResponse;
 import network.messages.lobbyMessages.LobbyMessage;
 import network.messages.lobbyMessages.StandardLobbyResponse;
-import network.messages.notifies.FailedActionNotify;
+import network.messages.gameMessages.FailedActionNotify;
 
 import java.io.PrintWriter;
 
@@ -36,28 +36,8 @@ public class VirtualView implements View{
 
     }
 
-    public void updateBuyDevCard(BuyDevCardResponse response){
+    public void update(GameMessage response){
         outStream.println(gson.toJson(response));
-    }
-
-    public void updateDefaultProduction(DefaultProductionResponse response){
-        String s = gson.toJson(response);
-        outStream.println(s);
-    }
-
-    public void updateDevCardProduction(DevCardProductionResponse response){
-        String s = gson.toJson(response);
-        outStream.println(s);
-    }
-
-    public void updateEndTurn(EndTurnResponse response){
-        String s = gson.toJson(response);
-        outStream.println(s);
-    }
-
-    public void updateLeaderCardActivation(LeaderCardActivationResponse response){
-        String s = gson.toJson(response);
-        outStream.println(s);
     }
 
     public void sendGetLobby(GetLobbyResponse lobbyMessage){
@@ -73,6 +53,10 @@ public class VirtualView implements View{
 
     public void sendStandardLobbyResponse(StandardLobbyResponse lobbyMessage){
         outStream.println(gson.toJson(lobbyMessage));
+    }
+
+    public String getUsername(){
+        return this.username;
     }
 
 

@@ -1,5 +1,6 @@
 package model.cards;
 
+import exceptions.UnusableCardException;
 import model.colour.Colour;
 import model.resources.Resource;
 
@@ -9,7 +10,6 @@ import java.util.ArrayList;
  * Class representing the real Development Card
  */
 public class DevelopmentCard extends Card {
-
     private Colour colour;
     private int level;
     private int victoryPoints;
@@ -28,8 +28,6 @@ public class DevelopmentCard extends Card {
      * @param prodInput model.resources required in production
      * @param prodOutput model.resources given to user in production
      */
-
-
     public DevelopmentCard(int id, Colour colour, int level, int points, ArrayList<Resource> cost, ArrayList<Resource> prodInput, ArrayList<Resource> prodOutput) {
         this.id = id;
         this.colour = colour;
@@ -53,12 +51,10 @@ public class DevelopmentCard extends Card {
      *  Method that allow to activate the production
      *
      */
-
-    public ArrayList<Resource> createProduction(ExtraProd extraProd){
+    public ArrayList<Resource> createProduction(ExtraProd extraProd) throws UnusableCardException {
         ArrayList<Resource> outputResources = (ArrayList<Resource>) prodOutput.clone();
-        //paranoico
         if(!isUsable())
-            return null;
+            throw new UnusableCardException();
 
         if(extraProd!=null && extraProd.isEnabled())
                 outputResources.addAll(extraProd.production());

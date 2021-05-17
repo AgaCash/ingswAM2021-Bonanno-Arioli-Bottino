@@ -1,4 +1,4 @@
-package model.cards;
+/* package model.cards;
 
 import org.junit.jupiter.api.Test;
 import model.resources.Resource;
@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DiscountTest {
-
+class DiscountTest {*/
+/*
     @Test
     void whichDiscount() {
         //testing working
@@ -50,4 +50,4 @@ class DiscountTest {
         s+= "\nIs Enabled: "+ isEnabled;
         assertEquals(card.toString(), s);
     }
-}
+}*/

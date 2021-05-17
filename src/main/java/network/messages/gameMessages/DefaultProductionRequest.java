@@ -3,6 +3,7 @@ package network.messages.gameMessages;
 import com.google.gson.Gson;
 import controller.Controller;
 import exceptions.InsufficientResourcesException;
+import exceptions.UnusableCardException;
 import model.cards.ExtraProd;
 import model.resources.Resource;
 import network.messages.MessageType;
@@ -21,22 +22,21 @@ public class DefaultProductionRequest extends GameMessage{
     }
 
     @Override
-    public void executeCommand(Controller controller, ArrayList<VirtualClient> views){
+    public void executeCommand(Controller controller, VirtualClient client){
         Gson gson = new Gson();
         try{
             controller.defaultProduction(input, output, card, chosenOutput);
-           //out.println(gson.toJson(new DefaultProductionResponse(this.getUsername()), MarketResponse.class));
-            update(controller, views);
-        } catch (InsufficientResourcesException e) {
-           //out.println(gson.toJson(new FailedActionNotify(this.getUsername(), e.getMessage()), FailedActionNotify.class));
-
+            update(controller);
+        } catch (InsufficientResourcesException | UnusableCardException e) {
+            FailedActionNotify notify = new FailedActionNotify(this.getUsername(), e.getMessage());
+            client.getVirtualView().update(notify);
         }
     }
 
-    private void update(Controller controller, ArrayList<VirtualClient> views){
+    private void update(Controller controller){
         DefaultProductionResponse response = new DefaultProductionResponse(getUsername(),
-                                                                            controller.getCurrentPlayer().getWarehouseDepot(),
-                                                                            controller.getCurrentPlayer().getStrongbox());
-        //views.forEach((element)-> { element.updateBuyDevCard(response);});
+                                                                            controller.getCurrentPlayer().getPlayerBoard().getWarehouseDepot(),
+                                                                            controller.getCurrentPlayer().getPlayerBoard().getStrongbox());
+        controller.getViews().forEach((element)-> {element.getVirtualView().update(response);});
     }
 }

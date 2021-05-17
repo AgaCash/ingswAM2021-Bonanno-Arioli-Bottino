@@ -1,4 +1,4 @@
-package network;
+/*package network;
 
 import network.server.Lobby;
 import network.server.LobbyHandler;
@@ -35,7 +35,7 @@ public class LobbyTest {
         assertNotNull(lobby.getSharedController());
 
          */
-    }
+   /* }
 
     @Test
     public void lobbyHandlerTest(){
@@ -46,7 +46,7 @@ public class LobbyTest {
         assertDoesNotThrow(()->lobbyHandler.joinLobby(player2, 0));
         System.out.println( lobbyHandler.getLobbies() );
         System.out.println( lobbyHandler.getLobby(0) );
-        */
+
 
     }
-}
+}*/

@@ -2,7 +2,7 @@
 package network.messages;
 
         import network.messages.lobbyMessages.*;
-        import network.messages.notifies.FailedActionNotify;
+        import network.messages.gameMessages.FailedActionNotify;
 
 public enum MessageType {
     //SETUP

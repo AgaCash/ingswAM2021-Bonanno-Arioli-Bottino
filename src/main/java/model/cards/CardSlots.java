@@ -33,7 +33,8 @@ public class CardSlots {
             slots.get(slot).push(getCard);
             return getCard;
         }catch(EmptyStackException e){
-            return null;}
+            return null;
+        }
     }
 
     private boolean checkCardLevelIntegrity(int slot, DevelopmentCard newCard){
@@ -46,9 +47,9 @@ public class CardSlots {
                                                                 NonCorrectLevelCardException {
         if(this.slots.get(slot).isEmpty() && card.getLevel()==1){}
         else {
+            //TODO really necessary? probably remove when client would be defined
             if (slot < 0 || slot > 2)
-                throw new IndexOutOfBoundsException();  //Index out of bound
-            //è davvero necessaria?
+                throw new IndexOutOfBoundsException();
             if (slots.get(slot).size() > 2)
                 throw new FullCardSlotException("Can't add the card in this slot: it's full!");//Card Slot Full
             if (!checkCardLevelIntegrity(slot, card))

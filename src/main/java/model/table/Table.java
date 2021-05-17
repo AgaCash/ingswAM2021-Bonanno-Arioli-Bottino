@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Table {
-    private static Table instance = null;
+   // private static Table instance = null;
     private ArrayList<LeaderCard> cards;
     private DevelopmentBoard developmentBoard;
     private MarketBoard marketBoard;
-
+/*
     private Table(){
         developmentBoard.getDevBoardInstance();
         marketBoard.getMarketInstance();
@@ -27,6 +27,11 @@ public class Table {
 
     public void deleteInstance(){
         instance = null;
+    }*/
+
+    public Table(){
+        developmentBoard = new DevelopmentBoard();
+        marketBoard = new MarketBoard();
     }
 
     private ArrayList<LeaderCard> initializeLeaderCards(){

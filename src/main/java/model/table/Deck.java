@@ -1,5 +1,6 @@
 package model.table;
 
+import exceptions.EmptyDeckException;
 import model.cards.DevelopmentCard;
 import model.colour.Colour;
 import model.resources.Resource;
@@ -49,11 +50,11 @@ public class Deck {
         return cards.get(cards.size()-1).getCost();
     }
 
-    public DevelopmentCard popCard(){
+    public DevelopmentCard popCard() throws EmptyDeckException {
         DevelopmentCard tmpCard;
         int lastIndex = cards.size()-1;
         if(lastIndex<0)
-            return null;
+            throw new EmptyDeckException("Deck is empty!");
         tmpCard = cards.get(lastIndex);
         cards.remove(lastIndex);
         return tmpCard;

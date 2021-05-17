@@ -1,5 +1,6 @@
 package model.cards;
 
+import exceptions.UnusableCardException;
 import model.resources.Resource;
 
 import java.util.ArrayList;
@@ -20,10 +21,10 @@ public class ExtraProd extends LeaderCard{
     }
 
     @Override
-    public Resource getExtraProdInput(){
-        if(isEnabled())
-            return this.input;
-        return null;
+    public Resource getExtraProdInput() throws UnusableCardException {
+        if(!isEnabled())
+            throw new UnusableCardException();
+        return this.input;
     }
 
     public void setChosenOutput(Resource chosenOutput){

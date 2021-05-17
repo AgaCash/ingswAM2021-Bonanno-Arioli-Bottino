@@ -1,5 +1,6 @@
 package model.cards;
 
+import exceptions.UnusableCardException;
 import model.resources.Resource;
 
 import java.util.ArrayList;
@@ -17,10 +18,10 @@ public class Discount extends LeaderCard{
     }
 
     @Override
-    public Resource whichDiscount(){
-        if(isEnabled())
-            return this.discount;
-        return null;
+    public Resource whichDiscount() throws UnusableCardException {
+        if(!isEnabled())
+            throw new UnusableCardException();
+        return this.discount;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package model.strongbox;
+/*package model.strongbox;
 
 import org.junit.jupiter.api.Test;
 import model.resources.*;
@@ -43,4 +43,4 @@ class StrongboxTest {
         arrRes.add(res1);
         assertFalse(sb.isPresent(arrRes));
     }
-}
+}*/

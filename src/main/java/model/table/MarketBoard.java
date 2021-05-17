@@ -1,6 +1,7 @@
 package model.table;
 
-import model.cards.LeaderCard;
+import exceptions.UnusableCardException;
+import model.cards.WhiteConverter;
 import model.marbles.Marble;
 import model.resources.Resource;
 import model.utilities.JsonParser;
@@ -15,9 +16,9 @@ import java.util.Collections;
 public class MarketBoard {
     private ArrayList<ArrayList<Marble>> marbleGrid = new ArrayList<>(3);
     private Marble freeMarble;
-    private static MarketBoard instance = null;
+    //private static MarketBoard instance = null;
 
-    private MarketBoard(){
+    /*private MarketBoard(){
        initializeMarbleGrid();
        }
 
@@ -34,6 +35,10 @@ public class MarketBoard {
 
     public void deleteInstance(){
         instance = null;
+    }*/
+
+    public MarketBoard(){
+        initializeMarbleGrid();
     }
 
     /**
@@ -59,8 +64,8 @@ public class MarketBoard {
      * @param card eventual leader card passed to obtain bonuses
      * @return arraylist of requested model.resources
      */
-    public ArrayList<Resource> addMarketLine (int line, LeaderCard card){
-        Resource convertResource = checkWhiteConverter(card);
+    public ArrayList<Resource> addMarketLine (int line, WhiteConverter card) throws UnusableCardException {
+        Resource convertResource = card.whichResource();
         ArrayList<Resource> resLine = new ArrayList<>(4);
         Marble toConvert;
 
@@ -81,8 +86,8 @@ public class MarketBoard {
      * @param card eventual leader card passed to obtain bonuses
      * @return arraylist of requested model.resources
      */
-    public ArrayList<Resource> addMarketColumn (int col, LeaderCard card){
-        Resource convertResource = checkWhiteConverter(card);
+    public ArrayList<Resource> addMarketColumn (int col, WhiteConverter card) throws UnusableCardException {
+        Resource convertResource = card.whichResource();
         ArrayList<Resource> resColumn = new ArrayList<>(3);
         Marble toConvert;
         for(int i = 0; i<3; i++){
@@ -105,12 +110,5 @@ public class MarketBoard {
         mar = marbleGrid.get(whichOneLine).get(whichOneCol);
         return mar;
     }
-
-    private Resource checkWhiteConverter(LeaderCard card) {
-        if (card != null && card.isWhiteConverter())
-            return card.whichResource();
-        return null;
-    }
-
 }
 

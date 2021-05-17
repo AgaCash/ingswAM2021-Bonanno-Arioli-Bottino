@@ -1,16 +1,18 @@
 package model.table;
 
 
+import exceptions.EmptyDeckException;
 import model.cards.DevelopmentCard;
 import model.colour.Colour;
 import model.utilities.JsonParser;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 
 public final class DevelopmentBoard {
-    private static DevelopmentBoard instance = null;
+    //private static DevelopmentBoard instance = null;
     private final ArrayList<Deck> decks = new ArrayList<>();  //12 decks
 
-    private DevelopmentBoard(){
+    /*private DevelopmentBoard(){
         initializeBoard();
     }
 
@@ -24,8 +26,12 @@ public final class DevelopmentBoard {
         return instance;
     }
 
-    public void deleteInstance(){
+    //public void deleteInstance(){
         instance = null;
+    }*/
+
+    public DevelopmentBoard(){
+        initializeBoard();
     }
 
     /**
@@ -55,9 +61,8 @@ public final class DevelopmentBoard {
      */
     public Deck getDeck(int deckNumber){
         if(deckNumber<0 || deckNumber >decks.size()-1)
-            return null;
-        else
-            return decks.get(deckNumber);
+            throw new InputMismatchException();
+        return decks.get(deckNumber);
     }
 
     /**
@@ -80,12 +85,8 @@ public final class DevelopmentBoard {
      * @return the card on the top of the selected deck
      */
 
-    public DevelopmentCard popCardFromDeck(int deckNumber){
-        Deck d = this.getDeck(deckNumber);
-        if(d == null)
-            return null;
-        else
-            return d.popCard();
+    public DevelopmentCard popCardFromDeck(int deckNumber) throws EmptyDeckException {
+        return this.getDeck(deckNumber).popCard();
     }
 
     /**
@@ -93,13 +94,8 @@ public final class DevelopmentBoard {
      * @param colour model.colour of the deck
      * @return the first card in the deck
      */
-    public DevelopmentCard popCardFromDeckColour(Colour colour){
-        Deck d = this.getDeck(colour);
-        if(d == null)
-            return null;
-        else
-            return d.popCard();
+    public DevelopmentCard popCardFromDeckColour(Colour colour) throws EmptyDeckException {
+        return this.getDeck(colour).popCard();
     }
-
 }
 

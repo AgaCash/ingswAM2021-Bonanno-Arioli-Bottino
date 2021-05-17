@@ -7,13 +7,14 @@ import model.resources.Resource;
 import model.singleplayer.Lorenzo;
 import model.table.*;
 
+
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class Game {
-    private ArrayList<PlayerBoard> players = new ArrayList<>();
+    private ArrayList<Player> players = new ArrayList<>();
     private Table table;
-    private PlayerBoard currentPlayer;
+    private Player currentPlayer;
     private Lorenzo cpu;
     private boolean singlePlayer;
     private ArrayList<Resource> bufferStrongbox = new ArrayList<>();
@@ -24,11 +25,11 @@ public class Game {
     public Game(boolean singlePlayer){
         this.singlePlayer = singlePlayer;
     }
-    //========================START GAME
 
     //@CONTROLLER
     public void initializeGame(){
-        table = Table.getTableInstance();
+        //table = Table.getTableInstance();
+        table = new Table();
         Collections.shuffle(players);
         if(singlePlayer)
             cpu = new Lorenzo(table.getDevBoard());
@@ -37,19 +38,18 @@ public class Game {
     //========DA RIVEDERE DA QUA:
     public void addPlayer(Player newPlayer){
         if(players.size()<4){
-            players.add(new PlayerBoard(newPlayer, table.getDevBoard(), table.getMarketBoard()));
+            players.add(newPlayer);
         }
     }
     //send leader cards
     public ArrayList<LeaderCard> sendQuartet(){
-        //da rifare
-        return null;
+        return table.sendQuartet();
     }
     //receive leader cards
     public void assignLeaderCards(String username, LeaderCard first, LeaderCard second){
-        PlayerBoard user = getPlayerBoard(username);
+        Player user = getPlayer(username);
         if(user!=null)
-            user.addLeaderCards(first, second);
+            user.getPlayerBoard().addLeaderCards(first, second);
     }
     //starting resources
     public void addStartingResources(){
@@ -60,8 +60,8 @@ public class Game {
 
     public ArrayList<String> getPlayerTurns(){
         ArrayList<String> turns = new ArrayList<>();
-        for(PlayerBoard p : players)
-            turns.add(p.getPlayer().getNickname());
+        for(Player p : players)
+            turns.add(p.getNickname());
         return turns;
     }
 
@@ -73,7 +73,7 @@ public class Game {
     //===========UTILITIES
     private boolean checkDevCards(ArrayList<DevelopmentCard> requirements){
         for(DevelopmentCard card : requirements){
-            if(!currentPlayer.getCardSlots().isPresent(card))
+            if(!currentPlayer.getPlayerBoard().getCardSlots().isPresent(card))
                 return false;
         }
         return true;
@@ -84,17 +84,25 @@ public class Game {
      */
     private boolean checkResources(ArrayList<Resource> cost, boolean remove){
 
-        ArrayList<Resource> clonedWarehouse = currentPlayer.getWarehouseDepot().status();
-        ArrayList<Resource> clonedStrongbox = currentPlayer.getStrongbox().status();
+        ArrayList<Resource> clonedWarehouse = currentPlayer.getPlayerBoard().getWarehouseDepot().status();
+        ArrayList<Resource> clonedStrongbox = currentPlayer.getPlayerBoard().getStrongbox().status();
         for(Resource r :cost){
             ArrayList<Resource> tmp = new ArrayList<>();
             tmp.add(r);
             if(clonedWarehouse.remove(r)){
                 if(remove)
-                    currentPlayer.getWarehouseDepot().removeResource(r);
+                    try {
+                        currentPlayer.getPlayerBoard().getWarehouseDepot().removeResource(r);
+                    } catch(ResourceNotFoundException e){
+                        return false;
+                    }
             }else if(clonedStrongbox.remove(r)){
                 if(remove)
-                    currentPlayer.getStrongbox().removeResource(r);
+                    try {
+                        currentPlayer.getPlayerBoard().getStrongbox().removeResource(r);
+                    }catch(ResourceNotFoundException e){
+                        return false;
+                    }
             }else{
                 return false;
             }
@@ -109,17 +117,13 @@ public class Game {
     //============GIOCO
 
     //--------------------BUY DEV CARDS--------------------
-    public void buyDevCard(Deck deck, int slotPosition, Discount card) throws FullCardSlotException, NonCorrectLevelCardException, InsufficientResourcesException {
+    public void buyDevCard(Deck deck, int slotPosition, Discount card) throws FullCardSlotException, NonCorrectLevelCardException, InsufficientResourcesException, UnusableCardException, EmptyDeckException {
         Resource discount = null;
-        if(cardIsUsable(card))
-            discount = card.whichDiscount();
         ArrayList<Resource> cost = deck.getCost();
-
-        if(discount!=null)
-            cost.remove(discount);
-
+        discount = card.whichDiscount();
+        cost.remove(discount);
         if(checkResources(cost, true)){
-            currentPlayer.getCardSlots().addCard(slotPosition, deck.popCard());
+            currentPlayer.getPlayerBoard().getCardSlots().addCard(slotPosition, deck.popCard());
         }
         else{
             throw new InsufficientResourcesException("Can't buy this card: insufficient resources!");
@@ -127,7 +131,7 @@ public class Game {
     }
 
     //--------------------MARKET--------------------
-    public void buyResources(boolean line, int num, WhiteConverter card){
+    public void buyResources(boolean line, int num, WhiteConverter card) throws UnusableCardException {
         ArrayList<Resource> bought = new ArrayList<>();
         if(line &&  num>=0 && num<=2) {
             bought = table.getMarketBoard().addMarketLine(num, card);
@@ -138,11 +142,11 @@ public class Game {
 
         for (Resource res : bought) {
             if (res == Resource.FAITH) {
-                currentPlayer.getFaithTrack().faithAdvance(currentPlayer.getFaithBox(), currentPlayer.getFaithTrack());
+                currentPlayer.getPlayerBoard().getFaithTrack().faithAdvance(currentPlayer.getPlayerBoard().getFaithBox(), currentPlayer.getPlayerBoard().getFaithTrack());
             }
             else {
                 try{
-                    currentPlayer.getWarehouseDepot().addResource(res);
+                    currentPlayer.getPlayerBoard().getWarehouseDepot().addResource(res);
                     } catch(FullWarehouseException e){
                         threwResources.add(res);
                     }
@@ -155,9 +159,9 @@ public class Game {
     public ArrayList<Resource> getThrewResources(){
         ArrayList<Resource> cloned = (ArrayList<Resource>) threwResources.clone();
         for(Resource res: cloned)
-            for(PlayerBoard player: players)
+            for(Player player: players)
                 if(player!=currentPlayer)
-                    player.getFaithTrack().faithAdvance(player.getFaithBox(), player.getFaithTrack());
+                    player.getPlayerBoard().getFaithTrack().faithAdvance(player.getPlayerBoard().getFaithBox(), player.getPlayerBoard().getFaithTrack());
         threwResources.clear();
         return cloned;
     }
@@ -168,42 +172,39 @@ public class Game {
     @chosenOutput is set by @Controller and it's the optional resource produced by @card
      */
     public ArrayList<Resource> devCardProduction(int slot, Resource chosenOutput, ExtraProd card) throws
-            InsufficientResourcesException
-    {
+            InsufficientResourcesException, UnusableCardException {
         ArrayList<Resource> prodResources;
-        if(checkResources(currentPlayer.getCardSlots().getCard(slot).getProdInput(), true)){
-            if(checkExtraProd(card)==null){}
-            else{
+        if(checkResources(currentPlayer.getPlayerBoard().getCardSlots().getCard(slot).getProdInput(), true)){
+            prodResources = currentPlayer.getPlayerBoard().getCardSlots().getCard(slot).createProduction(card);
+            if(checkExtraProd(card)) {
                 card.setChosenOutput(chosenOutput);
+                prodResources.addAll(card.production());
+                for (Resource res : prodResources)
+                    if (res == Resource.FAITH) {
+                        currentPlayer.getPlayerBoard().getFaithTrack().faithAdvance(currentPlayer.getPlayerBoard().getFaithBox(), currentPlayer.getPlayerBoard().getFaithTrack());
+                        prodResources.remove(Resource.FAITH);
+                    }
             }
-            prodResources = currentPlayer.getCardSlots().getCard(slot).createProduction(card);
-            for (Resource res : prodResources)
-                if (res == Resource.FAITH) {
-                    currentPlayer.getFaithTrack().faithAdvance(currentPlayer.getFaithBox(), currentPlayer.getFaithTrack());
-                    prodResources.remove(Resource.FAITH);
-                    return prodResources;
-                }
+            return prodResources;
         }
         else {
             throw new InsufficientResourcesException("Can`t do this production: insufficient resources!");
         }
-        return null;
     }
     /*defaultProduction: activates production from the developmentBoard
     @input and @output are set by @Controller
      */
-    public ArrayList<Resource> defaultProduction(ArrayList<Resource> input, Resource output, LeaderCard card, Resource chosenOutput) throws
-            InsufficientResourcesException {
+    public ArrayList<Resource> defaultProduction(ArrayList<Resource> input, Resource output, LeaderCard card, Resource chosenOutput) throws InsufficientResourcesException, UnusableCardException {
         ArrayList<Resource> prodResources = new ArrayList<>();
-        if(checkExtraProd(card)!=null)
-            card.setChosenOutput(chosenOutput);
+
         if(checkResources(input, true )){
             prodResources.add(output);
-            //leaderCard
-            if(card!=null){
+            if(checkExtraProd(card)) {
+                card.setChosenOutput(chosenOutput);
+                prodResources.addAll(card.production());
                 for (Resource res : card.production())
                     if (res == Resource.FAITH) {
-                        currentPlayer.getFaithTrack().faithAdvance(currentPlayer.getFaithBox(), currentPlayer.getFaithTrack());
+                        currentPlayer.getPlayerBoard().getFaithTrack().faithAdvance(currentPlayer.getPlayerBoard().getFaithBox(), currentPlayer.getPlayerBoard().getFaithTrack());
                         prodResources.remove(Resource.FAITH);
                     }
             }
@@ -215,14 +216,14 @@ public class Game {
         }
     }
 
-    private ExtraProd checkExtraProd(LeaderCard card) {
+    private boolean checkExtraProd(LeaderCard card) throws UnusableCardException {
         if(cardIsUsable(card) && card.isExtraProd()) {
             ArrayList<Resource> extraProdInput = new ArrayList<>();
             extraProdInput.add(card.getExtraProdInput());
             if (checkResources(extraProdInput, true))
-                return (ExtraProd) card;
+                return true;
         }
-        return null;
+        return false;
     }
 
     //--------------------FAITH TRACK--------------------
@@ -233,8 +234,7 @@ public class Game {
     public void faithAdvance (int advance){
         boolean[] check;
         for(int i=0; i<advance ;i++) {
-            FaithBox faithBox = currentPlayer.getFaithBox();
-            faithBox  = currentPlayer.getFaithTrack().faithAdvance(currentPlayer.getFaithBox(), currentPlayer.getFaithTrack());
+            FaithBox faithBox  = currentPlayer.getPlayerBoard().getFaithTrack().faithAdvance(currentPlayer.getPlayerBoard().getFaithBox(), currentPlayer.getPlayerBoard().getFaithTrack());
             if (faithBox.getPosition() == 24)
                 System.out.println("faith track completed");
             //endgame
@@ -246,24 +246,24 @@ public class Game {
 
     public void checkPopeFlags(boolean[] flags){
         if (flags[0]){
-            for(PlayerBoard p : players){
-                if(p.getFaithBox().getPosition()>=5)
-                    p.getPlayer().addPoints(2);
-                p.getFaithBox().setPopeFlag(false,false,false);
+            for(Player p : players){
+                if(p.getPlayerBoard().getFaithBox().getPosition()>=5)
+                    p.addPoints(2);
+                p.getPlayerBoard().getFaithBox().setPopeFlag(false,false,false);
             }
         }
         if (flags[1]){
-            for(PlayerBoard p : players){
-                if(p.getFaithBox().getPosition()>=12)
-                    p.getPlayer().addPoints(3);
-                p.getFaithBox().setPopeFlag(false,false,false);
+            for(Player p : players){
+                if(p.getPlayerBoard().getFaithBox().getPosition()>=12)
+                    p.addPoints(3);
+                p.getPlayerBoard().getFaithBox().setPopeFlag(false,false,false);
             }
         }
         if(flags[2]){
-            for(PlayerBoard p : players){
-                if(p.getFaithBox().getPosition()>=19)
-                    p.getPlayer().addPoints(4);
-                p.getFaithBox().setPopeFlag(false,false,false);
+            for(Player p : players){
+                if(p.getPlayerBoard().getFaithBox().getPosition()>=19)
+                    p.addPoints(4);
+                p.getPlayerBoard().getFaithBox().setPopeFlag(false,false,false);
             }
         }
     }
@@ -293,19 +293,16 @@ public class Game {
     //contare i punti vittoria dei giocatori su faithTrack, leaderCards, devCards ecc...
     //fare la classifica dei punti vittoria
     //============utilities
-
     private void updateStrongbox(){
-        this.bufferStrongbox.forEach(element -> currentPlayer.getStrongbox().addResource(element));
+        this.bufferStrongbox.forEach(element -> currentPlayer.getPlayerBoard().getStrongbox().addResource(element));
     }
-
-    private PlayerBoard getPlayerBoard(String username){
-        for(PlayerBoard p : players){
-            if(username.equals(p.getPlayer().getNickname()))
+    private Player getPlayer(String username){
+        for(Player p : players){
+            if(username.equals(p.getNickname()))
                 return p;
         }
         return null;
     }
-
     //change turn
     private void changeTurn(){
         if(singlePlayer) {
@@ -321,19 +318,13 @@ public class Game {
         }
     }
 
-    public PlayerBoard getCurrentPlayer(){
+    public Player getCurrentPlayer(){
         return currentPlayer;
     }
-
     public DevelopmentBoard getDevBoard(){
         return table.getDevBoard();
     }
-
     public MarketBoard getMarketBoard(){
         return table.getMarketBoard();
     }
-
-
-
-
 }

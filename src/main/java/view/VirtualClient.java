@@ -49,7 +49,7 @@ public class VirtualClient extends Thread{
         JsonObject jsonObject = gson.fromJson(s, JsonObject.class);
         MessageType messageType = MessageType.valueOf(jsonObject.get("messageType").getAsString());
         GameMessage msg = (GameMessage) gson.fromJson(s, messageType.getClassType());
-        controller.executeCommand(msg);
+        controller.executeCommand(msg, this);
     }
 
     private void readLoop(){

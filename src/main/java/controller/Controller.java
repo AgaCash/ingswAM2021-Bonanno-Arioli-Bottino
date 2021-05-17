@@ -1,19 +1,19 @@
 package controller;
 
-import exceptions.FullCardSlotException;
-import exceptions.InsufficientRequirementsException;
-import exceptions.InsufficientResourcesException;
-import exceptions.NonCorrectLevelCardException;
+import exceptions.*;
 import model.Game;
-import model.cards.*;
+import model.cards.Discount;
+import model.cards.ExtraProd;
+import model.cards.LeaderCard;
+import model.cards.WhiteConverter;
+import model.player.Player;
 import model.resources.Resource;
 import model.table.Deck;
 import model.table.DevelopmentBoard;
 import model.table.MarketBoard;
-import model.table.PlayerBoard;
 import network.messages.gameMessages.GameMessage;
+import network.messages.gameMessages.InternalErrorNotify;
 import view.VirtualClient;
-import view.VirtualView;
 
 import java.util.ArrayList;
 
@@ -27,52 +27,64 @@ public class Controller {
         this.id = id;
         boolean isSinglePlayer = (views.size()==1);
         game = new Game(isSinglePlayer);
-        System.out.println("CONTORLLER CREATO");
+        System.out.println("CONTROLLER CREATO");
     }
 
-    public void executeCommand(GameMessage message) {
-        message.executeCommand(this, views);
-    }
+    public void executeCommand(GameMessage message, VirtualClient client) {
 
+        message.executeCommand(this, client);
+    }
+    public ArrayList<VirtualClient> getViews(){
+        return views;
+    }
     public int getId() {
         return id;
     }
+
     //-----------tutto quello nel gioco
     public void buyDevCard(Deck deck, int slot, Discount card) throws FullCardSlotException,
-                                                                        NonCorrectLevelCardException,
-                                                                        InsufficientResourcesException {
-        game.buyDevCard(deck, slot, card);
+            NonCorrectLevelCardException,
+            InsufficientResourcesException,
+            EmptyDeckException,
+            UnusableCardException{
+        try {
+            game.buyDevCard(deck, slot, card);
+        }catch(UnknownError e){
+            handleError(e.getMessage());
+        }
     }
-    public void buyResources(boolean line, int num, WhiteConverter card){
+    public void buyResources(boolean line, int num, WhiteConverter card) throws UnusableCardException {
         game.buyResources(line, num, card);
-
     }
     public ArrayList getThrewResources(){
         return game.getThrewResources();
     }
-    public void devCardProduction(int slot, Resource chosenOutput, ExtraProd card) throws InsufficientResourcesException {
+    public void devCardProduction(int slot, Resource chosenOutput, ExtraProd card) throws InsufficientResourcesException,
+            UnusableCardException {
         game.devCardProduction(slot, chosenOutput, card);
     }
-    public void defaultProduction(ArrayList<Resource> input, Resource output, LeaderCard card, Resource chosenOutput) throws InsufficientResourcesException {
+    public void defaultProduction(ArrayList<Resource> input, Resource output, LeaderCard card, Resource chosenOutput) throws InsufficientResourcesException,
+            UnusableCardException {
         game.defaultProduction(input, output, card, chosenOutput);
     }
-    public void activateLeaderCard(LeaderCard card) throws InsufficientRequirementsException, InsufficientResourcesException {
+    public void activateLeaderCard(LeaderCard card) throws InsufficientRequirementsException,
+            InsufficientResourcesException {
         game.activateLeaderCard(card);
     }
 
-    public PlayerBoard getCurrentPlayer() {
+    public Player getCurrentPlayer() {
         return game.getCurrentPlayer();
     }
-
     public MarketBoard getMarketBoard(){
         return game.getMarketBoard();
     }
-
     public DevelopmentBoard getDevBoard(){
         return game.getDevBoard();
     }
+    public void endTurn(){ game.updateTurn(); }
 
-    public void endTurn(){
-        game.updateTurn();
+    private void handleError(String message){
+        views.forEach(element -> element.getVirtualView().update(new InternalErrorNotify(element.getVirtualView().getUsername(), message)));
+        //TODO: brutto?
     }
 }

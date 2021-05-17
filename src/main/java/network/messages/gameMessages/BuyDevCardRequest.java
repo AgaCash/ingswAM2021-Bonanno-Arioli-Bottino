@@ -2,15 +2,11 @@ package network.messages.gameMessages;
 
 import com.google.gson.Gson;
 import controller.Controller;
-import exceptions.FullCardSlotException;
-import exceptions.InsufficientResourcesException;
-import exceptions.NonCorrectLevelCardException;
+import exceptions.*;
 import model.cards.Discount;
 import model.table.Deck;
 import network.messages.MessageType;
-import view.*;
-
-import java.util.ArrayList;
+import view.VirtualClient;
 
 public class BuyDevCardRequest extends GameMessage{
     private Deck deck;
@@ -22,28 +18,21 @@ public class BuyDevCardRequest extends GameMessage{
     }
 
     @Override
-    public void executeCommand(Controller controller, ArrayList<VirtualClient> views) {
+    public void executeCommand(Controller controller, VirtualClient client) {
         Gson gson = new Gson();
         try {
             controller.buyDevCard(deck, slot, card);
-           //out.println(gson.toJson(new BuyDevCardResponse(this.getUsername()), MarketResponse.class));
-            update(controller, views);
-        }
-        catch(FullCardSlotException e){
-           //out.println(gson.toJson(new FailedActionNotify(this.getUsername(), e.getMessage())));
-        } catch (NonCorrectLevelCardException e) {
-           //out.println(gson.toJson(new FailedActionNotify(this.getUsername(), e.getMessage())));
-        } catch (InsufficientResourcesException e){
-           //out.println(gson.toJson(new FailedActionNotify(this.getUsername(), e.getMessage())));
+            update(controller);
+        } catch (FullCardSlotException | NonCorrectLevelCardException | InsufficientResourcesException | EmptyDeckException | UnusableCardException e) {
+            FailedActionNotify notify = new FailedActionNotify(this.getUsername(), e.getMessage());
+            client.getVirtualView().update(notify);
         }
     }
 
-    private void update(Controller controller, ArrayList<VirtualClient> views){
+    private void update(Controller controller){
         BuyDevCardResponse response = new BuyDevCardResponse(getUsername(),
-                                                            controller.getCurrentPlayer().getCardSlots(),
+                                                            controller.getCurrentPlayer().getPlayerBoard().getCardSlots(),
                                                             controller.getDevBoard());
-        //views.forEach((element)-> { element.updateBuyDevCard(response);});
-
-
+        controller.getViews().forEach((element)-> { element.getVirtualView().update(response);});
     }
 }

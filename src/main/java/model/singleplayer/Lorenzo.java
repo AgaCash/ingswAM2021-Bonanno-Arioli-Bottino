@@ -1,5 +1,6 @@
 package model.singleplayer;
 
+import exceptions.EmptyDeckException;
 import model.table.DevelopmentBoard;
 import model.table.FaithBox;
 import model.table.FaithTrack;
@@ -25,12 +26,6 @@ public class Lorenzo {
         this.developmentBoard = developmentBoard;
     }
 
-    //public Lorenzo(){
-    //     developmentBoard = getDevBoard();
-    //     tokens = new JsonParser("src/main/model.resources/tokensList.json").getTokens();
-    //     this.shuffle();
-    //}
-
     /**
      * method that picks the token on top of the deck and executes the token's effects
      */
@@ -39,7 +34,11 @@ public class Lorenzo {
         Token tmp;
         if (!(token.getIsAboutLorenzo())) {
             for (int i = 0; i < token.getRemoveQuantity(); i++)
-                token.cardAction(developmentBoard);
+                try {
+                    token.cardAction(developmentBoard);
+                } catch(EmptyDeckException e){
+
+                }
         } else {
             for(int i=0; i< token.getBlackCrossFaithPoints();i++) {
                 faithBox = faithTrack.faithAdvance(faithBox, faithTrack);

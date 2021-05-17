@@ -1,4 +1,4 @@
-package model.table;
+/*package model.table;
 
 import org.junit.jupiter.api.Test;
 
@@ -8,6 +8,7 @@ class MarketBoardTest {
     void initializeMarbleGrid() {
         MarketBoard market = MarketBoard.getMarketInstance();
         market.initializeMarbleGrid();
+
     }
 
     @Test
@@ -23,4 +24,4 @@ class MarketBoardTest {
         MarketBoard market = MarketBoard.getMarketInstance();
         market.getMarble(1,1);
     }
-}
+}*/

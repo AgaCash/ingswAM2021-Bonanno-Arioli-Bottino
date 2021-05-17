@@ -4,7 +4,6 @@ import controller.Controller;
 import exceptions.LobbyFullException;
 import model.player.Player;
 import view.VirtualClient;
-import view.VirtualView;
 
 import java.util.ArrayList;
 
@@ -37,7 +36,7 @@ public class Lobby { //LOBBY E' IL CONTROLLER
         try {
             joinLobby(player, virtualClient);
         } catch (LobbyFullException e) {
-            e.printStackTrace(); //NON SUCCEDERA' MAI!!
+            e.printStackTrace(); //NON SUCCEDERA' MAI!! //todo: e la legge di murphy?
         }
     }
 

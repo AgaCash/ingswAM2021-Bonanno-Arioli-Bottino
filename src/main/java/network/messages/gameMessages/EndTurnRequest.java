@@ -3,8 +3,7 @@ package network.messages.gameMessages;
 import com.google.gson.Gson;
 import controller.Controller;
 import network.messages.MessageType;
-import view.*;
-import java.util.ArrayList;
+import view.VirtualClient;
 
 public class EndTurnRequest extends GameMessage{
 
@@ -13,10 +12,11 @@ public class EndTurnRequest extends GameMessage{
     }
 
     @Override
-    public void executeCommand(Controller controller, ArrayList<VirtualClient> views){
+    public void executeCommand(Controller controller, VirtualClient client){
         Gson gson = new Gson();
         controller.endTurn();
        //out.println(gson.toJson(new EndTurnResponse(this.getUsername()), MarketResponse.class));
+        //TODO: aho che famo sti turni?
         update();
     }
 

@@ -1,12 +1,16 @@
 package model.player;
 
+import model.table.PlayerBoard;
+
 public class Player {
     private String nickname;
     private int startingTurn;
     private int points = 0;
+    private PlayerBoard playerboard;
 
     public Player(String nickname){
         this.nickname = nickname;
+        this.playerboard = new PlayerBoard(this);
     }
 
     public Player(){
@@ -35,5 +39,11 @@ public class Player {
     public void setStartingTurn(int startingTurn) {
         this.startingTurn = startingTurn;
     }
+
+    public PlayerBoard getPlayerBoard(){
+        return this.playerboard;
+    }
+
+
 
 }

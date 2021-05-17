@@ -1,4 +1,4 @@
-package model.table;
+/*package model.table;
 
 import model.cards.DevelopmentCard;
 import model.colour.Colour;
@@ -56,4 +56,4 @@ public class deckTest {
         assertNull(deck.popCard());
         assertTrue(deck.isEmpty());
     }
-}
+}*/

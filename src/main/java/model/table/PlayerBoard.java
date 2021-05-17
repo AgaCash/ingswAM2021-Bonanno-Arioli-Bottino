@@ -16,15 +16,11 @@ public class PlayerBoard {
     private FaithTrack faithTrack = new FaithTrack();
     private FaithBox faithBox = new FaithBox();
     private ArrayList<LeaderCard> leaderSlots;
-    private DevelopmentBoard developmentBoard;
-    private MarketBoard marketBoard;
     private boolean hasInkwell;
     private int faithPoints = 0;
 
-    public PlayerBoard(Player player, DevelopmentBoard developmentBoard, MarketBoard marketBoard){
+    public PlayerBoard(Player player){
         this.player = player;
-        this.developmentBoard = developmentBoard;
-        this.marketBoard = marketBoard;
         this.hasInkwell = false;
     }
 
@@ -52,6 +48,5 @@ public class PlayerBoard {
     public FaithBox getFaithBox(){ return faithBox; }
 
     public FaithTrack getFaithTrack(){ return faithTrack;}
-
 
 }

@@ -1,5 +1,6 @@
 package model.strongbox;
 
+import exceptions.ResourceNotFoundException;
 import model.resources.Resource;
 
 import java.util.ArrayList;
@@ -10,22 +11,23 @@ public class Strongbox {
      */
 
     private ArrayList<Resource> strongbox = new ArrayList<Resource>();
+    private ArrayList<Resource> tmpStrongbox = new ArrayList<>();
 
     /** this method adds a new resource to the model.strongbox arraylist
      * @param resource is the resource added to the arraylist
      */
     public void addResource (Resource resource){
-        strongbox.add(resource);
+        tmpStrongbox.add(resource);
     }
 
     /** this method checks if the model.strongbox contains the demanded resource, then removes it
      * @param resource is the resource to remove
      */
-    public void removeResource (Resource resource){
+    public void removeResource (Resource resource) throws ResourceNotFoundException {
         boolean result;
         result=strongbox.remove(resource);
         if(!result)
-            System.out.println("resource not found");
+            throw new ResourceNotFoundException("Resource not found!");
     }
 
     /** getter method for the model.strongbox
@@ -56,6 +58,10 @@ public class Strongbox {
                 return false;
         }
         return true;
+    }
+
+    public void updateStrongbox(){
+        strongbox.addAll(tmpStrongbox);
     }
 
     //only 4 tests

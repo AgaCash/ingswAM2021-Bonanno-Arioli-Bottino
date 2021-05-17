@@ -1,12 +1,9 @@
 package network.messages.lobbyMessages;
 
-import network.messages.MessageType;
-import network.messages.notifies.FailedActionNotify;
-import network.server.LobbyHandler;
 import model.player.Player;
-import view.View;
+import network.messages.MessageType;
+import network.server.LobbyHandler;
 import view.VirtualClient;
-import view.*;
 
 import javax.naming.SizeLimitExceededException;
 
