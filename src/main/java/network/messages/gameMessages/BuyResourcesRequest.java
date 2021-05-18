@@ -1,14 +1,10 @@
 package network.messages.gameMessages;
 
-import com.google.gson.Gson;
 import controller.Controller;
 import exceptions.UnusableCardException;
 import model.cards.WhiteConverter;
-import model.resources.Resource;
 import network.messages.MessageType;
-import view.*;
-
-import java.util.ArrayList;
+import view.VirtualClient;
 
 public class BuyResourcesRequest extends GameMessage{
     private boolean line;
@@ -21,7 +17,7 @@ public class BuyResourcesRequest extends GameMessage{
 
     @Override
     public void executeCommand(Controller controller, VirtualClient client){
-        Gson gson = new Gson();
+
         try {
             controller.buyResources(line, num, card);
             controller.getThrewResources();
@@ -35,14 +31,11 @@ public class BuyResourcesRequest extends GameMessage{
     public void update(Controller controller){
         BuyResourcesResponse response = new BuyResourcesResponse(getUsername(),
                                                                 controller.getCurrentPlayer().getPlayerBoard().getWarehouseDepot(),
-                                                                controller.getMarketBoard());
+                                                                controller.getMarketBoard(),
+                                                                controller.getThrewResources());
         controller.getViews().forEach((element)-> { element.getVirtualView().update(response);});
-        ArrayList<Resource> threwResources = controller.getThrewResources();
-        for(Resource res: threwResources) {
-            ThrewResourcesNotify threwNotify = new ThrewResourcesNotify(getUsername(),
-                    "Resource " + res + " couldn't be added: warehouse is full!");
-            controller.getViews().forEach((element)-> { element.getVirtualView().update(threwNotify);});
-        }
+        //todo passa tutti i faithtrack
+
     }
 
 }

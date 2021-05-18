@@ -17,6 +17,9 @@ public enum MessageType {
     LOBBYLISTRESPONSE(GetLobbyResponse.class, "LOBBY"),
     STANDARDRESPONSE(StandardLobbyResponse.class, "LOBBY"),
     STARTGAME,
+    STARTGAMERESPONSE,
+    SETUP,
+    SETUPRESPONSE,
 
     //ACTIONS
     STARTINGTURNCHOOSES,

@@ -17,7 +17,6 @@ public class Game {
     private Player currentPlayer;
     private Lorenzo cpu;
     private boolean singlePlayer;
-    private ArrayList<Resource> bufferStrongbox = new ArrayList<>();
     private ArrayList<Resource> threwResources = new ArrayList<>();
     //Lorenzo cpu = new Lorenzo();  will be ok when DevBoard will adopt singleton pattern
 
@@ -41,16 +40,24 @@ public class Game {
             players.add(newPlayer);
         }
     }
+    public void setOrder(){
+        Collections.shuffle(players);
+        for(Player player : players){
+            if(players.indexOf(player)== 0)
+                player.getPlayerBoard().setInkwell(true);
+            player.setStartingTurn(players.indexOf(player));
+        }
+    }
     //send leader cards
     public ArrayList<LeaderCard> sendQuartet(){
         return table.sendQuartet();
     }
     //receive leader cards
-    public void assignLeaderCards(String username, LeaderCard first, LeaderCard second){
+    /*public void assignLeaderCards(String username, LeaderCard first, LeaderCard second){
         Player user = getPlayer(username);
         if(user!=null)
             user.getPlayerBoard().addLeaderCards(first, second);
-    }
+    }*/
     //starting resources
     public void addStartingResources(){
         //bla bla bla
@@ -66,8 +73,7 @@ public class Game {
     }
 
     public void updateTurn(){
-        if(!bufferStrongbox.isEmpty())
-            updateStrongbox();
+        updateStrongbox();
         changeTurn();
     }
     //===========UTILITIES
@@ -142,13 +148,14 @@ public class Game {
 
         for (Resource res : bought) {
             if (res == Resource.FAITH) {
-                currentPlayer.getPlayerBoard().getFaithTrack().faithAdvance(currentPlayer.getPlayerBoard().getFaithBox(), currentPlayer.getPlayerBoard().getFaithTrack());
+                faithAdvance(1);
             }
             else {
                 try{
                     currentPlayer.getPlayerBoard().getWarehouseDepot().addResource(res);
                     } catch(FullWarehouseException e){
                         threwResources.add(res);
+                        //todo: aggiungere punti fede agli altri
                     }
 
                 }
@@ -158,7 +165,7 @@ public class Game {
 
     public ArrayList<Resource> getThrewResources(){
         ArrayList<Resource> cloned = (ArrayList<Resource>) threwResources.clone();
-        for(Resource res: cloned)
+        for(Resource res: threwResources)
             for(Player player: players)
                 if(player!=currentPlayer)
                     player.getPlayerBoard().getFaithTrack().faithAdvance(player.getPlayerBoard().getFaithBox(), player.getPlayerBoard().getFaithTrack());
@@ -171,7 +178,7 @@ public class Game {
     /*devCadProduction: activates production of the last card popped from @slot
     @chosenOutput is set by @Controller and it's the optional resource produced by @card
      */
-    public ArrayList<Resource> devCardProduction(int slot, Resource chosenOutput, ExtraProd card) throws
+    public void devCardProduction(int slot, Resource chosenOutput, ExtraProd card) throws
             InsufficientResourcesException, UnusableCardException {
         ArrayList<Resource> prodResources;
         if(checkResources(currentPlayer.getPlayerBoard().getCardSlots().getCard(slot).getProdInput(), true)){
@@ -181,11 +188,11 @@ public class Game {
                 prodResources.addAll(card.production());
                 for (Resource res : prodResources)
                     if (res == Resource.FAITH) {
-                        currentPlayer.getPlayerBoard().getFaithTrack().faithAdvance(currentPlayer.getPlayerBoard().getFaithBox(), currentPlayer.getPlayerBoard().getFaithTrack());
+                        faithAdvance(1);
                         prodResources.remove(Resource.FAITH);
                     }
             }
-            return prodResources;
+            prodResources.forEach(element -> currentPlayer.getPlayerBoard().getStrongbox().addResource(element));
         }
         else {
             throw new InsufficientResourcesException("Can`t do this production: insufficient resources!");
@@ -194,7 +201,7 @@ public class Game {
     /*defaultProduction: activates production from the developmentBoard
     @input and @output are set by @Controller
      */
-    public ArrayList<Resource> defaultProduction(ArrayList<Resource> input, Resource output, LeaderCard card, Resource chosenOutput) throws InsufficientResourcesException, UnusableCardException {
+    public void defaultProduction(ArrayList<Resource> input, Resource output, LeaderCard card, Resource chosenOutput) throws InsufficientResourcesException, UnusableCardException {
         ArrayList<Resource> prodResources = new ArrayList<>();
 
         if(checkResources(input, true )){
@@ -204,11 +211,11 @@ public class Game {
                 prodResources.addAll(card.production());
                 for (Resource res : card.production())
                     if (res == Resource.FAITH) {
-                        currentPlayer.getPlayerBoard().getFaithTrack().faithAdvance(currentPlayer.getPlayerBoard().getFaithBox(), currentPlayer.getPlayerBoard().getFaithTrack());
+                        faithAdvance(1);
                         prodResources.remove(Resource.FAITH);
                     }
             }
-            return prodResources;
+            prodResources.forEach(element -> currentPlayer.getPlayerBoard().getStrongbox().addResource(element));
         }
         else{
             throw new InsufficientResourcesException("Can't do this production: insufficient resources!");
@@ -294,14 +301,7 @@ public class Game {
     //fare la classifica dei punti vittoria
     //============utilities
     private void updateStrongbox(){
-        this.bufferStrongbox.forEach(element -> currentPlayer.getPlayerBoard().getStrongbox().addResource(element));
-    }
-    private Player getPlayer(String username){
-        for(Player p : players){
-            if(username.equals(p.getNickname()))
-                return p;
-        }
-        return null;
+        currentPlayer.getPlayerBoard().getStrongbox().updateStrongbox();
     }
     //change turn
     private void changeTurn(){
@@ -318,6 +318,12 @@ public class Game {
         }
     }
 
+    public Player getPlayer(String username) throws NoSuchUsernameException {
+        for(Player player: players)
+            if(player.getNickname().equals(username))
+                return player;
+        throw new NoSuchUsernameException("username not found");
+    }
     public Player getCurrentPlayer(){
         return currentPlayer;
     }

@@ -28,9 +28,8 @@ public class PlayerBoard {
         this.hasInkwell=value;
     }
 
-    public void addLeaderCards(LeaderCard card1, LeaderCard card2){
-        leaderSlots.add(card1);
-        leaderSlots.add(card2);
+    public void addLeaderCards(ArrayList<LeaderCard> couple){
+        leaderSlots = couple;
     }
 
     public Player getPlayer(){

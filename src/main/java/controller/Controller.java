@@ -31,7 +31,6 @@ public class Controller {
     }
 
     public void executeCommand(GameMessage message, VirtualClient client) {
-
         message.executeCommand(this, client);
     }
     public ArrayList<VirtualClient> getViews(){
@@ -40,6 +39,19 @@ public class Controller {
     public int getId() {
         return id;
     }
+
+    //start
+    public void setOrder(){
+        game.setOrder();
+    }
+    public synchronized ArrayList<LeaderCard> getLeaderCards(){ return game.sendQuartet(); }
+    public void setLeaderCards(String username, ArrayList<LeaderCard> couple) throws Exception { getPlayer(username).getPlayerBoard().addLeaderCards(couple);}
+    public void setChosenStartup(String username, ArrayList<Resource> resources, boolean faithPoint) throws NoSuchUsernameException, FullWarehouseException{
+        Player player = getPlayer(username);
+        for(Resource element : resources)
+            player.getPlayerBoard().getWarehouseDepot().addResource(element);
+    }
+
 
     //-----------tutto quello nel gioco
     public void buyDevCard(Deck deck, int slot, Discount card) throws FullCardSlotException,
@@ -55,8 +67,9 @@ public class Controller {
     }
     public void buyResources(boolean line, int num, WhiteConverter card) throws UnusableCardException {
         game.buyResources(line, num, card);
+
     }
-    public ArrayList getThrewResources(){
+    public ArrayList<Resource> getThrewResources(){
         return game.getThrewResources();
     }
     public void devCardProduction(int slot, Resource chosenOutput, ExtraProd card) throws InsufficientResourcesException,
@@ -83,8 +96,12 @@ public class Controller {
     }
     public void endTurn(){ game.updateTurn(); }
 
-    private void handleError(String message){
+    public void handleError(String message){
         views.forEach(element -> element.getVirtualView().update(new InternalErrorNotify(element.getVirtualView().getUsername(), message)));
         //TODO: brutto?
     }
+    public Player getPlayer(String username) throws NoSuchUsernameException {
+        return game.getPlayer(username);
+    }
+
 }

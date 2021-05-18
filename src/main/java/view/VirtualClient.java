@@ -62,6 +62,7 @@ public class VirtualClient extends Thread{
                 s = in.readLine();
                 handleLobbyMessage(s);//handle lobby message
             }
+            //robe initialize
             while ((s = in.readLine()) != null) {
                 handleGameMessage(s);//handle game message
             }

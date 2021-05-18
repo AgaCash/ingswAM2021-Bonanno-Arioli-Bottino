@@ -32,15 +32,15 @@ public class Table {
     public Table(){
         developmentBoard = new DevelopmentBoard();
         marketBoard = new MarketBoard();
+        initializeLeaderCards();
     }
 
-    private ArrayList<LeaderCard> initializeLeaderCards(){
+    private void initializeLeaderCards(){
         this.cards.addAll(new JsonParser("src/main/resources/discount.json").getDiscountCards());
         this.cards.addAll(new JsonParser("src/main/resources/extraDepot.json").getExtraDepotCards());
         this.cards.addAll(new JsonParser("src/main/resources/whiteConverter.json").getWhiteConverterCard());
         this.cards.addAll(new JsonParser("src/main/resources/extraProd.json").getExtraProdCards());
         Collections.shuffle(cards);
-        return this.cards;
     }
 
     public DevelopmentBoard getDevBoard(){
