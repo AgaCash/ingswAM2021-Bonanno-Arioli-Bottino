@@ -1,6 +1,5 @@
 package model.singleplayer;
 
-import exceptions.EmptyDeckException;
 import model.table.DevelopmentBoard;
 import model.table.FaithBox;
 import model.table.FaithTrack;
@@ -34,11 +33,7 @@ public class Lorenzo {
         Token tmp;
         if (!(token.getIsAboutLorenzo())) {
             for (int i = 0; i < token.getRemoveQuantity(); i++)
-                try {
                     token.cardAction(developmentBoard);
-                } catch(EmptyDeckException e){
-
-                }
         } else {
             for(int i=0; i< token.getBlackCrossFaithPoints();i++) {
                 faithBox = faithTrack.faithAdvance(faithBox, faithTrack);
