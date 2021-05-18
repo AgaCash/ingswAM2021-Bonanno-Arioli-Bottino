@@ -20,14 +20,14 @@ public class GetLobbyResponse extends LobbyMessage{
     }
 
     @Override
-    public void executeCommand(LobbyHandler lobbyHandler,  VirtualClient virtualClient) {
+    public void executeCommand(VirtualClient virtualClient) {
         System.out.println("Sono QUA?");
     }
 
     @Override
     public String toString() {
-        return "LobbyListRequest{" +
-                "lobbies=" + lobbies +
+        return "{" +
+                "\"lobbies\":" + lobbies +
                 '}';
     }
 }

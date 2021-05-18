@@ -1,9 +1,13 @@
 package network.messages.lobbyMessages;
 
+import com.google.gson.Gson;
+import model.player.Player;
 import network.messages.MessageType;
 import network.server.Lobby;
 import network.server.LobbyHandler;
-import view.View;
+
+import java.io.IOException;
+import java.net.Socket;
 import view.VirtualClient;
 import view.*;
 import java.util.ArrayList;
@@ -14,17 +18,14 @@ public class GetLobbyRequest extends LobbyMessage{
         super(nickname, MessageType.GETLOBBIES);
     }
 
+    //  TODO:
+    //      da togliere lobbyHandler come parametro e passargli il getInstance?
     @Override
-    public void executeCommand(LobbyHandler lobbyHandler,  VirtualClient virtualClient) {
-        ArrayList<Lobby> lobbies = lobbyHandler.getLobbies();
-        //System.out.println("LOBBIES: "+lobbies);
-        GetLobbyResponse response = new GetLobbyResponse(super.getUsername(),lobbies);
-        System.out.println(response);
-        virtualClient.getVirtualView().sendGetLobby(response);
+    public void executeCommand(VirtualClient virtualClient) {
+        ArrayList<Lobby> l = LobbyHandler.getInstance().getLobbies();
+        GetLobbyResponse g = new GetLobbyResponse(super.getUsername(), l);
+        System.out.println("object to serialize: "+g);
+        virtualClient.getVirtualView().sendGetLobby(g);
     }
 
-    @Override
-    public String toString() {
-        return super.toString();
-    }
 }

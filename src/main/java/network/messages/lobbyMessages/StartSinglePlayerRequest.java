@@ -15,8 +15,8 @@ public class StartSinglePlayerRequest extends LobbyMessage{
     }
 
     @Override
-    public void executeCommand(LobbyHandler lobbyHandler,  VirtualClient virtualClient) {
-        Controller c = lobbyHandler.createSinglePlayer(new Player(super.getUsername()), virtualClient);
+    public void executeCommand(VirtualClient virtualClient) {
+        Controller c = LobbyHandler.getInstance().createSinglePlayer(new Player(super.getUsername()), virtualClient);
         virtualClient.setController(c);
         //TODO:
         //  getData

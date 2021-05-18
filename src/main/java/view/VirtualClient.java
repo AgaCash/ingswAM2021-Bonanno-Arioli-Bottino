@@ -6,26 +6,24 @@ import controller.Controller;
 import network.messages.MessageType;
 import network.messages.gameMessages.GameMessage;
 import network.messages.lobbyMessages.LobbyMessage;
-import network.server.LobbyHandler;
-
-import java.io.*;
 import java.net.Socket;
+import java.io.*;
 
 public class VirtualClient extends Thread{
-    private BufferedReader in;
-    private PrintWriter outStream;
-    Controller controller;
-    VirtualView virtualView;
+    private BufferedReader inStream;
+    public PrintWriter outStream;
+    private Controller controller;
+    private VirtualView virtualView;
 
     public VirtualClient(Socket clientSocket){
         try{
-            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            inStream = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             outStream = new PrintWriter(new BufferedWriter(
                     new OutputStreamWriter(clientSocket.getOutputStream())),true);
+            virtualView = new VirtualView(outStream);
         }catch (IOException e){
-            //e.printStackTrace();
+            e.printStackTrace();
         }
-        virtualView = new VirtualView(outStream);
     }
 
     public void setController(Controller controller) {
@@ -41,7 +39,7 @@ public class VirtualClient extends Thread{
         JsonObject jsonObject = gson.fromJson(s, JsonObject.class);
         MessageType messageType = MessageType.valueOf(jsonObject.get("messageType").getAsString());
         ((LobbyMessage) gson.fromJson(s, messageType.getClassType()))
-                .executeCommand(LobbyHandler.getInstance(), this);
+                .executeCommand(this);
     }
 
     private void handleGameMessage(String s){
@@ -55,15 +53,15 @@ public class VirtualClient extends Thread{
     private void readLoop(){
         String s = "";
         try {
-            //
-            //BISOGNA SETTARE I CONTROLLER A TUTTI I PLAYER
+            //TODO:
+            //  BISOGNA SETTARE I CONTROLLER A TUTTI I PLAYER
             //
             while (controller == null) {
-                s = in.readLine();
+                s = inStream.readLine();
                 handleLobbyMessage(s);//handle lobby message
             }
             //robe initialize
-            while ((s = in.readLine()) != null) {
+            while ((s = inStream.readLine()) != null) {
                 handleGameMessage(s);//handle game message
             }
         } catch (IOException e) {

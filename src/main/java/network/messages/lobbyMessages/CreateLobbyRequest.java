@@ -15,13 +15,14 @@ public class CreateLobbyRequest extends LobbyMessage{
     }
 
     @Override
-    public void executeCommand(LobbyHandler lobbyHandler, VirtualClient virtualClient) {
+    public void executeCommand(VirtualClient virtualClient) {
         try {
-            lobbyHandler.createLobby(new Player(super.getUsername()), virtualClient);
+            LobbyHandler.getInstance().createLobby(new Player(super.getUsername()), virtualClient);
             StandardLobbyResponse s = new StandardLobbyResponse(getUsername(), true);
             virtualClient.getVirtualView().sendLobbyMessage(s);
         }catch (SizeLimitExceededException s){
             //non entrerà mai qua
+            s.printStackTrace();
         }
     }
 }

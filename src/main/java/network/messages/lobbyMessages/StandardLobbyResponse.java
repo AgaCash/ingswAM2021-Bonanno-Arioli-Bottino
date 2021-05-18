@@ -24,7 +24,7 @@ public class StandardLobbyResponse extends LobbyMessage{
         this.message = message;
     }
 
-    public boolean isSuccess() {
+    public boolean getSuccess() {
         return success;
     }
 
@@ -33,7 +33,7 @@ public class StandardLobbyResponse extends LobbyMessage{
     }
 
     @Override
-    public void executeCommand(LobbyHandler lobbyHandler,  VirtualClient virtualClient) {
+    public void executeCommand(VirtualClient virtualClient) {
         System.out.println("success: " + success);
     }
 

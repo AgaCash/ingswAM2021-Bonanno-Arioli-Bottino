@@ -10,8 +10,8 @@ import java.util.ArrayList;
 public class Lobby { //LOBBY E' IL CONTROLLER
     private int id;
     private ArrayList<Player> players;
-    private ArrayList<VirtualClient> views;
-    private Controller sharedController;
+    private transient ArrayList<VirtualClient> views;
+    private transient Controller sharedController;
     private boolean singlePlayerMode;
 
     private void initLobby(){
@@ -36,7 +36,7 @@ public class Lobby { //LOBBY E' IL CONTROLLER
         try {
             joinLobby(player, virtualClient);
         } catch (LobbyFullException e) {
-            e.printStackTrace(); //NON SUCCEDERA' MAI!! //todo: e la legge di murphy?
+            e.printStackTrace(); //NON SUCCEDERA' MAI!! //e la legge di murphy?
         }
     }
 
@@ -64,6 +64,15 @@ public class Lobby { //LOBBY E' IL CONTROLLER
         return names;
     }
 
+    public boolean isUsernamePresent(String username){
+        for (Player p: players) {
+            if(p.getNickname().equals(username)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public int getId(){
         return id;
     }
@@ -75,8 +84,10 @@ public class Lobby { //LOBBY E' IL CONTROLLER
     public void startGame() throws Exception {
         if(players.size() < 2 && !singlePlayerMode)
             throw new Exception("Not enough players");
-        //CREA VIEWS PASSANDOGLI in e out
         sharedController = new Controller(id, views);
+        for (VirtualClient v:views) {
+            v.setController(sharedController);
+        }
     }
 
     public Controller getSharedController(){
@@ -85,8 +96,9 @@ public class Lobby { //LOBBY E' IL CONTROLLER
 
     @Override
     public String toString() {
-        return "\nLobby " + id +
-                ": players " + players.size() +"/4"+
-                "\n";
+        return "{" +
+                "\"id\":\"" + id +"\""+
+                ", \"players\": " + players +
+                '}';
     }
 }

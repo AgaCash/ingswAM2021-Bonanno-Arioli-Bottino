@@ -30,6 +30,8 @@ public class Controller {
         System.out.println("CONTROLLER CREATO");
     }
 
+
+
     public void executeCommand(GameMessage message, VirtualClient client) {
         message.executeCommand(this, client);
     }

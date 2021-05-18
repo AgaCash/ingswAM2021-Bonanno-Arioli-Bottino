@@ -2,9 +2,9 @@ package network.server;
 
 import controller.Controller;
 import exceptions.LobbyFullException;
+import exceptions.NoSuchUsernameException;
 import model.player.Player;
 import view.VirtualClient;
-import view.VirtualView;
 
 import javax.naming.SizeLimitExceededException;
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ public class LobbyHandler {
         try {
             l.startGame();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(); //NON SUCCEDERA' MAI
         }
         return l.getSharedController();
     }
@@ -62,12 +62,23 @@ public class LobbyHandler {
         }
     }
 
-    public boolean checkUsername(String username){
-        for (Lobby l: lobbies) {
-            if(l.getUsernameList().contains(username))
-                return false;
+    public Lobby getLobbyFromUsername(String username) throws NoSuchUsernameException {
+        for (Lobby l:lobbies) {
+            if(l.isUsernamePresent(username)){
+                return l;
+            }
         }
-        return true;
+        throw new NoSuchUsernameException("Username not present in any lobby");
+    }
+
+    public boolean isUsernameAvailable(String username){
+        try{
+            getLobbyFromUsername(username);
+            return false;
+        } catch (NoSuchUsernameException e) {
+            //username doesn't exist, so username is available
+            return true;
+        }
     }
 
     public ArrayList<Lobby> getLobbies() {

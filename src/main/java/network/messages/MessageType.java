@@ -10,12 +10,17 @@ public enum MessageType {
     CHECK_USERNAME_RESPONSE,
 
     //LOGIN
+    REGISTER_USERNAME(RegisterUsernameRequest.class, "LOBBY"),
     JOIN_SINGLEPLAYER(StartSinglePlayerRequest.class, "LOBBY"),
     JOINMULTIPLAYER(LoginMultiPlayerRequest.class, "LOBBY"),
     CREATEMULTIPLAYER(CreateLobbyRequest.class, "LOBBY"),
     GETLOBBIES(GetLobbyRequest.class, "LOBBY"),
     LOBBYLISTRESPONSE(GetLobbyResponse.class, "LOBBY"),
     STANDARDRESPONSE(StandardLobbyResponse.class, "LOBBY"),
+    //LobbyStartGame, only to set controllers to right views and notify clients that game is going to start
+    LOBBYSTARTGAME_REQUEST(StartMultiPlayerRequest.class, "LOBBY"),
+
+    //EffectiveStartGame
     STARTGAME,
     STARTGAMERESPONSE,
     SETUP,

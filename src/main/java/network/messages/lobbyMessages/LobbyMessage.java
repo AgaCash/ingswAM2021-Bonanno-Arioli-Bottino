@@ -13,7 +13,7 @@ public abstract class LobbyMessage extends Message {
     }
 
 
-    public void executeCommand(LobbyHandler lobbyHandler,  VirtualClient virtualClient) {
+    public void executeCommand(VirtualClient virtualClient) {
         System.out.println("default executeCommand LOBBY");
         //
         //STESSO DISCORSO DI GAMEMESSAGE MA FORSE QUI NON SERVE
