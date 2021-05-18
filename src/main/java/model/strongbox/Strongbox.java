@@ -40,7 +40,8 @@ public class Strongbox {
         return res;
     }
 
-    /** method to check if the arraylist contains a resource
+
+    /** method to check if the arraylist contains a list of resources
      * @param res the resource to check
      * @return boolean true if is present, otherwise false
      */

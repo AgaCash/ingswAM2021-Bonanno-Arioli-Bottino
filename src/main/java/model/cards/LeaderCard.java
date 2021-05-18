@@ -8,7 +8,7 @@ abstract public class LeaderCard extends Card{
 	protected boolean isEnabled;
 	protected int victoryPoints;
 	//universal methods
-	public void activate(){this.isEnabled = true;};
+	public void activate(){this.isEnabled = true;}
 	//consult methods
 	public boolean isEnabled(){
 		return isEnabled;
