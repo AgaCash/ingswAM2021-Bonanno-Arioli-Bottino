@@ -333,4 +333,10 @@ public class Game {
     public MarketBoard getMarketBoard(){
         return table.getMarketBoard();
     }
+    public ArrayList<FaithTrack> getFaithTracks(){
+        ArrayList<FaithTrack> tracks = new ArrayList<>();
+        for(Player player : players)
+            tracks.add(player.getPlayerBoard().getFaithTrack());
+        return tracks;
+    }
 }

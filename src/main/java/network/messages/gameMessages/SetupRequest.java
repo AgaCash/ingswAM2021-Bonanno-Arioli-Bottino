@@ -39,13 +39,10 @@ public class SetupRequest extends GameMessage{
                     controller.getPlayer(getUsername()).getPlayerBoard().getFaithBox(),
                     controller.getPlayer(getUsername()).getPlayerBoard().getFaithTrack()
                 );
-            update(view);
+            controller.notifyReadiness();
         } catch(NoSuchUsernameException e){
             controller.handleError(e.getMessage());
         }
     }
 
-    public void update(VirtualClient view){
-        view.getVirtualView().update(new SetupResponse(getUsername()));
-    }
 }

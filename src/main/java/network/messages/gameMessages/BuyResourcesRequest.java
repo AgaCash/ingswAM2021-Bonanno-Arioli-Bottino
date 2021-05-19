@@ -32,10 +32,9 @@ public class BuyResourcesRequest extends GameMessage{
         BuyResourcesResponse response = new BuyResourcesResponse(getUsername(),
                                                                 controller.getCurrentPlayer().getPlayerBoard().getWarehouseDepot(),
                                                                 controller.getMarketBoard(),
-                                                                controller.getThrewResources());
+                                                                controller.getThrewResources(),
+                                                                controller.getFaithTracks());
         controller.getViews().forEach((element)-> { element.getVirtualView().update(response);});
-        //todo passa tutti i faithtrack
-
     }
 
 }

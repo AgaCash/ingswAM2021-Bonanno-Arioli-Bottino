@@ -1,6 +1,7 @@
 package network.messages.gameMessages;
 
 import model.resources.Resource;
+import model.table.FaithTrack;
 import model.table.MarketBoard;
 import model.warehouse.WarehouseDepot;
 import network.messages.MessageType;
@@ -13,7 +14,7 @@ public class BuyResourcesResponse extends GameMessage{
     private ArrayList<Resource> threwResource;
 
     public BuyResourcesResponse(String username, WarehouseDepot newWarehouse, MarketBoard newMarketBoard,
-                                ArrayList<Resource> threwResource){
+                                ArrayList<Resource> threwResource, ArrayList<FaithTrack> faithTracks){
         super(username, MessageType.MARKET);
         this.newWarehouse = newWarehouse;
         this.newMarketBoard = newMarketBoard;
