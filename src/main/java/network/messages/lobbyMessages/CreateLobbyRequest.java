@@ -1,5 +1,6 @@
 package network.messages.lobbyMessages;
 
+import com.google.gson.Gson;
 import model.player.Player;
 import network.messages.MessageType;
 import network.server.LobbyHandler;
@@ -25,4 +26,19 @@ public class CreateLobbyRequest extends LobbyMessage{
             s.printStackTrace();
         }
     }
+    /*
+    public static void main(String[] args){
+        Gson gson = new Gson();
+        CreateLobbyRequest c = new CreateLobbyRequest(" ");
+        System.out.println(gson.toJson(c));
+        GetLobbyRequest d = new GetLobbyRequest(" ");
+        System.out.println(gson.toJson(d));
+        LoginMultiPlayerRequest l = new LoginMultiPlayerRequest(" ", 777);
+        System.out.println(gson.toJson(l));
+        StartMultiPlayerRequest s = new StartMultiPlayerRequest(" ");
+        System.out.println(gson.toJson(s));
+        StartSinglePlayerRequest ss = new StartSinglePlayerRequest(" ");
+        System.out.println(gson.toJson(ss));
+
+    }*/
 }

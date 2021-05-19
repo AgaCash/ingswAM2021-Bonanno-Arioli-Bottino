@@ -19,6 +19,7 @@ public enum MessageType {
     STANDARDRESPONSE(StandardLobbyResponse.class, "LOBBY"),
     //LobbyStartGame, only to set controllers to right views and notify clients that game is going to start
     LOBBYSTARTGAME_REQUEST(StartMultiPlayerRequest.class, "LOBBY"),
+    LOBBYSTARTGAME_RESPONSE(StartMultiPlayerResponse.class, "LOBBY"),
 
     //EffectiveStartGame
     STARTGAME,

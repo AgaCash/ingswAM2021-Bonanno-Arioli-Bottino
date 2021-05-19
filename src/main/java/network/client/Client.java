@@ -24,7 +24,8 @@ public class Client {
     public void connect() throws IOException {
         socket = new Socket(address, port);
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        outStream = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())),true);
+        outStream = new PrintWriter(new BufferedWriter(
+                new OutputStreamWriter(socket.getOutputStream())),true);
     }
 
     public void send(String s){
@@ -64,6 +65,7 @@ public class Client {
 
         boolean lobbyState = true;
         boolean waitingLobbyState = true;
+        boolean isLobbyCreator = false;
         StandardLobbyResponse slr = null;
         while (lobbyState){
             System.out.println("Scegli cosa vuoi fare \n1- Singleplayer \n2- Join Multiplayer Lobby"+
@@ -75,10 +77,16 @@ public class Client {
                     client.send(gson.toJson(loginSinglePlayerRequest));
                     slr = gson.fromJson(client.recv(), StandardLobbyResponse.class);
                     waitingLobbyState = false;
+                    if(slr.getSuccess()){
+                        lobbyState = false;
+                    }else{
+                        System.out.println(slr.getMessage());
+                    }
                     break;
                 case 2:
                     GetLobbyRequest getLobbyRequest = new GetLobbyRequest(username);
                     System.out.println("SEND: "+gson.toJson(getLobbyRequest));
+
                     client.send(gson.toJson(getLobbyRequest));
                     String a = client.recv();
                     System.out.println("recv: "+a);
@@ -91,45 +99,66 @@ public class Client {
                     //System.out.println(lobbyResponse.getLobbies());
                     System.out.println("Scegli l'id della lobby a cui vuoi unirti");
                     int lobbyId = s.nextInt();
+                    System.out.println("Creating the message");
                     LoginMultiPlayerRequest loginMultiPlayerRequest = new LoginMultiPlayerRequest(username, lobbyId);
-                    client.send(gson.toJson(loginMultiPlayerRequest));
-                    slr = gson.fromJson(client.recv(), StandardLobbyResponse.class);
+                    System.out.println("Sending the message");
+                    String p = gson.toJson(loginMultiPlayerRequest);
+                    System.out.println("P: "+p);
+                    client.send(p);
+                    System.out.println("Receiving the answer");
+                    String x = client.recv();
+                    System.out.println("Traslating the message");
+                    slr = gson.fromJson(x, StandardLobbyResponse.class);
+                    if(slr.getSuccess()){
+                        lobbyState = false;
+                    }else{
+                        System.out.println(slr.getMessage());
+                    }
                     break;
                 case 3:
                     CreateLobbyRequest createLobbyRequest = new CreateLobbyRequest(username);
                     client.send(gson.toJson(createLobbyRequest));
                     slr = gson.fromJson(client.recv(), StandardLobbyResponse.class);
+                    isLobbyCreator = true;
+                    if(slr.getSuccess()){
+                        lobbyState = false;
+                    }else{
+                        System.out.println(slr.getMessage());
+                    }
                     break;
             }
-            assert slr != null;
-            if(slr.getSuccess()){
-                lobbyState = false;
-            }else{
-                System.out.println(slr.getMessage());
-            }
+
         }
 
         //FASE WAITING GAME STARTING (ifMulti)
-        if(s.nextInt() == 7){
-            StartMultiPlayerRequest x = new StartMultiPlayerRequest(username);
-            System.out.println(gson.toJson(x));
-            client.send(gson.toJson(x));
-            System.out.println(client.recv());
-        }else{
-            //FASE START GAME
-            System.out.println("STAI GIOCANDO, NON TI STAI DIVERTENDO?");
-            if((int)(Math.random() * 101)%2 == 0){
-                System.out.println("BRAVO HAI VINTO");
+        while(waitingLobbyState){
+            if(isLobbyCreator){
+                System.out.println("Premi invio quando sei pronto a partire");
+                s.nextLine();
+                s.nextLine();
+                s.nextLine();
+                s.nextLine();
+                StartMultiPlayerRequest x = new StartMultiPlayerRequest(username);
+                System.out.println(gson.toJson(x));
+                client.send(gson.toJson(x));
+                System.out.println(client.recv());
             }else{
-                System.out.println("SCARSONE HAI PERSO,");
-            }
-            while(true){
+                System.out.println("premi invio se vuoi unirti alla partita se è iniziata");
                 s.nextLine();
             }
         }
 
 
-
+        //FASE START GAME
+        System.out.println("STAI GIOCANDO, NON TI STAI DIVERTENDO?");
+        if((int)(Math.random() * 101)%2 == 0){
+            System.out.println("BRAVO HAI VINTO");
+        }else{
+            System.out.println("SCARSONE HAI PERSO,");
+        }
+        while(true){
+            s.nextLine();
+        }
 
 
         //client.close();

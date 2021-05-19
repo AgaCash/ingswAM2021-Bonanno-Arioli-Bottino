@@ -1,5 +1,7 @@
 package network.messages.lobbyMessages;
 
+import exceptions.NoSuchUsernameException;
+import exceptions.NotEnoughPlayersException;
 import network.messages.MessageType;
 import network.server.Lobby;
 import network.server.LobbyHandler;
@@ -17,7 +19,7 @@ public class StartMultiPlayerRequest extends LobbyMessage{
             userLobby = LobbyHandler.getInstance().getLobbyFromUsername(super.getUsername());
             userLobby.startGame();
             sendSuccess(virtualClient);
-        } catch (Exception e) {
+        } catch (NotEnoughPlayersException | NoSuchUsernameException e) {
             sendError(virtualClient, e.getMessage());
         }
     }
@@ -28,8 +30,7 @@ public class StartMultiPlayerRequest extends LobbyMessage{
     }
 
     private void sendError(VirtualClient virtualClient, String message){
-        StandardLobbyResponse response = new StandardLobbyResponse(
-                        super.getUsername(), false, "User not in lobby or not the creator");
+        StandardLobbyResponse response = new StandardLobbyResponse(super.getUsername(), false, message);
         virtualClient.getVirtualView().sendLobbyMessage(response);
     }
 }

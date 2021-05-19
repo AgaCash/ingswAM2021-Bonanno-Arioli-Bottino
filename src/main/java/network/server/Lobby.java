@@ -2,6 +2,7 @@ package network.server;
 
 import controller.Controller;
 import exceptions.LobbyFullException;
+import exceptions.NotEnoughPlayersException;
 import model.player.Player;
 import view.VirtualClient;
 
@@ -81,12 +82,13 @@ public class Lobby { //LOBBY E' IL CONTROLLER
         return players.size() >= 4;
     }
 
-    public void startGame() throws Exception {
+    public void startGame() throws NotEnoughPlayersException {
         if(players.size() < 2 && !singlePlayerMode)
-            throw new Exception("Not enough players");
+            throw new NotEnoughPlayersException("Not enough players");
         sharedController = new Controller(id, views);
         for (VirtualClient v:views) {
             v.setController(sharedController);
+            v.getVirtualView().sendStartMultiPlayerSignal();
         }
     }
 
@@ -94,11 +96,4 @@ public class Lobby { //LOBBY E' IL CONTROLLER
         return sharedController;
     }
 
-    @Override
-    public String toString() {
-        return "{" +
-                "\"id\":\"" + id +"\""+
-                ", \"players\": " + players +
-                '}';
-    }
 }

@@ -3,9 +3,7 @@ package view;
 import com.google.gson.Gson;
 import exceptions.UsernameAlreadyUsedException;
 import network.messages.gameMessages.*;
-import network.messages.lobbyMessages.GetLobbyResponse;
-import network.messages.lobbyMessages.LobbyMessage;
-import network.messages.lobbyMessages.StandardLobbyResponse;
+import network.messages.lobbyMessages.*;
 import network.messages.gameMessages.FailedActionNotify;
 import network.server.LobbyHandler;
 
@@ -53,14 +51,20 @@ public class VirtualView implements View{
     }
 
     public void sendGetLobby(GetLobbyResponse lobbyMessage){
-        String s = lobbyMessage.toString();//gson.toJson(lobbyMessage);
+        String s = gson.toJson(lobbyMessage);
         outStream.println(s);
         System.out.println("sendgetlobby: "+lobbyMessage);
         System.out.println("gson_sendgetlobby: " +gson.toJson(lobbyMessage));
     }
 
     public void sendLobbyMessage(LobbyMessage lobbyMessage){
-        System.out.println("sendLobbyMessage: "+lobbyMessage);
+        System.out.println("sendLobbyMessage: "+gson.toJson(lobbyMessage));
+        outStream.println(gson.toJson(lobbyMessage));
+    }
+
+    public void sendStartMultiPlayerSignal(){
+        StartMultiPlayerResponse lobbyMessage =
+                new StartMultiPlayerResponse(username);
         outStream.println(gson.toJson(lobbyMessage));
     }
 

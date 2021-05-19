@@ -4,9 +4,9 @@ import model.table.PlayerBoard;
 
 public class Player {
     private String nickname;
-    private int startingTurn;
-    private int points = 0;
-    private PlayerBoard playerboard;
+    private transient int startingTurn;
+    private transient int points = 0;
+    private transient PlayerBoard playerboard;
 
     public Player(String nickname){
         this.nickname = nickname;

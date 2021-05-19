@@ -3,6 +3,7 @@ package network.server;
 import controller.Controller;
 import exceptions.LobbyFullException;
 import exceptions.NoSuchUsernameException;
+import exceptions.NotEnoughPlayersException;
 import model.player.Player;
 import view.VirtualClient;
 
@@ -45,7 +46,7 @@ public class LobbyHandler {
         lobbies.add(l);
         try {
             l.startGame();
-        } catch (Exception e) {
+        } catch (NotEnoughPlayersException e) {
             e.printStackTrace(); //NON SUCCEDERA' MAI
         }
         return l.getSharedController();
