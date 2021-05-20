@@ -14,8 +14,11 @@ public class DevCardProductionRequest extends GameMessage{
     private Resource chosenResource;
     private ExtraProd card;
 
-    public DevCardProductionRequest(String username){
+    public DevCardProductionRequest(String username, int slot, Resource chosenResource, ExtraProd card){
         super(username, MessageType.PRODUCTION);
+        this.slot = slot;
+        this.chosenResource = chosenResource;
+        this.card = card;
     }
 
     @Override

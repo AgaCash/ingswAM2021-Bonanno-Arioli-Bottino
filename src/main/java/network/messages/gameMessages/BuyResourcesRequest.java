@@ -11,8 +11,11 @@ public class BuyResourcesRequest extends GameMessage{
     private int num;
     private WhiteConverter card;
 
-    public BuyResourcesRequest(String username){
+    public BuyResourcesRequest(String username, boolean line, int num, WhiteConverter card){
         super(username, MessageType.MARKET);
+        this.line = line;
+        this.num = num;
+        this.card = card;
     }
 
     @Override

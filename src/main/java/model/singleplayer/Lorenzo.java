@@ -25,9 +25,28 @@ public class Lorenzo {
         this.developmentBoard = developmentBoard;
     }
 
-    /**
-     * method that picks the token on top of the deck and executes the token's effects
-     */
+    private void shuffle(){
+        Collections.shuffle(tokens);
+    }
+
+    public DevelopmentBoard getDevelopmentBoard() {
+        return developmentBoard;
+    }
+
+    public FaithTrack getFaithTrack() {
+        return faithTrack;
+    }
+
+    public FaithBox getFaithBox() {
+        return faithBox;
+    }
+
+    public void setFaithBox(FaithBox newBox){
+        this.faithBox = newBox;
+    }
+/*
+
+
     public void pick () {
         Token token = tokens.get(0);
         Token tmp;
@@ -53,12 +72,7 @@ public class Lorenzo {
         tokens.set(tokens.size()-1, tmp);
     }
 
-    /**
-     * method that shuffles the token's deck
-     */
-    private void shuffle(){
-        Collections.shuffle(tokens);
-    }
+
 
     public void checkPopeFlags(boolean[] flags){
         if (flags[0])
@@ -72,6 +86,8 @@ public class Lorenzo {
             //same
             ;
     }
+
+ */
 
 
 }

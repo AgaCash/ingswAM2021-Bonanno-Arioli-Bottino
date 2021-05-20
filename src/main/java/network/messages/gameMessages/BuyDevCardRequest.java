@@ -13,8 +13,11 @@ public class BuyDevCardRequest extends GameMessage{
     private int slot;
     private Discount card;
 
-    public BuyDevCardRequest(String username){
+    public BuyDevCardRequest(String username, Deck deck, int slot, Discount card){
         super(username, MessageType.BUYDEVCARDS);
+        this.deck = deck;
+        this.slot = slot;
+        this.card = card;
     }
 
     @Override

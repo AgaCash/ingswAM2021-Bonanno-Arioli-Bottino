@@ -51,4 +51,8 @@ public class PlayerBoard {
 
     public FaithTrack getFaithTrack(){ return faithTrack;}
 
+    public ArrayList<LeaderCard> getLeaders (){
+        return leaderSlots;
+    }
+
 }

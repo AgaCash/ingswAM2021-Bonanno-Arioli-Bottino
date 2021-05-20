@@ -5,6 +5,7 @@ import model.cards.*;
 import model.player.Player;
 import model.resources.Resource;
 import model.singleplayer.Lorenzo;
+import model.singleplayer.Token;
 import model.table.*;
 
 
@@ -16,6 +17,7 @@ public class Game {
     private Table table;
     private Player currentPlayer;
     private Lorenzo cpu;
+    public ArrayList<Token> tokens ;
     private boolean singlePlayer;
     private ArrayList<Resource> threwResources = new ArrayList<>();
     //Lorenzo cpu = new Lorenzo();  will be ok when DevBoard will adopt singleton pattern
@@ -301,6 +303,8 @@ public class Game {
         currentPlayer.getPlayerBoard().removeLeaderCard(card);
         faithAdvance(1);
     }
+
+
     //============ENDGAME=======
     //contare i punti vittoria dei giocatori su faithTrack, leaderCards, devCards ecc...
     //fare la classifica dei punti vittoria
@@ -311,7 +315,7 @@ public class Game {
     //change turn
     private void changeTurn(){
         if(singlePlayer) {
-            cpu.pick();
+            pick();
         }
         else {
             int turn = players.indexOf(currentPlayer);
@@ -343,5 +347,41 @@ public class Game {
         for(Player player : players)
             tracks.add(player.getPlayerBoard().getFaithTrack());
         return tracks;
+    }
+
+    //----SINGLEPLAYER-------
+    /**
+     * method that picks the token on top of the deck and executes the token's effects
+     */
+    public void pick () {
+        Token token = tokens.get(0);
+        Token tmp;
+        if (!(token.getIsAboutLorenzo())) {
+            for (int i = 0; i < token.getRemoveQuantity(); i++)
+                token.cardAction(cpu.getDevelopmentBoard());
+        } else {
+            for(int i=0; i< token.getBlackCrossFaithPoints();i++) {
+                cpu.setFaithBox(cpu.getFaithTrack().faithAdvance(cpu.getFaithBox(), cpu.getFaithTrack()));
+                if (cpu.getFaithBox().getPosition() == 24)
+                    //endgame
+                    ;
+                boolean[] check = cpu.getFaithBox().getPopeFlag();
+                checkPopeFlags(check);
+            }
+            if (token.getShuffle())
+                shuffle();
+        }
+        tmp = tokens.get(0);
+        for(int i=0; i<tokens.size()-1; i++){
+            tokens.set(i, tokens.get(i+1));
+        }
+        tokens.set(tokens.size()-1, tmp);
+    }
+
+    /**
+     * method that shuffles the token's deck
+     */
+    private void shuffle(){
+        Collections.shuffle(tokens);
     }
 }

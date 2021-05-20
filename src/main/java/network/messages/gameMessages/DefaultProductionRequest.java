@@ -17,8 +17,13 @@ public class DefaultProductionRequest extends GameMessage{
     private ExtraProd card;
     private Resource chosenOutput;
 
-    public DefaultProductionRequest(String username){
+    public DefaultProductionRequest(String username, ArrayList<Resource> input, Resource output, ExtraProd card, Resource chosenOutput){
         super(username, MessageType.PRODUCTION);
+        this.input = input;
+        this.output = output;
+        this.card = card;
+        this.chosenOutput = chosenOutput;
+
     }
 
     @Override

@@ -11,8 +11,9 @@ import view.VirtualClient;
 public class LeaderCardActivationRequest extends GameMessage{
     private LeaderCard card;
 
-    public LeaderCardActivationRequest(String username){
+    public LeaderCardActivationRequest(String username, LeaderCard card){
         super(username, MessageType.LEADERCARD);
+        this.card = card;
     }
 
 
