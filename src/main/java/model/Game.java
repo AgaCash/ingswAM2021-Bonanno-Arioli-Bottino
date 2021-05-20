@@ -296,6 +296,14 @@ public class Game {
 
         }
     }
+
+    public void throwLeaderCard(LeaderCard card){
+        currentPlayer.getPlayerBoard().removeLeaderCard(card);
+        for(Player player : players)
+            if(player!=currentPlayer){
+                player.getPlayerBoard().getFaithTrack().faithAdvance(player.getPlayerBoard().getFaithBox(), player.getPlayerBoard().getFaithTrack());
+            }
+    }
     //============ENDGAME=======
     //contare i punti vittoria dei giocatori su faithTrack, leaderCards, devCards ecc...
     //fare la classifica dei punti vittoria

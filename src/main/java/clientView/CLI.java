@@ -1,11 +1,6 @@
 package clientView;
 
-import clientController.LightController;
-
-import java.io.PrintStream;
-import java.util.Scanner;
-
-public class CLI implements View{
+/*public class CLI implements View{
     private Scanner in;
     private PrintStream out;
     LightController controller;
@@ -75,10 +70,10 @@ public class CLI implements View{
                     *           manda un msg
                     *           riceve msg
                     *           view.showError
-                    *              view.waitingLobby*/
+                    *              view.waitingLobby
     }
 
     public void notifyJoin(){
 
     }
-}
+}*/

@@ -46,9 +46,20 @@ public class VirtualView implements View{
 
     }
 
-    public void update(GameMessage response){
+    public void updateBuyDevCard(BuyDevCardResponse response){
         outStream.println(gson.toJson(response));
     }
+    public void updateBuyResources(BuyResourcesResponse response){
+        outStream.println(gson.toJson(response));
+    }
+    public void updateDefaultProduction(DefaultProductionResponse response){outStream.println(gson.toJson(response));}
+    public void updateDevCardProduction(DevCardProductionResponse response){outStream.println(gson.toJson(response));}
+    public void updateLeaderCardActivation(LeaderCardActivationResponse response){ outStream.println(gson.toJson(response));}
+    public void updateStartGame(StartGameResponse response){ outStream.println(gson.toJson(response));}
+    public void updateSetup(SetupResponse response){ outStream.println(gson.toJson(response));}
+    public void updateFailedAction(FailedActionNotify notify){outStream.println(gson.toJson(notify));}
+    public void updateInternalError(InternalErrorNotify notify){ outStream.println(gson.toJson(notify));}
+
 
     public void sendGetLobby(GetLobbyResponse lobbyMessage){
         String s = gson.toJson(lobbyMessage);

@@ -26,7 +26,7 @@ public class DevCardProductionRequest extends GameMessage{
             update(controller);
         } catch (InsufficientResourcesException | UnusableCardException e){
             FailedActionNotify notify = new FailedActionNotify(this.getUsername(), e.getMessage());
-            client.getVirtualView().update(notify);
+            client.getVirtualView().updateFailedAction(notify);
 
         }
     }
@@ -35,6 +35,6 @@ public class DevCardProductionRequest extends GameMessage{
         DevCardProductionResponse response = new DevCardProductionResponse(getUsername(),
                 controller.getCurrentPlayer().getPlayerBoard().getWarehouseDepot(),
                 controller.getCurrentPlayer().getPlayerBoard().getStrongbox());
-        controller.getViews().forEach((element)-> { element.getVirtualView().update(response);});
+        controller.getViews().forEach((element)-> { element.getVirtualView().updateDevCardProduction(response);});
     }
 }

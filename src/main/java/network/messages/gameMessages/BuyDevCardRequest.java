@@ -25,7 +25,7 @@ public class BuyDevCardRequest extends GameMessage{
             update(controller);
         } catch (FullCardSlotException | NonCorrectLevelCardException | InsufficientResourcesException | EmptyDeckException | UnusableCardException e) {
             FailedActionNotify notify = new FailedActionNotify(this.getUsername(), e.getMessage());
-            client.getVirtualView().update(notify);
+            client.getVirtualView().updateFailedAction(notify);
         }
     }
 
@@ -33,6 +33,6 @@ public class BuyDevCardRequest extends GameMessage{
         BuyDevCardResponse response = new BuyDevCardResponse(getUsername(),
                                                             controller.getCurrentPlayer().getPlayerBoard().getCardSlots(),
                                                             controller.getDevBoard());
-        controller.getViews().forEach((element)-> { element.getVirtualView().update(response);});
+        controller.getViews().forEach((element)-> { element.getVirtualView().updateBuyDevCard(response);});
     }
 }

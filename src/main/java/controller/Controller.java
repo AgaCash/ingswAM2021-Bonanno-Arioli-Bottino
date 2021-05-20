@@ -39,7 +39,7 @@ public class Controller {
         if(message.getUsername().equals(getCurrentPlayer().getNickname()))
             message.executeCommand(this, client);
         else
-            client.getVirtualView().update(new FailedActionNotify(message.getUsername(), "Not your turn"));
+            client.getVirtualView().updateFailedAction(new FailedActionNotify(message.getUsername(), "Not your turn"));
     }
     public ArrayList<VirtualClient> getViews(){
         return views;
@@ -62,7 +62,7 @@ public class Controller {
     public void notifyReadiness(){
         this.readyPlayers++;
         if(readyPlayers == this.views.size()+1)
-            views.forEach(element -> element.getVirtualView().update(new SetupResponse(element.getVirtualView().getUsername(), getCurrentPlayer().getNickname())));
+            views.forEach(element -> element.getVirtualView().updateSetup(new SetupResponse(element.getVirtualView().getUsername(), getCurrentPlayer().getNickname())));
         }
 
     //-----------tutto quello nel gioco
@@ -96,6 +96,9 @@ public class Controller {
             InsufficientResourcesException {
         game.activateLeaderCard(card);
     }
+    public void throwLeaderCard(LeaderCard card){
+        game.throwLeaderCard(card);
+    }
 
     public Player getCurrentPlayer() {
         return game.getCurrentPlayer();
@@ -109,11 +112,11 @@ public class Controller {
     public void endTurn(){ game.updateTurn(); }
 
     public void handleError(String message){
-        views.forEach(element -> element.getVirtualView().update(new InternalErrorNotify(element.getVirtualView().getUsername(), message)));
+        views.forEach(element -> element.getVirtualView().updateInternalError(new InternalErrorNotify(element.getVirtualView().getUsername(), message)));
 
     }
     public void handleError(VirtualClient view, String message){
-        view.getVirtualView().update(new InternalErrorNotify(view.getVirtualView().getUsername(), message));
+        view.getVirtualView().updateInternalError(new InternalErrorNotify(view.getVirtualView().getUsername(), message));
     }
     public Player getPlayer(String username) throws NoSuchUsernameException {
         return game.getPlayer(username);

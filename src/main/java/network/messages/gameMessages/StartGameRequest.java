@@ -20,16 +20,16 @@ public class StartGameRequest extends GameMessage{
             switch (controller.getPlayer(getUsername()).getStartingTurn()) {
                 case 0: {
                     ArrayList<LeaderCard> quartet = controller.getLeaderCards();
-                    view.getVirtualView().update(new StartGameResponse(getUsername(), quartet, 0, false));}
+                    view.getVirtualView().updateStartGame(new StartGameResponse(getUsername(), quartet, 0, false));}
                 case 1: {
                     ArrayList<LeaderCard> quartet = controller.getLeaderCards();
-                    view.getVirtualView().update(new StartGameResponse(getUsername(), quartet, 1, false));}
+                    view.getVirtualView().updateStartGame(new StartGameResponse(getUsername(), quartet, 1, false));}
                 case 2: {
                     ArrayList<LeaderCard> quartet = controller.getLeaderCards();
-                    view.getVirtualView().update(new StartGameResponse(getUsername(), quartet, 1, true));}
+                    view.getVirtualView().updateStartGame(new StartGameResponse(getUsername(), quartet, 1, true));}
                 case 3: {
                     ArrayList<LeaderCard> quartet = controller.getLeaderCards();
-                    view.getVirtualView().update(new StartGameResponse(getUsername(), quartet, 2, true));}
+                    view.getVirtualView().updateStartGame(new StartGameResponse(getUsername(), quartet, 2, true));}
             }
         } catch(NoSuchUsernameException e){
             controller.handleError(e.getMessage());

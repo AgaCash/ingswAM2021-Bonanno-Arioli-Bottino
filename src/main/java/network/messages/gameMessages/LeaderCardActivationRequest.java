@@ -24,13 +24,13 @@ public class LeaderCardActivationRequest extends GameMessage{
             update(controller);
         } catch (InsufficientRequirementsException | InsufficientResourcesException e){
             FailedActionNotify notify = new FailedActionNotify(this.getUsername(), e.getMessage());
-            client.getVirtualView().update(notify);
+            client.getVirtualView().updateFailedAction(notify);
         }
 
     }
 
     public void update(Controller controller){
         LeaderCardActivationResponse response = new LeaderCardActivationResponse(getUsername());
-        controller.getViews().forEach((element)-> { element.getVirtualView().update(response);});
+        controller.getViews().forEach((element)-> { element.getVirtualView().updateLeaderCardActivation(response);});
     };
 }

@@ -31,6 +31,9 @@ public class PlayerBoard {
     public void addLeaderCards(ArrayList<LeaderCard> couple){
         leaderSlots = couple;
     }
+    public void removeLeaderCard(LeaderCard card){
+        leaderSlots.remove(card);
+    }
 
     public Player getPlayer(){
         return player;
