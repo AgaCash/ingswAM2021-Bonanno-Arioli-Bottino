@@ -299,10 +299,7 @@ public class Game {
 
     public void throwLeaderCard(LeaderCard card){
         currentPlayer.getPlayerBoard().removeLeaderCard(card);
-        for(Player player : players)
-            if(player!=currentPlayer){
-                player.getPlayerBoard().getFaithTrack().faithAdvance(player.getPlayerBoard().getFaithBox(), player.getPlayerBoard().getFaithTrack());
-            }
+        faithAdvance(1);
     }
     //============ENDGAME=======
     //contare i punti vittoria dei giocatori su faithTrack, leaderCards, devCards ecc...
