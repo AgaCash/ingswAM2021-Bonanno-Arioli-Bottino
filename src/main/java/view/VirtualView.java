@@ -36,10 +36,6 @@ public class VirtualView implements View{
         this.username = username;
     }
 
-    public void sendError(FailedActionNotify error){
-        outStream.println(gson.toJson(error));
-    }
-
     public void updateStartingSituation(){
         StandardLobbyResponse s = new StandardLobbyResponse(username, true);
         outStream.println(gson.toJson(s));

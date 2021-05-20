@@ -23,8 +23,8 @@ public class BuyResourcesRequest extends GameMessage{
             controller.getThrewResources();
             update(controller);
         }catch(UnusableCardException e){
-            FailedActionNotify notify =  new FailedActionNotify(this.getUsername(), e.getMessage());
-            client.getVirtualView().updateFailedAction(notify);
+            BuyResourcesResponse notify =  new BuyResourcesResponse(this.getUsername(), e.getMessage());
+            client.getVirtualView().updateBuyResources(notify);
         }
     }
 
@@ -36,5 +36,6 @@ public class BuyResourcesRequest extends GameMessage{
                                                                 controller.getFaithTracks());
         controller.getViews().forEach((element)-> { element.getVirtualView().updateBuyResources(response);});
     }
+
 
 }
