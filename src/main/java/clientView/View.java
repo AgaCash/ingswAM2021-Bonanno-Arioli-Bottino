@@ -13,6 +13,10 @@ public interface View {
     void askMenu();
     //switch to singleplayer state
     void switchToGame(boolean singlePlayer);
+    //show user that he has to wait for boss to starts the game
+    void showWaitingRoom();
+    //
+    void notifyPlayerJoined(String username);
     //lobby id to join it
     void askLobbyID();
     //lobby name to create it

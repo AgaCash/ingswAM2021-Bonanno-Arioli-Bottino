@@ -94,9 +94,9 @@ public class CLI implements View{
 
     public void switchToGame(boolean singlePlayer){
         if(singlePlayer){
-            System.out.println("STAI GIOCANDO DA SOLO\nChe grande!");
+            System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\nSTAI GIOCANDO DA SOLO\nChe grande!");
         }else{
-            System.out.println("Uoo stai giocando con altra gente\nTrooooppo frizzante!!");
+            System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\nUoo stai giocando con altra gente\nTrooooppo frizzante!!");
         }
     }
 
@@ -105,12 +105,21 @@ public class CLI implements View{
     }
 
     private void handleMultiCreate(){
-        //controller.createLobby();
+        controller.createMultiLobby();
         /* public void createLobby(){
          *           manda un msg
          *           riceve msg
          *           view.showError
          *              view.waitingLobby*/
+    }
+
+    public void notifyPlayerJoined(String username){
+        System.out.println(username +" has joined the lobby");
+    }
+
+    public void showWaitingRoom(){
+        System.out.println("You joined the room");
+        System.out.println("Waiting for creator of the room starts the game...");
     }
 
     @Override

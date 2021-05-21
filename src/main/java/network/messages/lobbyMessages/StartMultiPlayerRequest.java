@@ -18,19 +18,20 @@ public class StartMultiPlayerRequest extends LobbyMessage{
         try {
             userLobby = LobbyHandler.getInstance().getLobbyFromUsername(super.getUsername());
             userLobby.startGame();
-            sendSuccess(virtualClient);
+            //sendSuccess(virtualClient);
         } catch (NotEnoughPlayersException | NoSuchUsernameException e) {
             sendError(virtualClient, e.getMessage());
         }
     }
 
+    //lo fa già startgame in broadcast
     private void sendSuccess(VirtualClient virtualClient){
-        StandardLobbyResponse response = new StandardLobbyResponse(super.getUsername(), true);
-        virtualClient.getVirtualView().sendLobbyMessage(response);
+        StartMultiPlayerResponse response = new StartMultiPlayerResponse(super.getUsername());
+        virtualClient.getVirtualView().sendLobbyResponse(response);
     }
 
     private void sendError(VirtualClient virtualClient, String message){
-        StandardLobbyResponse response = new StandardLobbyResponse(super.getUsername(), false, message);
-        virtualClient.getVirtualView().sendLobbyMessage(response);
+        StartMultiPlayerResponse response = new StartMultiPlayerResponse(super.getUsername(), message);
+        virtualClient.getVirtualView().sendLobbyResponse(response);
     }
 }

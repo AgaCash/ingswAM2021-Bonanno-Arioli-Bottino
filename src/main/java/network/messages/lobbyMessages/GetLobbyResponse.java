@@ -3,9 +3,7 @@ package network.messages.lobbyMessages;
 import clientController.LightController;
 import network.messages.MessageType;
 import network.server.Lobby;
-import network.server.LobbyHandler;
-import view.View;
-import view.VirtualClient;
+
 import java.util.ArrayList;
 
 public class GetLobbyResponse extends LobbyMessage{

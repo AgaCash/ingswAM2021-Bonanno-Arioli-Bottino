@@ -8,7 +8,7 @@ import network.server.LobbyHandler;
 
 import java.io.PrintWriter;
 
-public class VirtualView implements View{
+public class VirtualView implements ServerView {
     private PrintWriter outStream;
     private String username;
     private Gson gson;
@@ -35,12 +35,6 @@ public class VirtualView implements View{
         this.username = username;
     }
 
-    public void updateStartingSituation(){
-        StandardLobbyResponse s = new StandardLobbyResponse(username, true);
-        outStream.println(gson.toJson(s));
-
-    }
-
     public void updateBuyDevCard(BuyDevCardResponse response){
         outStream.println(gson.toJson(response));
     }
@@ -58,14 +52,12 @@ public class VirtualView implements View{
 
 
     public void sendGetLobby(GetLobbyResponse lobbyMessage){
-        String s = gson.toJson(lobbyMessage);
-        outStream.println(s);
-        System.out.println("sendgetlobby: "+lobbyMessage);
-        System.out.println("gson_sendgetlobby: " +gson.toJson(lobbyMessage));
+        outStream.println(gson.toJson(lobbyMessage));
+        //System.out.println("sendgetlobby: "+lobbyMessage);
+        //System.out.println("gson_sendgetlobby: " +gson.toJson(lobbyMessage));
     }
 
     public void sendLobbyMessage(LobbyMessage lobbyMessage){
-        System.out.println("sendLobbyMessage: "+gson.toJson(lobbyMessage));
         outStream.println(gson.toJson(lobbyMessage));
     }
 
@@ -75,9 +67,34 @@ public class VirtualView implements View{
         outStream.println(gson.toJson(lobbyMessage));
     }
 
+    public void sendLobbyResponse(CreateLobbyResponse response){
+        outStream.println(gson.toJson(response));
+    }
+
+    public void sendLobbyResponse(GetLobbyResponse response){
+        outStream.println(gson.toJson(response));
+    }
+
+    public void sendLobbyResponse(LoginMultiPlayerResponse response){
+        outStream.println(gson.toJson(response));
+    }
+
+    public void sendLobbyResponse(RegisterUsernameResponse response){
+        outStream.println(gson.toJson(response));
+    }
+
+    public void sendLobbyResponse(StartMultiPlayerResponse response){
+        outStream.println(gson.toJson(response));
+    }
+
+    public void sendLobbyResponse(StartSinglePlayerResponse response){
+        outStream.println(gson.toJson(response));
+    }
+
     public void sendStandardLobbyResponse(StandardLobbyResponse lobbyMessage){
         outStream.println(gson.toJson(lobbyMessage));
     }
+
 
     public String getUsername(){
         return this.username;

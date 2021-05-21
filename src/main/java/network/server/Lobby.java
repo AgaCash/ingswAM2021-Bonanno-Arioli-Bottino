@@ -4,6 +4,7 @@ import controller.Controller;
 import exceptions.LobbyFullException;
 import exceptions.NotEnoughPlayersException;
 import model.player.Player;
+import network.messages.lobbyMessages.LoginMultiPlayerResponse;
 import view.VirtualClient;
 
 import java.util.ArrayList;
@@ -48,6 +49,11 @@ public class Lobby { //LOBBY E' IL CONTROLLER
         player.setStartingTurn(players.size()+1);
         players.add(player);
         views.add(virtualClient);
+        LoginMultiPlayerResponse response =
+                new LoginMultiPlayerResponse(virtualClient.getVirtualView().getUsername());
+        views.forEach((view)->{
+            view.getVirtualView().sendLobbyResponse(response);
+        });
     }
 
     public void leaveLobby(Player player){

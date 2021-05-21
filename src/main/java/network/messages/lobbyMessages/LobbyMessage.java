@@ -1,11 +1,8 @@
 package network.messages.lobbyMessages;
 
 import clientController.LightController;
-import clientView.LightView;
 import network.messages.Message;
 import network.messages.MessageType;
-import network.server.LobbyHandler;
-import view.View;
 import view.VirtualClient;
 
 

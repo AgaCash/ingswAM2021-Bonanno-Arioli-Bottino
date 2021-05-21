@@ -22,7 +22,12 @@ public class LoginMultiPlayerResponse extends LobbyMessage{
     public void executeCommand(LightController lightController) {
         if(status){
             // deve entrare nella fase di attesa di altri giocatori
-            //lightController.joinLobbyWaiting();
+            if(getUsername().equals(lightController.getUsername())){
+                lightController.joinLobbyWaiting();
+            }else{
+                //deve solo notificare che è entrato
+                lightController.notifyPlayerJoined(getUsername());
+            }
         }else{
             //lightController.showError(message);
         }

@@ -4,9 +4,7 @@ import controller.Controller;
 import network.messages.MessageType;
 import network.server.LobbyHandler;
 import model.player.Player;
-import view.View;
 import view.VirtualClient;
-import view.*;
 
 public class StartSinglePlayerRequest extends LobbyMessage{
 
@@ -21,7 +19,8 @@ public class StartSinglePlayerRequest extends LobbyMessage{
         //TODO:
         //  getData
         //  updateToView
-        virtualClient.getVirtualView().updateStartingSituation();
+        StartSinglePlayerResponse response = new StartSinglePlayerResponse(getUsername());
+        virtualClient.getVirtualView().sendLobbyResponse(response);
     }
 
     @Override

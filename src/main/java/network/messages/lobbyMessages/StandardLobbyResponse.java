@@ -1,11 +1,7 @@
 package network.messages.lobbyMessages;
 
 import network.messages.MessageType;
-import network.server.LobbyHandler;
-import view.View;
 import view.VirtualClient;
-
-import java.io.PrintWriter;
 
 public class StandardLobbyResponse extends LobbyMessage{
 

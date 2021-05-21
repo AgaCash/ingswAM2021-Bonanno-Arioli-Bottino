@@ -62,6 +62,10 @@ public class LightController {
         response.executeCommand(this);
     }
 
+    public String getUsername() {
+        return username;
+    }
+
     public void askLobbyMenu(){
         view.askMenu();
     }
@@ -77,6 +81,50 @@ public class LightController {
             response.executeCommand(this);
         } catch (IOException e) {
             view.showError(e.getMessage());
+        }
+    }
+
+    public void createMultiLobby(){
+        CreateLobbyRequest request = new CreateLobbyRequest(username);
+        String requestS = gson.toJson(request);
+        client.send(requestS);
+        String responseS;
+        try {
+            responseS = client.recv();
+            CreateLobbyResponse response = gson.fromJson(responseS, CreateLobbyResponse.class);
+            response.executeCommand(this);
+        } catch (IOException e) {
+            view.showError(e.getMessage());
+        }
+    }
+
+    public void createLobbyWaiting(){
+        boolean startSignal = false;
+        do{
+            try {
+                String someoneJoinedString = client.recv();
+                //quando uno entra viene inviato a tutti lo stesso messaggio no?
+                LoginMultiPlayerResponse response =
+                        gson.fromJson(someoneJoinedString, LoginMultiPlayerResponse.class);
+                response.executeCommand(this);
+            } catch (IOException e) {
+                view.showError(e.getMessage());
+            }
+        }while (!startSignal);
+    }
+
+    public void notifyPlayerJoined(String username){
+        view.notifyPlayerJoined(username);
+    }
+
+    public void joinLobbyWaiting(){
+        //mostra che è entrato nella lobby
+        //notifica attesa che il gioco inizi
+        view.showWaitingRoom();
+        try {
+            String lobbyWaiting = client.recv();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -186,7 +234,7 @@ public class LightController {
     }
 
     public void showError(String username, String message){
-        if(game.getUsername().equals(username))
+        if(this.getUsername().equals(username))
             view.showError(message);
 
     }

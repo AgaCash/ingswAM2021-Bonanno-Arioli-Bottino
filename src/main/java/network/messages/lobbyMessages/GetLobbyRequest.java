@@ -25,7 +25,7 @@ public class GetLobbyRequest extends LobbyMessage{
         ArrayList<Lobby> l = LobbyHandler.getInstance().getLobbies();
         GetLobbyResponse g = new GetLobbyResponse(super.getUsername(), l);
         System.out.println("object to serialize: "+g);
-        virtualClient.getVirtualView().sendGetLobby(g);
+        virtualClient.getVirtualView().sendLobbyResponse(g);
     }
 
 }

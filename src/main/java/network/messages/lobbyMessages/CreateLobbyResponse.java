@@ -24,10 +24,10 @@ public class CreateLobbyResponse extends LobbyMessage{
     public void executeCommand(LightController lightController) {
         if(success){
             // deve entrare nella fase di attesa di altri giocatori DA CREATORE(con possibilità di startare il game)
-            //lightController.createLobbyWaiting();
+            lightController.createLobbyWaiting();
         }else{
             //mostra l'errore a schermo
-            //lightController.showError(message)
+            lightController.showError(getUsername(),message);
         }
     }
 }

@@ -19,8 +19,8 @@ public class CreateLobbyRequest extends LobbyMessage{
     public void executeCommand(VirtualClient virtualClient) {
         try {
             LobbyHandler.getInstance().createLobby(new Player(super.getUsername()), virtualClient);
-            StandardLobbyResponse s = new StandardLobbyResponse(getUsername(), true);
-            virtualClient.getVirtualView().sendLobbyMessage(s);
+            CreateLobbyResponse s = new CreateLobbyResponse(getUsername());
+            virtualClient.getVirtualView().sendLobbyResponse(s);
         }catch (SizeLimitExceededException s){
             //non entrerà mai qua
             s.printStackTrace();

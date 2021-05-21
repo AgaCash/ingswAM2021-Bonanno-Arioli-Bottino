@@ -22,12 +22,12 @@ public class RegisterUsernameRequest extends LobbyMessage{
     private void sendSuccess(VirtualClient virtualClient){
         RegisterUsernameResponse response =
                 new RegisterUsernameResponse(super.getUsername());
-        virtualClient.getVirtualView().sendLobbyMessage(response);
+        virtualClient.getVirtualView().sendLobbyResponse(response);
     }
 
     private void sendError(VirtualClient virtualClient, String message){
         RegisterUsernameResponse response =
                 new RegisterUsernameResponse(super.getUsername(), "Username Already Exists");
-        virtualClient.getVirtualView().sendLobbyMessage(response);
+        virtualClient.getVirtualView().sendLobbyResponse(response);
     }
 }
