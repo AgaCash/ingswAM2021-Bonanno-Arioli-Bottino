@@ -1,5 +1,6 @@
 package network.messages.gameMessages;
 
+import clientController.LightController;
 import model.resources.Resource;
 import model.table.FaithTrack;
 import model.table.MarketBoard;
@@ -30,20 +31,17 @@ public class BuyResourcesResponse extends GameMessage{
         this.success = false;
 
     }
-
-    public void executeCommand(){
-        //controller.updateWarehouse(username, newWarehouse)
-        //controller.updateMarket(newMarket);
-        //for(Resource res: threwResources) {
-        //            ThrewResourcesNotify threwNotify = new ThrewResourcesNotify(getUsername(),
-        //                    "Resource " + res + " couldn't be added: warehouse is full!");
-        //todo: printare la lista di risorse rifiutate
-
+    @Override
+    public void executeCommand(LightController controller){
+        if(this.success) {
+            controller.updateWarehouse(getUsername(), newWarehouse);
+            controller.updateMarketBoard(newMarketBoard);
+            controller.showThrewResources(getUsername(), threwResource);
+        }
+        else
+            controller.showError(getUsername(), message);
     }
 
-    public boolean getSuccess(){
-        return this.success;
-    }
 
 
 }

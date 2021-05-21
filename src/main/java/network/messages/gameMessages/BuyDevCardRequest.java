@@ -4,20 +4,21 @@ import com.google.gson.Gson;
 import controller.Controller;
 import exceptions.*;
 import model.cards.Discount;
-import model.table.Deck;
 import network.messages.MessageType;
 import view.VirtualClient;
 
 public class BuyDevCardRequest extends GameMessage{
-    private Deck deck;
+    private int deck;
     private int slot;
     private Discount card;
 
-    public BuyDevCardRequest(String username, Deck deck, int slot, Discount card){
+
+    public BuyDevCardRequest(String username, int deck, int slot, Discount card){
         super(username, MessageType.BUYDEVCARDS);
         this.deck = deck;
         this.slot = slot;
         this.card = card;
+
     }
 
     @Override
@@ -27,8 +28,8 @@ public class BuyDevCardRequest extends GameMessage{
             controller.buyDevCard(deck, slot, card);
             update(controller);
         } catch (FullCardSlotException | NonCorrectLevelCardException | InsufficientResourcesException | EmptyDeckException | UnusableCardException e) {
-            FailedActionNotify notify = new FailedActionNotify(this.getUsername(), e.getMessage());
-            client.getVirtualView().updateFailedAction(notify);
+            BuyDevCardResponse notify = new BuyDevCardResponse(this.getUsername(), e.getMessage());
+            client.getVirtualView().updateBuyDevCard(notify);
         }
     }
 

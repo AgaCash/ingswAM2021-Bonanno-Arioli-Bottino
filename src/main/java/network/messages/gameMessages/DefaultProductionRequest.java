@@ -33,8 +33,8 @@ public class DefaultProductionRequest extends GameMessage{
             controller.defaultProduction(input, output, card, chosenOutput);
             update(controller);
         } catch (InsufficientResourcesException | UnusableCardException e) {
-            FailedActionNotify notify = new FailedActionNotify(this.getUsername(), e.getMessage());
-            client.getVirtualView().updateFailedAction(notify);
+            DefaultProductionResponse notify = new DefaultProductionResponse(this.getUsername(), e.getMessage());
+            client.getVirtualView().updateDefaultProduction(notify);
         }
     }
 

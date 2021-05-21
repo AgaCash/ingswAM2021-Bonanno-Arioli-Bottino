@@ -28,8 +28,8 @@ public class DevCardProductionRequest extends GameMessage{
             controller.devCardProduction(slot, chosenResource, card);
             update(controller);
         } catch (InsufficientResourcesException | UnusableCardException e){
-            FailedActionNotify notify = new FailedActionNotify(this.getUsername(), e.getMessage());
-            client.getVirtualView().updateFailedAction(notify);
+            DevCardProductionResponse notify = new DevCardProductionResponse(this.getUsername(), e.getMessage());
+            client.getVirtualView().updateDevCardProduction(notify);
 
         }
     }

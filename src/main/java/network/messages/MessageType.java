@@ -2,7 +2,6 @@
 package network.messages;
 
         import network.messages.lobbyMessages.*;
-        import network.messages.gameMessages.FailedActionNotify;
 
 public enum MessageType {
     //SETUP
@@ -39,9 +38,8 @@ public enum MessageType {
     LEADERCARD,
     LEADERCARDUPDATE,
     ENDTURN,
-    ENDTURNUPDATE,
-    //notify
-    FAILEDACTIONNOTIFY(FailedActionNotify.class, "NOTIFY");
+    ENDTURNUPDATE;
+
 
     private final Class<? extends Message> classType;
     private final String upperType;

@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import exceptions.UsernameAlreadyUsedException;
 import network.messages.gameMessages.*;
 import network.messages.lobbyMessages.*;
-import network.messages.gameMessages.FailedActionNotify;
 import network.server.LobbyHandler;
 
 import java.io.PrintWriter;
@@ -53,7 +52,8 @@ public class VirtualView implements View{
     public void updateLeaderCardActivation(LeaderCardActivationResponse response){ outStream.println(gson.toJson(response));}
     public void updateStartGame(StartGameResponse response){ outStream.println(gson.toJson(response));}
     public void updateSetup(SetupResponse response){ outStream.println(gson.toJson(response));}
-    public void updateFailedAction(FailedActionNotify notify){outStream.println(gson.toJson(notify));}
+    //public void updateFailedAction(FailedActionNotify notify){outStream.println(gson.toJson(notify));}
+    //todo stesso discorso di controller: tenere un messaggio notify per tutti nei casi eccezionali?
     public void updateInternalError(InternalErrorNotify notify){ outStream.println(gson.toJson(notify));}
 
 

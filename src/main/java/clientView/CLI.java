@@ -1,6 +1,13 @@
 package clientView;
 
-/*public class CLI implements View{
+import clientController.LightController;
+import model.resources.Resource;
+
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class CLI implements View{
     private Scanner in;
     private PrintStream out;
     LightController controller;
@@ -25,6 +32,76 @@ package clientView;
         String username = in.nextLine();
         //controller.setUsername(username);
         askMenu();
+    }
+
+    @Override
+    public void askLobbyID() {
+
+    }
+
+    @Override
+    public void askNewLobbyName() {
+
+    }
+
+    @Override
+    public void askStartup() {
+
+    }
+
+    @Override
+    public void askTurn() {
+
+    }
+
+    @Override
+    public void askLeaderCardActivation() {
+
+    }
+
+    @Override
+    public void askLeaderCardThrowing() {
+
+    }
+
+    @Override
+    public void askBuyResources() {
+
+    }
+
+    @Override
+    public void askBuyDevCards() {
+
+    }
+
+    @Override
+    public void askDevCardProduction() {
+
+    }
+
+    @Override
+    public void askDefaultProduction() {
+
+    }
+
+    @Override
+    public void askEndTurn() {
+
+    }
+
+    @Override
+    public void showThrewResources(ArrayList<Resource> threwResources) {
+
+    }
+
+    @Override
+    public void showError(String message) {
+
+    }
+
+    @Override
+    public void showSuccess(String message) {
+
     }
 
     public void askMenu() {
@@ -70,10 +147,10 @@ package clientView;
                     *           manda un msg
                     *           riceve msg
                     *           view.showError
-                    *              view.waitingLobby
+                    *              view.waitingLobby*/
     }
 
     public void notifyJoin(){
 
     }
-}*/
+}

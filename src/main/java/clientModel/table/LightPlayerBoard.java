@@ -36,10 +36,13 @@ public class LightPlayerBoard {
     public LightStrongbox getStrongbox(){
         return strongbox;
     }
+    public void setStrongbox(LightStrongbox strongbox){ this.strongbox = strongbox;}
 
     public LightCardSlots getCardSlots(){ return cardSlots; }
+    public void setCardSlots(LightCardSlots cardSlots){ this.cardSlots = cardSlots;}
 
     public LightWarehouseDepot getWarehouseDepot(){return warehouseDepot;}
+    public void setWarehouse(LightWarehouseDepot warehouseDepot){ this.warehouseDepot = warehouseDepot;}
 
     public LightFaithBox getFaithBox(){ return faithBox; }
 

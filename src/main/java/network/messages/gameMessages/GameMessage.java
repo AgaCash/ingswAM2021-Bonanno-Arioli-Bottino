@@ -1,9 +1,9 @@
 package network.messages.gameMessages;
 
+import clientController.LightController;
 import controller.Controller;
 import network.messages.Message;
 import network.messages.MessageType;
-import view.View;
 import view.VirtualClient;
 
 public abstract class GameMessage extends Message {
@@ -11,7 +11,7 @@ public abstract class GameMessage extends Message {
         super(username, messageType);
     }
 
-    public void executeCommand(Controller controller, View view){
+    public void executeCommand(LightController controller){
         //System.out.println("default executeCommand CONTROLLER");
     }
 

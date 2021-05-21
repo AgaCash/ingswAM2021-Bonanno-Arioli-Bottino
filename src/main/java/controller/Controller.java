@@ -8,11 +8,9 @@ import model.cards.LeaderCard;
 import model.cards.WhiteConverter;
 import model.player.Player;
 import model.resources.Resource;
-import model.table.Deck;
 import model.table.DevelopmentBoard;
 import model.table.FaithTrack;
 import model.table.MarketBoard;
-import network.messages.gameMessages.FailedActionNotify;
 import network.messages.gameMessages.GameMessage;
 import network.messages.gameMessages.InternalErrorNotify;
 import network.messages.gameMessages.SetupResponse;
@@ -38,8 +36,10 @@ public class Controller {
     public void executeCommand(GameMessage message, VirtualClient client) {
         if(message.getUsername().equals(getCurrentPlayer().getNickname()))
             message.executeCommand(this, client);
-        else
-            client.getVirtualView().updateFailedAction(new FailedActionNotify(message.getUsername(), "Not your turn"));
+        else {
+            //client.getVirtualView().updateFailedAction(new FailedActionNotify(message.getUsername(), "Not your turn"));
+            //todo mantenere failed action? questa non è la singola risposta
+        }
     }
     public ArrayList<VirtualClient> getViews(){
         return views;
@@ -66,11 +66,12 @@ public class Controller {
         }
 
     //-----------tutto quello nel gioco
-    public void buyDevCard(Deck deck, int slot, Discount card) throws FullCardSlotException,
+    public void buyDevCard(int deck, int slot, Discount card) throws FullCardSlotException,
             NonCorrectLevelCardException,
             InsufficientResourcesException,
             EmptyDeckException,
             UnusableCardException{
+
         try {
             game.buyDevCard(deck, slot, card);
         }catch(UnknownError e){

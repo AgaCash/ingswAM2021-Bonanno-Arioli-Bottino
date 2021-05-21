@@ -125,8 +125,9 @@ public class Game {
     //============GIOCO
 
     //--------------------BUY DEV CARDS--------------------
-    public void buyDevCard(Deck deck, int slotPosition, Discount card) throws FullCardSlotException, NonCorrectLevelCardException, InsufficientResourcesException, UnusableCardException, EmptyDeckException {
+    public void buyDevCard(int numDeck, int slotPosition, Discount card) throws FullCardSlotException, NonCorrectLevelCardException, InsufficientResourcesException, UnusableCardException, EmptyDeckException {
         Resource discount = null;
+        Deck deck = table.getDevBoard().getDeck(numDeck);
         ArrayList<Resource> cost = deck.getCost();
         discount = card.whichDiscount();
         cost.remove(discount);

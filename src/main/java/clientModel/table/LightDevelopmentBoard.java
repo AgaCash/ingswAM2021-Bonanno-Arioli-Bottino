@@ -1,7 +1,5 @@
 package clientModel.table;
 
-import clientModel.table.LightDeck;
-
 import java.util.ArrayList;
 
 public class LightDevelopmentBoard {
@@ -12,14 +10,11 @@ public class LightDevelopmentBoard {
             decks.add(cards.get(i));
     }
 
-/*
-    public Deck getDeck(int deckNumber){
-        if(deckNumber<0 || deckNumber >decks.size()-1)
-            return null;
-        else
-            return decks.get(deckNumber);
+
+    public LightDeck getDeck(int deckNumber){
+        return decks.get(deckNumber);
     }
-    */
+
     public LightDeck getTopCard (int whichOne){
             return decks.get(whichOne);
     }

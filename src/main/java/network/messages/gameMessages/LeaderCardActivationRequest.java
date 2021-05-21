@@ -24,8 +24,8 @@ public class LeaderCardActivationRequest extends GameMessage{
             controller.activateLeaderCard(card);
             update(controller);
         } catch (InsufficientRequirementsException | InsufficientResourcesException e){
-            FailedActionNotify notify = new FailedActionNotify(this.getUsername(), e.getMessage());
-            client.getVirtualView().updateFailedAction(notify);
+            LeaderCardActivationResponse notify = new LeaderCardActivationResponse(this.getUsername(), e.getMessage());
+            client.getVirtualView().updateLeaderCardActivation(notify);
         }
 
     }
