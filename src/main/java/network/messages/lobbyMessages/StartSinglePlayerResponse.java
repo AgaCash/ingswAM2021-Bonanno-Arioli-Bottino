@@ -3,17 +3,17 @@ package network.messages.lobbyMessages;
 import clientController.LightController;
 import network.messages.MessageType;
 
-public class StartMultiPlayerResponse extends LobbyMessage{
+public class StartSinglePlayerResponse extends LobbyMessage{
     private boolean success;
     private String message;
 
-    public StartMultiPlayerResponse(String username) {
-        super(username, MessageType.LOBBYSTARTGAME_RESPONSE);
+    public StartSinglePlayerResponse(String username) {
+        super(username, MessageType.JOIN_SINGLEPLAYER_RESPONSE);
         success = true;
     }
 
-    public StartMultiPlayerResponse(String username, String message) {
-        super(username, MessageType.LOBBYSTARTGAME_RESPONSE);
+    public StartSinglePlayerResponse(String username, String message) {
+        super(username, MessageType.JOIN_SINGLEPLAYER_RESPONSE);
         success = false;
         this.message = message;
     }
@@ -21,7 +21,7 @@ public class StartMultiPlayerResponse extends LobbyMessage{
     @Override
     public void executeCommand(LightController lightController) {
         if(success){
-            //chiama un metodo di controller che "cambia la schermata" e passa al gioco
+            //fa partire la partita singleplayer
             lightController.startSinglePlayerGame();
         }else{
             lightController.showError(getUsername(), message);

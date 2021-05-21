@@ -20,14 +20,14 @@ public class RegisterUsernameRequest extends LobbyMessage{
     }
 
     private void sendSuccess(VirtualClient virtualClient){
-        StandardLobbyResponse response =
-                new StandardLobbyResponse(super.getUsername(), true);
+        RegisterUsernameResponse response =
+                new RegisterUsernameResponse(super.getUsername());
         virtualClient.getVirtualView().sendLobbyMessage(response);
     }
 
     private void sendError(VirtualClient virtualClient, String message){
-        StandardLobbyResponse response =
-                new StandardLobbyResponse(super.getUsername(), false, "Username Already Exists");
+        RegisterUsernameResponse response =
+                new RegisterUsernameResponse(super.getUsername(), "Username Already Exists");
         virtualClient.getVirtualView().sendLobbyMessage(response);
     }
 }

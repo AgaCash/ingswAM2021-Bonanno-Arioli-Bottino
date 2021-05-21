@@ -9,6 +9,10 @@ public interface View {
     void askServerInfo();
     //username
     void askUsername();
+    //lobbyMenu
+    void askMenu();
+    //switch to singleplayer state
+    void switchToGame(boolean singlePlayer);
     //lobby id to join it
     void askLobbyID();
     //lobby name to create it

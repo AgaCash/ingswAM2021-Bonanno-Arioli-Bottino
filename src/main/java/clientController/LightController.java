@@ -9,6 +9,7 @@ import clientModel.table.LightMarketBoard;
 import clientModel.warehouse.LightWarehouseDepot;
 import clientView.View;
 import com.google.gson.Gson;
+import exceptions.MessageNotSuccededException;
 import exceptions.NoSuchUsernameException;
 import model.cards.*;
 import model.resources.Resource;
@@ -18,13 +19,70 @@ import model.table.MarketBoard;
 import model.warehouse.WarehouseDepot;
 import network.client.Client;
 import network.messages.gameMessages.*;
+import network.messages.lobbyMessages.*;
 
+import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public class LightController {
     private View view;
     private Client client;
     private LightGame game;
+    private String username;
+    private Gson gson;
+
+    public LightController(View view){
+        this.view = view;
+        gson = new Gson();
+    }
+
+    public void connectToServer(String address, int port) throws UnknownHostException, IOException{
+        client = new Client(address, port);
+        client.connect();
+    }
+
+    public void setUsername(String username) throws MessageNotSuccededException {
+        boolean success = false;
+        RegisterUsernameRequest registerUsernameRequest = new RegisterUsernameRequest(username);
+        String a = gson.toJson(registerUsernameRequest);
+        client.send(a);
+        String b = null;
+        try {
+            b = client.recv();
+        } catch (IOException e) {
+            // capiamo
+            view.showError(e.getMessage());
+        }
+        RegisterUsernameResponse response = gson.fromJson(b, RegisterUsernameResponse.class);
+        success = response.isSuccess();
+        if(!success)
+            throw new MessageNotSuccededException(response.getMessage());
+        this.username = username;
+        response.executeCommand(this);
+    }
+
+    public void askLobbyMenu(){
+        view.askMenu();
+    }
+
+    public void createSinglePlayerLobby(){
+        StartSinglePlayerRequest request = new StartSinglePlayerRequest(username);
+        String requestS = gson.toJson(request);
+        client.send(requestS);
+        String responseS = null;
+        try {
+            responseS = client.recv();
+            StartSinglePlayerResponse response = gson.fromJson(responseS, StartSinglePlayerResponse.class);
+            response.executeCommand(this);
+        } catch (IOException e) {
+            view.showError(e.getMessage());
+        }
+    }
+
+    public void startSinglePlayerGame(){
+        view.switchToGame(true);
+    }
 
     public void activateLeaderCard(int numcard){
         //wait 4 later

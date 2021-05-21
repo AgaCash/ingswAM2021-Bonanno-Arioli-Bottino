@@ -10,11 +10,15 @@ public enum MessageType {
 
     //LOGIN
     REGISTER_USERNAME(RegisterUsernameRequest.class, "LOBBY"),
+    REGISTER_USERNAME_RESPONSE(RegisterUsernameResponse.class, "LOBBY"),
     JOIN_SINGLEPLAYER(StartSinglePlayerRequest.class, "LOBBY"),
+    JOIN_SINGLEPLAYER_RESPONSE(StartSinglePlayerResponse.class, "LOBBY"),
     JOINMULTIPLAYER(LoginMultiPlayerRequest.class, "LOBBY"),
+    JOINMULTIPLAYER_RESPONSE(LoginMultiPlayerResponse.class, "LOBBY"),
     CREATEMULTIPLAYER(CreateLobbyRequest.class, "LOBBY"),
+    CREATEMULTIPLAYER_RESPONSE(CreateLobbyResponse.class, "LOBBY"),
     GETLOBBIES(GetLobbyRequest.class, "LOBBY"),
-    LOBBYLISTRESPONSE(GetLobbyResponse.class, "LOBBY"),
+    GETLOBBIES_RESPONSE(GetLobbyResponse.class, "LOBBY"),
     STANDARDRESPONSE(StandardLobbyResponse.class, "LOBBY"),
     //LobbyStartGame, only to set controllers to right views and notify clients that game is going to start
     LOBBYSTARTGAME_REQUEST(StartMultiPlayerRequest.class, "LOBBY"),
@@ -38,7 +42,10 @@ public enum MessageType {
     LEADERCARD,
     LEADERCARDUPDATE,
     ENDTURN,
-    ENDTURNUPDATE;
+    ENDTURNUPDATE,
+
+    //da eliminare
+    FAILEDACTIONNOTIFY;
 
 
     private final Class<? extends Message> classType;

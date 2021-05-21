@@ -1,5 +1,6 @@
 package network.messages.lobbyMessages;
 
+import clientController.LightController;
 import network.messages.MessageType;
 import network.server.Lobby;
 import network.server.LobbyHandler;
@@ -9,10 +10,19 @@ import java.util.ArrayList;
 
 public class GetLobbyResponse extends LobbyMessage{
     private ArrayList<Lobby> lobbies;
+    private boolean success;
+    private String message;
 
     public GetLobbyResponse(String nickname, ArrayList<Lobby> lobbies) {
-        super(nickname, MessageType.LOBBYLISTRESPONSE);
+        super(nickname, MessageType.GETLOBBIES_RESPONSE);
         this.lobbies = lobbies;
+        success = true;
+    }
+
+    public GetLobbyResponse(String nickname, String message) {
+        super(nickname, MessageType.GETLOBBIES_RESPONSE);
+        this.message = message;
+        success = false;
     }
 
     public ArrayList<Lobby> getLobbies() {
@@ -20,9 +30,12 @@ public class GetLobbyResponse extends LobbyMessage{
     }
 
     @Override
-    public void executeCommand(VirtualClient virtualClient) {
-        System.out.println("Sono QUA?");
+    public void executeCommand(LightController lightController) {
+        //lightController.showLobbies(lobbies);
     }
+
+
+
 
     @Override
     public String toString() {

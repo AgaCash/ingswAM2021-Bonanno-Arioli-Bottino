@@ -1,5 +1,7 @@
 package network.messages.lobbyMessages;
 
+import clientController.LightController;
+import clientView.LightView;
 import network.messages.Message;
 import network.messages.MessageType;
 import network.server.LobbyHandler;
@@ -17,5 +19,11 @@ public abstract class LobbyMessage extends Message {
         System.out.println("default executeCommand LOBBY");
         //
         //STESSO DISCORSO DI GAMEMESSAGE MA FORSE QUI NON SERVE
+    }
+
+    public void executeCommand(LightController lightController){
+        //SARA' ESEGUITO DAL CLIENT
+        //  COLUI CHE CAMBIERA' LO STATO DELL'AUTOMA DEL123.
+        //  CLIENT
     }
 }

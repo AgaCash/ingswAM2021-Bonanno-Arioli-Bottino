@@ -52,10 +52,11 @@ public class Client {
         while (!success){
             System.out.println("Inserisci il tuo username:");
             username = s.nextLine();
-            RegisterUsernameRequest registerUsernameRequest =
-                    new RegisterUsernameRequest(username);
-            client.send(gson.toJson(registerUsernameRequest));
-            StandardLobbyResponse response = gson.fromJson(client.recv(), StandardLobbyResponse.class);
+            RegisterUsernameRequest registerUsernameRequest = new RegisterUsernameRequest(username);
+            String a = gson.toJson(registerUsernameRequest);
+            client.send(a);
+            String b = client.recv();
+            StandardLobbyResponse response = gson.fromJson(b, StandardLobbyResponse.class);
             success = response.getSuccess();
             if(!success)
                 System.out.println(response.getMessage());
