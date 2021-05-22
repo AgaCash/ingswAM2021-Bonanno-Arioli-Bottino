@@ -15,12 +15,12 @@ public interface View {
     void switchToGame(boolean singlePlayer);
     //show user that he has to wait for boss to starts the game
     void showWaitingRoom();
-    //
+    //when lobby is created notify "waiting for players"
+    void notifyLobbyCreated();
+    //every time
     void notifyPlayerJoined(String username);
     //lobby id to join it
     void askLobbyID();
-    //lobby name to create it
-    void askNewLobbyName();
     //automatic ask to leader cards, resources ecc
     void askStartup();
     //start turn

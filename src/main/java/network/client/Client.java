@@ -40,6 +40,7 @@ public class Client {
         socket.close();
     }
 
+    /*
     public static void main(String[] args) throws Exception {
         Gson gson = new Gson();
         Client client = new Client("localhost", 1234);
@@ -163,5 +164,5 @@ public class Client {
 
 
         //client.close();
-    }
+    }*/
 }

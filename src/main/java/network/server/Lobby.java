@@ -28,19 +28,10 @@ public class Lobby { //LOBBY E' IL CONTROLLER
         try {
             joinLobby(player, virtualClient);
         } catch (LobbyFullException e) {
-            e.printStackTrace(); //NON SUCCEDERA' MAI!!
-        }
-    }
-
-    public Lobby(int id, Player player, VirtualClient virtualClient){
-        initLobby();
-        this.id = id;
-        try {
-            joinLobby(player, virtualClient);
-        } catch (LobbyFullException e) {
             e.printStackTrace(); //NON SUCCEDERA' MAI!! //e la legge di murphy?
         }
     }
+
 
     public void joinLobby(Player player, VirtualClient virtualClient) throws LobbyFullException{
         if(players.size() > 3)
@@ -49,11 +40,13 @@ public class Lobby { //LOBBY E' IL CONTROLLER
         player.setStartingTurn(players.size()+1);
         players.add(player);
         views.add(virtualClient);
-        LoginMultiPlayerResponse response =
-                new LoginMultiPlayerResponse(virtualClient.getVirtualView().getUsername());
-        views.forEach((view)->{
-            view.getVirtualView().sendLobbyResponse(response);
-        });
+        /*
+        if(!singlePlayerMode){
+            LoginMultiPlayerResponse response = new LoginMultiPlayerResponse(virtualClient.getVirtualView().getUsername());
+            views.forEach((view)->{
+                view.getVirtualView().sendLobbyResponse(response);
+            });
+        }*/
     }
 
     public void leaveLobby(Player player){
@@ -92,9 +85,14 @@ public class Lobby { //LOBBY E' IL CONTROLLER
         if(players.size() < 2 && !singlePlayerMode)
             throw new NotEnoughPlayersException("Not enough players");
         sharedController = new Controller(id, views);
-        for (VirtualClient v:views) {
-            v.setController(sharedController);
-            v.getVirtualView().sendStartMultiPlayerSignal();
+        if(singlePlayerMode){
+            views.get(0).setController(sharedController);
+            views.get(0).getVirtualView().sendStartSinglePlayerSignal();
+        }else{
+            for (VirtualClient v:views) {
+                v.setController(sharedController);
+                v.getVirtualView().sendStartMultiPlayerSignal();
+            }
         }
     }
 

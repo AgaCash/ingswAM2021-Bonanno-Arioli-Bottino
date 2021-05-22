@@ -60,6 +60,8 @@ public class VirtualClient extends Thread{
 
     private void sendInvalidMessage(String msg){
         System.out.println("MESSAGGIO NON VALIDO");
+        //da togliere, si può anche non inviare niente se il messaggio non è valido.
+        //Si presuppone che il client invii sempre messaggi corretti
         virtualView.sendStandardLobbyResponse(
                 new StandardLobbyResponse(virtualView.getUsername(), false, msg));
     }
@@ -67,12 +69,9 @@ public class VirtualClient extends Thread{
     private void readLoop(){
         String s = "";
         try {
-            //TODO:
-            //  BISOGNA SETTARE I CONTROLLER A TUTTI I PLAYER
-            //
             while (controller == null) {
                 s = inStream.readLine();
-                System.out.println("STRINGA ENTRANTE:::"+s);
+                System.out.println("LOBBY STRINGA ENTRANTE:::"+s);
                 try {
                     handleLobbyMessage(s);//handle lobby message
                 } catch (InvalidMessageException e) {
@@ -83,7 +82,7 @@ public class VirtualClient extends Thread{
             System.out.println("CAMBIO STATO, PARTITA INIZIATA");
             //robe initialize
             while ((s = inStream.readLine()) != null) {
-                System.out.println("QUI NON DEVO ENTRARE ORA");
+                System.out.println("GAME STRINGA ENTRANTE:::"+s);
                 try{
                     handleGameMessage(s);//handle game message
                 }catch (InvalidMessageException e) {
