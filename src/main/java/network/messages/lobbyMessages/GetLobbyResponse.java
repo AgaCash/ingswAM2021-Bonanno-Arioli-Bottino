@@ -29,7 +29,7 @@ public class GetLobbyResponse extends LobbyMessage{
 
     @Override
     public void executeCommand(LightController lightController) {
-        //lightController.showLobbies(lobbies);
+        lightController.askLobbyId(lobbies);
     }
 
 

@@ -24,7 +24,6 @@ public class VirtualView implements ServerView {
 
     public VirtualView(PrintWriter out) {
         this.outStream = out;
-        this.username = "username";
         gson = new Gson();
     }
 

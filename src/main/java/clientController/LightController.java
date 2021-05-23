@@ -24,6 +24,7 @@ import network.client.Client;
 import network.messages.MessageType;
 import network.messages.gameMessages.*;
 import network.messages.lobbyMessages.*;
+import network.server.Lobby;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -76,6 +77,13 @@ public class LightController {
         view.askMenu();
     }
 
+    /*
+
+    client.recv():
+            TOGLIERE I TRY CATCH DA QUA E METTERLI IN VIEW
+
+     */
+
     public void createSinglePlayerLobby(){
         StartSinglePlayerRequest request = new StartSinglePlayerRequest(username);
         String requestS = gson.toJson(request);
@@ -115,6 +123,7 @@ public class LightController {
                 LoginMultiPlayerResponse response =
                         gson.fromJson(someoneJoinedString, LoginMultiPlayerResponse.class);
                 response.executeCommand(this);
+                view.notifyCreatorPlayerJoined();
             } catch (IOException e) {
                 view.showError(e.getMessage());
             }
@@ -128,12 +137,29 @@ public class LightController {
     public void joinLobbyWaiting(){
         //mostra che è entrato nella lobby
         //notifica attesa che il gioco inizi
+        boolean gameStarted = false;
         view.showWaitingRoom();
         try {
-            String lobbyWaiting = client.recv();
+            do{
+                String lobbyWaiting = client.recv();
+                //System.out.println("JOIN LOBBY WAITING: (che devo fa'?) "+lobbyWaiting);
+                //QUA DEVO PRENDERE IL MESSAGE TYPE E VEDERE SE E' IL SEGNALE DI INIZIO GIOCO
+                JsonObject jsonObject = gson.fromJson(lobbyWaiting, JsonObject.class);
+                //System.out.println(jsonObject.get("messageType").getAsString());
+                String msgType = jsonObject.get("messageType").getAsString();
+                if(MessageType.valueOf(msgType).equals(MessageType.LOBBYSTARTGAME_REQUEST)){
+                    gameStarted = true;
+                    StartMultiPlayerResponse response = gson.fromJson(lobbyWaiting, StartMultiPlayerResponse.class);
+                    response.executeCommand(this);
+                }else{
+                    LoginMultiPlayerResponse r = gson.fromJson(lobbyWaiting, LoginMultiPlayerResponse.class);
+                    r.executeCommand(this);
+                }
+            }while (!gameStarted);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     public void startSinglePlayerGame() {
@@ -150,8 +176,53 @@ public class LightController {
             view.showError("error ");
             //todo da abbellire
         }
+    }
 
+    public void startMultiPlayerGame(){
+        view.switchToGame(false);
+        //todo:
+        // da qui sei tu teoo
+    }
 
+    public void sendSignalMultiPlayerGame(){
+        StartMultiPlayerRequest request = new StartMultiPlayerRequest(username);
+        client.send(gson.toJson(request));
+        try {
+            String responseS = client.recv();
+            StartMultiPlayerResponse response = gson.fromJson(responseS, StartMultiPlayerResponse.class);
+            response.executeCommand(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void getLobbyList(){
+        GetLobbyRequest request = new GetLobbyRequest(username);
+        client.send(gson.toJson(request));
+        try {
+            String responseS = client.recv();
+            GetLobbyResponse response = gson.fromJson(responseS, GetLobbyResponse.class);
+            response.executeCommand(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void askLobbyId(ArrayList<Lobby> lobbies){
+        view.askLobbyID(lobbies);
+    }
+
+    public void joinLobbyById(int id){
+        LoginMultiPlayerRequest request = new LoginMultiPlayerRequest(username, id);
+        client.send(gson.toJson(request));
+        try {
+            String responseS = client.recv();
+            LoginMultiPlayerResponse response = gson.fromJson(responseS, LoginMultiPlayerResponse.class);
+            response.executeCommand(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void activateLeaderCard(int numcard){

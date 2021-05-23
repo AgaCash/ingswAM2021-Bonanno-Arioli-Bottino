@@ -34,7 +34,7 @@ public class Client {
 
     public String recv() throws IOException {
         String s = in.readLine();
-        System.out.println(s);
+        //System.out.println(s);
         return s;
     }
 

@@ -22,7 +22,7 @@ public class StartMultiPlayerResponse extends LobbyMessage{
     public void executeCommand(LightController lightController) {
         if(success){
             //chiama un metodo di controller che "cambia la schermata" e passa al gioco
-            lightController.startSinglePlayerGame();
+            lightController.startMultiPlayerGame();
         }else{
             lightController.showError(getUsername(), message);
         }

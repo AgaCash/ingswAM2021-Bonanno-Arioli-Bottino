@@ -4,11 +4,10 @@ import clientController.LightController;
 import exceptions.MessageNotSuccededException;
 import model.cards.LeaderCard;
 import model.resources.Resource;
+import network.server.Lobby;
 
 import java.io.IOException;
 import java.io.PrintStream;
-import java.net.UnknownHostException;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -102,16 +101,11 @@ public class CLI implements View{
     }
 
     private void handleMultiJoin(){
-
+        controller.getLobbyList();
     }
 
     private void handleMultiCreate(){
         controller.createMultiLobby();
-        /* public void createLobby(){
-         *           manda un msg
-         *           riceve msg
-         *           view.showError
-         *              view.waitingLobby*/
     }
 
     public void notifyLobbyCreated(){
@@ -122,14 +116,48 @@ public class CLI implements View{
         System.out.println(username +" has joined the lobby");
     }
 
+    public void notifyCreatorPlayerJoined(){
+        boolean success = false;
+        String ch = null;
+        do{
+            System.out.println("Start game? (y/n)");
+            do {
+                 ch = in.nextLine(); //temporary solution, alla buona
+            }while (ch.isEmpty());
+
+            switch (ch.toLowerCase()){
+                case "y":
+                    success = true;
+                    controller.sendSignalMultiPlayerGame();
+                    break;
+                case "n":
+                    success = true;
+                    break;
+            }
+        }while (!success);
+
+    }
+
+
     public void showWaitingRoom(){
         System.out.println("You joined the room");
         System.out.println("Waiting for creator of the room starts the game...");
     }
 
     @Override
-    public void askLobbyID() {
-
+    public void askLobbyID(ArrayList<Lobby> lobbies) {
+        if(!lobbies.isEmpty()) {
+            System.out.println("\tID\tPlayers");
+            lobbies.forEach((lobby -> {
+                System.out.println("\t" + lobby.getId() + "\t" + lobby.getUsernameList());
+            }));
+            System.out.println("Choose the lobby you want to join by ID:");
+            int numLobby = in.nextInt();
+            controller.joinLobbyById(numLobby);
+        }else{
+            System.out.println("No lobby found");
+            controller.askLobbyMenu();
+        }
     }
 
     @Override

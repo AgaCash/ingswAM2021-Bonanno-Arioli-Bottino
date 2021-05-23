@@ -2,6 +2,7 @@ package clientView;
 
 import model.cards.LeaderCard;
 import model.resources.Resource;
+import network.server.Lobby;
 
 import java.util.ArrayList;
 
@@ -20,8 +21,10 @@ public interface View {
     void notifyLobbyCreated();
     //every time
     void notifyPlayerJoined(String username);
+    //vuoi iniziare la partita?
+    void notifyCreatorPlayerJoined();
     //lobby id to join it
-    void askLobbyID();
+    void askLobbyID(ArrayList<Lobby> lobbies);
     //automatic ask to leader cards, resources ecc
     void askStartup();
     //start turn

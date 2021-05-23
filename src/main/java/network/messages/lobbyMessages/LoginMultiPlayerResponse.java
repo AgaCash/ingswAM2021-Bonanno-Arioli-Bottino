@@ -18,6 +18,9 @@ public class LoginMultiPlayerResponse extends LobbyMessage{
         this.message = message;
     }
 
+    //TODO:
+    //  SISTEMARE L'INIZIO PARTITA COMANDATO DAL LOBBY_CREATOR
+    //  invece di iniziare la partita mi rimostra le lobby
     @Override
     public void executeCommand(LightController lightController) {
         if(status){
@@ -30,6 +33,7 @@ public class LoginMultiPlayerResponse extends LobbyMessage{
             }
         }else{
             lightController.showError(getUsername() ,message);
+            lightController.getLobbyList();
         }
     }
 }

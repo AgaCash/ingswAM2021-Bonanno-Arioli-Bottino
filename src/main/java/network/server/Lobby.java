@@ -25,11 +25,9 @@ public class Lobby { //LOBBY E' IL CONTROLLER
         initLobby();
         this.singlePlayerMode = singlePlayerMode;
         this.id = id;
-        try {
-            joinLobby(player, virtualClient);
-        } catch (LobbyFullException e) {
-            e.printStackTrace(); //NON SUCCEDERA' MAI!! //e la legge di murphy?
-        }
+        player.setStartingTurn(players.size()+1);
+        players.add(player);
+        views.add(virtualClient);
     }
 
 
@@ -40,6 +38,10 @@ public class Lobby { //LOBBY E' IL CONTROLLER
         //player.setStartingTurn(players.size()+1);
         players.add(player);
         views.add(virtualClient);
+        LoginMultiPlayerResponse response = new LoginMultiPlayerResponse(player.getNickname());
+        views.forEach((view)->{
+            view.getVirtualView().sendLobbyResponse(response);
+        });
         /*
         if(!singlePlayerMode){
             LoginMultiPlayerResponse response = new LoginMultiPlayerResponse(virtualClient.getVirtualView().getUsername());
@@ -88,7 +90,6 @@ public class Lobby { //LOBBY E' IL CONTROLLER
         sharedController = new Controller(id, views);
         if(singlePlayerMode){
             views.get(0).setController(sharedController);
-           // views.get(0).getVirtualView().sendStartSinglePlayerSignal();
             sharedController.addPlayer(players.get(0), views.get(0));
         }else{
             for (VirtualClient v:views) {
