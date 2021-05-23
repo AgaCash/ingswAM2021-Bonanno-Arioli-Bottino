@@ -30,8 +30,9 @@ public class Table {
     }*/
 
     public Table(){
-        developmentBoard = new DevelopmentBoard();
-        marketBoard = new MarketBoard();
+        this.developmentBoard = new DevelopmentBoard();
+        this.marketBoard = new MarketBoard();
+        this.cards = new ArrayList<>();
         initializeLeaderCards();
     }
 
@@ -53,14 +54,16 @@ public class Table {
 
     public ArrayList<LeaderCard> sendQuartet(){
         ArrayList<LeaderCard> quartet = new ArrayList<>();
-        for(int i=0; i<4; i++)
+        for(int i=0; i<4; i++){
             quartet.add(pop());
+        }
         return quartet;
     }
 
     private LeaderCard pop(){
         LeaderCard card = cards.get(0);
         cards.remove(card);
+        System.out.println(" CARTA "+card.getId());
         return card;
     }
 

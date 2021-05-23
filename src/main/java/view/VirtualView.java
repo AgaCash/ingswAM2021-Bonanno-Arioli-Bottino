@@ -33,6 +33,7 @@ public class VirtualView implements ServerView {
             throw new UsernameAlreadyUsedException("Username already used");
         }
         this.username = username;
+
     }
 
     public void updateBuyDevCard(BuyDevCardResponse response){
@@ -44,7 +45,9 @@ public class VirtualView implements ServerView {
     public void updateDefaultProduction(DefaultProductionResponse response){outStream.println(gson.toJson(response));}
     public void updateDevCardProduction(DevCardProductionResponse response){outStream.println(gson.toJson(response));}
     public void updateLeaderCardActivation(LeaderCardActivationResponse response){ outStream.println(gson.toJson(response));}
-    public void updateStartGame(StartGameResponse response){ outStream.println(gson.toJson(response));}
+    public void updateStartGame(StartGameResponse response){
+        System.out.println("GAME STRINGA USCENTE:::"+gson.toJson(response));
+        outStream.println(gson.toJson(response));}
     public void updateSetup(SetupResponse response){ outStream.println(gson.toJson(response));}
     //public void updateFailedAction(FailedActionNotify notify){outStream.println(gson.toJson(notify));}
     //todo stesso discorso di controller: tenere un messaggio notify per tutti nei casi eccezionali?

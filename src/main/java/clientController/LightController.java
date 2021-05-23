@@ -9,6 +9,8 @@ import clientModel.table.LightMarketBoard;
 import clientModel.warehouse.LightWarehouseDepot;
 import clientView.View;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import exceptions.MessageNotSuccededException;
 import exceptions.NoSuchUsernameException;
 import model.cards.*;
@@ -16,8 +18,10 @@ import model.resources.Resource;
 import model.strongbox.Strongbox;
 import model.table.DevelopmentBoard;
 import model.table.MarketBoard;
+import model.utilities.LeaderCardDeserializer;
 import model.warehouse.WarehouseDepot;
 import network.client.Client;
+import network.messages.MessageType;
 import network.messages.gameMessages.*;
 import network.messages.lobbyMessages.*;
 
@@ -34,7 +38,7 @@ public class LightController {
 
     public LightController(View view){
         this.view = view;
-        gson = new Gson();
+        gson = new GsonBuilder().registerTypeAdapter(LeaderCard.class, new LeaderCardDeserializer()).create();
     }
 
     public void connectToServer(String address, int port) throws UnknownHostException, IOException{
@@ -50,6 +54,7 @@ public class LightController {
         String b = null;
         try {
             b = client.recv();
+            view.showSuccess(username+" sent");
         } catch (IOException e) {
             // capiamo
             view.showError(e.getMessage());
@@ -59,6 +64,7 @@ public class LightController {
         if(!success)
             throw new MessageNotSuccededException(response.getMessage());
         this.username = username;
+        view.showSuccess(username+" registred");
         response.executeCommand(this);
     }
 
@@ -130,8 +136,22 @@ public class LightController {
         }
     }
 
-    public void startSinglePlayerGame(){
+    public void startSinglePlayerGame() {
         view.switchToGame(true);
+        StartGameRequest startGameRequest = new StartGameRequest(getUsername());
+        String request = gson.toJson(startGameRequest);
+        client.send(request);
+        try{
+            String response = client.recv();
+            StartGameResponse startGameResponse = gson.fromJson(response, StartGameResponse.class);
+            startGameResponse.executeCommand(this);
+        } catch (IOException e){
+            System.out.println("errore");
+            view.showError("error ");
+            //todo da abbellire
+        }
+
+
     }
 
     public void activateLeaderCard(int numcard){
@@ -235,15 +255,12 @@ public class LightController {
             view.showThrewResources(threwResources);
     }
 
-    public void showError(String username, String message){
-        if(this.getUsername().equals(username))
-            view.showError(message);
-
+    public void showError(String username, String message) {
+        view.showError(message);
     }
 
     public void showSuccess(String username, String message){
-        if(game.getUsername().equals(username))
-            view.showSuccess(message);
+        view.showSuccess(message);
     }
 
 
@@ -256,6 +273,10 @@ public class LightController {
         } catch(NoSuchUsernameException e){
             view.showError(e.getMessage());
         }
+    }
+
+    public void chooseStartItems(ArrayList<LeaderCard> quartet, int numResources, boolean faithPoints){
+        view.askStartItems(quartet, numResources, faithPoints);
     }
 
 

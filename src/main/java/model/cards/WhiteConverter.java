@@ -13,6 +13,7 @@ public class WhiteConverter extends LeaderCard{
 		this.resource = res;
 		this.isEnabled = en;
 		this.requires = req;
+		super.type = LeaderCardType.WHITECONVERTER;
 	}
 
 	@Override

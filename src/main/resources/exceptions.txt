@@ -1,9 +1,0 @@
-BEFORE ACTION IS CALLED EXCEPTIONS
-    LeaderCardUnusableException
-    FullCardSlotException
-    InsufficientRequirementsException
-    InsufficientResourcesException
-
-AFTER ACTION IS CALLED EXCEPTIONS
-    FailedPurchaseException
-    FullWarehouseException

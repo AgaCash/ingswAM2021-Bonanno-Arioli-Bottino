@@ -1,6 +1,8 @@
 
 package network.messages;
 
+        import network.messages.gameMessages.StartGameRequest;
+        import network.messages.gameMessages.StartGameResponse;
         import network.messages.lobbyMessages.*;
 
 public enum MessageType {
@@ -25,8 +27,8 @@ public enum MessageType {
     LOBBYSTARTGAME_RESPONSE(StartMultiPlayerResponse.class, "LOBBY"),
 
     //EffectiveStartGame
-    STARTGAME,
-    STARTGAMERESPONSE,
+    STARTGAME(StartGameRequest.class, "GAME"),
+    STARTGAMERESPONSE(StartGameResponse.class, "GAME"),
     SETUP,
     SETUPRESPONSE,
 

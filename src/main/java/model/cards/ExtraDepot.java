@@ -18,6 +18,7 @@ public class ExtraDepot extends LeaderCard{
         this.extraDepotResource = extra;
         for(Resource ptr : extraDepotResource)
             extraWarehouseDepot.put(ptr, 0);
+        super.type = LeaderCardType.EXTRADEPOT;
     }
 
     @Override

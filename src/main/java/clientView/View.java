@@ -1,5 +1,6 @@
 package clientView;
 
+import model.cards.LeaderCard;
 import model.resources.Resource;
 
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ public interface View {
     void askDefaultProduction();
     //end turn request
     void askEndTurn();
+    void askStartItems(ArrayList<LeaderCard> quartet, int numResources, boolean faithPoints);
     //todo: i metodi show dovrebbero interrompere un metodo in corso? come?
     //todo farlo alla C style? è un po`arrogante come sistema eh
     void showThrewResources(ArrayList<Resource> threwResources);

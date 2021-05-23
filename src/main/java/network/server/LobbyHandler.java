@@ -44,8 +44,10 @@ public class LobbyHandler {
         Lobby l = new Lobby(currId, player, virtualClient, true);
         currId++;
         lobbies.add(l);
+        System.out.println("ciaooo single player parte (o  ci prova almeno)");
         try {
             l.startGame();
+            System.out.println("partito seeeeee");
             //virtualClient.setController(l.getSharedController());
         } catch (NotEnoughPlayersException e) {
             e.printStackTrace(); //NON SUCCEDERA' MAI

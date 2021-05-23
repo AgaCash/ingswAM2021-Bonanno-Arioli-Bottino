@@ -8,7 +8,8 @@
     ],
     "prodResource": "SHIELD",
     "id": "13",
-    "isEnabled": "false"
+    "isEnabled": "false",
+    "type": "EXTRAPROD"
   },
   {
     "requires":[
@@ -19,7 +20,8 @@
     ],
     "prodResource": "SERVANT",
     "id": "14",
-    "isEnabled": "false"
+    "isEnabled": "false",
+    "type": "EXTRAPROD"
   },
   {
     "requires":[
@@ -30,7 +32,8 @@
     ],
     "prodResource": "STONE",
     "id": "15",
-    "isEnabled": "false"
+    "isEnabled": "false",
+    "type": "EXTRAPROD"
   },
   {
     "requires": [
@@ -41,6 +44,7 @@
     ],
     "prodResource": "COIN",
     "id": "16",
-    "isEnabled": "false"
+    "isEnabled": "false",
+    "type": "EXTRAPROD"
   }
 ]

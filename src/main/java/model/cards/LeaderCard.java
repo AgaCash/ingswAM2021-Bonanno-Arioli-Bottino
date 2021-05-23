@@ -7,6 +7,7 @@ import java.util.ArrayList;
 abstract public class LeaderCard extends Card{
 	protected boolean isEnabled;
 	protected int victoryPoints;
+	protected LeaderCardType type;
 	//universal methods
 	public void activate(){this.isEnabled = true;}
 	//consult methods

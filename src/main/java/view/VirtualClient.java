@@ -45,7 +45,6 @@ public class VirtualClient extends Thread{
         if(messageType==null){
             throw new InvalidMessageException("Invalid message");
         }
-        System.out.println(s);
         ((LobbyMessage) gson.fromJson(s, messageType.getClassType()))
                 .executeCommand(this);
     }
@@ -54,8 +53,15 @@ public class VirtualClient extends Thread{
         Gson gson = new Gson();
         JsonObject jsonObject = gson.fromJson(s, JsonObject.class);
         MessageType messageType = MessageType.valueOf(jsonObject.get("messageType").getAsString());
-        GameMessage msg = (GameMessage) gson.fromJson(s, messageType.getClassType());
-        controller.executeCommand(msg, this);
+        //GameMessage msg = (GameMessage) gson.fromJson(s, messageType.getClassType());
+        //controller.executeCommand(msg, this);
+        if(messageType==null){
+            throw new InvalidMessageException("Invalid message");
+        }
+        ((GameMessage) gson.fromJson(s, messageType.getClassType()))
+                .executeCommand(controller, this);
+       //todo bastardo cane
+
     }
 
     private void sendInvalidMessage(String msg){

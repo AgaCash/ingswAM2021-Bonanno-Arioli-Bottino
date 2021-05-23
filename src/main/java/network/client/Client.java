@@ -33,7 +33,9 @@ public class Client {
     }
 
     public String recv() throws IOException {
-        return in.readLine();
+        String s = in.readLine();
+        System.out.println(s);
+        return s;
     }
 
     public void close() throws IOException {
@@ -41,7 +43,7 @@ public class Client {
     }
 
     /*
-    public static void main(String[] args) throws Exception {
+   /* public static void main(String[] args) throws Exception {
         Gson gson = new Gson();
         Client client = new Client("localhost", 1234);
         client.connect();

@@ -25,6 +25,8 @@ public class Game {
     //COSTRUTTORE
     public Game(boolean singlePlayer){
         this.singlePlayer = singlePlayer;
+        initializeGame();
+
     }
 
     //@CONTROLLER

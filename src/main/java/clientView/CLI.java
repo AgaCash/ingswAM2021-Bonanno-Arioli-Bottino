@@ -2,11 +2,13 @@ package clientView;
 
 import clientController.LightController;
 import exceptions.MessageNotSuccededException;
+import model.cards.LeaderCard;
 import model.resources.Resource;
 
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.UnknownHostException;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -40,7 +42,7 @@ public class CLI implements View{
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
-        }while (connectionCorrect=false);
+        }while (!connectionCorrect);
         askUsername();
     }
 
@@ -56,7 +58,6 @@ public class CLI implements View{
                 username = null;
             }
         }while (username == null);
-        //askMenu();
     }
 
     public void askMenu() {
@@ -66,22 +67,22 @@ public class CLI implements View{
                     " \n3- Create Multiplayer Lobby");
             int choice = in.nextInt();
             switch (choice) {
-                case 1: {
+                case 1 -> {
                     handleSinglePlayer();
                     stop = true;
                     break;
                 }
-                case 2: {
+                case 2 -> {
                     handleMultiJoin();
                     stop = true;
                     break;
                 }
-                case 3: {
+                case 3 -> {
                     handleMultiCreate();
                     stop = true;
                     break;
                 }
-                default: {
+                default -> {
                     out.println("CaggiaFà? invalid choice ");
                 }
             }
@@ -188,7 +189,16 @@ public class CLI implements View{
 
     @Override
     public void showSuccess(String message) {
+        System.out.println(message);
 
+    }
+    @Override
+    public void askStartItems(ArrayList<LeaderCard> quartet, int numResources, boolean faithPoints){
+
+        quartet.forEach(element -> System.out.println(element.getId()));
+
+        System.out.println(numResources);
+        //todo per teo si riparte da qua
     }
 
     public void notifyJoin(){

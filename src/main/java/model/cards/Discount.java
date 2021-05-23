@@ -15,6 +15,7 @@ public class Discount extends LeaderCard{
         this.requires = req;
         this.discount = dis;
         this.isEnabled = en;
+        super.type = LeaderCardType.DISCOUNT;
     }
 
     @Override

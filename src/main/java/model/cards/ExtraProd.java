@@ -17,6 +17,7 @@ public class ExtraProd extends LeaderCard{
         this.isEnabled=en;
         this.requires=req;
         this.input=input;
+        super.type = LeaderCardType.EXTRAPROD;
 
     }
 

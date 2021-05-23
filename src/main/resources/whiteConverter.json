@@ -16,7 +16,8 @@
     ],
     "resource": "SERVANT",
     "id": "9",
-    "isEnabled": "false"
+    "isEnabled": "false",
+    "type": "WHITECONVERTER"
   },
   {
     "requires": [
@@ -35,7 +36,8 @@
     ],
     "resource": "SHIELD",
     "id": "10",
-    "isEnabled": "false"
+    "isEnabled": "false",
+    "type": "WHITECONVERTER"
   },
   {
     "requires": [
@@ -54,7 +56,8 @@
     ],
     "resource": "STONE",
     "id": "11",
-    "isEnabled": "false"
+    "isEnabled": "false",
+    "type": "WHITECONVERTER"
   },
   {
     "requires": [
@@ -73,6 +76,7 @@
     ],
     "resource": "COIN",
     "id": "12",
-    "isEnabled": "false"
+    "isEnabled": "false",
+    "type": "WHITECONVERTER"
   }
 ]

@@ -12,7 +12,8 @@
       "STONE"
     ],
     "id": "5",
-    "isEnabled": "false"
+    "isEnabled": "false",
+    "type": "EXTRADEPOT"
   },
   {
     "requiredResource": [
@@ -27,7 +28,8 @@
       "SERVANT"
     ],
     "id": "6",
-    "isEnabled": "false"
+    "isEnabled": "false",
+    "type": "EXTRADEPOT"
   },
   {
     "requiredResource": [
@@ -42,7 +44,8 @@
       "SHIELD"
     ],
     "id": "7",
-    "isEnabled": "false"
+    "isEnabled": "false",
+    "type": "EXTRADEPOT"
   },
   {
     "requiredResource": [
@@ -57,6 +60,7 @@
       "COIN"
     ],
     "id": "8",
-    "isEnabled": "false"
+    "isEnabled": "false",
+    "type": "EXTRADEPOT"
   }
 ]

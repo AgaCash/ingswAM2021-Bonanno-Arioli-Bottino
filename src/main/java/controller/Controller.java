@@ -28,8 +28,11 @@ public class Controller {
         this.views = views;
         this.id = id;
         boolean isSinglePlayer = (views.size()==1);
+        System.out.println("attributi messi");
         game = new Game(isSinglePlayer);
+        System.out.println("game creato");
         setOrder();
+        System.out.println("eccoic qua");
         System.out.println("CONTROLLER CREATO");
     }
 
@@ -64,6 +67,15 @@ public class Controller {
         if(readyPlayers == this.views.size()+1)
             views.forEach(element -> element.getVirtualView().updateSetup(new SetupResponse(element.getVirtualView().getUsername(), getCurrentPlayer().getNickname())));
         }
+    public void addPlayer(Player newPlayer, VirtualClient newView){
+        views.add(newView);
+        game.addPlayer(newPlayer);
+    }
+    public void addPlayers(ArrayList<Player> newPlayers, ArrayList<VirtualClient> newViews){
+        views = newViews;
+        for(Player player : newPlayers)
+            game.addPlayer(player);
+    }
 
     //-----------tutto quello nel gioco
     public void buyDevCard(int deck, int slot, Discount card) throws FullCardSlotException,

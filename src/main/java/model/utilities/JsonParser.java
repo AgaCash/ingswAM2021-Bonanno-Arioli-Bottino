@@ -62,7 +62,7 @@ public class JsonParser {
     }
 
 
-    public ArrayList<Discount> getDiscountCards(){
+    public ArrayList<LeaderCard> getDiscountCards(){
         Type arrayListType = new TypeToken<ArrayList<Discount>>(){}.getType();
         try {
             fileReader = new BufferedReader(new FileReader(path));
@@ -73,7 +73,7 @@ public class JsonParser {
     }
 
 
-    public ArrayList<ExtraDepot> getExtraDepotCards(){
+    public ArrayList<LeaderCard> getExtraDepotCards(){
         Type arrayListType = new TypeToken<ArrayList<ExtraDepot>>(){}.getType();
         try {
             fileReader = new BufferedReader(new FileReader(path));
@@ -84,7 +84,7 @@ public class JsonParser {
     }
 
 
-    public ArrayList<ExtraProd> getExtraProdCards(){
+    public ArrayList<LeaderCard> getExtraProdCards(){
         Type arrayListType = new TypeToken<ArrayList<ExtraProd>>(){}.getType();
         try {
             fileReader = new BufferedReader(new FileReader(path));
@@ -95,7 +95,7 @@ public class JsonParser {
     }
 
 
-    public ArrayList<WhiteConverter> getWhiteConverterCard(){
+    public ArrayList<LeaderCard> getWhiteConverterCard(){
         Type arrayListType = new TypeToken<ArrayList<WhiteConverter>>(){}.getType();
         try {
             fileReader = new BufferedReader(new FileReader(path));

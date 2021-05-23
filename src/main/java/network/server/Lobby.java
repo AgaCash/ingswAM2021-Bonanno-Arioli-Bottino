@@ -37,7 +37,7 @@ public class Lobby { //LOBBY E' IL CONTROLLER
         if(players.size() > 3)
             throw new LobbyFullException();
 
-        player.setStartingTurn(players.size()+1);
+        //player.setStartingTurn(players.size()+1);
         players.add(player);
         views.add(virtualClient);
         /*
@@ -49,12 +49,12 @@ public class Lobby { //LOBBY E' IL CONTROLLER
         }*/
     }
 
-    public void leaveLobby(Player player){
+   /* public void leaveLobby(Player player){
         players.remove(player);
         for (Player p :players) {
             p.setStartingTurn(players.indexOf(p)+1);
         }
-    }
+    }*/
 
     public ArrayList<String> getUsernameList(){
         ArrayList<String> names = new ArrayList<>();
@@ -82,17 +82,20 @@ public class Lobby { //LOBBY E' IL CONTROLLER
     }
 
     public void startGame() throws NotEnoughPlayersException {
-        if(players.size() < 2 && !singlePlayerMode)
+        if(players.size() < 2 && !singlePlayerMode) {
             throw new NotEnoughPlayersException("Not enough players");
+        }
         sharedController = new Controller(id, views);
         if(singlePlayerMode){
             views.get(0).setController(sharedController);
-            views.get(0).getVirtualView().sendStartSinglePlayerSignal();
+           // views.get(0).getVirtualView().sendStartSinglePlayerSignal();
+            sharedController.addPlayer(players.get(0), views.get(0));
         }else{
             for (VirtualClient v:views) {
                 v.setController(sharedController);
                 v.getVirtualView().sendStartMultiPlayerSignal();
             }
+            sharedController.addPlayers(players, views);
         }
     }
 

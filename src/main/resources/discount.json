@@ -12,7 +12,8 @@
     ],
     "discount": "SERVANT",
     "id": "1",
-    "isEnabled": "false"
+    "isEnabled": "false",
+    "type": "DISCOUNT"
   },
   {
     "requires": [
@@ -27,7 +28,8 @@
     ],
     "discount": "SHIELD",
     "id": "2",
-    "isEnabled": "false"
+    "isEnabled": "false",
+    "type": "DISCOUNT"
   },
   {
     "requires": [
@@ -42,7 +44,8 @@
     ],
     "discount": "STONE",
     "id": "3",
-    "isEnabled": "false"
+    "isEnabled": "false",
+    "type": "DISCOUNT"
   },
   {
     "requires": [
@@ -57,6 +60,7 @@
     ],
     "discount": "COIN",
     "id": "4",
-    "isEnabled": "false"
+    "isEnabled": "false",
+    "type": "DISCOUNT"
   }
 ]
