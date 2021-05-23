@@ -91,6 +91,7 @@ public class LightController {
         String responseS;
         try {
             responseS = client.recv();
+            System.out.println(responseS);
             CreateLobbyResponse response = gson.fromJson(responseS, CreateLobbyResponse.class);
             response.executeCommand(this);
         } catch (IOException e) {
@@ -99,6 +100,7 @@ public class LightController {
     }
 
     public void createLobbyWaiting(){
+        view.notifyLobbyCreated();
         boolean startSignal = false;
         do{
             try {

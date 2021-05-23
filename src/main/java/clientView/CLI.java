@@ -56,7 +56,7 @@ public class CLI implements View{
                 username = null;
             }
         }while (username == null);
-        askMenu();
+        //askMenu();
     }
 
     public void askMenu() {
@@ -94,9 +94,9 @@ public class CLI implements View{
 
     public void switchToGame(boolean singlePlayer){
         if(singlePlayer){
-            System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\nSTAI GIOCANDO DA SOLO\nChe grande!");
+            System.out.println("STAI GIOCANDO DA SOLO\nChe grande!");
         }else{
-            System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\nUoo stai giocando con altra gente\nTrooooppo frizzante!!");
+            System.out.println("Uoo stai giocando con altra gente\nTrooooppo frizzante!!");
         }
     }
 
@@ -113,6 +113,10 @@ public class CLI implements View{
          *              view.waitingLobby*/
     }
 
+    public void notifyLobbyCreated(){
+        System.out.println("Lobby created\nWaiting for players to join...");
+    }
+
     public void notifyPlayerJoined(String username){
         System.out.println(username +" has joined the lobby");
     }
@@ -124,11 +128,6 @@ public class CLI implements View{
 
     @Override
     public void askLobbyID() {
-
-    }
-
-    @Override
-    public void askNewLobbyName() {
 
     }
 
@@ -184,7 +183,7 @@ public class CLI implements View{
 
     @Override
     public void showError(String message) {
-
+        System.out.println("ERROR: "+message);
     }
 
     @Override

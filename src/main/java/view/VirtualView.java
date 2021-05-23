@@ -67,31 +67,44 @@ public class VirtualView implements ServerView {
         outStream.println(gson.toJson(lobbyMessage));
     }
 
+    public void sendStartSinglePlayerSignal(){
+        StartSinglePlayerResponse lobbyMessage =
+                new StartSinglePlayerResponse(username);
+        outStream.println(gson.toJson(lobbyMessage));
+    }
+
     public void sendLobbyResponse(CreateLobbyResponse response){
+        System.out.println("LOBBY STRINGA USCENTE:::"+gson.toJson(response));
         outStream.println(gson.toJson(response));
     }
 
     public void sendLobbyResponse(GetLobbyResponse response){
+        System.out.println("LOBBY STRINGA USCENTE:::"+gson.toJson(response));
         outStream.println(gson.toJson(response));
     }
 
     public void sendLobbyResponse(LoginMultiPlayerResponse response){
+        System.out.println("LOBBY STRINGA USCENTE:::"+gson.toJson(response));
         outStream.println(gson.toJson(response));
     }
 
     public void sendLobbyResponse(RegisterUsernameResponse response){
+        System.out.println("LOBBY STRINGA USCENTE:::"+gson.toJson(response));
         outStream.println(gson.toJson(response));
     }
 
     public void sendLobbyResponse(StartMultiPlayerResponse response){
+        System.out.println("LOBBY STRINGA USCENTE:::"+gson.toJson(response));
         outStream.println(gson.toJson(response));
     }
 
     public void sendLobbyResponse(StartSinglePlayerResponse response){
+        System.out.println("LOBBY STRINGA USCENTE:::"+gson.toJson(response));
         outStream.println(gson.toJson(response));
     }
 
     public void sendStandardLobbyResponse(StandardLobbyResponse lobbyMessage){
+        System.out.println("LOBBY STRINGA USCENTE:::"+gson.toJson(lobbyMessage));
         outStream.println(gson.toJson(lobbyMessage));
     }
 

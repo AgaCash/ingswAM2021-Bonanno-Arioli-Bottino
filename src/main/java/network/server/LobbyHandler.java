@@ -35,21 +35,21 @@ public class LobbyHandler {
     }
 
     public void createLobby(Player player, VirtualClient virtualClient) throws SizeLimitExceededException {
-        Lobby l = new Lobby(currId, player, virtualClient);
+        Lobby l = new Lobby(currId, player, virtualClient, false);
         currId++;
         lobbies.add(l);
     }
 
-    public Controller createSinglePlayer(Player player, VirtualClient virtualClient){
+    public void createSinglePlayer(Player player, VirtualClient virtualClient){
         Lobby l = new Lobby(currId, player, virtualClient, true);
         currId++;
         lobbies.add(l);
         try {
             l.startGame();
+            //virtualClient.setController(l.getSharedController());
         } catch (NotEnoughPlayersException e) {
             e.printStackTrace(); //NON SUCCEDERA' MAI
         }
-        return l.getSharedController();
     }
 
     public void joinLobby(Player player, int id, VirtualClient virtualClient) throws LobbyFullException, IndexOutOfBoundsException {

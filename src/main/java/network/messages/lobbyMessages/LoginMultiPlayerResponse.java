@@ -29,7 +29,7 @@ public class LoginMultiPlayerResponse extends LobbyMessage{
                 lightController.notifyPlayerJoined(getUsername());
             }
         }else{
-            //lightController.showError(message);
+            lightController.showError(getUsername() ,message);
         }
     }
 }
