@@ -113,6 +113,7 @@ public class LightController {
         }
     }
 
+    /*
     public void createLobbyWaiting(){
         view.notifyLobbyCreated();
         boolean startSignal = false;
@@ -129,6 +130,35 @@ public class LightController {
             }
         }while (!startSignal);
     }
+*/
+
+    //TODO:
+    //  Check if this method won't create problems
+    public void createLobbyWaiting(){
+        new Thread(()->{
+            boolean gameStarted = false;
+            view.showWaitingRoom();
+            try {
+                do{
+                    String lobbyWaiting = client.recv();
+                    JsonObject jsonObject = gson.fromJson(lobbyWaiting, JsonObject.class);
+                    MessageType msgType = MessageType.valueOf(jsonObject.get("messageType").getAsString());
+
+                    ((LobbyMessage) gson.fromJson(lobbyWaiting, msgType.getClassType())).executeCommand(this);
+                    if(gson.fromJson(lobbyWaiting, msgType.getClassType()).getMessageType() == MessageType.LOBBYSTARTGAME_RESPONSE){
+                        gameStarted = true;
+                    }
+
+
+
+                }while (!gameStarted);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+
+        view.askStartGame();
+    }
 
     public void notifyPlayerJoined(String username){
         view.notifyPlayerJoined(username);
@@ -142,23 +172,13 @@ public class LightController {
         try {
             do{
                 String lobbyWaiting = client.recv();
-                //System.out.println("JOIN LOBBY WAITING: (che devo fa'?) "+lobbyWaiting);
-                //QUA DEVO PRENDERE IL MESSAGE TYPE E VEDERE SE E' IL SEGNALE DI INIZIO GIOCO
                 JsonObject jsonObject = gson.fromJson(lobbyWaiting, JsonObject.class);
-                //System.out.println(jsonObject.get("messageType").getAsString());
                 MessageType msgType = MessageType.valueOf(jsonObject.get("messageType").getAsString());
-                //if(MessageType.valueOf(msgType).equals(MessageType.LOBBYSTARTGAME_REQUEST)){
 
-                StartMultiPlayerResponse response = gson.fromJson(lobbyWaiting, StartMultiPlayerResponse.class);
                 ((LobbyMessage) gson.fromJson(lobbyWaiting, msgType.getClassType())).executeCommand(this);
                 if(gson.fromJson(lobbyWaiting, msgType.getClassType()).getMessageType() == MessageType.LOBBYSTARTGAME_RESPONSE){
                     gameStarted = true;
                 }
-                /*}else{
-                    System.out.println("QUINDI ALLA FINE STA QUA IL PROBLEM");
-                    LoginMultiPlayerResponse r = gson.fromJson(lobbyWaiting, LoginMultiPlayerResponse.class);
-                    r.executeCommand(this);
-                }*/
             }while (!gameStarted);
         } catch (IOException e) {
             e.printStackTrace();

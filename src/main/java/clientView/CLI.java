@@ -116,6 +116,15 @@ public class CLI implements View{
         System.out.println(username +" has joined the lobby");
     }
 
+    public void askStartGame(){
+        System.out.println("Write \"start\" to begin the game");
+        String s = null;
+        do{
+            s = in.nextLine().toLowerCase();
+        }while (!s.equals("start"));
+        controller.sendSignalMultiPlayerGame();
+    }
+
     public void notifyCreatorPlayerJoined(){
         boolean success = false;
         String ch = null;

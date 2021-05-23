@@ -25,6 +25,8 @@ public interface View {
     void notifyCreatorPlayerJoined();
     //lobby id to join it
     void askLobbyID(ArrayList<Lobby> lobbies);
+    //write/press start to begin
+    void askStartGame();
     //automatic ask to leader cards, resources ecc
     void askStartup();
     //start turn
