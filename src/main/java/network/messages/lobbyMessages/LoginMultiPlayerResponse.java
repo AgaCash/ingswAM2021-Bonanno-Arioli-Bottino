@@ -4,17 +4,17 @@ import clientController.LightController;
 import network.messages.MessageType;
 
 public class LoginMultiPlayerResponse extends LobbyMessage{
-    private boolean status;
+    private boolean success;
     private String message;
 
     public LoginMultiPlayerResponse(String username) {
         super(username, MessageType.JOINMULTIPLAYER_RESPONSE);
-        status = true;
+        success = true;
     }
 
     public LoginMultiPlayerResponse(String username, String message) {
         super(username, MessageType.JOINMULTIPLAYER_RESPONSE);
-        status = false;
+        success = false;
         this.message = message;
     }
 
@@ -23,11 +23,12 @@ public class LoginMultiPlayerResponse extends LobbyMessage{
     //  invece di iniziare la partita mi rimostra le lobby
     @Override
     public void executeCommand(LightController lightController) {
-        if(status){
+        if(success){
             // deve entrare nella fase di attesa di altri giocatori
             if(getUsername().equals(lightController.getUsername())){
                 lightController.joinLobbyWaiting();
             }else{
+
                 //deve solo notificare che è entrato
                 lightController.notifyPlayerJoined(getUsername());
             }

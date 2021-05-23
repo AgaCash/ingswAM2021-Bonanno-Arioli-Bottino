@@ -31,6 +31,7 @@ public class StartMultiPlayerRequest extends LobbyMessage{
     }
 
     private void sendError(VirtualClient virtualClient, String message){
+        System.out.println("MA ENTRA QUA?");
         StartMultiPlayerResponse response = new StartMultiPlayerResponse(super.getUsername(), message);
         virtualClient.getVirtualView().sendLobbyResponse(response);
     }

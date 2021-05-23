@@ -146,15 +146,19 @@ public class LightController {
                 //QUA DEVO PRENDERE IL MESSAGE TYPE E VEDERE SE E' IL SEGNALE DI INIZIO GIOCO
                 JsonObject jsonObject = gson.fromJson(lobbyWaiting, JsonObject.class);
                 //System.out.println(jsonObject.get("messageType").getAsString());
-                String msgType = jsonObject.get("messageType").getAsString();
-                if(MessageType.valueOf(msgType).equals(MessageType.LOBBYSTARTGAME_REQUEST)){
+                MessageType msgType = MessageType.valueOf(jsonObject.get("messageType").getAsString());
+                //if(MessageType.valueOf(msgType).equals(MessageType.LOBBYSTARTGAME_REQUEST)){
+
+                StartMultiPlayerResponse response = gson.fromJson(lobbyWaiting, StartMultiPlayerResponse.class);
+                ((LobbyMessage) gson.fromJson(lobbyWaiting, msgType.getClassType())).executeCommand(this);
+                if(gson.fromJson(lobbyWaiting, msgType.getClassType()).getMessageType() == MessageType.LOBBYSTARTGAME_RESPONSE){
                     gameStarted = true;
-                    StartMultiPlayerResponse response = gson.fromJson(lobbyWaiting, StartMultiPlayerResponse.class);
-                    response.executeCommand(this);
-                }else{
+                }
+                /*}else{
+                    System.out.println("QUINDI ALLA FINE STA QUA IL PROBLEM");
                     LoginMultiPlayerResponse r = gson.fromJson(lobbyWaiting, LoginMultiPlayerResponse.class);
                     r.executeCommand(this);
-                }
+                }*/
             }while (!gameStarted);
         } catch (IOException e) {
             e.printStackTrace();
