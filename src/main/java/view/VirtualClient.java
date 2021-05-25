@@ -95,7 +95,7 @@ public class VirtualClient extends Thread{
         }
         ((GameMessage) gson.fromJson(s, messageType.getClassType()))
                 .executeCommand(controller, this);
-       //todo bastardo cane
+
 
     }
 

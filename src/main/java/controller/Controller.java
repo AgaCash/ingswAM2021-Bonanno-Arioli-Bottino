@@ -72,13 +72,14 @@ public class Controller {
         game.setOrder();
     }
     public synchronized ArrayList<LeaderCard> getLeaderCards(){ return game.sendQuartet(); }
-    public void setLeaderCards(String username, ArrayList<LeaderCard> couple) throws Exception { getPlayer(username).getPlayerBoard().addLeaderCards(couple);}
+    public void setLeaderCards(String username, ArrayList<LeaderCard> couple) throws NoSuchUsernameException { getPlayer(username).getPlayerBoard().addLeaderCards(couple);}
     public void setChosenStartup(String username, ArrayList<Resource> resources, boolean faithPoint) throws NoSuchUsernameException, FullWarehouseException{
         Player player = getPlayer(username);
         for(Resource element : resources)
             player.getPlayerBoard().getWarehouseDepot().addResource(element);
     }
     public void notifyReadiness(){
+        System.out.println("PARTIAMO SEEEEEEE");
         this.readyPlayers++;
         if(readyPlayers == this.views.size()+1)
             views.forEach(element -> element.getVirtualView().updateSetup(new SetupResponse(element.getVirtualView().getUsername(), getCurrentPlayer().getNickname())));

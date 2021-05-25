@@ -237,12 +237,42 @@ public class CLI implements View{
 
     }
     @Override
-    public void askStartItems(ArrayList<LeaderCard> quartet, int numResources, boolean faithPoints){
+    public void askStartItems(ArrayList<LeaderCard> quartet, int numResources, boolean faithPoints) {
+        quartet.forEach(System.out::println);
+        System.out.println("you have " + numResources +
+                " resources to choose");
+        if (faithPoints)
+            System.out.println("you have earned 1 faith point");
+        ArrayList<LeaderCard> couple = new ArrayList<>();
+        int first, second;
+        do{
+            System.out.println("insert two number from 1 to 4 to choose 2 leader cards mammt hai capito");
+            first = in.nextInt() - 1;
+            second = in.nextInt() - 1;
+         }
+        while((first<0 || first>3) && (second<0 || second>3));
+        couple.add(quartet.get(first));
+        couple.add(quartet.get(second));
+        ArrayList<Resource> chosenResources = new ArrayList<>();
+        for(int i=0; i<numResources; i++){
+            int res;
+            Resource choice = null;
+            do {
+                System.out.println("choose resource " +
+                        "1 for COIN\n2 for SERVANT\n3 for SHIELD\n4 for STONE");
+                res = in.nextInt();
+            }
+            while(res<1 || res>4);
+            switch (res) {
+                case 1 -> choice = Resource.COIN;
+                case 2 -> choice = Resource.SERVANT;
+                case 3 -> choice = Resource.SHIELD;
+                case 4 -> choice = Resource.STONE;
+            }
+            chosenResources.add(choice);
+        }
+        controller.sendStartItems(couple, chosenResources, faithPoints);
 
-        quartet.forEach(element -> System.out.println(element.getId()));
-
-        System.out.println(numResources);
-        //todo per teo si riparte da qua
     }
 
     public void notifyJoin(){

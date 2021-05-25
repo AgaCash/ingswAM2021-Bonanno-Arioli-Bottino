@@ -1,5 +1,6 @@
 package network.messages.gameMessages;
 
+import clientController.LightController;
 import network.messages.MessageType;
 
 public class SetupResponse extends GameMessage {
@@ -8,10 +9,10 @@ public class SetupResponse extends GameMessage {
 
     public SetupResponse(String username, String firstPlayer){
         super(username, MessageType.SETUPRESPONSE);
-        this.message = "bella frate";
+        this.message = "SI PARTE SEEEEEE UUUUUUUUUUUUUUU";
     }
-
-    public void executeCommand(){
-        //
+    @Override
+    public void executeCommand(LightController controller){
+        controller.showSuccess(getUsername(), this.message);
     }
 }

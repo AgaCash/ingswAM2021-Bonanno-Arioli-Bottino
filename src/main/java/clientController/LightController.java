@@ -395,6 +395,13 @@ public class LightController {
         view.askStartItems(quartet, numResources, faithPoints);
     }
 
+    public void sendStartItems(ArrayList<LeaderCard> couple, ArrayList<Resource> chosenResources, boolean faithPoint){
+        Gson gson = new Gson();
+        SetupRequest request = new SetupRequest(getUsername(), couple, chosenResources, faithPoint);
+        client.send(gson.toJson(request));
+
+    }
+
 
 
 }
