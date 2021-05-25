@@ -16,7 +16,7 @@ public class SetupRequest extends GameMessage{
     private boolean faithPoint;
 
     public SetupRequest(String username, ArrayList<LeaderCard> couple, ArrayList<Resource> chosenResources, boolean faithPoint){
-        super(username, MessageType.SETUPRESPONSE);
+        super(username, MessageType.SETUP);
         this.couple = couple;
         this.chosenResources = chosenResources;
         this.faithPoint = faithPoint;
@@ -24,6 +24,7 @@ public class SetupRequest extends GameMessage{
     @Override
     public void executeCommand(Controller controller, VirtualClient view){
         System.out.println("MO SO CAZZI RIGA 26");
+
         try {
             System.out.println("mo so cazzi riga 28");
             controller.setLeaderCards(getUsername(), this.couple);

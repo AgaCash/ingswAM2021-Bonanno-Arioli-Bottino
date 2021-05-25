@@ -56,7 +56,7 @@ public class Controller {
     public void disconnectPlayer(String username){
         //TODO:
         //  pensare come disconnettere il player tenendone traccia per la riconnessione
-        System.out.println(username+" disconnesso!");
+        System.out.println(username+" disconnesso! (in realta no uhuhuhuhu)");
         /*
         for(VirtualClient v: views){
             if(v.getVirtualView().getUsername().equals(username)){

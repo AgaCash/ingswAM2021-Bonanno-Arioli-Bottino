@@ -1,6 +1,8 @@
 
 package network.messages;
 
+        import network.messages.gameMessages.SetupRequest;
+        import network.messages.gameMessages.SetupResponse;
         import network.messages.gameMessages.StartGameRequest;
         import network.messages.gameMessages.StartGameResponse;
         import network.messages.lobbyMessages.*;
@@ -39,10 +41,11 @@ public enum MessageType {
     //EffectiveStartGame
     STARTGAME(StartGameRequest.class, "GAME"),
     STARTGAMERESPONSE(StartGameResponse.class, "GAME"),
-    SETUP,
-    SETUPRESPONSE,
+    SETUP(SetupRequest.class, "GAME"),
+    SETUPRESPONSE(SetupResponse.class, "GAME"),
 
     //ACTIONS
+    //TODO PRONTO AD ESPLODERE (GUARDAMI PER FUTURI PROBLEMI)
     STARTINGTURNCHOOSES,
     STARTINGUPDATE,
     MARKET,
