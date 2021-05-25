@@ -1,9 +1,13 @@
 package view;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import controller.Controller;
 import exceptions.InvalidMessageException;
+import exceptions.NoSuchUsernameException;
+import model.cards.LeaderCard;
+import model.utilities.LeaderCardDeserializer;
 import network.messages.MessageType;
 import network.messages.gameMessages.GameMessage;
 import network.messages.lobbyMessages.LobbyMessage;
@@ -88,6 +92,7 @@ public class VirtualClient extends Thread{
 
     private void handleGameMessage(String s) throws InvalidMessageException{
         Gson gson = new Gson();
+        gson = new GsonBuilder().registerTypeAdapter(LeaderCard.class, new LeaderCardDeserializer()).create();
         JsonObject jsonObject = gson.fromJson(s, JsonObject.class);
         MessageType messageType = MessageType.valueOf(jsonObject.get("messageType").getAsString());
         //GameMessage msg = (GameMessage) gson.fromJson(s, messageType.getClassType());
