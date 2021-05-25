@@ -1,7 +1,10 @@
 package view;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import exceptions.UsernameAlreadyUsedException;
+import model.cards.LeaderCard;
+import model.utilities.LeaderCardDeserializer;
 import network.messages.gameMessages.*;
 import network.messages.lobbyMessages.*;
 import network.messages.pingMessages.PingGameMessage;
@@ -22,6 +25,8 @@ public class VirtualView implements ServerView {
         this.outStream = out;
         this.username = username;
         gson = new Gson();
+        gson = new GsonBuilder().registerTypeAdapter(LeaderCard.class, new LeaderCardDeserializer()).create();
+        //todo a caso? capiamo
     }
 
     public VirtualView(PrintWriter out) {
