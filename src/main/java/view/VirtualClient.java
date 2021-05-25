@@ -4,17 +4,13 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import controller.Controller;
 import exceptions.InvalidMessageException;
-import exceptions.NoSuchUsernameException;
 import network.messages.MessageType;
 import network.messages.gameMessages.GameMessage;
 import network.messages.lobbyMessages.LobbyMessage;
 import network.messages.lobbyMessages.StandardLobbyResponse;
 import network.messages.pingMessages.PongGameMessage;
 import network.messages.pingMessages.PongLobbyMessage;
-import network.server.Lobby;
-import network.server.LobbyHandler;
-import network.timer.LobbyServerTimerCheckConnection;
-import network.timer.GameServerTimerCheckConnection;
+import network.timer.ServerPingHandler;
 
 import java.net.Socket;
 import java.io.*;
@@ -24,8 +20,10 @@ public class VirtualClient extends Thread{
     public PrintWriter outStream;
     private Controller controller;
     private VirtualView virtualView;
-    private GameServerTimerCheckConnection gameServerTimerCheckConnection;
-    private LobbyServerTimerCheckConnection lobbyServerTimerCheckConnection;
+    //private GameServerTimerCheckConnection gameServerTimerCheckConnection;
+    //private LobbyServerTimerCheckConnection lobbyServerTimerCheckConnection;
+    private ServerPingHandler serverPingHandler;
+    private Thread pingerThread;
 
     public VirtualClient(Socket clientSocket){
         try{
@@ -33,36 +31,40 @@ public class VirtualClient extends Thread{
             outStream = new PrintWriter(new BufferedWriter(
                     new OutputStreamWriter(clientSocket.getOutputStream())),true);
             virtualView = new VirtualView(outStream);
-            lobbyServerTimerCheckConnection = new LobbyServerTimerCheckConnection(10000, this);
-            Thread t = new Thread(lobbyServerTimerCheckConnection);
-            t.start();
+            //lobbyServerTimerCheckConnection = new LobbyServerTimerCheckConnection(10000, this);
+            //pingerThread = new Thread(lobbyServerTimerCheckConnection);
+            serverPingHandler = new ServerPingHandler(5000, this);
+            pingerThread = new Thread(serverPingHandler);
+            pingerThread.start();
         }catch (IOException e){
             e.printStackTrace();
         }
     }
 
     public void resetLobbyTimer(){
-        lobbyServerTimerCheckConnection.reset();
+        serverPingHandler.reset();
+        //lobbyServerTimerCheckConnection.reset();
     }
 
     public void resetGameTimer(){
-        gameServerTimerCheckConnection.reset();
+        serverPingHandler.reset();
+        //gameServerTimerCheckConnection.reset();
     }
 
     public void disconnectPlayerFromGame(){
         System.out.println("DISCONNECT FROM GAME");
-        controller.disconnectPlayer(virtualView.getUsername());
+        //controller.disconnectPlayer(virtualView.getUsername());
     }
 
     public void disconnectPlayerFromLobby(){
         System.out.println("DISCONNECT FROM LOBBY");
-        try {
+        /*try {
             Lobby l = LobbyHandler.getInstance().getLobbyFromUsername(virtualView.getUsername());
             l.leaveLobby(virtualView.getUsername());
         } catch (NoSuchUsernameException e) {
             System.out.println(e.getMessage());
             //Player was not in any lobby
-        }
+        }*/
     }
 
     public void setController(Controller controller) {
@@ -137,9 +139,10 @@ public class VirtualClient extends Thread{
                 do{
                     s = inStream.readLine();
                     System.out.println("LOBBY STRINGA ENTRANTE:::"+s);
+                    //lobbyServerTimerCheckConnection.reset();
+                    serverPingHandler.reset();
                 }while (ifPingExecute(s));
                 try {
-                    lobbyServerTimerCheckConnection.reset();
                     handleLobbyMessage(s);//handle lobby message
                 } catch (InvalidMessageException e) {
                     sendInvalidMessage(e.getMessage());
@@ -148,10 +151,13 @@ public class VirtualClient extends Thread{
 
             System.out.println("CAMBIO STATO, PARTITA INIZIATA");
             //setup server timer and kill lobbyTimer
-            lobbyServerTimerCheckConnection.finish();
-            gameServerTimerCheckConnection = new GameServerTimerCheckConnection(10000, this);
-            Thread t = new Thread(gameServerTimerCheckConnection);
-            t.start();
+
+            //lobbyServerTimerCheckConnection.finish();
+            //pingerThread.interrupt();
+            //gameServerTimerCheckConnection = new GameServerTimerCheckConnection(10000, this);
+            //pingerThread = new Thread(gameServerTimerCheckConnection);
+            //pingerThread.start();
+            serverPingHandler.setGameState(true);
             //robe initialize
             while (true) { // TODO: esce se gioco finisce
                 do{
@@ -159,7 +165,8 @@ public class VirtualClient extends Thread{
                     System.out.println("GAME STRINGA ENTRANTE:::"+s);
                 }while (ifPingExecute(s));
                 try{
-                    gameServerTimerCheckConnection.reset();
+                    //gameServerTimerCheckConnection.reset();
+                    serverPingHandler.reset();
                     handleGameMessage(s);//handle game message
                 }catch (InvalidMessageException e) {
                     sendInvalidMessage(e.getMessage());
@@ -170,10 +177,10 @@ public class VirtualClient extends Thread{
             System.out.println("Client disconnesso");
         }
     }
-
+/*
     public void stopGameTimer(){
         gameServerTimerCheckConnection.finish();
-    }
+    }*/
 
     @Override
     public void run(){

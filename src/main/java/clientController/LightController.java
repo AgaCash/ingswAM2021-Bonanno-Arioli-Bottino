@@ -54,11 +54,13 @@ public class LightController {
     }
 
     public void sendGamePong(){
+        System.out.println("SEND PONG GAME");
         PongGameMessage pongMessage = new PongGameMessage(username);
         client.send(gson.toJson(pongMessage));
     }
 
     public void sendLobbyPong(){
+        System.out.println("SEND PONG LOBBY");
         PongLobbyMessage pongLobbyMessage = new PongLobbyMessage(username);
         client.send(gson.toJson(pongLobbyMessage));
     }

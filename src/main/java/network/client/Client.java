@@ -3,18 +3,16 @@ package network.client;
 import clientController.LightController;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import network.JsonParserNetwork;
 import network.messages.MessageType;
 import network.messages.gameMessages.GameMessage;
 import network.messages.lobbyMessages.*;
 import network.messages.pingMessages.PingGameMessage;
 import network.messages.pingMessages.PingLobbyMessage;
-import network.timer.ClientPingReciverTimer;
+import network.timer.ClientPingReceiverTimer;
 
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import java.util.concurrent.ArrayBlockingQueue;
 
 public class Client {
     private final InetAddress address;
@@ -25,14 +23,14 @@ public class Client {
     private LightController lightController;
     private ArrayList<String> messageBuffer;
     private final Object queueLock = new Object();
-    private ClientPingReciverTimer clientPingReciverTimer;
+    private ClientPingReceiverTimer clientPingReciverTimer;
 
     public Client(String address, int port, LightController lightController) throws UnknownHostException {
         this.address = InetAddress.getByName(address);
         this.port = port;
         this.lightController = lightController;
         messageBuffer = new ArrayList<>();
-        clientPingReciverTimer = new ClientPingReciverTimer(10000, lightController);
+        clientPingReciverTimer = new ClientPingReceiverTimer(10000, lightController);
     }
 
     public void connect() throws IOException {
@@ -44,6 +42,7 @@ public class Client {
             do{
                 try {
                     String r = in.readLine();
+                    //System.out.println(r);
                     clientPingReciverTimer.reset();
                     synchronized (queueLock){
                         if(!ifPingExecute(r)) //se non è un messaggio di ping lo aggiunge alla coda
