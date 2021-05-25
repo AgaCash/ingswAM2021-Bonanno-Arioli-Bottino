@@ -25,6 +25,7 @@ public class StartMultiPlayerResponse extends LobbyMessage{
             lightController.startMultiPlayerGame();
         }else{
             lightController.showError(getUsername(), message);
+            lightController.waitStartGameString();
         }
     }
 }

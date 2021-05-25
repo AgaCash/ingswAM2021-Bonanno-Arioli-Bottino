@@ -124,6 +124,15 @@ public class Game {
             return true;
         return false;
     }
+
+    //============UTILITIES FOR PING
+    public void addPlayerAtIndex(Player player, int index){
+        players.add(index, player);
+    }
+
+    public void removePlayer(String username){
+
+    }
     //============GIOCO
 
     //--------------------BUY DEV CARDS--------------------
@@ -322,7 +331,7 @@ public class Game {
         }
         else {
             int turn = players.indexOf(currentPlayer);
-            if (turn == 3)
+            if (turn == players.size()-1)
                 turn = 0;
             else
                 turn += 1;

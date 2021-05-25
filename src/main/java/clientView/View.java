@@ -23,6 +23,8 @@ public interface View {
     void notifyPlayerJoined(String username);
     //vuoi iniziare la partita?
     void notifyCreatorPlayerJoined();
+    //
+    void waitStartGameString();
     //lobby id to join it
     void askLobbyID(ArrayList<Lobby> lobbies);
     //write/press start to begin

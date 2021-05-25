@@ -22,6 +22,7 @@ public class Controller {
     private int id;
     private Game game;
     private ArrayList<VirtualClient> views;
+    private ArrayList<Player> disconnectedPlayer;
     private int readyPlayers = 0;
 
     public Controller(int id, ArrayList<VirtualClient> views){
@@ -49,6 +50,21 @@ public class Controller {
     }
     public int getId() {
         return id;
+    }
+
+    //ping
+    public void disconnectPlayer(String username){
+        //TODO:
+        //  pensare come disconnettere il player tenendone traccia per la riconnessione
+        System.out.println(username+" disconnesso!");
+        /*
+        for(VirtualClient v: views){
+            if(v.getVirtualView().getUsername().equals(username)){
+                disconnectedPlayer.add(new Player(""));
+                views.remove(v);
+            }
+        }
+        */
     }
 
     //start

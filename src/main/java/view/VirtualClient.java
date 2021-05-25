@@ -4,20 +4,28 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import controller.Controller;
 import exceptions.InvalidMessageException;
+import exceptions.NoSuchUsernameException;
 import network.messages.MessageType;
 import network.messages.gameMessages.GameMessage;
 import network.messages.lobbyMessages.LobbyMessage;
 import network.messages.lobbyMessages.StandardLobbyResponse;
+import network.messages.pingMessages.PongGameMessage;
+import network.messages.pingMessages.PongLobbyMessage;
+import network.server.Lobby;
+import network.server.LobbyHandler;
+import network.timer.LobbyServerTimerCheckConnection;
+import network.timer.GameServerTimerCheckConnection;
 
 import java.net.Socket;
 import java.io.*;
-import java.util.InputMismatchException;
 
 public class VirtualClient extends Thread{
     private BufferedReader inStream;
     public PrintWriter outStream;
     private Controller controller;
     private VirtualView virtualView;
+    private GameServerTimerCheckConnection gameServerTimerCheckConnection;
+    private LobbyServerTimerCheckConnection lobbyServerTimerCheckConnection;
 
     public VirtualClient(Socket clientSocket){
         try{
@@ -25,8 +33,35 @@ public class VirtualClient extends Thread{
             outStream = new PrintWriter(new BufferedWriter(
                     new OutputStreamWriter(clientSocket.getOutputStream())),true);
             virtualView = new VirtualView(outStream);
+            lobbyServerTimerCheckConnection = new LobbyServerTimerCheckConnection(10000, this);
+            Thread t = new Thread(lobbyServerTimerCheckConnection);
+            t.start();
         }catch (IOException e){
             e.printStackTrace();
+        }
+    }
+
+    public void resetLobbyTimer(){
+        lobbyServerTimerCheckConnection.reset();
+    }
+
+    public void resetGameTimer(){
+        gameServerTimerCheckConnection.reset();
+    }
+
+    public void disconnectPlayerFromGame(){
+        System.out.println("DISCONNECT FROM GAME");
+        controller.disconnectPlayer(virtualView.getUsername());
+    }
+
+    public void disconnectPlayerFromLobby(){
+        System.out.println("DISCONNECT FROM LOBBY");
+        try {
+            Lobby l = LobbyHandler.getInstance().getLobbyFromUsername(virtualView.getUsername());
+            l.leaveLobby(virtualView.getUsername());
+        } catch (NoSuchUsernameException e) {
+            System.out.println(e.getMessage());
+            //Player was not in any lobby
         }
     }
 
@@ -38,7 +73,7 @@ public class VirtualClient extends Thread{
         return virtualView;
     }
 
-    private void handleLobbyMessage(String s) throws  InvalidMessageException{
+    private void handleLobbyMessage(String s) throws InvalidMessageException{
         Gson gson = new Gson();
         JsonObject jsonObject = gson.fromJson(s, JsonObject.class);
         MessageType messageType = MessageType.valueOf(jsonObject.get("messageType").getAsString());
@@ -72,13 +107,38 @@ public class VirtualClient extends Thread{
                 new StandardLobbyResponse(virtualView.getUsername(), false, msg));
     }
 
+    private boolean ifPingExecute(String s){
+        Gson gson = new Gson();
+        boolean retValue = false;
+        JsonObject jsonObject = gson.fromJson(s, JsonObject.class);
+        try{
+            MessageType m = MessageType.valueOf(jsonObject.get("messageType").getAsString());
+            switch (m) {
+                case PONG_LOBBY -> {
+                    ((LobbyMessage) gson.fromJson(s, PongLobbyMessage.class)).executeCommand(this);
+                    retValue = true;
+                }
+                case PONG_GAME -> {
+                    ((GameMessage) gson.fromJson(s, PongGameMessage.class)).executeCommand(controller, this);
+                    retValue = true;
+                }
+            }
+        }catch (IllegalArgumentException e){
+            System.out.println("message not valid");
+        }
+        return retValue;
+    }
+
     private void readLoop(){
         String s = "";
         try {
             while (controller == null) {
-                s = inStream.readLine();
-                System.out.println("LOBBY STRINGA ENTRANTE:::"+s);
+                do{
+                    s = inStream.readLine();
+                    System.out.println("LOBBY STRINGA ENTRANTE:::"+s);
+                }while (ifPingExecute(s));
                 try {
+                    lobbyServerTimerCheckConnection.reset();
                     handleLobbyMessage(s);//handle lobby message
                 } catch (InvalidMessageException e) {
                     sendInvalidMessage(e.getMessage());
@@ -86,10 +146,19 @@ public class VirtualClient extends Thread{
             }
 
             System.out.println("CAMBIO STATO, PARTITA INIZIATA");
+            //setup server timer and kill lobbyTimer
+            lobbyServerTimerCheckConnection.finish();
+            gameServerTimerCheckConnection = new GameServerTimerCheckConnection(10000, this);
+            Thread t = new Thread(gameServerTimerCheckConnection);
+            t.start();
             //robe initialize
-            while ((s = inStream.readLine()) != null) {
-                System.out.println("GAME STRINGA ENTRANTE:::"+s);
+            while (true) { // TODO: esce se gioco finisce
+                do{
+                    s = inStream.readLine();
+                    System.out.println("GAME STRINGA ENTRANTE:::"+s);
+                }while (ifPingExecute(s));
                 try{
+                    gameServerTimerCheckConnection.reset();
                     handleGameMessage(s);//handle game message
                 }catch (InvalidMessageException e) {
                     sendInvalidMessage(e.getMessage());
@@ -99,6 +168,10 @@ public class VirtualClient extends Thread{
             //e.printStackTrace();
             System.out.println("Client disconnesso");
         }
+    }
+
+    public void stopGameTimer(){
+        gameServerTimerCheckConnection.finish();
     }
 
     @Override

@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import exceptions.UsernameAlreadyUsedException;
 import network.messages.gameMessages.*;
 import network.messages.lobbyMessages.*;
+import network.messages.pingMessages.PingGameMessage;
+import network.messages.pingMessages.PingLobbyMessage;
 import network.server.LobbyHandler;
 
 import java.io.PrintWriter;
@@ -25,6 +27,16 @@ public class VirtualView implements ServerView {
     public VirtualView(PrintWriter out) {
         this.outStream = out;
         gson = new Gson();
+    }
+
+    public void sendPing(PingLobbyMessage pingMessage){
+        System.out.println("SEND LOBBY PING");
+        outStream.println(gson.toJson(pingMessage));
+    }
+
+    public void sendPing(PingGameMessage pingMessage){
+        System.out.println("SEND GAME PING");
+        outStream.println(gson.toJson(pingMessage));
     }
 
     public void setUsername(String username) throws UsernameAlreadyUsedException {

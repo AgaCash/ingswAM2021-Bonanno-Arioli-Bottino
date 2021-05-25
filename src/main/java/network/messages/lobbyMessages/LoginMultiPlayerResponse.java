@@ -18,9 +18,6 @@ public class LoginMultiPlayerResponse extends LobbyMessage{
         this.message = message;
     }
 
-    //TODO:
-    //  SISTEMARE L'INIZIO PARTITA COMANDATO DAL LOBBY_CREATOR
-    //  invece di iniziare la partita mi rimostra le lobby
     @Override
     public void executeCommand(LightController lightController) {
         if(success){
@@ -28,7 +25,6 @@ public class LoginMultiPlayerResponse extends LobbyMessage{
             if(getUsername().equals(lightController.getUsername())){
                 lightController.joinLobbyWaiting();
             }else{
-
                 //deve solo notificare che è entrato
                 lightController.notifyPlayerJoined(getUsername());
             }

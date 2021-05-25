@@ -1,24 +1,38 @@
 package network.client;
 
+import clientController.LightController;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import network.JsonParserNetwork;
+import network.messages.MessageType;
+import network.messages.gameMessages.GameMessage;
 import network.messages.lobbyMessages.*;
+import network.messages.pingMessages.PingGameMessage;
+import network.messages.pingMessages.PingLobbyMessage;
+import network.timer.ClientPingReciverTimer;
 
 import java.io.*;
 import java.net.*;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
 
 public class Client {
-    private InetAddress address;
-    private int port;
+    private final InetAddress address;
+    private final int port;
     private Socket socket;
     private BufferedReader in;
     private PrintWriter outStream;
+    private LightController lightController;
+    private ArrayList<String> messageBuffer;
+    private final Object queueLock = new Object();
+    private ClientPingReciverTimer clientPingReciverTimer;
 
-    public Client(String address, int port) throws UnknownHostException {
+    public Client(String address, int port, LightController lightController) throws UnknownHostException {
         this.address = InetAddress.getByName(address);
         this.port = port;
+        this.lightController = lightController;
+        messageBuffer = new ArrayList<>();
+        clientPingReciverTimer = new ClientPingReciverTimer(10000, lightController);
     }
 
     public void connect() throws IOException {
@@ -26,6 +40,49 @@ public class Client {
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         outStream = new PrintWriter(new BufferedWriter(
                 new OutputStreamWriter(socket.getOutputStream())),true);
+        new Thread(()->{
+            do{
+                try {
+                    String r = in.readLine();
+                    clientPingReciverTimer.reset();
+                    synchronized (queueLock){
+                        if(!ifPingExecute(r)) //se non è un messaggio di ping lo aggiunge alla coda
+                            messageBuffer.add(r);
+                        queueLock.notify();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    break;
+                }
+            }while (true);
+
+        }).start();
+
+        new Thread(clientPingReciverTimer).start();
+    }
+
+    //TODO:
+    //  SISTEMARE LA RICEZIONE DI MESSAGGI NON VALIDI?
+    private boolean ifPingExecute(String s){
+        Gson gson = new Gson();
+        boolean retValue = false;
+        JsonObject jsonObject = gson.fromJson(s, JsonObject.class);
+        try{
+            MessageType m = MessageType.valueOf(jsonObject.get("messageType").getAsString());
+            switch (m) {
+                case PING_LOBBY -> {
+                    ((LobbyMessage) gson.fromJson(s, PingLobbyMessage.class)).executeCommand(lightController);
+                    retValue = true;
+                }
+                case PING_GAME -> {
+                    ((GameMessage) gson.fromJson(s, PingGameMessage.class)).executeCommand(lightController);
+                    retValue = true;
+                }
+            }
+        }catch (IllegalArgumentException e){
+            System.out.println("message not valid");
+        }
+        return retValue;
     }
 
     public void send(String s){
@@ -33,8 +90,18 @@ public class Client {
     }
 
     public String recv() throws IOException {
-        String s = in.readLine();
-        //System.out.println(s);
+        String s = null;
+        synchronized (queueLock){
+            while(messageBuffer.isEmpty()) {
+                try {
+                    queueLock.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            s = messageBuffer.get(0);
+            messageBuffer.remove(0);
+        }
         return s;
     }
 

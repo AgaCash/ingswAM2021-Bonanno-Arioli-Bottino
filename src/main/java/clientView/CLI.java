@@ -118,6 +118,13 @@ public class CLI implements View{
 
     public void askStartGame(){
         System.out.println("Write \"start\" to begin the game");
+        waitStartGameString();
+    }
+
+    //TODO:
+    //  BUG:
+    //      se scrivo start quando non ci sono giocatori dopo che ne entra uno al creatore inizia subito la partita
+    public void waitStartGameString(){
         String s = null;
         do{
             s = in.nextLine().toLowerCase();

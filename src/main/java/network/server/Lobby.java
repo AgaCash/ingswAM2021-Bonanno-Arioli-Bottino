@@ -51,12 +51,13 @@ public class Lobby { //LOBBY E' IL CONTROLLER
         }*/
     }
 
-   /* public void leaveLobby(Player player){
-        players.remove(player);
+   public void leaveLobby(String username){
+        players.removeIf(p->p.getNickname().equals(username));
+        /*
         for (Player p :players) {
             p.setStartingTurn(players.indexOf(p)+1);
-        }
-    }*/
+        }*/
+    }
 
     public ArrayList<String> getUsernameList(){
         ArrayList<String> names = new ArrayList<>();

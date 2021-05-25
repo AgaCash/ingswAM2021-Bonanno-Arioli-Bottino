@@ -24,6 +24,10 @@ import network.client.Client;
 import network.messages.MessageType;
 import network.messages.gameMessages.*;
 import network.messages.lobbyMessages.*;
+import network.messages.pingMessages.PingGameMessage;
+import network.messages.pingMessages.PingLobbyMessage;
+import network.messages.pingMessages.PongGameMessage;
+import network.messages.pingMessages.PongLobbyMessage;
 import network.server.Lobby;
 
 import java.io.IOException;
@@ -42,8 +46,25 @@ public class LightController {
         gson = new GsonBuilder().registerTypeAdapter(LeaderCard.class, new LeaderCardDeserializer()).create();
     }
 
+
+    public void serverDisconnected(){
+        System.out.println("LOST SERVER CONNECTION");
+        //view.serverLostConnection();
+        //poi quit?
+    }
+
+    public void sendGamePong(){
+        PongGameMessage pongMessage = new PongGameMessage(username);
+        client.send(gson.toJson(pongMessage));
+    }
+
+    public void sendLobbyPong(){
+        PongLobbyMessage pongLobbyMessage = new PongLobbyMessage(username);
+        client.send(gson.toJson(pongLobbyMessage));
+    }
+
     public void connectToServer(String address, int port) throws UnknownHostException, IOException{
-        client = new Client(address, port);
+        client = new Client(address, port, this);
         client.connect();
     }
 
@@ -55,7 +76,7 @@ public class LightController {
         String b = null;
         try {
             b = client.recv();
-            view.showSuccess(username+" sent");
+            //view.showSuccess(username+" sent");
         } catch (IOException e) {
             // capiamo
             view.showError(e.getMessage());
@@ -105,7 +126,7 @@ public class LightController {
         String responseS;
         try {
             responseS = client.recv();
-            System.out.println(responseS);
+            //System.out.println(responseS);
             CreateLobbyResponse response = gson.fromJson(responseS, CreateLobbyResponse.class);
             response.executeCommand(this);
         } catch (IOException e) {
@@ -143,14 +164,10 @@ public class LightController {
                     String lobbyWaiting = client.recv();
                     JsonObject jsonObject = gson.fromJson(lobbyWaiting, JsonObject.class);
                     MessageType msgType = MessageType.valueOf(jsonObject.get("messageType").getAsString());
-
                     ((LobbyMessage) gson.fromJson(lobbyWaiting, msgType.getClassType())).executeCommand(this);
                     if(gson.fromJson(lobbyWaiting, msgType.getClassType()).getMessageType() == MessageType.LOBBYSTARTGAME_RESPONSE){
                         gameStarted = true;
                     }
-
-
-
                 }while (!gameStarted);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -158,6 +175,10 @@ public class LightController {
         }).start();
 
         view.askStartGame();
+    }
+
+    public void waitStartGameString(){
+        view.waitStartGameString();
     }
 
     public void notifyPlayerJoined(String username){

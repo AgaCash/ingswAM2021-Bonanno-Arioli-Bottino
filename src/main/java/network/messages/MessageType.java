@@ -4,8 +4,18 @@ package network.messages;
         import network.messages.gameMessages.StartGameRequest;
         import network.messages.gameMessages.StartGameResponse;
         import network.messages.lobbyMessages.*;
+        import network.messages.pingMessages.PingGameMessage;
+        import network.messages.pingMessages.PingLobbyMessage;
+        import network.messages.pingMessages.PongGameMessage;
+        import network.messages.pingMessages.PongLobbyMessage;
 
 public enum MessageType {
+    //PING
+    PING_GAME(PingGameMessage.class, "PING"),
+    PING_LOBBY(PingLobbyMessage.class, "PING"),
+    PONG_LOBBY(PongLobbyMessage.class, "PONG"),
+    PONG_GAME(PongGameMessage.class, "PONG"),
+
     //SETUP
     CHECK_USERNAME_REQUEST,
     CHECK_USERNAME_RESPONSE,
