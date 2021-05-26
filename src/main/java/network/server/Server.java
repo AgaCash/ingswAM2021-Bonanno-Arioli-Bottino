@@ -15,13 +15,12 @@ import java.util.concurrent.Executors;
 
 public class Server {
     private int port = 1234;
-    private LobbyHandler lobbyHandler;
 
     public Server(int port) {
         this.port = port;
     }
     public void startServer() {
-        ExecutorService executor = Executors.newCachedThreadPool();
+        //ExecutorService executor = Executors.newCachedThreadPool();
         ServerSocket serverSocket;
         try {
             serverSocket = new ServerSocket(port);
@@ -32,13 +31,11 @@ public class Server {
 
         System.out.println("Server ready");
 
-        lobbyHandler = LobbyHandler.getInstance();
-
         int id = 1;
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
-                executor.submit(new VirtualClient(socket));
+                new Thread(new VirtualClient(socket)).start();
             } catch(IOException e) {
                 e.printStackTrace();
             }

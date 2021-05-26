@@ -50,7 +50,8 @@ public class Client {
                         queueLock.notify();
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    //e.printStackTrace();
+                    System.out.println(e.getMessage());
                     break;
                 }
             }while (true);

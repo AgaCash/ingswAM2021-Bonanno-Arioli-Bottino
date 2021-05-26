@@ -89,13 +89,17 @@ public class Lobby { //LOBBY E' IL CONTROLLER
             throw new NotEnoughPlayersException("Not enough players");
         }
         sharedController = new Controller(id, views);
+        System.out.println(sharedController);
+        System.out.println(views);
         if(singlePlayerMode){
             views.get(0).setController(sharedController);
             sharedController.addSinglePlayer(players.get(0));
         }else{
             for (VirtualClient v:views) {
                 v.setController(sharedController);
+                System.out.println("controller settato a "+v.getVirtualView().getUsername());
                 v.getVirtualView().sendStartMultiPlayerSignal();
+                System.out.println("START inviato a "+v.getVirtualView().getUsername());
             }
             sharedController.addMultiPlayers(players, views);
         }

@@ -140,25 +140,6 @@ public class LightController {
         }
     }
 
-    /*
-    public void createLobbyWaiting(){
-        view.notifyLobbyCreated();
-        boolean startSignal = false;
-        do{
-            try {
-                String someoneJoinedString = client.recv();
-                //quando uno entra viene inviato a tutti lo stesso messaggio no?
-                LoginMultiPlayerResponse response =
-                        gson.fromJson(someoneJoinedString, LoginMultiPlayerResponse.class);
-                response.executeCommand(this);
-                view.notifyCreatorPlayerJoined();
-            } catch (IOException e) {
-                view.showError(e.getMessage());
-            }
-        }while (!startSignal);
-    }
-*/
-
     //TODO:
     //  Check if this method won't create problems
     public void createLobbyWaiting(){
