@@ -2,10 +2,13 @@ package clientController;
 
 import clientModel.LightGame;
 import clientModel.cards.LightCardSlots;
+import clientModel.cards.LightLeaderCard;
 import clientModel.cards.LightWhiteConverter;
+import clientModel.singleplayer.LightLorenzo;
 import clientModel.strongbox.LightStrongbox;
 import clientModel.table.LightDevelopmentBoard;
 import clientModel.table.LightMarketBoard;
+import clientModel.table.LightPlayerBoard;
 import clientModel.warehouse.LightWarehouseDepot;
 import clientView.View;
 import com.google.gson.Gson;
@@ -13,6 +16,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import exceptions.MessageNotSuccededException;
 import exceptions.NoSuchUsernameException;
+import model.Game;
 import model.cards.*;
 import model.resources.Resource;
 import model.strongbox.Strongbox;
@@ -24,8 +28,6 @@ import network.client.Client;
 import network.messages.MessageType;
 import network.messages.gameMessages.*;
 import network.messages.lobbyMessages.*;
-import network.messages.pingMessages.PingGameMessage;
-import network.messages.pingMessages.PingLobbyMessage;
 import network.messages.pingMessages.PongGameMessage;
 import network.messages.pingMessages.PongLobbyMessage;
 import network.server.Lobby;
@@ -43,6 +45,7 @@ public class LightController {
 
     public LightController(View view){
         this.view = view;
+        this.game = new LightGame();
         gson = new GsonBuilder().registerTypeAdapter(LeaderCard.class, new LeaderCardDeserializer()).create();
     }
 
@@ -108,6 +111,7 @@ public class LightController {
      */
 
     public void createSinglePlayerLobby(){
+        this.game = new LightGame();
         StartSinglePlayerRequest request = new StartSinglePlayerRequest(username);
         String requestS = gson.toJson(request);
         client.send(requestS);
@@ -272,8 +276,8 @@ public class LightController {
         }
     }
 
-    public void activateLeaderCard(int numcard){
-        //wait 4 later
+    public void activateLeaderCard(LightLeaderCard card){
+        System.out.println("capiamo");
     }
 
     public void throwLeaderCard(){}
@@ -401,7 +405,22 @@ public class LightController {
         Gson gson = new Gson();
         SetupRequest request = new SetupRequest(getUsername(), couple, chosenResources, faithPoint);
         client.send(gson.toJson(request));
+        try{
+            String s = client.recv();
+            SetupResponse response = gson.fromJson(s, SetupResponse.class);
+            response.executeCommand(this);
+        } catch(IOException e){
+            view.showError(e.getMessage());
+        }
 
+    }
+
+    public void start(String message){
+        view.askTurn();
+    }
+
+    public LightPlayerBoard getPlayerBoard(){
+        return game.getPlayerBoard();
     }
 
 

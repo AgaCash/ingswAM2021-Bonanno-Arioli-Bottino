@@ -1,6 +1,7 @@
 package clientView;
 
 import clientController.LightController;
+import clientModel.cards.LightLeaderCard;
 import exceptions.MessageNotSuccededException;
 import model.cards.LeaderCard;
 import model.resources.Resource;
@@ -183,12 +184,41 @@ public class CLI implements View{
 
     @Override
     public void askTurn() {
+        System.out.println("PARTIAMOOOOOO");
+        int ans = 0;
+        do {
+            System.out.println("scegli un azione\n\b" +
+                    "1 per attivare la carta leader\n\b" +
+                    "2 per attivare la produzione\n\b" +
+                    "3 per comprare le risorse\n\b" +
+                    "4 per comprare la carta leader");
+            ans = in.nextInt();
+        }while(ans<1 || ans>4);
+        switch(ans){
+            case 1 -> askLeaderCardActivation();
+            case 2 -> askProduction();
+            case 3 -> askBuyResources();
+            case 4 -> askBuyDevCards();
+        }
 
+    }
+
+    private void askProduction(){
+        System.out.println("da fare ");
     }
 
     @Override
     public void askLeaderCardActivation() {
-
+        ArrayList<LightLeaderCard> couple = controller.getPlayerBoard().getLeaderSlot();
+        int ans = 0;
+        do {
+            System.out.println("scegli la carta:");
+            for(LightLeaderCard card: couple){
+                System.out.println("\n\b"+ (couple.indexOf(card)+1)+" per "+card);
+            }
+            ans = in.nextInt();
+        } while(ans== 1 || ans == 2);
+        controller.activateLeaderCard(couple.get(ans-1));
     }
 
     @Override

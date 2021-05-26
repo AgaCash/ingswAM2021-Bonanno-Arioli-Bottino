@@ -29,11 +29,7 @@ public class Controller {
         this.views = views;
         this.id = id;
         boolean isSinglePlayer = (views.size()==1);
-        System.out.println("attributi messi");
         game = new Game(isSinglePlayer);
-        System.out.println("game creato");
-        setOrder();
-        System.out.println("eccoic qua");
         System.out.println("CONTROLLER CREATO");
     }
 
@@ -81,14 +77,21 @@ public class Controller {
     public void notifyReadiness(){
         System.out.println("PARTIAMO SEEEEEEE");
         this.readyPlayers++;
-        if(readyPlayers == this.views.size()+1)
-            views.forEach(element -> element.getVirtualView().updateSetup(new SetupResponse(element.getVirtualView().getUsername(), getCurrentPlayer().getNickname())));
+        if(readyPlayers == this.views.size()){
+            setOrder();
+            for(VirtualClient v : views){
+                System.out.println("sono: "+v.getVirtualView().getUsername());
+                System.out.println("tocca a : "+ getCurrentPlayer());
+                v.getVirtualView().updateSetup(new SetupResponse(v.getVirtualView().getUsername(), getCurrentPlayer().getNickname()));
+            }
         }
-    public void addPlayer(Player newPlayer, VirtualClient newView){
-        views.add(newView);
+    }
+    //singleplayer
+    public void addSinglePlayer(Player newPlayer){
         game.addPlayer(newPlayer);
     }
-    public void addPlayers(ArrayList<Player> newPlayers, ArrayList<VirtualClient> newViews){
+    //multiplayer
+    public void addMultiPlayers(ArrayList<Player> newPlayers, ArrayList<VirtualClient> newViews){
         views = newViews;
         for(Player player : newPlayers)
             game.addPlayer(player);

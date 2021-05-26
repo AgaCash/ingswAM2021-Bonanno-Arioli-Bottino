@@ -47,9 +47,13 @@ public class Game {
     public void setOrder(){
         Collections.shuffle(players);
         for(Player player : players){
-            if(players.indexOf(player)== 0)
+            if(players.indexOf(player)== 0) {
                 player.getPlayerBoard().setInkwell(true);
+                currentPlayer = player;
+                System.out.println(currentPlayer.getNickname());
+            }
             player.setStartingTurn(players.indexOf(player));
+            System.out.println(player);
         }
     }
     //send leader cards

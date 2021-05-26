@@ -5,10 +5,7 @@ import clientModel.player.LightPlayer;
 import clientModel.resources.LightResource;
 import clientModel.singleplayer.LightLorenzo;
 import clientModel.strongbox.LightStrongbox;
-import clientModel.table.LightDeck;
-import clientModel.table.LightDevelopmentBoard;
-import clientModel.table.LightMarketBoard;
-import clientModel.table.LightTable;
+import clientModel.table.*;
 import clientModel.warehouse.LightWarehouseDepot;
 import exceptions.NoSuchUsernameException;
 
@@ -26,9 +23,13 @@ public class LightGame {
         this.table = table;
     }
 
-    public LightGame (LightLorenzo cpu, LightTable table){
+   /* public LightGame (LightLorenzo cpu, LightTable table){
         this.cpu = cpu;
         this.table = table;
+    }*/
+
+    public LightGame(){
+
     }
 
     public LightDeck getDeck(int slot){
@@ -65,6 +66,9 @@ public class LightGame {
                 return player;
         throw new NoSuchUsernameException();
 
+    }
+    public LightPlayerBoard getPlayerBoard(){
+        return player.getPlayerBoard();
     }
 
 }

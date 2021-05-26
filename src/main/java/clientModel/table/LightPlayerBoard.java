@@ -16,7 +16,7 @@ public class LightPlayerBoard {
     private LightStrongbox strongbox = new LightStrongbox();
     private LightFaithTrack faithTrack = new LightFaithTrack();
     private LightFaithBox faithBox = new LightFaithBox();
-    private ArrayList<LightLeaderCard> leaderSlots;
+    private ArrayList<LightLeaderCard> leaderSlot;
     private boolean hasInkwell;
     private int faithPoints = 0;
 
@@ -47,4 +47,7 @@ public class LightPlayerBoard {
     public LightFaithBox getFaithBox(){ return faithBox; }
 
     public LightFaithTrack getFaithTrack(){ return faithTrack;}
+    public ArrayList<LightLeaderCard> getLeaderSlot(){
+        return leaderSlot;
+    }
 }

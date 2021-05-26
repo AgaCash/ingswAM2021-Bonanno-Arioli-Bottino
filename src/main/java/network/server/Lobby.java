@@ -91,13 +91,13 @@ public class Lobby { //LOBBY E' IL CONTROLLER
         sharedController = new Controller(id, views);
         if(singlePlayerMode){
             views.get(0).setController(sharedController);
-            sharedController.addPlayer(players.get(0), views.get(0));
+            sharedController.addSinglePlayer(players.get(0));
         }else{
             for (VirtualClient v:views) {
                 v.setController(sharedController);
                 v.getVirtualView().sendStartMultiPlayerSignal();
             }
-            sharedController.addPlayers(players, views);
+            sharedController.addMultiPlayers(players, views);
         }
     }
 
