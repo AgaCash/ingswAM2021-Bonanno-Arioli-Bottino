@@ -7,7 +7,7 @@ public class LightPlayer {
     private String nickname;
     private int startingTurn;
     private int points = 0;
-    private LightPlayerBoard playerboard;
+    private LightPlayerBoard playerBoard;
 
     public int getPoints() {
         return points;
@@ -30,6 +30,7 @@ public class LightPlayer {
     }
 
     public LightPlayerBoard getPlayerBoard(){
-        return this.playerboard;
+        return this.playerBoard;
     }
+    public void setPlayerBoard(LightPlayerBoard playerBoard){ this.playerBoard = playerBoard; }
 }

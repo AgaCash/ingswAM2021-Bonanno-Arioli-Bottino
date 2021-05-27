@@ -13,8 +13,9 @@ public class Player {
         this.playerboard = new PlayerBoard(this);
     }
 
-    public Player(){
-    }
+    /*public Player(){
+        this.playerboard = new PlayerBoard(this);
+    }*/
 
     public void addPoints(int pts){
         points += pts;

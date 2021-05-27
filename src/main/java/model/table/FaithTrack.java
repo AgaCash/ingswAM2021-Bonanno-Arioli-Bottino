@@ -36,6 +36,7 @@ public class FaithTrack {
         nextBox = playerTrack.box.get(pos + 1);
         return nextBox;
     }
+
 }
 
     /*

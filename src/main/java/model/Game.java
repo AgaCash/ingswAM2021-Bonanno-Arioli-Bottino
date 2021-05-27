@@ -400,4 +400,9 @@ public class Game {
     private void shuffle(){
         Collections.shuffle(tokens);
     }
+
+    public ArrayList<Player> getPlayers(){
+        return players;
+    }
+
 }

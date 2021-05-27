@@ -1,21 +1,23 @@
 package clientModel.table;
 
+import clientModel.cards.LightDevelopmentCard;
+
 import java.util.ArrayList;
 
 public class LightDevelopmentBoard {
-    private final ArrayList<LightDeck> decks = new ArrayList<>(); //12 top cards
+    private final ArrayList<LightDevelopmentCard> decks = new ArrayList<>(); //12 top cards
 
-    public void setDecks (ArrayList<LightDeck> cards){
+    public void setDecks (ArrayList<LightDevelopmentCard> cards){
         for (int i=0; i<12; i++)
             decks.add(cards.get(i));
     }
 
 
-    public LightDeck getDeck(int deckNumber){
+    public LightDevelopmentCard getDeck(int deckNumber){
         return decks.get(deckNumber);
     }
 
-    public LightDeck getTopCard (int whichOne){
+    public LightDevelopmentCard getTopCard (int whichOne){
             return decks.get(whichOne);
     }
 

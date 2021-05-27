@@ -1,7 +1,6 @@
 package clientView;
 
 import clientController.LightController;
-import clientModel.cards.LightLeaderCard;
 import exceptions.MessageNotSuccededException;
 import model.cards.LeaderCard;
 import model.resources.Resource;
@@ -209,16 +208,16 @@ public class CLI implements View{
 
     @Override
     public void askLeaderCardActivation() {
-        ArrayList<LightLeaderCard> couple = controller.getPlayerBoard().getLeaderSlot();
+        ArrayList<LeaderCard> couple = controller.getPlayerBoard().getLeaderSlot();
         int ans = 0;
         do {
             System.out.println("scegli la carta:");
-            for(LightLeaderCard card: couple){
+            for(LeaderCard card: couple){
                 System.out.println("\n\b"+ (couple.indexOf(card)+1)+" per "+card);
             }
             ans = in.nextInt();
         } while(ans== 1 || ans == 2);
-        controller.activateLeaderCard(couple.get(ans-1));
+       // controller.activateLeaderCard(couple.get(ans-1));
     }
 
     @Override

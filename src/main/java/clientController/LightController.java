@@ -4,7 +4,7 @@ import clientModel.LightGame;
 import clientModel.cards.LightCardSlots;
 import clientModel.cards.LightLeaderCard;
 import clientModel.cards.LightWhiteConverter;
-import clientModel.singleplayer.LightLorenzo;
+import clientModel.player.LightPlayer;
 import clientModel.strongbox.LightStrongbox;
 import clientModel.table.LightDevelopmentBoard;
 import clientModel.table.LightMarketBoard;
@@ -16,7 +16,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import exceptions.MessageNotSuccededException;
 import exceptions.NoSuchUsernameException;
-import model.Game;
 import model.cards.*;
 import model.resources.Resource;
 import model.strongbox.Strongbox;
@@ -139,6 +138,25 @@ public class LightController {
             view.showError(e.getMessage());
         }
     }
+
+    /*
+    public void createLobbyWaiting(){
+        view.notifyLobbyCreated();
+        boolean startSignal = false;
+        do{
+            try {
+                String someoneJoinedString = client.recv();
+                //quando uno entra viene inviato a tutti lo stesso messaggio no?
+                LoginMultiPlayerResponse response =
+                        gson.fromJson(someoneJoinedString, LoginMultiPlayerResponse.class);
+                response.executeCommand(this);
+                view.notifyCreatorPlayerJoined();
+            } catch (IOException e) {
+                view.showError(e.getMessage());
+            }
+        }while (!startSignal);
+    }
+*/
 
     //TODO:
     //  Check if this method won't create problems
@@ -402,6 +420,18 @@ public class LightController {
 
     public LightPlayerBoard getPlayerBoard(){
         return game.getPlayerBoard();
+    }
+
+    public void setMarketBoard(LightMarketBoard market){
+        this.game.setMarketBoard(market);
+    }
+
+    public void setDevBoard(LightDevelopmentBoard board){
+        this.game.setDevBoard(board);
+    }
+
+    public void setPlayers(ArrayList<LightPlayer> players){
+        this.game.setPlayers(players);
     }
 
 

@@ -82,7 +82,11 @@ public class Controller {
             for(VirtualClient v : views){
                 System.out.println("sono: "+v.getVirtualView().getUsername());
                 System.out.println("tocca a : "+ getCurrentPlayer());
-                v.getVirtualView().updateSetup(new SetupResponse(v.getVirtualView().getUsername(), getCurrentPlayer().getNickname()));
+                v.getVirtualView().updateSetup(new SetupResponse(v.getVirtualView().getUsername(),
+                                                                getCurrentPlayer().getNickname(),
+                                                                game.getMarketBoard(),
+                                                                game.getDevBoard(),
+                                                                game.getPlayers()));
             }
         }
     }

@@ -1,6 +1,7 @@
 package clientModel;
 
 import clientModel.cards.LightCardSlots;
+import clientModel.cards.LightDevelopmentCard;
 import clientModel.player.LightPlayer;
 import clientModel.resources.LightResource;
 import clientModel.singleplayer.LightLorenzo;
@@ -18,9 +19,9 @@ public class LightGame {
     private LightLorenzo cpu;
     private ArrayList<LightResource> threwResources = new ArrayList<>();
 
-    public LightGame (ArrayList<LightPlayer> setPlayers, LightTable table){
+    public LightGame (ArrayList<LightPlayer> setPlayers){
         this.otherPlayers = setPlayers;
-        this.table = table;
+        this.table = new LightTable();
     }
 
    /* public LightGame (LightLorenzo cpu, LightTable table){
@@ -29,10 +30,10 @@ public class LightGame {
     }*/
 
     public LightGame(){
-
+        this.table = new LightTable();
     }
 
-    public LightDeck getDeck(int slot){
+    public LightDevelopmentCard getDeck(int slot){
         return table.getDevBoard().getDeck(slot);
     }
 
@@ -70,5 +71,23 @@ public class LightGame {
     public LightPlayerBoard getPlayerBoard(){
         return player.getPlayerBoard();
     }
+
+    public void setMarketBoard(LightMarketBoard market){
+        this.table.setMarketBoard(market);
+    }
+
+    public void setDevBoard(LightDevelopmentBoard board){
+        this.table.setDevelopmentBoard(board);
+    }
+
+    public void setPlayers(ArrayList<LightPlayer> players){
+        for(LightPlayer player : players)
+            if(player.getNickname().equals(this.player.getNickname())) {
+                this.player = player;
+                players.remove(player);
+            }
+        this.otherPlayers = players;
+    }
+
 
 }
