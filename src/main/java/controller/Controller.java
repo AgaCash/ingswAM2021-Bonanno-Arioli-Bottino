@@ -1,5 +1,6 @@
 package controller;
 
+import clientModel.player.LightPlayer;
 import exceptions.*;
 import model.Game;
 import model.cards.Discount;
@@ -24,6 +25,7 @@ public class Controller {
     private ArrayList<VirtualClient> views;
     private ArrayList<Player> disconnectedPlayer;
     private int readyPlayers = 0;
+    //private transient ModelToLightParser parser = new ModelToLightParser();
 
     public Controller(int id, ArrayList<VirtualClient> views){
         this.views = views;
@@ -75,18 +77,21 @@ public class Controller {
             player.getPlayerBoard().getWarehouseDepot().addResource(element);
     }
     public void notifyReadiness(){
-        System.out.println("PARTIAMO SEEEEEEE");
         this.readyPlayers++;
         if(readyPlayers == this.views.size()){
             setOrder();
             for(VirtualClient v : views){
-                System.out.println("sono: "+v.getVirtualView().getUsername());
-                System.out.println("tocca a : "+ getCurrentPlayer());
+                ArrayList<LightPlayer> players = new ArrayList<>();
+
+                game.getPlayers().forEach(element -> players.add(element.convert()));
+                System.out.println("riga 86");
+                System.out.println(game.getPlayers()+" "+ players);
                 v.getVirtualView().updateSetup(new SetupResponse(v.getVirtualView().getUsername(),
                                                                 getCurrentPlayer().getNickname(),
-                                                                game.getMarketBoard(),
-                                                                game.getDevBoard(),
-                                                                game.getPlayers()));
+                                                                game.getMarketBoard().convert(),
+                                                                game.getDevBoard().convert(),
+                                                                players));
+                System.out.println("riga 91");
             }
         }
     }

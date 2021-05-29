@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import exceptions.UsernameAlreadyUsedException;
 import model.cards.LeaderCard;
-import model.utilities.LeaderCardDeserializer;
+import utilities.LeaderCardDeserializer;
 import network.messages.gameMessages.*;
 import network.messages.lobbyMessages.*;
 import network.messages.pingMessages.PingGameMessage;

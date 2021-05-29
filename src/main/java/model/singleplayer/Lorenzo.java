@@ -3,7 +3,7 @@ package model.singleplayer;
 import model.table.DevelopmentBoard;
 import model.table.FaithBox;
 import model.table.FaithTrack;
-import model.utilities.JsonParser;
+import utilities.JsonParser;
 
 import java.util.ArrayList;
 import java.util.Collections;

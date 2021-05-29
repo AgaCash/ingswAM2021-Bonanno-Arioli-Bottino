@@ -1,5 +1,9 @@
 package model.cards;
 
+import clientModel.cards.LightDevelopmentCard;
+import clientModel.cards.LightExtraProd;
+import clientModel.cards.LightLeaderCard;
+import clientModel.resources.LightResource;
 import exceptions.UnusableCardException;
 import model.resources.Resource;
 
@@ -67,6 +71,19 @@ public class ExtraProd extends LeaderCard{
         s+= "\nVictory Points: "+victoryPoints;
         s+= "\nIs Enabled: "+ isEnabled;
         return s;
+    }
+
+    @Override
+    public LightLeaderCard convert(){
+        ArrayList<LightDevelopmentCard> requires = new ArrayList<>();
+        this.requires.forEach(element -> requires.add(element.convert()));
+        System.out.println(this.input);
+        LightResource input = LightResource.valueOf(this.input.toString());
+
+        return new LightExtraProd(this.id,
+                this.isEnabled,
+                requires,
+               input);
     }
 
 }

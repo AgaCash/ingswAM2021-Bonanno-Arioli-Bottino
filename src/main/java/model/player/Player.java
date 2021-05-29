@@ -1,16 +1,17 @@
 package model.player;
 
+import clientModel.player.LightPlayer;
 import model.table.PlayerBoard;
 
 public class Player {
     private String nickname;
-    private transient int startingTurn;
-    private transient int points = 0;
-    private transient PlayerBoard playerboard;
+    private int startingTurn;
+    private int points = 0;
+    private PlayerBoard playerboard;
 
     public Player(String nickname){
         this.nickname = nickname;
-        this.playerboard = new PlayerBoard(this);
+        this.playerboard = new PlayerBoard();
     }
 
     /*public Player(){
@@ -52,5 +53,19 @@ public class Player {
         return "{" +
                 "\"nickname\":\"" + nickname + '\"' +
                 '}';
+    }
+
+
+
+    public LightPlayer convert(){
+        LightPlayer player = new LightPlayer();
+
+        player.setNickname(getNickname());
+        player.setStartingTurn(getStartingTurn());
+        player.setPoints(this.points);
+        player.setPlayerBoard(this.playerboard.convert());
+        player.getPlayerBoard().setPlayer(player);
+
+        return player;
     }
 }

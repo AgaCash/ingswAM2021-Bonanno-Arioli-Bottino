@@ -1,10 +1,12 @@
 package model.table;
 
+import clientModel.marbles.LightMarble;
+import clientModel.table.LightMarketBoard;
 import exceptions.UnusableCardException;
 import model.cards.WhiteConverter;
 import model.marbles.Marble;
 import model.resources.Resource;
-import model.utilities.JsonParser;
+import utilities.JsonParser;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -109,6 +111,17 @@ public class MarketBoard {
         Marble mar;
         mar = marbleGrid.get(whichOneLine).get(whichOneCol);
         return mar;
+    }
+
+    public LightMarketBoard convert(){
+        LightMarketBoard market = new LightMarketBoard();
+        ArrayList<LightMarble> marketCopy = new ArrayList<>();
+        for(int i=0; i<3; i++)
+            for(int j =0; j<4; j++)
+                marketCopy.add(LightMarble.valueOf(this.marbleGrid.get(i).get(j).toString()));
+        marketCopy.add(LightMarble.valueOf(freeMarble.toString()));
+        market.setMarketBoard(marketCopy);
+        return market;
     }
 }
 

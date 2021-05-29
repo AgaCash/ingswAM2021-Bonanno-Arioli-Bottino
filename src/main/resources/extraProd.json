@@ -6,7 +6,7 @@
       "level": "2"
       }
     ],
-    "prodResource": "SHIELD",
+    "input": "SHIELD",
     "id": "13",
     "isEnabled": "false",
     "type": "EXTRAPROD"
@@ -18,7 +18,7 @@
       "level": "2"
       }
     ],
-    "prodResource": "SERVANT",
+    "input": "SERVANT",
     "id": "14",
     "isEnabled": "false",
     "type": "EXTRAPROD"
@@ -30,7 +30,7 @@
       "level": "2"
       }
     ],
-    "prodResource": "STONE",
+    "input": "STONE",
     "id": "15",
     "isEnabled": "false",
     "type": "EXTRAPROD"
@@ -42,7 +42,7 @@
       "level": "2"
       }
     ],
-    "prodResource": "COIN",
+    "input": "COIN",
     "id": "16",
     "isEnabled": "false",
     "type": "EXTRAPROD"

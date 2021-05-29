@@ -1,5 +1,9 @@
 package model.cards;
 
+import clientModel.cards.LightDevelopmentCard;
+import clientModel.cards.LightDiscount;
+import clientModel.cards.LightLeaderCard;
+import clientModel.resources.LightResource;
 import exceptions.UnusableCardException;
 import model.resources.Resource;
 
@@ -50,6 +54,17 @@ public class Discount extends LeaderCard{
         s+= "\nVictory Points: "+victoryPoints;
         s+= "\nIs Enabled: "+ isEnabled;
         return s;
+    }
+
+    @Override
+    public LightLeaderCard convert(){
+        ArrayList<LightDevelopmentCard> requires = new ArrayList<>();
+        this.requires.forEach(element -> requires.add(element.convert()));
+
+        return new LightDiscount(this.id,
+                this.isEnabled,
+                requires,
+                LightResource.valueOf(discount.toString()));
     }
 
 }

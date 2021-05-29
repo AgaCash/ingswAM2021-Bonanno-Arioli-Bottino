@@ -5,7 +5,8 @@ import clientModel.resources.LightResource;
 
 import java.util.ArrayList;
 
-public class LightDevelopmentCard extends LightCard {
+public class LightDevelopmentCard {
+    private int id;
     private LightColour colour;
     private int level;
     private int victoryPoints;
@@ -21,6 +22,11 @@ public class LightDevelopmentCard extends LightCard {
         this.cost = cost;
         this.prodInput = prodInput;
         this.prodOutput = prodOutput;
+    }
+
+    public LightDevelopmentCard(LightColour colour, int level) {
+        this.colour = colour;
+        this.level = level;
     }
 
     public int getLevel() {

@@ -1,5 +1,7 @@
 package model.table;
 
+import clientModel.table.LightFaithBox;
+
 public class FaithBox {
     private int position;
     private boolean[] popeFlag = new boolean[3];
@@ -39,5 +41,13 @@ public class FaithBox {
         s+="\n"+popeFlag[0]+" "+popeFlag[1]+" "+popeFlag[2];
         s+="\n---";
         return s;
+    }
+
+    public LightFaithBox convert(){
+        LightFaithBox newBox = new LightFaithBox();
+        newBox.setPosition(this.position);
+        newBox.setPopeFlag(this.popeFlag[0], this.popeFlag[1], this.popeFlag[2]);
+        newBox.setPoints(this.points);
+        return newBox;
     }
 }

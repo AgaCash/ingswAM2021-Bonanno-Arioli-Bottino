@@ -1,16 +1,16 @@
 package clientModel.warehouse;
 
-import exceptions.FullWarehouseException;
-import model.cards.ExtraDepot;
-import model.resources.Resource;
+import clientModel.resources.LightResource;
 
 import java.util.ArrayList;
-import java.util.TreeMap;
 
 public class LightWarehouseDepot {
 
-    private TreeMap<Resource, Integer> warehouse = new TreeMap<>();
-    private ArrayList<ExtraDepot> cards = new ArrayList<>();
+    private ArrayList<LightResource> warehouse;
+
+    public void setWarehouse(ArrayList<LightResource> image){
+        this.warehouse = image;
+    }
 
     /*
     public void addNewExtraDepot(ExtraDepot card){

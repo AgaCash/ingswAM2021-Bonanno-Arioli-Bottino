@@ -1,10 +1,11 @@
 package model.cards;
+import clientModel.cards.LightLeaderCard;
 import exceptions.UnusableCardException;
 import model.resources.Resource;
 
 import java.util.ArrayList;
 
-abstract public class LeaderCard extends Card{
+ abstract public class LeaderCard extends Card{
 	protected boolean isEnabled;
 	protected int victoryPoints;
 	protected LeaderCardType type;
@@ -41,5 +42,7 @@ abstract public class LeaderCard extends Card{
 	public Resource getExtraProdInput() throws UnusableCardException { return null;}
 	public ArrayList<Resource> production(){return null;}
 	public void setChosenOutput(Resource chosenOutput){}
+
+	 abstract public LightLeaderCard convert();
 
 }

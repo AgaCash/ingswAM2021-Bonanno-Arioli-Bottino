@@ -1,8 +1,9 @@
 package clientView;
 
 import clientController.LightController;
+import clientModel.cards.LightLeaderCard;
+import clientModel.resources.LightResource;
 import exceptions.MessageNotSuccededException;
-import model.cards.LeaderCard;
 import model.resources.Resource;
 import network.server.Lobby;
 
@@ -208,16 +209,19 @@ public class CLI implements View{
 
     @Override
     public void askLeaderCardActivation() {
-        ArrayList<LeaderCard> couple = controller.getPlayerBoard().getLeaderSlot();
+        System.out.println(controller.getPlayer());
+        System.out.println(controller.getPlayerBoard());
+        ArrayList<LightLeaderCard> couple = controller.getPlayerBoard().getLeaderSlot();
+        couple.forEach(System.out::println);
         int ans = 0;
         do {
             System.out.println("scegli la carta:");
-            for(LeaderCard card: couple){
+            for(LightLeaderCard card: couple){
                 System.out.println("\n\b"+ (couple.indexOf(card)+1)+" per "+card);
             }
             ans = in.nextInt();
-        } while(ans== 1 || ans == 2);
-       // controller.activateLeaderCard(couple.get(ans-1));
+        } while(ans!= 1 && ans != 2);
+       controller.sendLeaderCardActivationRequest(couple.get(ans-1));
     }
 
     @Override
@@ -266,13 +270,13 @@ public class CLI implements View{
 
     }
     @Override
-    public void askStartItems(ArrayList<LeaderCard> quartet, int numResources, boolean faithPoints) {
+    public void askStartItems(ArrayList<LightLeaderCard> quartet, int numResources, boolean faithPoints) {
         quartet.forEach(System.out::println);
         System.out.println("you have " + numResources +
                 " resources to choose");
         if (faithPoints)
             System.out.println("you have earned 1 faith point");
-        ArrayList<LeaderCard> couple = new ArrayList<>();
+        ArrayList<LightLeaderCard> couple = new ArrayList<>();
         int first, second;
         do{
             System.out.println("insert two number from 1 to 4 to choose 2 leader cards mammt hai capito");
@@ -282,10 +286,10 @@ public class CLI implements View{
         while((first<0 || first>3) && (second<0 || second>3));
         couple.add(quartet.get(first));
         couple.add(quartet.get(second));
-        ArrayList<Resource> chosenResources = new ArrayList<>();
+        ArrayList<LightResource> chosenResources = new ArrayList<>();
         for(int i=0; i<numResources; i++){
             int res;
-            Resource choice = null;
+            LightResource choice = null;
             do {
                 System.out.println("choose resource " +
                         "1 for COIN\n2 for SERVANT\n3 for SHIELD\n4 for STONE");
@@ -293,10 +297,10 @@ public class CLI implements View{
             }
             while(res<1 || res>4);
             switch (res) {
-                case 1 -> choice = Resource.COIN;
-                case 2 -> choice = Resource.SERVANT;
-                case 3 -> choice = Resource.SHIELD;
-                case 4 -> choice = Resource.STONE;
+                case 1 -> choice = LightResource.COIN;
+                case 2 -> choice = LightResource.SERVANT;
+                case 3 -> choice = LightResource.SHIELD;
+                case 4 -> choice = LightResource.STONE;
             }
             chosenResources.add(choice);
         }

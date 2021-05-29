@@ -1,10 +1,7 @@
 
 package network.messages;
 
-        import network.messages.gameMessages.SetupRequest;
-        import network.messages.gameMessages.SetupResponse;
-        import network.messages.gameMessages.StartGameRequest;
-        import network.messages.gameMessages.StartGameResponse;
+        import network.messages.gameMessages.*;
         import network.messages.lobbyMessages.*;
         import network.messages.pingMessages.PingGameMessage;
         import network.messages.pingMessages.PingLobbyMessage;
@@ -54,8 +51,8 @@ public enum MessageType {
     PRODUCTIONUPDATE,
     BUYDEVCARDS,
     BUYDEVCARDSUPDATE,
-    LEADERCARD,
-    LEADERCARDUPDATE,
+    LEADERCARD(LeaderCardActivationRequest.class, "GAME"),
+    LEADERCARDUPDATE(LeaderCardActivationResponse.class, "GAME"),
     ENDTURN,
     ENDTURNUPDATE,
 

@@ -8,4 +8,5 @@ public class LightFaithTrack {
     public ArrayList<LightFaithBox> getTrack(){
         return box;
     }
+    public void setTrack(ArrayList<LightFaithBox> box){ this.box = box;}
 }

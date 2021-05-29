@@ -1,7 +1,9 @@
 package clientModel.cards;
 
 import clientModel.resources.LightResource;
-import exceptions.UnusableCardException;
+import model.cards.Discount;
+import model.cards.LeaderCard;
+import model.resources.Resource;
 
 import java.util.ArrayList;
 
@@ -15,8 +17,9 @@ public class LightDiscount extends LightLeaderCard {
         this.requires = req;
         this.discount = dis;
         this.isEnabled = en;
+        super.type = LightLeaderCardType.DISCOUNT;
     }
-
+/*
     @Override
     public LightResource whichDiscount() throws UnusableCardException {
         if(!isEnabled())
@@ -33,4 +36,19 @@ public class LightDiscount extends LightLeaderCard {
     public ArrayList<LightDevelopmentCard> getRequiredCards(){
         return this.requires;
     }
+ */
+    @Override
+    public String toString(){
+        String s = "\nDISCOUNT";
+        s+= "\nID: "+id;
+        s+= "\nRequires: ";
+        for (LightDevelopmentCard d:requires) {
+            s+="\n\t "+d;
+        }
+        s+=  "\nDiscount: " +discount;
+        s+= "\nVictory Points: "+victoryPoints;
+        s+= "\nIs Enabled: "+ isEnabled;
+        return s;
+    }
+
 }

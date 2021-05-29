@@ -1,5 +1,7 @@
 package model.strongbox;
 
+import clientModel.resources.LightResource;
+import clientModel.strongbox.LightStrongbox;
 import exceptions.ResourceNotFoundException;
 import model.resources.Resource;
 
@@ -68,5 +70,16 @@ public class Strongbox {
     //only 4 tests
     public ArrayList<Resource> status(){
         return this.strongbox;
+    }
+
+    public LightStrongbox convert(){
+        LightStrongbox newStrongbox = new LightStrongbox();
+        ArrayList<LightResource> tmp = new ArrayList<>();
+        strongbox.forEach(element -> tmp.add(LightResource.valueOf(element.toString())));
+        newStrongbox.setStrongbox(tmp);
+        tmp.clear();
+        tmpStrongbox.forEach(e -> tmp.add(LightResource.valueOf(e.toString())));
+        newStrongbox.setTmpStrongbox(tmp);
+        return newStrongbox;
     }
 }

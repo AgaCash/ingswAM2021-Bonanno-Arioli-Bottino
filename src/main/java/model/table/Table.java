@@ -1,7 +1,8 @@
 package model.table;
 
+import clientModel.table.LightTable;
 import model.cards.LeaderCard;
-import model.utilities.JsonParser;
+import utilities.JsonParser;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -65,6 +66,15 @@ public class Table {
         cards.remove(card);
         System.out.println(" CARTA "+card.getId());
         return card;
+    }
+
+    public LightTable convert(){
+        LightTable table = new LightTable();
+
+        table.setMarketBoard(this.marketBoard.convert());
+        table.setDevelopmentBoard(this.developmentBoard.convert());
+
+        return table;
     }
 
 }

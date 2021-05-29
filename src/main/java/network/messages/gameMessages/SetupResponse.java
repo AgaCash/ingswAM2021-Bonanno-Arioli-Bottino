@@ -4,10 +4,6 @@ import clientController.LightController;
 import clientModel.player.LightPlayer;
 import clientModel.table.LightDevelopmentBoard;
 import clientModel.table.LightMarketBoard;
-import model.player.Player;
-import model.table.DevelopmentBoard;
-import model.table.MarketBoard;
-import model.utilities.ModelToLightParser;
 import network.messages.MessageType;
 
 import java.util.ArrayList;
@@ -17,22 +13,40 @@ public class SetupResponse extends GameMessage {
     private String firstPlayer;
     private LightDevelopmentBoard board;
     private LightMarketBoard market;
-    private ArrayList<LightPlayer> players;
-    private ModelToLightParser parser = new ModelToLightParser();
+    private ArrayList<LightPlayer> players = new ArrayList<>();
+
 
     public SetupResponse(String username, String firstPlayer,
-                         MarketBoard market, DevelopmentBoard board, ArrayList<Player> players){
+                         LightMarketBoard marketBoard, LightDevelopmentBoard board, ArrayList<LightPlayer> players){
         super(username, MessageType.SETUPRESPONSE);
-        this.message = " siamo che fega ";
         this.firstPlayer = firstPlayer;
-        this.market = parser.parseMarket(market);
-        this.board = parser.parseDevBoard(board);
-        for(Player p: players)
-            this.players.add(parser.parsePlayer(p));
-        System.out.println("setup rsponse creata");
+        this.market = marketBoard;
+        this.board = board;
+        this.players = players;
+        /*for(LightPlayer p: players){
+            LightPlayer newPlayer = new LightPlayer();
+            LightPlayerBoard lBoard = new LightPlayerBoard();
+
+            ArrayList<LightLeaderCard> leaderCards =(ArrayList<LightLeaderCard>) p.getPlayerBoard().getLeaderSlot().clone();
+            ArrayList<LightDevelopmentCard> slots = (ArrayList<LightDevelopmentCard>) p.getPlayerBoard().getCardSlots().clone();
+
+            lBoard.setLeaderSlot(leaderCards);
+            lBoard.setCardSlots(slots);
+            lBoard.setInkwell(p.getPlayerBoard().getInkwell());
+            lBoard.setFaithTrack(p.getPlayerBoard().getFaithTrack());
+            lBoard.setWarehouse(p.getPlayerBoard().getWarehouseDepot());
+            lBoard.setStrongbox(p.getPlayerBoard().getStrongbox());
+            lBoard.setPoints(p.getPlayerBoard().getPoints());
+
+            newPlayer.setPlayerBoard(lBoard);
+            newPlayer.setPoints(p.getPoints());
+            newPlayer.setNickname(p.getNickname());
+            newPlayer.setStartingTurn(p.getStartingTurn());
+        }*/
     }
     @Override
     public void executeCommand(LightController controller){
+        controller.setPlayer(getUsername(), this.players);
         controller.setPlayers(this.players);
         controller.setDevBoard(this.board);
         controller.setMarketBoard(this.market);

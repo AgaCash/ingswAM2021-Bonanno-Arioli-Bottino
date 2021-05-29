@@ -1,5 +1,7 @@
 package model.warehouse;
 
+import clientModel.resources.LightResource;
+import clientModel.warehouse.LightWarehouseDepot;
 import exceptions.FullWarehouseException;
 import exceptions.ResourceNotFoundException;
 import exceptions.UnusableCardException;
@@ -92,6 +94,16 @@ public class WarehouseDepot {
         }
 
         return true;
+    }
+
+    public LightWarehouseDepot convert(){
+        LightWarehouseDepot newWarehouse = new LightWarehouseDepot();
+        ArrayList<Resource> image = status();
+        ArrayList<LightResource> converted = new ArrayList<>();
+
+        image.forEach(element -> converted.add(LightResource.valueOf(element.toString())));
+        newWarehouse.setWarehouse(converted);
+        return newWarehouse;
     }
 
 

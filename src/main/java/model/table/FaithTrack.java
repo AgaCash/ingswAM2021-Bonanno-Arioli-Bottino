@@ -1,6 +1,8 @@
 package model.table;
 
-import model.utilities.JsonParser;
+import clientModel.table.LightFaithBox;
+import clientModel.table.LightFaithTrack;
+import utilities.JsonParser;
 
 import java.util.ArrayList;
 
@@ -36,6 +38,16 @@ public class FaithTrack {
         nextBox = playerTrack.box.get(pos + 1);
         return nextBox;
     }
+
+    public LightFaithTrack convert(){
+        ArrayList<LightFaithBox> newTrack = new ArrayList<>();
+        box.forEach(element -> newTrack.add(element.convert()));
+
+        LightFaithTrack newFTrack = new LightFaithTrack();
+        newFTrack.setTrack(newTrack);
+        return newFTrack;
+    }
+
 
 }
 

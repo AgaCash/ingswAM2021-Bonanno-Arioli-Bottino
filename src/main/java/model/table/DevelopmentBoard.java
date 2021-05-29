@@ -1,10 +1,13 @@
 package model.table;
 
 
+import clientModel.cards.LightDevelopmentCard;
+import clientModel.table.LightDevelopmentBoard;
 import exceptions.EmptyDeckException;
 import model.cards.DevelopmentCard;
 import model.colour.Colour;
-import model.utilities.JsonParser;
+import utilities.JsonParser;
+
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 
@@ -96,6 +99,15 @@ public final class DevelopmentBoard {
      */
     public DevelopmentCard popCardFromDeckColour(Colour colour) throws EmptyDeckException {
         return this.getDeck(colour).popCard();
+    }
+
+    public LightDevelopmentBoard convert(){
+        LightDevelopmentBoard board = new LightDevelopmentBoard();
+        ArrayList<LightDevelopmentCard> cards = new ArrayList<>();
+        for(Deck deck : decks)
+            cards.add(deck.getCard().convert());
+        board.setDecks(cards);
+        return board;
     }
 }
 

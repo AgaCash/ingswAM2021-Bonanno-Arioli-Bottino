@@ -1,6 +1,5 @@
 package network.messages.gameMessages;
 
-import com.google.gson.Gson;
 import controller.Controller;
 import exceptions.*;
 import model.cards.Discount;
@@ -23,7 +22,6 @@ public class BuyDevCardRequest extends GameMessage{
 
     @Override
     public void executeCommand(Controller controller, VirtualClient client) {
-        Gson gson = new Gson();
         try {
             controller.buyDevCard(deck, slot, card);
             update(controller);

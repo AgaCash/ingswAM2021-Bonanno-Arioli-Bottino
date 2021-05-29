@@ -17,6 +17,13 @@ public class LightStrongbox {
     public void removeResource (Resource resource) { strongbox.remove(resource); }
 
  */
+    public void setStrongbox(ArrayList<LightResource> s){
+        strongbox = s;
+    }
+
+    public void setTmpStrongbox(ArrayList<LightResource> t){
+        tmpStrongbox = t;
+    }
 
     public LightResource getResource (int whichOne){
         LightResource res;

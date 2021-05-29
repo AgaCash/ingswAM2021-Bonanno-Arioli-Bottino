@@ -1,5 +1,8 @@
 package model.cards;
 
+import clientModel.cards.LightDevelopmentCard;
+import clientModel.colour.LightColour;
+import clientModel.resources.LightResource;
 import exceptions.UnusableCardException;
 import model.colour.Colour;
 import model.resources.Resource;
@@ -99,6 +102,29 @@ public class DevelopmentCard extends Card {
             }
         }
         return s.toString();
+    }
+
+    public LightDevelopmentCard convert(){
+        ArrayList<LightResource> cost = new ArrayList<>();
+        ArrayList<LightResource> prodInput = new ArrayList<>();
+        ArrayList<LightResource> prodOutput = new ArrayList<>();
+        LightColour colour = LightColour.valueOf(this.colour.toString());
+        if(isUsable()) {
+            this.cost.forEach(element -> cost.add(LightResource.valueOf(element.toString())));
+            this.prodInput.forEach(element -> prodInput.add(LightResource.valueOf(element.toString())));
+            this.prodOutput.forEach(element -> prodOutput.add(LightResource.valueOf(element.toString())));
+
+            return new LightDevelopmentCard(this.id,
+                    colour,
+                    this.level,
+                    this.victoryPoints,
+                    cost,
+                    prodInput,
+                    prodOutput);
+        }
+        else
+            return new LightDevelopmentCard(colour,
+                    this.level);
     }
 
 

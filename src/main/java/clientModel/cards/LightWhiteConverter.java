@@ -1,7 +1,8 @@
 package clientModel.cards;
 
 import clientModel.resources.LightResource;
-import exceptions.UnusableCardException;
+import model.cards.DevelopmentCard;
+
 import java.util.ArrayList;
 
 public class LightWhiteConverter extends LightLeaderCard {
@@ -14,8 +15,9 @@ public class LightWhiteConverter extends LightLeaderCard {
         this.resource = res;
         this.isEnabled = en;
         this.requires = req;
+        super.type = LightLeaderCardType.WHITECONVERTER;
     }
-
+/*
     @Override
     public LightResource whichResource() throws UnusableCardException {
         if(isEnabled())
@@ -32,4 +34,21 @@ public class LightWhiteConverter extends LightLeaderCard {
     public ArrayList<LightDevelopmentCard> getRequiredCards(){
         return this.requires;
     }
+
+ */
+
+    @Override
+    public String toString(){
+        String s = "\nWHITE CONVERTER";
+        s+= "\nID: "+id;
+        s+= "\nRequires: ";
+        for (LightDevelopmentCard d:requires) {
+            s+="\n\t "+d;
+        }
+        s+= "\nConvert: " +resource;
+        s+= "\nVictory Points: "+victoryPoints;
+        s+= "\nIs Enabled: "+ isEnabled;
+        return s;
+    }
+
 }

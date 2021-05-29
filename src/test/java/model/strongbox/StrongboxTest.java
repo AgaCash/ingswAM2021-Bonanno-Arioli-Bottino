@@ -1,14 +1,12 @@
-/*package model.strongbox;
-
+package model.strongbox;
+import clientModel.resources.LightResource;
+import model.resources.Resource;
 import org.junit.jupiter.api.Test;
-import model.resources.*;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class StrongboxTest {
-
+/*
     @Test
     void addResourceTest() {
         Resource res = Resource.SHIELD; // using shield resource, but valid for every resource
@@ -42,5 +40,19 @@ class StrongboxTest {
         assertTrue(sb.isPresent(arrRes));
         arrRes.add(res1);
         assertFalse(sb.isPresent(arrRes));
+    }*/
+
+
+
+    @Test
+    void convert(){
+        ArrayList<Resource> src = new ArrayList<>();
+        src.add(Resource.SHIELD); src.add(Resource.COIN);
+        ArrayList<LightResource> convert = (ArrayList<LightResource>) src.clone();
+        System.out.println(convert);
     }
-}*/
+
+}
+
+
+

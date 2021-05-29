@@ -1,6 +1,7 @@
 package network.messages.gameMessages;
 
 import clientController.LightController;
+import clientModel.cards.LightLeaderCard;
 import com.google.gson.Gson;
 import model.cards.LeaderCard;
 import network.messages.MessageType;
@@ -8,7 +9,7 @@ import network.messages.MessageType;
 import java.util.ArrayList;
 
 public class StartGameResponse extends GameMessage {
-    private ArrayList<LeaderCard> quartet = new ArrayList<>();
+    private ArrayList<LightLeaderCard> quartet = new ArrayList<>();
     private int numResources;
     private boolean faithPoint;
     private boolean success;
@@ -16,7 +17,8 @@ public class StartGameResponse extends GameMessage {
 
     public StartGameResponse(String username, ArrayList<LeaderCard> quartet, int numResources, boolean faithPoint){
         super(username, MessageType.STARTGAMERESPONSE);
-        this.quartet = quartet;
+        for(LeaderCard card : quartet)
+            this.quartet.add(card.convert());
         quartet.forEach(element -> System.out.println(element));
         this.numResources = numResources;
         this.faithPoint = faithPoint;

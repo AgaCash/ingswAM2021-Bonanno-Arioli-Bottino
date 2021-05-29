@@ -18,6 +18,7 @@ public class LightExtraDepot extends LightLeaderCard {
         this.extraDepotResource = extra;
         for(LightResource ptr : extraDepotResource)
             extraWarehouseDepot.put(ptr, 0);
+        super.type = LightLeaderCardType.EXTRADEPOT;
     }
 /*
     @Override
@@ -46,7 +47,7 @@ public class LightExtraDepot extends LightLeaderCard {
         return false;
     }
 
- */
+
 
     @Override
     public boolean isExtraDepot(){
@@ -56,5 +57,21 @@ public class LightExtraDepot extends LightLeaderCard {
     @Override
     public ArrayList<LightResource> getRequiredResources(){
         return this.requiredResource;
+    }*/
+    @Override
+    public String toString(){
+        String s = "\nEXTRA DEPOT";
+        s+= "\nID: "+id;
+        s+= "\nRequires: ";
+        for (LightResource r:requiredResource) {
+            s+="\n\t "+r;
+        }
+        s+="\nExtra model.resources: ";
+        for(LightResource r: extraDepotResource ){
+            s+="\n\t "+r;
+        }
+        s+= "\nVictory Points: "+victoryPoints;
+        s+= "\nIs Enabled: "+ isEnabled;
+        return s;
     }
 }

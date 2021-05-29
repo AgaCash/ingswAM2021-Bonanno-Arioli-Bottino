@@ -1,13 +1,12 @@
 package view;
 
+import clientModel.cards.LightLeaderCard;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import controller.Controller;
 import exceptions.InvalidMessageException;
-import exceptions.NoSuchUsernameException;
-import model.cards.LeaderCard;
-import model.utilities.LeaderCardDeserializer;
+import utilities.LightLeaderCardDeserializer;
 import network.messages.MessageType;
 import network.messages.gameMessages.GameMessage;
 import network.messages.lobbyMessages.LobbyMessage;
@@ -16,8 +15,8 @@ import network.messages.pingMessages.PongGameMessage;
 import network.messages.pingMessages.PongLobbyMessage;
 import network.timer.ServerPingHandler;
 
-import java.net.Socket;
 import java.io.*;
+import java.net.Socket;
 
 public class VirtualClient extends Thread{
     private BufferedReader inStream;
@@ -87,7 +86,7 @@ public class VirtualClient extends Thread{
 
     private void handleGameMessage(String s) throws InvalidMessageException{
         Gson gson = new Gson();
-        gson = new GsonBuilder().registerTypeAdapter(LeaderCard.class, new LeaderCardDeserializer()).create();
+        gson = new GsonBuilder().registerTypeAdapter(LightLeaderCard.class, new LightLeaderCardDeserializer()).create();
         JsonObject jsonObject = gson.fromJson(s, JsonObject.class);
         MessageType messageType = MessageType.valueOf(jsonObject.get("messageType").getAsString());
         //GameMessage msg = (GameMessage) gson.fromJson(s, messageType.getClassType());

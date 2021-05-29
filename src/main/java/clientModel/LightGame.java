@@ -1,6 +1,5 @@
 package clientModel;
 
-import clientModel.cards.LightCardSlots;
 import clientModel.cards.LightDevelopmentCard;
 import clientModel.player.LightPlayer;
 import clientModel.resources.LightResource;
@@ -41,7 +40,7 @@ public class LightGame {
         return player.getNickname();
     }
 
-    public void updateCardSlots(String username, LightCardSlots cardSlots) throws NoSuchUsernameException {
+    public void updateCardSlots(String username, ArrayList<LightDevelopmentCard> cardSlots) throws NoSuchUsernameException {
         LightPlayer player = getPlayer(username);
         player.getPlayerBoard().setCardSlots(cardSlots);
     }
@@ -68,6 +67,9 @@ public class LightGame {
         throw new NoSuchUsernameException();
 
     }
+    public void setPlayer(LightPlayer player){
+        this.player = player;
+    }
     public LightPlayerBoard getPlayerBoard(){
         return player.getPlayerBoard();
     }
@@ -81,12 +83,17 @@ public class LightGame {
     }
 
     public void setPlayers(ArrayList<LightPlayer> players){
+        this.otherPlayers = players;
         for(LightPlayer player : players)
             if(player.getNickname().equals(this.player.getNickname())) {
                 this.player = player;
-                players.remove(player);
             }
-        this.otherPlayers = players;
+        this.otherPlayers.remove(this.player);
+
+    }
+
+    public LightPlayer getPlayer(){
+        return this.player;
     }
 
 

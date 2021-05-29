@@ -1,5 +1,8 @@
 package model.cards;
 
+import clientModel.cards.LightExtraDepot;
+import clientModel.cards.LightLeaderCard;
+import clientModel.resources.LightResource;
 import model.resources.Resource;
 
 import java.util.ArrayList;
@@ -74,5 +77,18 @@ public class ExtraDepot extends LeaderCard{
         s+= "\nVictory Points: "+victoryPoints;
         s+= "\nIs Enabled: "+ isEnabled;
         return s;
+    }
+
+    @Override
+    public LightLeaderCard convert(){
+        ArrayList<LightResource> required = new ArrayList<>();
+        ArrayList<LightResource> extra = new ArrayList<>();
+        this.requiredResource.forEach(element -> required.add(LightResource.valueOf(element.toString())));
+        this.extraDepotResource.forEach(element -> extra.add(LightResource.valueOf(element.toString())));
+
+        return new LightExtraDepot(this.id,
+                this.isEnabled,
+                required,
+                extra);
     }
 }

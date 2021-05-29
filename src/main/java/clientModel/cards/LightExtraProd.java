@@ -1,7 +1,7 @@
 package clientModel.cards;
 
 import clientModel.resources.LightResource;
-import exceptions.UnusableCardException;
+
 import java.util.ArrayList;
 
 public class LightExtraProd extends LightLeaderCard {
@@ -16,9 +16,10 @@ public class LightExtraProd extends LightLeaderCard {
         this.isEnabled=en;
         this.requires=req;
         this.input=input;
+        super.type = LightLeaderCardType.EXTRAPROD;
 
     }
-
+/*
     @Override
     public LightResource getExtraProdInput() throws UnusableCardException {
         if(!isEnabled())
@@ -30,7 +31,7 @@ public class LightExtraProd extends LightLeaderCard {
         this.chosenOutput = chosenOutput;
     }
 
-    /*
+
     @Override
     public ArrayList<LightResource> production(){
         if(isEnabled()) {
@@ -42,7 +43,7 @@ public class LightExtraProd extends LightLeaderCard {
         return null;
     }
 
-     */
+
 
     @Override
     public boolean isExtraProd(){
@@ -52,5 +53,19 @@ public class LightExtraProd extends LightLeaderCard {
     @Override
     public ArrayList<LightDevelopmentCard> getRequiredCards(){
         return this.requires;
+    }
+
+ */
+
+    @Override
+    public String toString(){
+        String s = "\nEXTRA PROD";
+        s+= "\nID: "+id;
+        s+= "\nRequires: ";
+        s+="\n\t Input: "+input;
+        s+="\nProduce: \n\t"+output+" and a chosen resource";
+        s+= "\nVictory Points: "+victoryPoints;
+        s+= "\nIs Enabled: "+ isEnabled;
+        return s;
     }
 }

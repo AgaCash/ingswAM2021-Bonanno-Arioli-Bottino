@@ -1,5 +1,6 @@
 package model.cards;
 
+import clientModel.cards.LightDevelopmentCard;
 import exceptions.FullCardSlotException;
 import exceptions.NonCorrectLevelCardException;
 
@@ -57,6 +58,19 @@ public class CardSlots {
         }
         slots.get(slot).push(card);
     }
+
+    public ArrayList<LightDevelopmentCard> convert(){
+        ArrayList<LightDevelopmentCard> slots = new ArrayList<>();
+        DevelopmentCard card;
+        for(int i=0; i<3; i++){
+                card = getCard(i);
+                if(card!=null)
+                    slots.add(card.convert());
+        }
+        return slots;
+    }
+
+
 
 }
 

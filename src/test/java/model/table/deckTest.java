@@ -2,7 +2,7 @@
 
 import model.cards.DevelopmentCard;
 import model.colour.Colour;
-import model.utilities.JsonParser;
+import utilities.JsonParser;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
