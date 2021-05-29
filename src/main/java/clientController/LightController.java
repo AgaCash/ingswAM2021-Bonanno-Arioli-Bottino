@@ -324,9 +324,17 @@ public class LightController {
     }
 
     public void sendLeaderCardActivationRequest (LightLeaderCard card){
+        Gson gson = new Gson();
         System.out.println("capiamo");
         LeaderCardActivationRequest request = new LeaderCardActivationRequest(getUsername(), card);
         client.send(gson.toJson(request));
+        try {
+            String responseS = client.recv();
+            LeaderCardActivationResponse response = gson.fromJson(responseS, LeaderCardActivationResponse.class);
+            response.executeCommand(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void defaultProduction(ArrayList<Resource> input, Resource output){

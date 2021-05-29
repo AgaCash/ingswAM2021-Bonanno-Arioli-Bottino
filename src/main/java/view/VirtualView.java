@@ -53,14 +53,22 @@ public class VirtualView implements ServerView {
     }
 
     public void updateBuyDevCard(BuyDevCardResponse response){
+        System.out.println("GAME STRINGA USCENTE:::"+gson.toJson(response));
         outStream.println(gson.toJson(response));
     }
     public void updateBuyResources(BuyResourcesResponse response){
+        System.out.println("GAME STRINGA USCENTE:::"+gson.toJson(response));
         outStream.println(gson.toJson(response));
     }
-    public void updateDefaultProduction(DefaultProductionResponse response){outStream.println(gson.toJson(response));}
-    public void updateDevCardProduction(DevCardProductionResponse response){outStream.println(gson.toJson(response));}
-    public void updateLeaderCardActivation(LeaderCardActivationResponse response){ outStream.println(gson.toJson(response));}
+    public void updateDefaultProduction(DefaultProductionResponse response){
+        System.out.println("GAME STRINGA USCENTE:::"+gson.toJson(response));
+        outStream.println(gson.toJson(response));}
+    public void updateDevCardProduction(DevCardProductionResponse response){
+        System.out.println("GAME STRINGA USCENTE:::"+gson.toJson(response));
+        outStream.println(gson.toJson(response));}
+    public void updateLeaderCardActivation(LeaderCardActivationResponse response){
+        System.out.println("GAME STRINGA USCENTE:::"+gson.toJson(response));
+        outStream.println(gson.toJson(response));}
     public void updateStartGame(StartGameResponse response){
         System.out.println("GAME STRINGA USCENTE:::"+gson.toJson(response));
         outStream.println(gson.toJson(response));}

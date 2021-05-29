@@ -28,6 +28,7 @@ public class SetupRequest extends GameMessage{
     }
     @Override
     public void executeCommand(Controller controller, VirtualClient view){
+        System.out.println(this.couple);
         Gson gson = new GsonBuilder().registerTypeAdapter(LeaderCard.class, new LeaderCardDeserializer()).create();
 
         ArrayList<LeaderCard> couple = new ArrayList<>();

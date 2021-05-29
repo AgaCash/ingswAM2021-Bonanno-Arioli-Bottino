@@ -11,12 +11,14 @@ public class LeaderCardActivationResponse extends GameMessage{
         super(username, MessageType.LEADERCARDUPDATE);
         this.success = true;
         this.message = "LeaderCard successfully activated";
+        System.out.println("LeaderCard successfully activated");
     }
 
     public LeaderCardActivationResponse(String username, String message){
         super(username, MessageType.LEADERCARDUPDATE);
         this.message = message;
         this.success = false;
+        System.out.println(message);
     }
 
     @Override

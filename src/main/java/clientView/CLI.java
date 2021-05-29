@@ -1,6 +1,7 @@
 package clientView;
 
 import clientController.LightController;
+import clientModel.cards.LightExtraProd;
 import clientModel.cards.LightLeaderCard;
 import clientModel.resources.LightResource;
 import exceptions.MessageNotSuccededException;
@@ -222,6 +223,7 @@ public class CLI implements View{
             ans = in.nextInt();
         } while(ans!= 1 && ans != 2);
        controller.sendLeaderCardActivationRequest(couple.get(ans-1));
+
     }
 
     @Override
@@ -261,6 +263,7 @@ public class CLI implements View{
 
     @Override
     public void showError(String message) {
+
         System.out.println("ERROR: "+message);
     }
 
