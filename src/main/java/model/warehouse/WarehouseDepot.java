@@ -97,18 +97,13 @@ public class WarehouseDepot {
     }
 
     public LightWarehouseDepot convert(){
-        ArrayList<LightResource> image = new ArrayList<>();
-        ArrayList<Map.Entry<Resource, Integer>> orderedWarehouse = new ArrayList<>(warehouse.entrySet());
-        orderedWarehouse.sort(Map.Entry.comparingByValue());
-        for (Map.Entry<Resource, Integer> entry : orderedWarehouse) {
-            for(int i = 0; i<entry.getValue(); i++)
-                image.add(LightResource.valueOf(entry.getKey().toString()));
-        }
-        LightWarehouseDepot newWarehouse = new LightWarehouseDepot();
-        newWarehouse.setWarehouse(image);
-        return newWarehouse;
+       ArrayList<LightResource> image = new ArrayList<>();
+       status().forEach(e -> image.add(LightResource.valueOf(e.toString())));
+
+        LightWarehouseDepot warehouseDepot = new LightWarehouseDepot();
+        warehouseDepot.setWarehouse(image);
+        return warehouseDepot;
     }
-//todo si riparte da qua
 
 
 

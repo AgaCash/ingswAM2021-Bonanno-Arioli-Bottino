@@ -40,6 +40,7 @@ public class BuyResourcesRequest extends GameMessage{
         //todo aggiornamento faithtrack
         LightWarehouseDepot warehouse = controller.getCurrentPlayer().getPlayerBoard().getWarehouseDepot().convert();
         LightMarketBoard market = controller.getMarketBoard().convert();
+        System.out.println(controller.getThrewResources());
         ArrayList<LightResource> threwResources = new ArrayList<>();
         controller.getThrewResources().forEach(e -> threwResources.add(LightResource.valueOf(e.toString())));
 

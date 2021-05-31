@@ -12,15 +12,16 @@ public enum Marble{
 
 	public Resource convertMarble(Resource convertWhiteMarble){
 		switch(this){
-			case WHITE : {
-				if(convertWhiteMarble != null)
-					return convertWhiteMarble;
-			}
 			case BLUE: return Resource.SHIELD;
 			case GREY: return Resource.STONE;
 			case PURPLE: return Resource.SERVANT;
 			case RED: return Resource.FAITH;
 			case YELLOW: return Resource.COIN;
+			//final reachable case
+			case WHITE : {
+				if(convertWhiteMarble != null)
+					return convertWhiteMarble;
+			}
 		}
 		return null;
 	}

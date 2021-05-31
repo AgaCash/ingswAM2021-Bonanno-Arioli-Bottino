@@ -1,20 +1,21 @@
-/*package model.warehouse;
+package model.warehouse;
 
-import model.cards.ExtraDepot;
-import org.junit.jupiter.api.Test;
+import exceptions.FullWarehouseException;
 import model.resources.Resource;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class WarehouseDepotTest {
     WarehouseDepot w = new WarehouseDepot();
 
     @Test
     void addNewExtraDepot() {
+
         //some initializing
+        /*
         ArrayList<Resource> addedResources = new ArrayList<>();
         ArrayList<Resource> resources = new ArrayList<>();
         resources.add(Resource.SERVANT); resources.add(Resource.SERVANT);
@@ -60,6 +61,7 @@ class WarehouseDepotTest {
         w3.addResource(Resource.SERVANT); addedResources.add(Resource.SERVANT);
         w3.addResource(Resource.SHIELD); addedResources.add(Resource.SHIELD);
         assertTrue(w3.isPresent(addedResources));
+    */
 
 
 
@@ -69,32 +71,96 @@ class WarehouseDepotTest {
     void addResource() {
         ArrayList<Resource> addedResources = new ArrayList<>();
         //test adding 1 resource of the same type
-        w.addResource(Resource.COIN); addedResources.add(Resource.COIN);
+        try {
+            w.addResource(Resource.COIN);
+            addedResources.add(Resource.COIN);
+        }
+        catch(FullWarehouseException e){
+            System.out.println(e.getMessage());
+        }
         assertTrue(w.isPresent(addedResources));
+
         //test adding 3 model.resources of the same type
-        w.addResource(Resource.COIN); addedResources.add(Resource.COIN);
-        w.addResource(Resource.COIN); addedResources.add(Resource.COIN);
+        try {
+            w.addResource(Resource.COIN);
+            addedResources.add(Resource.COIN);
+        }catch(FullWarehouseException e){ System.out.println(e.getMessage()); }
+        try {
+            w.addResource(Resource.COIN);
+            addedResources.add(Resource.COIN);
+        }catch(FullWarehouseException e) {
+            System.out.println(e.getMessage());
+        }
         assertTrue(w.isPresent(addedResources));
+
+
         //test adding 4 model.resources of the same type
-        w.addResource(Resource.COIN); addedResources.add(Resource.COIN);
+        try {
+            addedResources.add(Resource.COIN);
+            w.addResource(Resource.COIN);
+
+        }catch(FullWarehouseException e ) {
+            System.out.println(e.getMessage());
+        }
+        //System.out.println("added: "+ addedResources);
         assertFalse(w.isPresent(addedResources));
         //test adding 2 another model.resources
+
+
         addedResources.remove(Resource.COIN);
-        w.addResource(Resource.SERVANT); addedResources.add(Resource.SERVANT);
-        w.addResource(Resource.SERVANT); addedResources.add(Resource.SERVANT);
+        try {
+            addedResources.add(Resource.SERVANT);
+            w.addResource(Resource.SERVANT);
+        }catch(FullWarehouseException e){
+            System.out.println(e.getMessage());
+        }
+        try {
+            addedResources.add(Resource.SERVANT);
+            w.addResource(Resource.SERVANT);
+
+        }catch(FullWarehouseException e){
+            System.out.println(e.getMessage());
+        }
         assertTrue(w.isPresent(addedResources));
+
         //test adding 1 another resource
-        w.addResource(Resource.SHIELD); addedResources.add(Resource.SHIELD);
+        try {
+            addedResources.add(Resource.SHIELD);
+            w.addResource(Resource.SHIELD);
+        }catch(FullWarehouseException e){
+            System.out.println(e.getMessage());
+        }
         assertTrue(w.isPresent(addedResources));
+
         //now model.warehouse is full... test adding something
-        w.addResource(Resource.SHIELD); addedResources.add(Resource.SHIELD);
+        try {
+            addedResources.add(Resource.SHIELD);
+            w.addResource(Resource.SHIELD);
+        }catch (FullWarehouseException e){
+            System.out.println(e.getMessage());
+            System.out.println("riga 142");
+        }
         assertFalse(w.isPresent(addedResources));
-        w.addResource(Resource.SERVANT); addedResources.add(Resource.SERVANT);
+        try {
+            addedResources.add(Resource.SERVANT);
+            w.addResource(Resource.SERVANT);
+
+        } catch(FullWarehouseException e){
+            System.out.println(e.getMessage());
+            System.out.println("riga 151");
+        }
         assertFalse(w.isPresent(addedResources));
+
+        addedResources.remove(Resource.SHIELD);
+        addedResources.remove(Resource.SERVANT);
+        System.out.println(addedResources);
+
+
     }
 
     @Test
     void removeResource() {
+        /*
         ArrayList<Resource> removedResources = new ArrayList<>();
         //there's only one instance of this
         w.addResource(Resource.SHIELD);
@@ -106,6 +172,8 @@ class WarehouseDepotTest {
         w.addResource(Resource.SERVANT); w.addResource(Resource.SERVANT);
         w.removeResource(Resource.SERVANT); removedResources.add(Resource.SERVANT);
         assertTrue(w.isPresent(removedResources));
+
+         */
     }
 
-}*/
+}

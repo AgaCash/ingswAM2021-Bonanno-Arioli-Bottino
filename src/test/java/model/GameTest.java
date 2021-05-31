@@ -1,5 +1,7 @@
 package model;
 
+import clientModel.table.LightMarketBoard;
+import exceptions.UnusableCardException;
 import model.player.Player;
 import org.junit.jupiter.api.Test;
 
@@ -51,6 +53,33 @@ class GameTest {
 
     @Test
     void buyResources() {
+        Game game = new Game(true);
+        Player player = new Player("teodoro");
+        game.addPlayer(player);
+        game.setOrder();
+
+        LightMarketBoard marketBoard = game.getMarketBoard().convert();
+        System.out.println(marketBoard.toString());
+        try {
+            game.buyResources(true, 1, null);
+        }catch(UnusableCardException e){
+            System.out.println(e.getMessage());
+        }
+        System.out.println(game.getCurrentPlayer().getPlayerBoard().getWarehouseDepot().status());
+        System.out.println(game.getThrewResources());
+
+        marketBoard = game.getMarketBoard().convert();
+        System.out.println(marketBoard.toString());
+        try {
+            game.buyResources(true, 1, null);
+        }catch(UnusableCardException e){
+            System.out.println(e.getMessage());
+        }
+        System.out.println(game.getCurrentPlayer().getPlayerBoard().getWarehouseDepot().status());
+        System.out.println(game.getThrewResources());
+
+
+
     }
 
     @Test
