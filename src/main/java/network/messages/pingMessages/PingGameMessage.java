@@ -12,7 +12,6 @@ public class PingGameMessage extends GameMessage {
 
     @Override
     public void executeCommand(LightController controller) {
-        System.out.println("PING_GAME");
         controller.sendGamePong();
     }
 }

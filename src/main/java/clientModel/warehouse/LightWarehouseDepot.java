@@ -6,9 +6,10 @@ import java.util.ArrayList;
 
 public class LightWarehouseDepot {
 
-    private ArrayList<LightResource> warehouse;
+    private ArrayList<LightResource> warehouse = new ArrayList<>();
 
     public void setWarehouse(ArrayList<LightResource> image){
+        this.warehouse.clear();
         this.warehouse = image;
     }
 
@@ -59,4 +60,11 @@ public class LightWarehouseDepot {
     }
 
      */
+    @Override
+    public String toString(){
+        String s = new String();
+        for(LightResource res: warehouse)
+            s+=res.toString()+" ";
+        return s;
+    }
 }

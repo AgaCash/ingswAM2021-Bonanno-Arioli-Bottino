@@ -4,6 +4,7 @@ import clientController.LightController;
 import clientModel.cards.LightExtraProd;
 import clientModel.cards.LightLeaderCard;
 import clientModel.resources.LightResource;
+import clientModel.table.LightMarketBoard;
 import exceptions.MessageNotSuccededException;
 import model.resources.Resource;
 import network.server.Lobby;
@@ -187,21 +188,25 @@ public class CLI implements View{
     public void askTurn() {
         System.out.println("PARTIAMOOOOOO");
         int ans = 0;
-        do {
-            System.out.println("scegli un azione\n\b" +
-                    "1 per attivare la carta leader\n\b" +
-                    "2 per attivare la produzione\n\b" +
-                    "3 per comprare le risorse\n\b" +
-                    "4 per comprare la carta leader");
-            ans = in.nextInt();
-        }while(ans<1 || ans>4);
-        switch(ans){
-            case 1 -> askLeaderCardActivation();
-            case 2 -> askProduction();
-            case 3 -> askBuyResources();
-            case 4 -> askBuyDevCards();
-        }
+        do{
+            do {
+                System.out.println("scegli un azione\n\b" +
+                        "1 per attivare la carta leader\n\b" +
+                        "2 per attivare la produzione\n\b" +
+                        "3 per comprare le risorse\n\b" +
+                        "4 per comprare la carta leader\n\b" +
+                        "5 per terminare il turno");
+                ans = in.nextInt();
+            } while (ans < 1 || ans > 5);
+            switch (ans) {
+                case 1 : askLeaderCardActivation(); break;
+                case 2 : askProduction(); break;
+                case 3 : askBuyResources(); break;
+                case 4 : askBuyDevCards(); break;
+                case 5 : askEndTurn(); break;
+            }
 
+        }while(ans!=5);
     }
 
     private void askProduction(){
@@ -233,11 +238,40 @@ public class CLI implements View{
 
     @Override
     public void askBuyResources() {
+        LightMarketBoard market = controller.getMarketBoard();
+        System.out.println(market.toString());
+        int choice;
+        do {
+            System.out.println("1 per scegliere la colonna\n 2 per scegliere la riga:");
+            choice = in.nextInt();
+        } while(choice!= 1 && choice != 2);
 
+        boolean line = choice==2;
+        int number;
+        if(line) {
+            do {
+                System.out.println("digitare il numero di riga");
+                number = in.nextInt();
+            }
+            while(number<1 || number>2);
+            controller.sendBuyResourceRequest(line, number-1, null);
+            //todo aggiungere leadercard
+        }
+        else{
+            do {
+                System.out.println("digitare il numero di colonna");
+                number = in.nextInt();
+            }
+            while(number<1 || number>3);
+            controller.sendBuyResourceRequest(line, number-1, null);
+            //todo aggiungere leadercard
+        }
+        System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());
     }
 
     @Override
     public void askBuyDevCards() {
+        System.out.println("da fare ");
 
     }
 
@@ -253,11 +287,18 @@ public class CLI implements View{
 
     @Override
     public void askEndTurn() {
+        System.out.println(" FINE TURNO ");
+        System.out.println(" attendi ...");
 
     }
 
     @Override
-    public void showThrewResources(ArrayList<Resource> threwResources) {
+    public void showThrewResources(ArrayList<LightResource> threwResources) {
+        if(!threwResources.isEmpty()) {
+            System.out.println("le risorse: ");
+            System.out.println(threwResources);
+            System.out.println("non sono state accettate: spazio insufficiente");
+        }
 
     }
 

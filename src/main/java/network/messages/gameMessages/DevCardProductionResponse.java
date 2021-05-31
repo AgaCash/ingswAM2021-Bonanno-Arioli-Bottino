@@ -26,7 +26,7 @@ public class DevCardProductionResponse extends GameMessage{
     @Override
     public void executeCommand(LightController controller){
         if(this.success) {
-            controller.updateWarehouse(getUsername(), newWarehouse);
+           // controller.updateWarehouse(getUsername(), newWarehouse);
             controller.updateStrongbox(getUsername(), newStrongbox);
         }
         else{

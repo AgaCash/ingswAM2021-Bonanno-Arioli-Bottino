@@ -97,15 +97,18 @@ public class WarehouseDepot {
     }
 
     public LightWarehouseDepot convert(){
+        ArrayList<LightResource> image = new ArrayList<>();
+        ArrayList<Map.Entry<Resource, Integer>> orderedWarehouse = new ArrayList<>(warehouse.entrySet());
+        orderedWarehouse.sort(Map.Entry.comparingByValue());
+        for (Map.Entry<Resource, Integer> entry : orderedWarehouse) {
+            for(int i = 0; i<entry.getValue(); i++)
+                image.add(LightResource.valueOf(entry.getKey().toString()));
+        }
         LightWarehouseDepot newWarehouse = new LightWarehouseDepot();
-        ArrayList<Resource> image = status();
-        ArrayList<LightResource> converted = new ArrayList<>();
-
-        image.forEach(element -> converted.add(LightResource.valueOf(element.toString())));
-        newWarehouse.setWarehouse(converted);
+        newWarehouse.setWarehouse(image);
         return newWarehouse;
     }
-
+//todo si riparte da qua
 
 
 
@@ -130,9 +133,4 @@ public class WarehouseDepot {
         return image;
     }
 
-    public ArrayList<Resource> getThrown(){
-        ArrayList<Resource> trash = (ArrayList<Resource>) this.trash.clone();
-        this.trash = new ArrayList<>();
-        return trash;
-    }
 }

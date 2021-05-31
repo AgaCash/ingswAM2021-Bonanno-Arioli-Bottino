@@ -15,11 +15,9 @@ public class StartGameResponse extends GameMessage {
     private boolean success;
     private String message;
 
-    public StartGameResponse(String username, ArrayList<LeaderCard> quartet, int numResources, boolean faithPoint){
+    public StartGameResponse(String username, ArrayList<LightLeaderCard> quartet, int numResources, boolean faithPoint){
         super(username, MessageType.STARTGAMERESPONSE);
-        for(LeaderCard card : quartet)
-            this.quartet.add(card.convert());
-        quartet.forEach(element -> System.out.println(element));
+        this.quartet = quartet;
         this.numResources = numResources;
         this.faithPoint = faithPoint;
         this.success = true;

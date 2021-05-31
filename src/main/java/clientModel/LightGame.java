@@ -77,6 +77,7 @@ public class LightGame {
     public void setMarketBoard(LightMarketBoard market){
         this.table.setMarketBoard(market);
     }
+    public LightMarketBoard getMarketBoard(){ return this.table.getMarketBoard(); }
 
     public void setDevBoard(LightDevelopmentBoard board){
         this.table.setDevelopmentBoard(board);

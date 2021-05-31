@@ -1,23 +1,22 @@
 package network.messages.gameMessages;
 
 import clientController.LightController;
-import model.resources.Resource;
-import model.table.FaithTrack;
-import model.table.MarketBoard;
-import model.warehouse.WarehouseDepot;
+import clientModel.resources.LightResource;
+import clientModel.table.LightMarketBoard;
+import clientModel.warehouse.LightWarehouseDepot;
 import network.messages.MessageType;
 
 import java.util.ArrayList;
 
 public class BuyResourcesResponse extends GameMessage{
-    private WarehouseDepot newWarehouse;
-    private MarketBoard newMarketBoard;
-    private ArrayList<Resource> threwResource;
+    private LightWarehouseDepot newWarehouse;
+    private LightMarketBoard newMarketBoard;
+    private ArrayList<LightResource> threwResource;
     private boolean success;
     private String message;
 
-    public BuyResourcesResponse(String username, WarehouseDepot newWarehouse, MarketBoard newMarketBoard,
-                                ArrayList<Resource> threwResource, ArrayList<FaithTrack> faithTracks){
+    public BuyResourcesResponse(String username, LightWarehouseDepot newWarehouse, LightMarketBoard newMarketBoard,
+                                ArrayList<LightResource> threwResource){
         super(username, MessageType.MARKET);
         this.newWarehouse = newWarehouse;
         this.newMarketBoard = newMarketBoard;

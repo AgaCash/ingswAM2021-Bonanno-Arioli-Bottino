@@ -60,13 +60,11 @@ public class LightController {
     }
 
     public void sendGamePong(){
-        System.out.println("SEND PONG GAME");
         PongGameMessage pongMessage = new PongGameMessage(username);
         client.send(gson.toJson(pongMessage));
     }
 
     public void sendLobbyPong(){
-        System.out.println("SEND PONG LOBBY");
         PongLobbyMessage pongLobbyMessage = new PongLobbyMessage(username);
         client.send(gson.toJson(pongLobbyMessage));
     }
@@ -315,6 +313,13 @@ public class LightController {
         WhiteConverter card = gson.fromJson(s, WhiteConverter.class);
         BuyResourcesRequest request = new BuyResourcesRequest(game.getUsername(), line, num, card);
         client.send(gson.toJson(request));
+        try {
+            String responseS = client.recv();
+            BuyResourcesResponse response = gson.fromJson(responseS, BuyResourcesResponse.class);
+            response.executeCommand(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void sendBuyDevCardRequest (int deck, int slot, Discount card){
@@ -363,7 +368,7 @@ public class LightController {
 
     }
 
-    public void updateWarehouse(String username, WarehouseDepot warehouseDepot){
+    public void updateWarehouse(String username, LightWarehouseDepot warehouseDepot){
         Gson gson = new Gson();
         String s = gson.toJson(warehouseDepot);
         LightWarehouseDepot newWarehouse = gson.fromJson(s, LightWarehouseDepot.class);
@@ -374,14 +379,14 @@ public class LightController {
         }
     }
 
-    public void updateMarketBoard(MarketBoard market){
+    public void updateMarketBoard(LightMarketBoard market){
         Gson gson = new Gson();
         String s = gson.toJson(market);
         LightMarketBoard newMarket = gson.fromJson(s, LightMarketBoard.class);
         game.updateMarketBoard(newMarket);
     }
 
-    public void showThrewResources(String username, ArrayList<Resource> threwResources){
+    public void showThrewResources(String username, ArrayList<LightResource> threwResources){
         if(game.getUsername().equals(username))
             view.showThrewResources(threwResources);
     }
@@ -434,6 +439,7 @@ public class LightController {
     public void setMarketBoard(LightMarketBoard market){
         this.game.setMarketBoard(market);
     }
+    public LightMarketBoard getMarketBoard(){ return this.game.getMarketBoard(); }
 
     public void setDevBoard(LightDevelopmentBoard board){
         this.game.setDevBoard(board);

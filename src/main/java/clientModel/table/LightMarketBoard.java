@@ -44,5 +44,17 @@ public class LightMarketBoard {
         mar = marbleGrid.get(whichOneLine).get(whichOneCol);
         return mar;
     }
+    @Override
+    public String toString(){
+        String s = new String();
+        for(int i=0; i<3; i++){
+            for(int j =0; j<4; j++){
+                s+=" | "+marbleGrid.get(i).get(j)+" | ";
+            }
+            s+=" \n";
+        }
+        s+=freeMarble+" \n";
+        return s;
+    }
 
 }

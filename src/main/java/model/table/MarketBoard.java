@@ -67,7 +67,13 @@ public class MarketBoard {
      * @return arraylist of requested model.resources
      */
     public ArrayList<Resource> addMarketLine (int line, WhiteConverter card) throws UnusableCardException {
-        Resource convertResource = card.whichResource();
+        Resource convertResource;
+        try {
+            convertResource = card.whichResource();
+        }catch(NullPointerException e){
+            convertResource = null;
+        }
+
         ArrayList<Resource> resLine = new ArrayList<>(4);
         Marble toConvert;
 
@@ -89,7 +95,12 @@ public class MarketBoard {
      * @return arraylist of requested model.resources
      */
     public ArrayList<Resource> addMarketColumn (int col, WhiteConverter card) throws UnusableCardException {
-        Resource convertResource = card.whichResource();
+        Resource convertResource;
+        try {
+             convertResource = card.whichResource();
+        }catch(NullPointerException e){
+            convertResource = null;
+        }
         ArrayList<Resource> resColumn = new ArrayList<>(3);
         Marble toConvert;
         for(int i = 0; i<3; i++){

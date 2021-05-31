@@ -1,6 +1,7 @@
 package clientView;
 
 import clientModel.cards.LightLeaderCard;
+import clientModel.resources.LightResource;
 import model.resources.Resource;
 import network.server.Lobby;
 
@@ -50,7 +51,7 @@ public interface View {
     void askStartItems(ArrayList<LightLeaderCard> quartet, int numResources, boolean faithPoints);
     //todo: i metodi show dovrebbero interrompere un metodo in corso? come?
     //todo farlo alla C style? è un po`arrogante come sistema eh
-    void showThrewResources(ArrayList<Resource> threwResources);
+    void showThrewResources(ArrayList<LightResource> threwResources);
     void showError(String message);
     void showSuccess(String message);
 }
