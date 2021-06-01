@@ -1,12 +1,10 @@
 package clientView;
 
 import clientController.LightController;
-import clientModel.cards.LightExtraProd;
 import clientModel.cards.LightLeaderCard;
 import clientModel.resources.LightResource;
 import clientModel.table.LightMarketBoard;
 import exceptions.MessageNotSuccededException;
-import model.resources.Resource;
 import network.server.Lobby;
 
 import java.io.IOException;
@@ -260,13 +258,17 @@ public class CLI implements View{
         } while(choice!= 1 && choice != 2);
 
         boolean line = choice==2;
+        if(line)
+            System.out.println("u choosed line ");
+        else
+            System.out.println("u choosed column");
         int number;
         if(line) {
             do {
                 System.out.println("digitare il numero di riga");
                 number = in.nextInt();
             }
-            while(number<1 || number>2);
+            while(number<1 || number>3);
             controller.sendBuyResourceRequest(line, number-1, null);
             //todo aggiungere leadercard
         }
@@ -275,7 +277,7 @@ public class CLI implements View{
                 System.out.println("digitare il numero di colonna");
                 number = in.nextInt();
             }
-            while(number<1 || number>3);
+            while(number<1 || number>4);
             controller.sendBuyResourceRequest(line, number-1, null);
             //todo aggiungere leadercard
         }

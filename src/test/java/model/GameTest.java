@@ -66,7 +66,7 @@ class GameTest {
             System.out.println(e.getMessage());
         }
         System.out.println(game.getCurrentPlayer().getPlayerBoard().getWarehouseDepot().status());
-        System.out.println(game.getThrewResources());
+        System.out.println(game.getCurrentPlayer().getPlayerBoard().getWarehouseDepot().getThrewResources());
 
         marketBoard = game.getMarketBoard().convert();
         System.out.println(marketBoard.toString());
@@ -76,7 +76,7 @@ class GameTest {
             System.out.println(e.getMessage());
         }
         System.out.println(game.getCurrentPlayer().getPlayerBoard().getWarehouseDepot().status());
-        System.out.println(game.getThrewResources());
+        System.out.println(game.getCurrentPlayer().getPlayerBoard().getWarehouseDepot().getThrewResources());
 
 
 

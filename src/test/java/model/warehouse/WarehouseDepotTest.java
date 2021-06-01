@@ -101,6 +101,7 @@ class WarehouseDepotTest {
 
         }catch(FullWarehouseException e ) {
             System.out.println(e.getMessage());
+            System.out.println("riga 104");
         }
         //System.out.println("added: "+ addedResources);
         assertFalse(w.isPresent(addedResources));
@@ -154,6 +155,7 @@ class WarehouseDepotTest {
         addedResources.remove(Resource.SHIELD);
         addedResources.remove(Resource.SERVANT);
         System.out.println(addedResources);
+        System.out.println(w.status());
 
 
     }

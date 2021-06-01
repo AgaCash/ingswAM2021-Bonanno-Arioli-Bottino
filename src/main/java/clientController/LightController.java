@@ -24,9 +24,6 @@ import model.cards.WhiteConverter;
 import model.resources.Resource;
 import model.strongbox.Strongbox;
 import model.table.DevelopmentBoard;
-import model.table.MarketBoard;
-import utilities.LightLeaderCardDeserializer;
-import model.warehouse.WarehouseDepot;
 import network.client.Client;
 import network.messages.MessageType;
 import network.messages.gameMessages.*;
@@ -34,6 +31,7 @@ import network.messages.lobbyMessages.*;
 import network.messages.pingMessages.PongGameMessage;
 import network.messages.pingMessages.PongLobbyMessage;
 import network.server.Lobby;
+import utilities.LightLeaderCardDeserializer;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -310,23 +308,6 @@ public class LightController {
         }
     }
 
-    public void throwLeaderCard(){}
-
-
-    public void buyResources(boolean line, int num){
-        sendBuyResourceRequest(line, num, null);
-        //todo aggiungere leadercards
-    }
-
-    public void buyDevCards(int deckNum, int slotNum){
-        sendBuyDevCardRequest(deckNum, slotNum, null);
-        //todo leadercards
-    }
-
-    public void devCardProduction(int slotNum){
-        sendDevCardProductionRequest(slotNum, null, null);
-        //todo leadercards
-    }
     public void sendDefaultProductionRequest (ArrayList<Resource> input, Resource output, ExtraProd card, Resource chosenOutput){
         Gson gson = new Gson();
         DefaultProductionRequest request = new DefaultProductionRequest(game.getUsername(), input, output, card, chosenOutput);

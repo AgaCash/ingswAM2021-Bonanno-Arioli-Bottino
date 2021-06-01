@@ -83,11 +83,13 @@ public class MarketBoard {
                 resLine.add(toConvert.convertMarble(convertResource));
         }
         System.out.println("resLine: "+resLine);
-        freeMarble = marbleGrid.get(line).get(3);
+        Marble tmp = freeMarble;
+        freeMarble = marbleGrid.get(line).get(0);
+
         int i;
         for(i =3 ; i>0; i--)
             marbleGrid.get(line).set(i, marbleGrid.get(line).get(i-1));
-        marbleGrid.get(line).set(i, freeMarble);
+        marbleGrid.get(line).set(3, tmp);
         System.out.println("new grid:  "+marbleGrid);
         return resLine;
     }
@@ -107,13 +109,19 @@ public class MarketBoard {
         ArrayList<Resource> resColumn = new ArrayList<>(3);
         Marble toConvert;
         for(int i = 0; i<3; i++){
-            toConvert = marbleGrid.get(col).get(i);
+            toConvert = marbleGrid.get(i).get(col);
             if(toConvert.convertMarble(convertResource)!=null)
                 resColumn.add(toConvert.convertMarble(convertResource));
         }
-        freeMarble = marbleGrid.get(2).get(col);
-        marbleGrid.get(1).set(col, marbleGrid.get(0).get(col));
-        marbleGrid.get(0).set(col, freeMarble);
+        Marble tmp = freeMarble;
+        freeMarble = marbleGrid.get(0).get(col);
+
+        //marbleGrid.get(1).set(col, marbleGrid.get(0).get(col));
+        //marbleGrid.get(0).set(col, tmp);
+        int i;
+        for(i =1 ; i<=2; i++)
+          marbleGrid.get(i-1).set(col, marbleGrid.get(i).get(col));
+        marbleGrid.get(2).set(col, tmp);
         return resColumn;
     }
 

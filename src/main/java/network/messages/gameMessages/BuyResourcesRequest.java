@@ -1,6 +1,5 @@
 package network.messages.gameMessages;
 
-import clientModel.resources.LightResource;
 import clientModel.table.LightMarketBoard;
 import clientModel.warehouse.LightWarehouseDepot;
 import controller.Controller;
@@ -8,8 +7,6 @@ import exceptions.UnusableCardException;
 import model.cards.WhiteConverter;
 import network.messages.MessageType;
 import view.VirtualClient;
-
-import java.util.ArrayList;
 
 public class BuyResourcesRequest extends GameMessage{
     private boolean line;
@@ -25,10 +22,8 @@ public class BuyResourcesRequest extends GameMessage{
 
     @Override
     public void executeCommand(Controller controller, VirtualClient client){
-
         try {
             controller.buyResources(line, num, card);
-            controller.getThrewResources();
             update(controller);
         }catch(UnusableCardException e){
             BuyResourcesResponse notify =  new BuyResourcesResponse(this.getUsername(), e.getMessage());
@@ -40,14 +35,11 @@ public class BuyResourcesRequest extends GameMessage{
         //todo aggiornamento faithtrack
         LightWarehouseDepot warehouse = controller.getCurrentPlayer().getPlayerBoard().getWarehouseDepot().convert();
         LightMarketBoard market = controller.getMarketBoard().convert();
-        System.out.println(controller.getThrewResources());
-        ArrayList<LightResource> threwResources = new ArrayList<>();
-        controller.getThrewResources().forEach(e -> threwResources.add(LightResource.valueOf(e.toString())));
 
         BuyResourcesResponse response = new BuyResourcesResponse(getUsername(),
                                                                 warehouse,
                                                                 market,
-                                                                threwResources);
+                                                                controller.getThrewResources());
         controller.getViews().forEach((element)-> { element.getVirtualView().updateBuyResources(response);});
     }
 

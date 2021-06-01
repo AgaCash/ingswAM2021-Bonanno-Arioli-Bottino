@@ -20,7 +20,18 @@ class MarketBoardTest {
         LightMarketBoard image = market.convert();
 
         System.out.println(image.toString());
-        ArrayList<Resource> bought;
+        ArrayList<Resource> bought = null;
+        try {
+            bought = market.addMarketLine(0, null);
+            System.out.println(bought);
+
+        }catch(UnusableCardException e){
+            System.out.println(e.getMessage());
+        }
+
+        image = market.convert();
+        System.out.println(image.toString());
+
         try {
             bought = market.addMarketLine(0, null);
             System.out.println(bought);

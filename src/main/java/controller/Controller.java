@@ -1,6 +1,7 @@
 package controller;
 
 import clientModel.player.LightPlayer;
+import clientModel.resources.LightResource;
 import exceptions.*;
 import model.Game;
 import model.cards.Discount;
@@ -148,8 +149,8 @@ public class Controller {
         game.buyResources(line, num, card);
 
     }
-    public ArrayList<Resource> getThrewResources(){
-        return game.getThrewResources();
+    public ArrayList<LightResource> getThrewResources(){
+        return game.getCurrentPlayer().getPlayerBoard().getWarehouseDepot().getThrewResources();
     }
     public void devCardProduction(int slot, Resource chosenOutput, ExtraProd card) throws InsufficientResourcesException,
             UnusableCardException {

@@ -19,7 +19,6 @@ public class Game {
     private Lorenzo cpu;
     public ArrayList<Token> tokens ;
     private boolean singlePlayer;
-    private ArrayList<Resource> threwResources = new ArrayList<>();
     //Lorenzo cpu = new Lorenzo();  will be ok when DevBoard will adopt singleton pattern
 
     //COSTRUTTORE
@@ -172,7 +171,6 @@ public class Game {
                 try{
                     currentPlayer.getPlayerBoard().getWarehouseDepot().addResource(res);
                     } catch(FullWarehouseException e){
-                        threwResources.add(res);
                         //todo: aggiungere punti fede agli altri
                     }
 
@@ -180,17 +178,6 @@ public class Game {
             }
 
     }
-
-    public ArrayList<Resource> getThrewResources(){
-        ArrayList<Resource> cloned = (ArrayList<Resource>) threwResources.clone();
-        for(Resource res: threwResources)
-            for(Player player: players)
-                if(player!=currentPlayer)
-                    player.getPlayerBoard().getFaithTrack().faithAdvance(player.getPlayerBoard().getFaithBox(), player.getPlayerBoard().getFaithTrack());
-        threwResources.clear();
-        return cloned;
-    }
-
 
     //--------------------PRODUCTION--------------------
     /*devCadProduction: activates production of the last card popped from @slot

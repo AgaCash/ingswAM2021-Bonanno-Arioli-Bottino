@@ -16,7 +16,7 @@ public class WarehouseDepot {
     private TreeMap<Resource, Integer> warehouse = new TreeMap<>();
     private ArrayList<ExtraDepot> cards = new ArrayList<>();
     //just 4 tests
-    private ArrayList<Resource> trash = new ArrayList<>();
+    private ArrayList<Resource> threwResources = new ArrayList<>();
 
 
     public void addNewExtraDepot(ExtraDepot card) throws UnusableCardException {
@@ -31,22 +31,33 @@ public class WarehouseDepot {
         for (ExtraDepot card : cards) {
             if (card.addResource(tmp)) {
                 added = true;
+                System.out.println("riga 34");
                 break;
             }
         }
-        if (!added){
+        if (!added) {
             if (warehouse.containsKey(tmp)) {
                 int level = warehouse.get(tmp);
                 if ((level == 2 && !warehouse.containsValue(3))
-                    || (level == 1 &&
-                        (!warehouse.containsValue(2) || !warehouse.containsValue(3))))
+                        || (level == 1 &&
+                        (!warehouse.containsValue(2) || !warehouse.containsValue(3)))) {
                     warehouse.put(tmp, level + 1);
-                else
-                    throw new FullWarehouseException("Resource"+tmp+"can't be added to Warehouse");
-            } else if (warehouse.containsValue(1) && warehouse.containsValue(2) && warehouse.containsValue(3))
-                throw new FullWarehouseException("Resource"+tmp+"can't be added to Warehouse");
-            else
+                    System.out.println(tmp + "riga 44");
+                } else {
+                    threwResources.add(tmp);
+                    System.out.println(tmp + "riga 48");
+                    System.out.println("Resource" + tmp + "can't be added to Warehouse");
+                    throw new FullWarehouseException("Resource" + tmp + "can't be added to Warehouse");
+                }
+            } else if (warehouse.size() < 3) {
                 warehouse.put(tmp, 1);
+            } else {
+                threwResources.add(tmp);
+                System.out.println(tmp + "riga 54");
+                System.out.println("Resource" + tmp + "can't be added to Warehouse");
+                throw new FullWarehouseException("Resource" + tmp + "can't be added to Warehouse");
+            }
+
         }
     }
 
@@ -105,6 +116,21 @@ public class WarehouseDepot {
         return warehouseDepot;
     }
 
+    public ArrayList<LightResource> getThrewResources(){
+        ArrayList<LightResource> cloned = new ArrayList<>();
+        System.out.println(this.threwResources+ "threwRes riga 116");
+        this.threwResources.forEach(e-> cloned.add(LightResource.valueOf(e.toString())));
+        /*for(Resource res: threwResources)
+            for(Player player: players)
+                if(player!=currentPlayer)
+                    player.getPlayerBoard().getFaithTrack().faithAdvance(player.getPlayerBoard().getFaithBox(), player.getPlayerBoard().getFaithTrack());
+
+             */
+        System.out.println(cloned+ "riga 123");
+        threwResources.clear();
+        return cloned;
+    }
+
 
 
 
@@ -121,6 +147,7 @@ public class WarehouseDepot {
         ArrayList<Resource> image = new ArrayList<>();
         ArrayList<Map.Entry<Resource, Integer>> orderedWarehouse = new ArrayList<>(warehouse.entrySet());
         orderedWarehouse.sort(Map.Entry.comparingByValue());
+        System.out.println(orderedWarehouse);
         for (Map.Entry<Resource, Integer> entry : orderedWarehouse) {
             for(int i = 0; i<entry.getValue(); i++)
                 image.add(entry.getKey());
