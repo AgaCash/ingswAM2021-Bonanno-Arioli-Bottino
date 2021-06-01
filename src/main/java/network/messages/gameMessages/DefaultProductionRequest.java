@@ -1,23 +1,23 @@
 package network.messages.gameMessages;
 
+import clientModel.cards.LightExtraProd;
+import clientModel.resources.LightResource;
 import com.google.gson.Gson;
 import controller.Controller;
 import exceptions.InsufficientResourcesException;
 import exceptions.UnusableCardException;
-import model.cards.ExtraProd;
-import model.resources.Resource;
 import network.messages.MessageType;
-import view.*;
+import view.VirtualClient;
 
 import java.util.ArrayList;
 
 public class DefaultProductionRequest extends GameMessage{
-    private ArrayList<Resource> input;
-    private Resource output;
-    private ExtraProd card;
-    private Resource chosenOutput;
+    private ArrayList<LightResource> input;
+    private LightResource output;
+    private LightExtraProd card;
+    private LightResource chosenOutput;
 
-    public DefaultProductionRequest(String username, ArrayList<Resource> input, Resource output, ExtraProd card, Resource chosenOutput){
+    public DefaultProductionRequest(String username, ArrayList<LightResource> input, LightResource output, LightExtraProd card, LightResource chosenOutput){
         super(username, MessageType.PRODUCTION);
         this.input = input;
         this.output = output;
@@ -30,6 +30,7 @@ public class DefaultProductionRequest extends GameMessage{
     public void executeCommand(Controller controller, VirtualClient client){
         Gson gson = new Gson();
         try{
+            System.out.println("defaultProdRequest riga 33");
             controller.defaultProduction(input, output, card, chosenOutput);
             update(controller);
         } catch (InsufficientResourcesException | UnusableCardException e) {
@@ -40,8 +41,8 @@ public class DefaultProductionRequest extends GameMessage{
 
     private void update(Controller controller){
         DefaultProductionResponse response = new DefaultProductionResponse(getUsername(),
-                                                                            controller.getCurrentPlayer().getPlayerBoard().getWarehouseDepot(),
-                                                                            controller.getCurrentPlayer().getPlayerBoard().getStrongbox());
+                                                                            controller.getCurrentPlayer().getPlayerBoard().getWarehouseDepot().convert(),
+                                                                            controller.getCurrentPlayer().getPlayerBoard().getStrongbox().convert());
         controller.getViews().forEach((element)-> {element.getVirtualView().updateDefaultProduction(response);});
     }
 }

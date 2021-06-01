@@ -38,9 +38,42 @@ public class WarehouseDepot {
         if (!added) {
             if (warehouse.containsKey(tmp)) {
                 int level = warehouse.get(tmp);
+                /*if (warehouse.size() < 3) {
+                    if (level != 3) {
+                        warehouse.put(tmp, level + 1);
+                        System.out.println("tmp" + level + 1);
+                    }
+                    else {
+                        threwResources.add(tmp);
+                        System.out.println("Resource" + tmp + "can't be added to Warehouse: full level");
+                        throw new FullWarehouseException("Resource" + tmp + "can't be added to Warehouse: full level");
+                    }
+                } else if (warehouse.size() == 3) {*/
+                if ((level == 1 && (!warehouse.containsValue(2) || !warehouse.containsValue(3)))
+                        || level == 2 && (!warehouse.containsValue(3)))
+                        warehouse.put(tmp, level + 1);
+                else {
+                    threwResources.add(tmp);
+                    System.out.println("Resource" + tmp + "can't be added to Warehouse: full level");
+                    throw new FullWarehouseException("Resource" + tmp + "can't be added to Warehouse: full level");
+                }
+            }
+            else{
+                if(warehouse.size()<3)
+                    warehouse.put(tmp, 1);
+                else if(warehouse.size() == 3){
+                    threwResources.add(tmp);
+                    System.out.println("Resource" + tmp + "can't be added to Warehouse: full warehouse");
+                    throw new FullWarehouseException("Resource" + tmp + "can't be added to Warehouse: full warehouse");
+                }
+
+            }
+        }
+                /*
                 if ((level == 2 && !warehouse.containsValue(3))
                         || (level == 1 &&
-                        (!warehouse.containsValue(2) || !warehouse.containsValue(3)))) {
+                        (!warehouse.containsValue(2) || !warehouse.containsValue(3))
+                        || (level ==2 && !warehouse.containsValue(1)))) {
                     warehouse.put(tmp, level + 1);
                     System.out.println(tmp + "riga 44");
                 } else {
@@ -51,6 +84,7 @@ public class WarehouseDepot {
                 }
             } else if (warehouse.size() < 3) {
                 warehouse.put(tmp, 1);
+
             } else {
                 threwResources.add(tmp);
                 System.out.println(tmp + "riga 54");
@@ -58,7 +92,7 @@ public class WarehouseDepot {
                 throw new FullWarehouseException("Resource" + tmp + "can't be added to Warehouse");
             }
 
-        }
+                 */
     }
 
     public Resource removeResource(Resource tmp) throws ResourceNotFoundException {

@@ -2,6 +2,7 @@ package clientController;
 
 import clientModel.LightGame;
 import clientModel.cards.LightDevelopmentCard;
+import clientModel.cards.LightExtraProd;
 import clientModel.cards.LightLeaderCard;
 import clientModel.cards.LightWhiteConverter;
 import clientModel.player.LightPlayer;
@@ -21,7 +22,6 @@ import model.cards.Discount;
 import model.cards.ExtraProd;
 import model.cards.WhiteConverter;
 import model.resources.Resource;
-import model.strongbox.Strongbox;
 import network.client.Client;
 import network.messages.MessageType;
 import network.messages.gameMessages.*;
@@ -306,10 +306,17 @@ public class LightController {
         }
     }
 
-    public void sendDefaultProductionRequest (ArrayList<Resource> input, Resource output, ExtraProd card, Resource chosenOutput){
+    public void sendDefaultProductionRequest (ArrayList<LightResource> input, LightResource output, LightExtraProd card, LightResource chosenOutput){
         Gson gson = new Gson();
         DefaultProductionRequest request = new DefaultProductionRequest(game.getUsername(), input, output, card, chosenOutput);
         client.send(gson.toJson(request));
+        try {
+            String responseS = client.recv();
+            DefaultProductionResponse response = gson.fromJson(responseS, DefaultProductionResponse.class);
+            response.executeCommand(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -369,11 +376,6 @@ public class LightController {
         }
     }
 
-    public void defaultProduction(ArrayList<Resource> input, Resource output){
-        sendDefaultProductionRequest(input, output, null, null);
-        //todo leadercards
-    }
-
     public void updateCardSlots(String username, ArrayList<LightDevelopmentCard> cardSlots){
         Gson gson = new Gson();
         //todo assolutamente
@@ -421,12 +423,9 @@ public class LightController {
     }
 
 
-    public void updateStrongbox(String username, Strongbox strongbox){
-        Gson gson = new Gson();
-        String s = gson.toJson(strongbox);
-        LightStrongbox newStrongbox = gson.fromJson(s, LightStrongbox.class);
+    public void updateStrongbox(String username, LightStrongbox strongbox){
         try {
-            game.updateStrongbox(username, newStrongbox);
+            game.updateStrongbox(username, strongbox);
         } catch(NoSuchUsernameException e){
             view.showError(e.getMessage());
         }

@@ -349,28 +349,49 @@ public class CLI implements View{
 
     @Override
     public void askDefaultProduction() {
-       /* System.out.println(controller.getPlayerBoard().getStrongbox().toString());
+       System.out.println(controller.getPlayerBoard().getStrongbox().toString());
         System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());
         int first =0;
         int second = 0;
-        do{
-            System.out.println("scegli le due risorse in input");
+        System.out.println("scegli le due risorse in input");
+        do {
             System.out.println("choose resource " +
-                        "1 for COIN\n2 for SERVANT\n3 for SHIELD\n4 for STONE");
-                res = in.nextInt();
-            while(res<1 || res>4);
-            switch (res) {
-                case 1 -> choice = LightResource.COIN;
-                case 2 -> choice = LightResource.SERVANT;
-                case 3 -> choice = LightResource.SHIELD;
-                case 4 -> choice = LightResource.STONE;
-            }
-
+                    "1 for COIN\n2 for SERVANT\n3 for SHIELD\n4 for STONE");
+            first = in.nextInt();
+        }while(first<1 || first>4);
+        do {
+            System.out.println("choose resource " +
+                    "1 for COIN\n2 for SERVANT\n3 for SHIELD\n4 for STONE");
+            second = in.nextInt();
+        }while(second<1 || second>4);
+        System.out.println("scegli la risorsa in output");
+        int outRes= 0;
+        do {
+            System.out.println("choose resource " +
+                    "1 for COIN\n2 for SERVANT\n3 for SHIELD\n4 for STONE");
+            outRes = in.nextInt();
+        }while(outRes<1 || outRes>4);
+        ArrayList<LightResource> choice = new ArrayList<>();
+        switch (first) {
+            case 1 -> choice.add(LightResource.COIN);
+            case 2 -> choice.add(LightResource.SERVANT);
+            case 3 -> choice.add(LightResource.SHIELD);
+            case 4 -> choice.add(LightResource.STONE);
         }
-
-        */
-
-
+        switch (second) {
+            case 1 -> choice.add(LightResource.COIN);
+            case 2 -> choice.add(LightResource.SERVANT);
+            case 3 -> choice.add(LightResource.SHIELD);
+            case 4 -> choice.add(LightResource.STONE);
+        }
+        LightResource output = null;
+        switch (outRes) {
+            case 1 -> output = LightResource.COIN;
+            case 2 -> output = LightResource.SERVANT;
+            case 3 -> output = LightResource.SHIELD;
+            case 4 -> output = LightResource.STONE;
+        }
+        controller.sendDefaultProductionRequest(choice, output, null, null);
 
     }
 
@@ -393,7 +414,6 @@ public class CLI implements View{
 
     @Override
     public void showError(String message) {
-
         System.out.println("ERROR: "+message);
     }
 

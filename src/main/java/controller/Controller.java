@@ -1,5 +1,6 @@
 package controller;
 
+import clientModel.cards.LightExtraProd;
 import clientModel.player.LightPlayer;
 import clientModel.resources.LightResource;
 import exceptions.*;
@@ -156,9 +157,13 @@ public class Controller {
             UnusableCardException {
         game.devCardProduction(slot, chosenOutput, card);
     }
-    public void defaultProduction(ArrayList<Resource> input, Resource output, LeaderCard card, Resource chosenOutput) throws InsufficientResourcesException,
+    public void defaultProduction(ArrayList<LightResource> input, LightResource output, LightExtraProd card, LightResource chosenOutput) throws InsufficientResourcesException,
             UnusableCardException {
-        game.defaultProduction(input, output, card, chosenOutput);
+        ArrayList<Resource> newInput = new ArrayList<>();
+        input.forEach(e -> newInput.add(Resource.valueOf(e.toString())));
+        Resource newOutput = Resource.valueOf(output.toString());
+        //todo da sistemare (leaderCard)
+        game.defaultProduction(newInput, newOutput, null, null);
     }
     public void activateLeaderCard(LeaderCard card) throws InsufficientRequirementsException,
             InsufficientResourcesException {

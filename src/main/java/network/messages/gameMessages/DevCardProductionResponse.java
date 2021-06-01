@@ -1,17 +1,17 @@
 package network.messages.gameMessages;
 
 import clientController.LightController;
-import model.strongbox.Strongbox;
-import model.warehouse.WarehouseDepot;
+import clientModel.strongbox.LightStrongbox;
+import clientModel.warehouse.LightWarehouseDepot;
 import network.messages.MessageType;
 
 public class DevCardProductionResponse extends GameMessage{
-    private WarehouseDepot newWarehouse;
-    private Strongbox newStrongbox;
+    private LightWarehouseDepot newWarehouse;
+    private LightStrongbox newStrongbox;
     private String message;
     private boolean success;
 
-    public DevCardProductionResponse(String username, WarehouseDepot newWarehouse, Strongbox newStrongbox) {
+    public DevCardProductionResponse(String username, LightWarehouseDepot newWarehouse, LightStrongbox newStrongbox) {
         super(username, MessageType.PRODUCTIONUPDATE);
         this.newWarehouse = newWarehouse;
         this.newStrongbox = newStrongbox;
@@ -26,7 +26,7 @@ public class DevCardProductionResponse extends GameMessage{
     @Override
     public void executeCommand(LightController controller){
         if(this.success) {
-           // controller.updateWarehouse(getUsername(), newWarehouse);
+            controller.updateWarehouse(getUsername(), newWarehouse);
             controller.updateStrongbox(getUsername(), newStrongbox);
         }
         else{
