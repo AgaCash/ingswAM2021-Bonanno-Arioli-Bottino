@@ -45,6 +45,10 @@ public class LightDevelopmentCard {
         return this.cost;
     }
 
+    private boolean isUsable(){
+        return this.cost != null || this.prodInput != null || this.prodOutput != null;
+    }
+
 
     /*public boolean checkCard (ArrayList<LightResource> required){
         boolean check;
@@ -54,4 +58,28 @@ public class LightDevelopmentCard {
         return check;
     }
     */
+
+    @Override
+    public String toString(){
+        StringBuilder s = new StringBuilder();
+        s.append("\nColour: ").append(colour);
+        s.append("\nLevel: ").append(level);
+        if(isUsable()){
+            s.append("\nID: ").append(id);
+            s.append("\nVictory Points: ").append(victoryPoints);
+            s.append("\nCost: ");
+            for (LightResource resource : cost) {
+                s.append("\n\t").append(resource);
+            }
+            s.append("\nProdInput: ");
+            for (LightResource resource : prodInput) {
+                s.append("\n\t").append(resource);
+            }
+            s.append("\nProdOutput: ");
+            for (LightResource resource : prodOutput) {
+                s.append("\n\t").append(resource);
+            }
+        }
+        return s.toString();
+    }
 }

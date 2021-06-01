@@ -140,11 +140,15 @@ public class Game {
 
     //--------------------BUY DEV CARDS--------------------
     public void buyDevCard(int numDeck, int slotPosition, Discount card) throws FullCardSlotException, NonCorrectLevelCardException, InsufficientResourcesException, UnusableCardException, EmptyDeckException {
-        Resource discount = null;
+        Resource discount;
         Deck deck = table.getDevBoard().getDeck(numDeck);
         ArrayList<Resource> cost = deck.getCost();
-        discount = card.whichDiscount();
-        cost.remove(discount);
+        try {
+            discount = card.whichDiscount();
+            cost.remove(discount);
+        }catch(NullPointerException e){
+            ;//todo rivedere
+        }
         if(checkResources(cost, true)){
             currentPlayer.getPlayerBoard().getCardSlots().addCard(slotPosition, deck.popCard());
         }
@@ -188,14 +192,18 @@ public class Game {
         ArrayList<Resource> prodResources;
         if(checkResources(currentPlayer.getPlayerBoard().getCardSlots().getCard(slot).getProdInput(), true)){
             prodResources = currentPlayer.getPlayerBoard().getCardSlots().getCard(slot).createProduction(card);
-            if(checkExtraProd(card)) {
-                card.setChosenOutput(chosenOutput);
-                prodResources.addAll(card.production());
-                for (Resource res : prodResources)
-                    if (res == Resource.FAITH) {
-                        faithAdvance(1);
-                        prodResources.remove(Resource.FAITH);
-                    }
+            try {
+                if (checkExtraProd(card)) {
+                    card.setChosenOutput(chosenOutput);
+                    prodResources.addAll(card.production());
+                    for (Resource res : prodResources)
+                        if (res == Resource.FAITH) {
+                            faithAdvance(1);
+                            prodResources.remove(Resource.FAITH);
+                        }
+                }
+            }catch(NullPointerException e){
+                //todo va bene?
             }
             prodResources.forEach(element -> currentPlayer.getPlayerBoard().getStrongbox().addResource(element));
         }

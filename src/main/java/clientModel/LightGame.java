@@ -82,6 +82,7 @@ public class LightGame {
     public void setDevBoard(LightDevelopmentBoard board){
         this.table.setDevelopmentBoard(board);
     }
+    public LightDevelopmentBoard getDevBoard(){ return this.table.getDevBoard(); }
 
     public void setPlayers(ArrayList<LightPlayer> players){
         this.otherPlayers = players;

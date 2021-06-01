@@ -1,17 +1,21 @@
 package network.messages.gameMessages;
 
 import clientController.LightController;
+import clientModel.cards.LightDevelopmentCard;
+import clientModel.table.LightDevelopmentBoard;
 import model.cards.CardSlots;
 import model.table.DevelopmentBoard;
 import network.messages.MessageType;
 
+import java.util.ArrayList;
+
 public class BuyDevCardResponse extends GameMessage{
-    private CardSlots newCardSlot;
-    private DevelopmentBoard newDevBoard;
+    private ArrayList<LightDevelopmentCard> newCardSlot;
+    private LightDevelopmentBoard newDevBoard;
     private boolean success = true;
     private String message;
 
-    public BuyDevCardResponse(String username, CardSlots newCardSlot, DevelopmentBoard newDevBoard) {
+    public BuyDevCardResponse(String username, ArrayList<LightDevelopmentCard> newCardSlot, LightDevelopmentBoard newDevBoard) {
         super(username, MessageType.MARKETUPDATE);
         this.newCardSlot = newCardSlot;
         this.newDevBoard = newDevBoard;

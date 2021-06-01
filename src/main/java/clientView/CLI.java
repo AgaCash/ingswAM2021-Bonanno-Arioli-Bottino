@@ -1,8 +1,10 @@
 package clientView;
 
 import clientController.LightController;
+import clientModel.cards.LightDevelopmentCard;
 import clientModel.cards.LightLeaderCard;
 import clientModel.resources.LightResource;
+import clientModel.table.LightDevelopmentBoard;
 import clientModel.table.LightMarketBoard;
 import exceptions.MessageNotSuccededException;
 import network.server.Lobby;
@@ -205,7 +207,7 @@ public class CLI implements View{
                         "1 per attivare la carta leader\n\b" +
                         "2 per attivare la produzione\n\b" +
                         "3 per comprare le risorse\n\b" +
-                        "4 per comprare la carta leader\n\b" +
+                        "4 per comprare la carta sviluppo\n\b" +
                         "5 per terminare il turno");
                 ans = in.nextInt();
             } while (ans < 1 || ans > 5);
@@ -221,7 +223,16 @@ public class CLI implements View{
     }
 
     private void askProduction(){
-        System.out.println("da fare ");
+        int ans =0;
+        do {
+            System.out.println("digita 1 per produrre da una carta sviluppo, 2 per produrre dalla board");
+            ans = in.nextInt();
+        }while(ans!= 1 && ans != 2);
+
+        switch (ans) {
+            case 1 -> askDevCardProduction();
+            case 2 -> askDefaultProduction();
+        }
     }
 
     @Override
@@ -286,17 +297,80 @@ public class CLI implements View{
 
     @Override
     public void askBuyDevCards() {
-        System.out.println("da fare ");
+        LightDevelopmentBoard board = controller.getDevBoard();
+        ArrayList<LightDevelopmentCard> slots = controller.getPlayerBoard().getCardSlots();
+        System.out.println(board.toString());//todo da fare
+        System.out.println(slots);
+        int deck = 0;
+        do{
+            System.out.println("scegli il numero del deck");
+            deck=in.nextInt();
+        }while(deck<1 || deck>12);
 
+        int slot = 0;
+        do{
+            System.out.println("scegli a quale slot aggiungere la carta");
+            slot = in.nextInt();
+        }while(slot<1 || slot>3);
+
+        controller.sendBuyDevCardRequest(deck-1, slot-1, null);
+        System.out.println(controller.getPlayerBoard().getCardSlots());
+        //todo aggiungere leadercard
     }
 
     @Override
     public void askDevCardProduction() {
+        System.out.println(controller.getPlayerBoard().getCardSlots());
+        int slot = 0;
+        int numSlots = controller.getPlayerBoard().getCardSlots().size();
+        if(numSlots == 0){
+            System.out.println("nessuno slot disponibile");
+            return;
+        }
+        else {
+            do {
+                System.out.println("scegli lo slot");
+                slot = in.nextInt();
+            } while (slot < 1 || slot > numSlots);
+            try {
+                if (controller.getPlayerBoard().getCardSlots().get(slot) != null){}
+            } catch (NullPointerException | IndexOutOfBoundsException e) {
+                System.out.println("slot vuoto");
+            }
+        }
+
+        controller.sendDevCardProductionRequest(slot, null, null);
+        //todo add leadercards
+        System.out.println(controller.getPlayerBoard().getStrongbox());
+
+
 
     }
 
     @Override
     public void askDefaultProduction() {
+       /* System.out.println(controller.getPlayerBoard().getStrongbox().toString());
+        System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());
+        int first =0;
+        int second = 0;
+        do{
+            System.out.println("scegli le due risorse in input");
+            System.out.println("choose resource " +
+                        "1 for COIN\n2 for SERVANT\n3 for SHIELD\n4 for STONE");
+                res = in.nextInt();
+            while(res<1 || res>4);
+            switch (res) {
+                case 1 -> choice = LightResource.COIN;
+                case 2 -> choice = LightResource.SERVANT;
+                case 3 -> choice = LightResource.SHIELD;
+                case 4 -> choice = LightResource.STONE;
+            }
+
+        }
+
+        */
+
+
 
     }
 

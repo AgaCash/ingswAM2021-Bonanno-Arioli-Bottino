@@ -34,4 +34,17 @@ public class LightDevelopmentBoard {
         cards.set(whichOne, newTopCard);
     }
      */
+    @Override
+    public String toString(){
+        //todo renderlo + elegante
+        String s = new String();
+        int count = 1;
+        for(LightDevelopmentCard card: decks) {
+            s += count+": "+card.toString() + " ";
+            if(count%4==0)
+                s+="\n";
+            count++;
+        }
+        return s;
+    }
 }

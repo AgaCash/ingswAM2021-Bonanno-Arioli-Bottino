@@ -17,13 +17,11 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import exceptions.MessageNotSuccededException;
 import exceptions.NoSuchUsernameException;
-import model.cards.CardSlots;
 import model.cards.Discount;
 import model.cards.ExtraProd;
 import model.cards.WhiteConverter;
 import model.resources.Resource;
 import model.strongbox.Strongbox;
-import model.table.DevelopmentBoard;
 import network.client.Client;
 import network.messages.MessageType;
 import network.messages.gameMessages.*;
@@ -319,6 +317,13 @@ public class LightController {
         Gson gson = new Gson();
         DevCardProductionRequest request = new DevCardProductionRequest(game.getUsername(), slot, chosenResource, card);
         client.send(gson.toJson(request));
+        try {
+            String responseS = client.recv();
+            DevCardProductionResponse response = gson.fromJson(responseS, DevCardProductionResponse.class);
+            response.executeCommand(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void sendBuyResourceRequest (boolean line, int num, LightWhiteConverter lightCard){
@@ -340,6 +345,14 @@ public class LightController {
         Gson gson = new Gson();
         BuyDevCardRequest request = new BuyDevCardRequest(game.getUsername(), deck, slot, card);
         client.send(gson.toJson(request));
+        try{
+            String responseS = client.recv();
+            BuyDevCardResponse response = gson.fromJson(responseS, BuyDevCardResponse.class);
+            response.executeCommand(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
     }
 
     public void sendLeaderCardActivationRequest (LightLeaderCard card){
@@ -361,24 +374,18 @@ public class LightController {
         //todo leadercards
     }
 
-    public void updateCardSlots(String username, CardSlots cardSlots){
+    public void updateCardSlots(String username, ArrayList<LightDevelopmentCard> cardSlots){
         Gson gson = new Gson();
-        String s = gson.toJson(cardSlots);
-        ArrayList<LightDevelopmentCard> lightCardSlots = new ArrayList<>();
-        //cardSlots.forEach(gson.fromJson(s, .class));
         //todo assolutamente
         try {
-            game.updateCardSlots(username, lightCardSlots);
+            game.updateCardSlots(username, cardSlots);
         }catch (NoSuchUsernameException e){
             view.showError(e.getMessage());
         }
     }
 
-    public void updateDevBoard(DevelopmentBoard board){
-        Gson gson = new Gson();
-        String s = gson.toJson(board);
-        LightDevelopmentBoard devBoard = gson.fromJson(s, LightDevelopmentBoard.class);
-        game.updateDevBoard(devBoard);
+    public void updateDevBoard(LightDevelopmentBoard board){
+        game.updateDevBoard(board);
 
     }
 
@@ -458,6 +465,7 @@ public class LightController {
     public void setDevBoard(LightDevelopmentBoard board){
         this.game.setDevBoard(board);
     }
+    public LightDevelopmentBoard getDevBoard(){ return this.game.getDevBoard();}
 
     public void setPlayers(ArrayList<LightPlayer> players){
         this.game.setPlayers(players);

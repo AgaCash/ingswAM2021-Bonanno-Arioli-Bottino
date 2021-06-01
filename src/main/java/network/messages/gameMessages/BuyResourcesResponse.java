@@ -20,7 +20,10 @@ public class BuyResourcesResponse extends GameMessage{
         super(username, MessageType.MARKET);
         this.newWarehouse = newWarehouse;
         this.newMarketBoard = newMarketBoard;
-        this.threwResource = threwResource;
+        if(threwResource==null)
+            threwResource=new ArrayList<>();
+        else
+            this.threwResource = threwResource;
         this.success = true;
     }
 
