@@ -2,6 +2,7 @@ package view;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import exceptions.UsernameAlreadyInAGameException;
 import exceptions.UsernameAlreadyUsedException;
 import model.cards.LeaderCard;
 import utilities.LeaderCardDeserializer;
@@ -19,8 +20,7 @@ public class VirtualView implements ServerView {
     private Gson gson;
 
     //TODO:
-    //  riuscire a creare VirtualView già con l'username
-    //  da VirtualClient
+    //  serve istanziare VV già con l'username???
     public VirtualView(PrintWriter out, String username) {
         this.outStream = out;
         this.username = username;
@@ -35,18 +35,35 @@ public class VirtualView implements ServerView {
     }
 
     public void sendPing(PingLobbyMessage pingMessage){
-        System.out.println("SEND LOBBY PING");
+        //System.out.println("SEND LOBBY PING");
         outStream.println(gson.toJson(pingMessage));
     }
 
     public void sendPing(PingGameMessage pingMessage){
-        System.out.println("SEND GAME PING");
+        //System.out.println("SEND GAME PING");
         outStream.println(gson.toJson(pingMessage));
     }
 
-    public void setUsername(String username) throws UsernameAlreadyUsedException {
+    //RESILIENCE
+    public void sendPlayerResilienceMessage(PlayerReconnectedMessage playerReconnectedMessage){
+        outStream.println(gson.toJson(playerReconnectedMessage));
+    }
+
+    public void sendPlayerResilienceMessage(PlayerDisconnectedMessage playerDisconnectedMessage){
+        outStream.println(gson.toJson(playerDisconnectedMessage));
+    }
+
+
+    //GAME
+
+    public void setUsername(String username) throws UsernameAlreadyUsedException, UsernameAlreadyInAGameException {
         if(!LobbyHandler.getInstance().isUsernameAvailable(username)){
-            throw new UsernameAlreadyUsedException("Username already used");
+            if(LobbyHandler.getInstance().isUsernameDisconnected(username)){
+                this.username = username;
+                throw new UsernameAlreadyInAGameException();
+            }else{
+                throw new UsernameAlreadyUsedException("Username already used");
+            }
         }
         this.username = username;
 

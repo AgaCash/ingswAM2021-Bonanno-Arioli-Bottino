@@ -18,13 +18,10 @@ public class GetLobbyRequest extends LobbyMessage{
         super(nickname, MessageType.GETLOBBIES);
     }
 
-    //  TODO:
-    //      da togliere lobbyHandler come parametro e passargli il getInstance?
     @Override
     public void executeCommand(VirtualClient virtualClient) {
-        ArrayList<Lobby> l = LobbyHandler.getInstance().getLobbies();
+        ArrayList<Lobby> l = LobbyHandler.getInstance().getMultiLobbies();
         GetLobbyResponse g = new GetLobbyResponse(super.getUsername(), l);
-        System.out.println("object to serialize: "+g);
         virtualClient.getVirtualView().sendLobbyResponse(g);
     }
 

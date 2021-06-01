@@ -11,6 +11,7 @@ public class PingLobbyMessage extends LobbyMessage {
 
     @Override
     public void executeCommand(LightController lightController) {
+        //System.out.println("PING_LOBBY");
         lightController.sendLobbyPong();
     }
 }

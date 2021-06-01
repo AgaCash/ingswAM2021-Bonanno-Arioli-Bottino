@@ -22,10 +22,12 @@ public interface View {
     void notifyLobbyCreated();
     //every time
     void notifyPlayerJoined(String username);
-    //vuoi iniziare la partita?
-    void notifyCreatorPlayerJoined();
-    //
+    //wait fot the creator that type "start" in the console
     void waitStartGameString();
+    //notify player disconnected
+    void notifyPlayerDisconnected(String username);
+    // // ... reconnected
+    void notifyPlayerReconnected(String username);
     //lobby id to join it
     void askLobbyID(ArrayList<Lobby> lobbies);
     //write/press start to begin

@@ -28,4 +28,9 @@ public class StartMultiPlayerResponse extends LobbyMessage{
             lightController.waitStartGameString();
         }
     }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
 }

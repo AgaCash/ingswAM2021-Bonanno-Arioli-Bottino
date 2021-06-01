@@ -15,7 +15,11 @@ public enum MessageType {
     PONG_LOBBY(PongLobbyMessage.class, "PONG"),
     PONG_GAME(PongGameMessage.class, "PONG"),
 
-    //SETUP
+    //RESILIENCE
+    PLAYER_DISCONNECTED(PlayerDisconnectedMessage.class, ""),
+    PLAYER_RECONNECTED(PlayerReconnectedMessage.class, ""),
+
+    //SETUP //SERVE ANCORA? //STA COSA LA FA GIA' REGISTER_USERNAME
     CHECK_USERNAME_REQUEST,
     CHECK_USERNAME_RESPONSE,
 

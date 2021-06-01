@@ -24,14 +24,7 @@ public class StartMultiPlayerRequest extends LobbyMessage{
         }
     }
 
-    //lo fa già startgame in broadcast
-    private void sendSuccess(VirtualClient virtualClient){
-        StartMultiPlayerResponse response = new StartMultiPlayerResponse(super.getUsername());
-        virtualClient.getVirtualView().sendLobbyResponse(response);
-    }
-
     private void sendError(VirtualClient virtualClient, String message){
-        System.out.println("MA ENTRA QUA?");
         StartMultiPlayerResponse response = new StartMultiPlayerResponse(super.getUsername(), message);
         virtualClient.getVirtualView().sendLobbyResponse(response);
     }

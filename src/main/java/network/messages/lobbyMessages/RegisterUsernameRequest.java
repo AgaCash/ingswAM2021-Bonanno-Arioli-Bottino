@@ -1,7 +1,10 @@
 package network.messages.lobbyMessages;
 
+import exceptions.NoSuchUsernameException;
+import exceptions.UsernameAlreadyInAGameException;
 import exceptions.UsernameAlreadyUsedException;
 import network.messages.MessageType;
+import network.server.LobbyHandler;
 import view.VirtualClient;
 
 public class RegisterUsernameRequest extends LobbyMessage{
@@ -14,6 +17,15 @@ public class RegisterUsernameRequest extends LobbyMessage{
         try {
             virtualClient.getVirtualView().setUsername(super.getUsername());
             sendSuccess(virtualClient);
+        }catch (UsernameAlreadyInAGameException f){
+            //riconnetti il player
+            try {
+                LobbyHandler.getInstance().getLobbyFromUsername(super.getUsername())
+                        .resetController(virtualClient);
+                virtualClient.getController().reconnectUsername(super.getUsername(), virtualClient);
+                sendReconnection(virtualClient);
+            } catch (NoSuchUsernameException ignored) { //non entrerà mai qua
+            }
         } catch (UsernameAlreadyUsedException e) {
             sendError(virtualClient, e.getMessage());
         }
@@ -21,7 +33,13 @@ public class RegisterUsernameRequest extends LobbyMessage{
 
     private void sendSuccess(VirtualClient virtualClient){
         RegisterUsernameResponse response =
-                new RegisterUsernameResponse(super.getUsername());
+                new RegisterUsernameResponse(super.getUsername(), false);
+        virtualClient.getVirtualView().sendLobbyResponse(response);
+    }
+
+    private void sendReconnection(VirtualClient virtualClient){
+        RegisterUsernameResponse response =
+                new RegisterUsernameResponse(super.getUsername(), true);
         virtualClient.getVirtualView().sendLobbyResponse(response);
     }
 

@@ -12,9 +12,7 @@ import model.resources.Resource;
 import model.table.DevelopmentBoard;
 import model.table.FaithTrack;
 import model.table.MarketBoard;
-import network.messages.gameMessages.GameMessage;
-import network.messages.gameMessages.InternalErrorNotify;
-import network.messages.gameMessages.SetupResponse;
+import network.messages.gameMessages.*;
 import view.VirtualClient;
 
 import java.util.ArrayList;
@@ -23,7 +21,7 @@ public class Controller {
     private int id;
     private Game game;
     private ArrayList<VirtualClient> views;
-    private ArrayList<Player> disconnectedPlayer;
+    private ArrayList<String> disconnectedPlayer;
     private int readyPlayers = 0;
     //private transient ModelToLightParser parser = new ModelToLightParser();
 
@@ -32,6 +30,7 @@ public class Controller {
         this.id = id;
         boolean isSinglePlayer = (views.size()==1);
         game = new Game(isSinglePlayer);
+        disconnectedPlayer = new ArrayList<>();
         System.out.println("CONTROLLER CREATO");
     }
 
@@ -52,17 +51,43 @@ public class Controller {
 
     //ping
     public void disconnectPlayer(String username){
-        //TODO:
-        //  pensare come disconnettere il player tenendone traccia per la riconnessione
-        System.out.println(username+" disconnesso! (in realta no uhuhuhuhu)");
-        /*
+        System.out.println(username+" disconnesso!");
         for(VirtualClient v: views){
             if(v.getVirtualView().getUsername().equals(username)){
-                disconnectedPlayer.add(new Player(""));
+                disconnectedPlayer.add(username);
                 views.remove(v);
+                break;
             }
         }
+        PlayerDisconnectedMessage pdm = new PlayerDisconnectedMessage(username);
+        views.forEach((v)->{
+            v.getVirtualView().sendPlayerResilienceMessage(pdm);
+        });
+    }
+
+    //resilienza
+    public boolean isUsernameDisconnected(String username){
+        if(disconnectedPlayer.contains(username))
+            return true;
+        return false;
+    }
+
+    //non centra con questa posizione
+    //todo: disconnessione da lobby
+    //non centra con questa posizione
+
+    public void reconnectUsername(String username, VirtualClient virtualClient){
+        /*
+        if(!isUsernameDisconnected(username)){
+            throw
+        }
         */
+        disconnectedPlayer.remove(username);
+        PlayerReconnectedMessage prm = new PlayerReconnectedMessage(username);
+        views.forEach((v)->{
+            v.getVirtualView().sendPlayerResilienceMessage(prm);
+        });
+        views.add(virtualClient);
     }
 
     //start

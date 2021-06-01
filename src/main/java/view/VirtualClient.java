@@ -38,6 +38,10 @@ public class VirtualClient extends Thread{
         }
     }
 
+    public Controller getController() {
+        return controller;
+    }
+
     public void resetLobbyTimer(){
         serverPingHandler.reset();
         //lobbyServerTimerCheckConnection.reset();
@@ -48,6 +52,7 @@ public class VirtualClient extends Thread{
         //gameServerTimerCheckConnection.reset();
     }
 
+    //TODO: todo???
     public void disconnectPlayerFromGame(){
         System.out.println("DISCONNECT FROM GAME");
         //controller.disconnectPlayer(virtualView.getUsername());
@@ -66,7 +71,7 @@ public class VirtualClient extends Thread{
 
     public void setController(Controller controller) {
         this.controller = controller;
-        System.out.println(this.controller);
+        //System.out.println(this.controller);
     }
 
     public VirtualView getVirtualView() {
