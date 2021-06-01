@@ -74,6 +74,7 @@ public class LightController {
     public void serverDisconnected(){
         System.out.println("LOST SERVER CONNECTION");
         //view.serverLostConnection();
+
         //poi quit?
     }
 
@@ -182,12 +183,10 @@ public class LightController {
     //TODO:
     //  quando il client perde la connessione rimane in loop. deve disconnettersi
 
-    //TODO:
-    //  nextLine in conflitto con recv()
 
     //RICORDA CHE 2 RECV IN CONTEMPORANEA FREGANO IL TUTTO
 
-    //V1 da sistemare (I MESSAGGI)
+    //V1 (t'appooo!!)
     public void createLobbyWaiting(){
         new Thread(()->{
             boolean gameStarted = false;
