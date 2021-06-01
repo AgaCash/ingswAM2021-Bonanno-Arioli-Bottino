@@ -9,12 +9,12 @@ import view.VirtualClient;
 
 import java.util.ArrayList;
 
-public class Lobby { //LOBBY E' IL CONTROLLER
+public class Lobby {
     private int id;
     private ArrayList<Player> players;
     private transient ArrayList<VirtualClient> views;
     private transient Controller sharedController;
-    private boolean singlePlayerMode;
+    private final boolean singlePlayerMode;
 
     private void initLobby(){
         players = new ArrayList<>();
@@ -31,7 +31,7 @@ public class Lobby { //LOBBY E' IL CONTROLLER
     }
 
 
-    public void joinLobby(Player player, VirtualClient virtualClient) throws LobbyFullException{
+    public synchronized void joinLobby(Player player, VirtualClient virtualClient) throws LobbyFullException{
         if(players.size() > 3)
             throw new LobbyFullException();
 
@@ -39,9 +39,7 @@ public class Lobby { //LOBBY E' IL CONTROLLER
         players.add(player);
         views.add(virtualClient);
         LoginMultiPlayerResponse response = new LoginMultiPlayerResponse(player.getNickname());
-        views.forEach((view)->{
-            view.getVirtualView().sendLobbyResponse(response);
-        });
+        views.forEach((view)-> view.getVirtualView().sendLobbyResponse(response));
         /*
         if(!singlePlayerMode){
             LoginMultiPlayerResponse response = new LoginMultiPlayerResponse(virtualClient.getVirtualView().getUsername());
@@ -51,15 +49,19 @@ public class Lobby { //LOBBY E' IL CONTROLLER
         }*/
     }
 
-   public void leaveLobby(String username){
+   public synchronized void leaveLobby(String username){
+       System.out.println(username+" disconnected from lobby");
         players.removeIf(p->p.getNickname().equals(username));
+        LobbyHandler.getInstance().destroyLobby(this);
         /*
-        for (Player p :players) {
-            p.setStartingTurn(players.indexOf(p)+1);
+        if(this.isEmpty()){
+            LobbyHandler.getInstance().destroyLobby(this);
         }*/
     }
 
-    public ArrayList<String> getUsernameList(){
+    //todo: se inserisci numero lobby single throw error
+
+    public synchronized ArrayList<String> getUsernameList(){
         ArrayList<String> names = new ArrayList<>();
         for (Player p : players) {
             names.add(p.getNickname());
@@ -67,7 +69,11 @@ public class Lobby { //LOBBY E' IL CONTROLLER
         return names;
     }
 
-    public boolean isUsernamePresent(String username){
+    public synchronized boolean isEmpty(){
+        return players.size()==0;
+    }
+
+    public synchronized boolean isUsernamePresent(String username){
         for (Player p: players) {
             if(p.getNickname().equals(username)){
                 return true;
@@ -76,15 +82,23 @@ public class Lobby { //LOBBY E' IL CONTROLLER
         return false;
     }
 
-    public int getId(){
+    public synchronized boolean isUsernameDisconnected(String username){
+        return sharedController.isUsernameDisconnected(username);
+    }
+
+    public synchronized int getId(){
         return id;
     }
 
-    public boolean isLobbyFull(){
+    public synchronized boolean isLobbyFull(){
         return players.size() >= 4;
     }
 
-    public void startGame() throws NotEnoughPlayersException {
+    public synchronized void resetController(VirtualClient virtualClient){
+        virtualClient.setController(sharedController);
+    }
+
+    public synchronized void startGame() throws NotEnoughPlayersException {
         if(players.size() < 2 && !singlePlayerMode) {
             throw new NotEnoughPlayersException("Not enough players");
         }
@@ -97,16 +111,19 @@ public class Lobby { //LOBBY E' IL CONTROLLER
         }else{
             for (VirtualClient v:views) {
                 v.setController(sharedController);
-                System.out.println("controller settato a "+v.getVirtualView().getUsername());
+                //System.out.println("controller settato a "+v.getVirtualView().getUsername());
                 v.getVirtualView().sendStartMultiPlayerSignal();
-                System.out.println("START inviato a "+v.getVirtualView().getUsername());
+                //System.out.println("START inviato a "+v.getVirtualView().getUsername());
             }
             sharedController.addMultiPlayers(players, views);
         }
     }
 
-    public Controller getSharedController(){
+    public synchronized Controller getSharedController(){
         return sharedController;
     }
 
+    public synchronized boolean isSinglePlayerMode() {
+        return singlePlayerMode;
+    }
 }

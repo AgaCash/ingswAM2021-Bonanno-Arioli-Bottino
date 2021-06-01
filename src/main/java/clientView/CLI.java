@@ -126,15 +126,18 @@ public class CLI implements View{
 
     //TODO:
     //  BUG:
-    //      se scrivo start quando non ci sono giocatori dopo che ne entra uno al creatore inizia subito la partita
+    //      il creatore non vede gli altri entrare
+    //      il client.recv si blocca e aspetta il readLine() qui sotto
     public void waitStartGameString(){
-        String s = null;
+        String s = "";
         do{
-            s = in.nextLine().toLowerCase();
+            s = in.nextLine();
+            s = s.toLowerCase();
         }while (!s.equals("start"));
         controller.sendSignalMultiPlayerGame();
     }
 
+    /*
     public void notifyCreatorPlayerJoined(){
         boolean success = false;
         String ch = null;
@@ -155,7 +158,7 @@ public class CLI implements View{
             }
         }while (!success);
 
-    }
+    }*/
 
 
     public void showWaitingRoom(){
@@ -177,6 +180,16 @@ public class CLI implements View{
             System.out.println("No lobby found");
             controller.askLobbyMenu();
         }
+    }
+
+    @Override
+    public void notifyPlayerDisconnected(String username) {
+        System.out.println(username + " disconnected");
+    }
+
+    @Override
+    public void notifyPlayerReconnected(String username) {
+        System.out.println(username + " reconnected");
     }
 
     @Override

@@ -63,13 +63,17 @@ public class LightExtraDepot extends LightLeaderCard {
         String s = "\nEXTRA DEPOT";
         s+= "\nID: "+id;
         s+= "\nRequires: ";
+        System.out.println(requiredResource);
+        System.out.println(extraDepotResource);
+        /*
         for (LightResource r:requiredResource) {
             s+="\n\t "+r;
-        }
+        }*/
         s+="\nExtra model.resources: ";
+        /*
         for(LightResource r: extraDepotResource ){
             s+="\n\t "+r;
-        }
+        }*/
         s+= "\nVictory Points: "+victoryPoints;
         s+= "\nIs Enabled: "+ isEnabled;
         return s;

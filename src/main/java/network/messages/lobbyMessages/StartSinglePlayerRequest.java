@@ -15,9 +15,6 @@ public class StartSinglePlayerRequest extends LobbyMessage{
     @Override
     public void executeCommand(VirtualClient virtualClient) {
         LobbyHandler.getInstance().createSinglePlayer(new Player(super.getUsername()), virtualClient);
-        //TODO:
-        //  getData
-        //  updateToView
         StartSinglePlayerResponse response = new StartSinglePlayerResponse(getUsername());
         virtualClient.getVirtualView().sendLobbyResponse(response);
     }

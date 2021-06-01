@@ -52,10 +52,29 @@ public class LightController {
         gson = new GsonBuilder().registerTypeAdapter(LightLeaderCard.class, new LightLeaderCardDeserializer()).create();
     }
 
+    //RESILIENCE
+
+    public void reconnectToGame(){
+        System.out.println("RICONNESSIONE AL GAME");
+        //TODO:
+        //  CAMBIARE LA SCENA IN GAME
+        //  RICARICARE LO STATO DEL GAME FINO A QUEL MOMENTO
+    }
+
+    public void notifyPlayerDisconnected(String username){
+        view.notifyPlayerDisconnected(username);
+    }
+
+    public void notifyPlayerReconnected(String username){
+        view.notifyPlayerReconnected(username);
+    }
+
+    //PING
 
     public void serverDisconnected(){
         System.out.println("LOST SERVER CONNECTION");
         //view.serverLostConnection();
+
         //poi quit?
     }
 
@@ -69,6 +88,7 @@ public class LightController {
         client.send(gson.toJson(pongLobbyMessage));
     }
 
+
     public void connectToServer(String address, int port) throws UnknownHostException, IOException{
         client = new Client(address, port, this);
         client.connect();
@@ -79,15 +99,15 @@ public class LightController {
         RegisterUsernameRequest registerUsernameRequest = new RegisterUsernameRequest(username);
         String a = gson.toJson(registerUsernameRequest);
         client.send(a);
-        String b = null;
+        String responseS = null;
         try {
-            b = client.recv();
+            responseS = client.recv();
             //view.showSuccess(username+" sent");
         } catch (IOException e) {
             // capiamo
             view.showError(e.getMessage());
         }
-        RegisterUsernameResponse response = gson.fromJson(b, RegisterUsernameResponse.class);
+        RegisterUsernameResponse response = gson.fromJson(responseS, RegisterUsernameResponse.class);
         success = response.isSuccess();
         if(!success)
             throw new MessageNotSuccededException(response.getMessage());
@@ -105,8 +125,8 @@ public class LightController {
     }
 
     /*
-
-    client.recv():
+    TODO:
+        client.recv():
             TOGLIERE I TRY CATCH DA QUA E METTERLI IN VIEW
 
      */
@@ -161,7 +181,12 @@ public class LightController {
 */
 
     //TODO:
-    //  Check if this method won't create problems
+    //  quando il client perde la connessione rimane in loop. deve disconnettersi
+
+
+    //RICORDA CHE 2 RECV IN CONTEMPORANEA FREGANO IL TUTTO
+
+    //V1 (t'appooo!!)
     public void createLobbyWaiting(){
         new Thread(()->{
             boolean gameStarted = false;
@@ -172,8 +197,11 @@ public class LightController {
                     JsonObject jsonObject = gson.fromJson(lobbyWaiting, JsonObject.class);
                     MessageType msgType = MessageType.valueOf(jsonObject.get("messageType").getAsString());
                     ((LobbyMessage) gson.fromJson(lobbyWaiting, msgType.getClassType())).executeCommand(this);
-                    if(gson.fromJson(lobbyWaiting, msgType.getClassType()).getMessageType() == MessageType.LOBBYSTARTGAME_RESPONSE){
-                        gameStarted = true;
+                    if(msgType == MessageType.LOBBYSTARTGAME_RESPONSE){
+                        StartMultiPlayerResponse m = gson.fromJson(lobbyWaiting, StartMultiPlayerResponse.class);
+                        if(m.isSuccess()){
+                            gameStarted = true;
+                        }
                     }
                 }while (!gameStarted);
             } catch (IOException e) {
@@ -183,6 +211,8 @@ public class LightController {
 
         view.askStartGame();
     }
+
+
 
     public void waitStartGameString(){
         view.waitStartGameString();
@@ -202,7 +232,6 @@ public class LightController {
                 String lobbyWaiting = client.recv();
                 JsonObject jsonObject = gson.fromJson(lobbyWaiting, JsonObject.class);
                 MessageType msgType = MessageType.valueOf(jsonObject.get("messageType").getAsString());
-
                 ((LobbyMessage) gson.fromJson(lobbyWaiting, msgType.getClassType())).executeCommand(this);
                 if(gson.fromJson(lobbyWaiting, msgType.getClassType()).getMessageType() == MessageType.LOBBYSTARTGAME_RESPONSE){
                     gameStarted = true;
@@ -239,13 +268,17 @@ public class LightController {
     public void sendSignalMultiPlayerGame(){
         StartMultiPlayerRequest request = new StartMultiPlayerRequest(username);
         client.send(gson.toJson(request));
+        //MA DAI ERA QUA IL PROBLEMA VERAMENTE???
+        //2 client.recv in contemporanea bastano a spaccare tutto??????
+        //    :( :( :(
+        /*
         try {
             String responseS = client.recv();
             StartMultiPlayerResponse response = gson.fromJson(responseS, StartMultiPlayerResponse.class);
             response.executeCommand(this);
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     public void getLobbyList(){

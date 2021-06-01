@@ -1,7 +1,9 @@
 package network.timer;
 
+import exceptions.NoSuchUsernameException;
 import network.messages.pingMessages.PingGameMessage;
 import network.messages.pingMessages.PingLobbyMessage;
+import network.server.LobbyHandler;
 import view.VirtualClient;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -32,7 +34,8 @@ public class ServerPingHandler extends Thread {
     public void setGameState(boolean gameState) {
         this.gameState = gameState;
         this.pingSent = false;
-        System.out.println("new gamestate: "+gameState);
+        this.reset();
+        //System.out.println("new gamestate: "+gameState);
     }
 
     public void finish(){
@@ -74,13 +77,13 @@ public class ServerPingHandler extends Thread {
             pingSent=true;
             PingGameMessage p = new PingGameMessage(virtualClient.getVirtualView().getUsername());
             virtualClient.getVirtualView().sendPing(p);
-            //System.out.println("send ping GAME");
         } else {
             //non ha risposto
             // non è più online
             //disconnettilo dal gioco
             stop.set(true);
-            System.out.println("DISCONNESSO DA GAME");
+            //System.out.println("DISCONNESSO DA GAME");
+            virtualClient.getController().disconnectPlayer(virtualClient.getVirtualView().getUsername());
         }
     }
 
@@ -90,13 +93,18 @@ public class ServerPingHandler extends Thread {
             pingSent=true;
             PingLobbyMessage p = new PingLobbyMessage(virtualClient.getVirtualView().getUsername());
             virtualClient.getVirtualView().sendPing(p);
-            //System.out.println("send ping LOBBY");
         } else {
             //non ha risposto
             // non è più online
             //disconnettilo dalla lobby
             stop.set(true);
-            System.out.println("DISCONNESSO DA LOBBY");
+            //System.out.println("DISCONNESSO DA LOBBY");
+            try {
+                String username = virtualClient.getVirtualView().getUsername();
+                LobbyHandler.getInstance().getLobbyFromUsername(username).leaveLobby(username);
+            } catch (NoSuchUsernameException e) {
+                System.out.println(virtualClient.getVirtualView().getUsername() +" disconnected");
+            }
         }
     }
 

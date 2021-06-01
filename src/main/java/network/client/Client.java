@@ -42,12 +42,12 @@ public class Client {
             do{
                 try {
                     String r = in.readLine();
-                    //System.out.println(r);
+                    System.out.println("LETTO DALLA RETE::::"+r); //DEBUG
                     clientPingReciverTimer.reset();
                     synchronized (queueLock){
-                        if(!ifPingExecute(r)) //se non è un messaggio di ping lo aggiunge alla coda
+                        if(!ifAsyncMessageExecute(r)) //se non è un messaggio di ping lo aggiunge alla coda
                             messageBuffer.add(r);
-                        queueLock.notify();
+                        queueLock.notifyAll();
                     }
                 } catch (IOException e) {
                     //e.printStackTrace();
@@ -63,7 +63,7 @@ public class Client {
 
     //TODO:
     //  SISTEMARE LA RICEZIONE DI MESSAGGI NON VALIDI?
-    private boolean ifPingExecute(String s){
+    private boolean ifAsyncMessageExecute(String s){
         Gson gson = new Gson();
         boolean retValue = false;
         JsonObject jsonObject = gson.fromJson(s, JsonObject.class);
@@ -71,11 +71,18 @@ public class Client {
             MessageType m = MessageType.valueOf(jsonObject.get("messageType").getAsString());
             switch (m) {
                 case PING_LOBBY -> {
-                    ((LobbyMessage) gson.fromJson(s, PingLobbyMessage.class)).executeCommand(lightController);
+                    ((LobbyMessage) gson.fromJson(s, m.getClassType())).executeCommand(lightController);
                     retValue = true;
                 }
-                case PING_GAME -> {
-                    ((GameMessage) gson.fromJson(s, PingGameMessage.class)).executeCommand(lightController);
+                case JOINMULTIPLAYER_RESPONSE ->{
+                    LoginMultiPlayerResponse l = gson.fromJson(s, LoginMultiPlayerResponse.class);
+                    if(!l.getUsername().equals(lightController.getUsername())){
+                        l.executeCommand(lightController);
+                        retValue = true;
+                    }
+                }
+                case PING_GAME, PLAYER_DISCONNECTED, PLAYER_RECONNECTED -> {
+                    ((GameMessage) gson.fromJson(s, m.getClassType())).executeCommand(lightController);
                     retValue = true;
                 }
             }
