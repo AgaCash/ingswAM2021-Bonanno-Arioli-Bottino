@@ -1,6 +1,7 @@
 package network.server;
 
 import controller.Controller;
+import exceptions.GameAlreadyStartedException;
 import exceptions.LobbyFullException;
 import exceptions.NotEnoughPlayersException;
 import model.player.Player;
@@ -15,6 +16,7 @@ public class Lobby {
     private transient ArrayList<VirtualClient> views;
     private transient Controller sharedController;
     private final boolean singlePlayerMode;
+    private boolean gameStarted;
 
     private void initLobby(){
         players = new ArrayList<>();
@@ -28,12 +30,16 @@ public class Lobby {
         player.setStartingTurn(players.size()+1);
         players.add(player);
         views.add(virtualClient);
+        gameStarted = false;
     }
 
 
-    public synchronized void joinLobby(Player player, VirtualClient virtualClient) throws LobbyFullException{
+    public synchronized void joinLobby(Player player, VirtualClient virtualClient) throws LobbyFullException, GameAlreadyStartedException {
         if(players.size() > 3)
             throw new LobbyFullException();
+
+        if(gameStarted)
+            throw new GameAlreadyStartedException("Cannot join. The game is already started");
 
         //player.setStartingTurn(players.size()+1);
         players.add(player);
@@ -117,6 +123,7 @@ public class Lobby {
             }
             sharedController.addMultiPlayers(players, views);
         }
+        gameStarted = true;
     }
 
     public synchronized Controller getSharedController(){
@@ -125,5 +132,9 @@ public class Lobby {
 
     public synchronized boolean isSinglePlayerMode() {
         return singlePlayerMode;
+    }
+
+    public boolean isGameStarted() {
+        return gameStarted;
     }
 }

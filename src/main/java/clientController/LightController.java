@@ -78,10 +78,9 @@ public class LightController {
     //PING
 
     public void serverDisconnected(){
-        System.out.println("LOST SERVER CONNECTION");
-        //view.serverLostConnection();
-
+        view.serverLostConnection();
         //poi quit?
+        System.exit(0);
     }
 
     public void sendGamePong(){

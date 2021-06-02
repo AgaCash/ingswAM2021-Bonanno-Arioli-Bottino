@@ -25,6 +25,17 @@ public class CLI implements View{
         this.controller = new LightController(this);
     }
 
+    //ping
+    public void serverLostConnection(){
+        System.out.println("LOST SERVER CONNECTION");
+        System.out.println("Client will be closed in 5 seconds");
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void askServerInfo(){
         boolean connectionCorrect = false;
         do{
@@ -123,10 +134,6 @@ public class CLI implements View{
         waitStartGameString();
     }
 
-    //TODO:
-    //  BUG:
-    //      il creatore non vede gli altri entrare
-    //      il client.recv si blocca e aspetta il readLine() qui sotto
     public void waitStartGameString(){
         String s = "";
         do{
@@ -135,7 +142,6 @@ public class CLI implements View{
         }while (!s.equals("start"));
         controller.sendSignalMultiPlayerGame();
     }
-
 
     public void showWaitingRoom(){
         System.out.println("You joined the room");

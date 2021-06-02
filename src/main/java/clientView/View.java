@@ -8,6 +8,8 @@ import network.server.Lobby;
 import java.util.ArrayList;
 
 public interface View {
+    //resilience
+    void serverLostConnection();
     //server info: server ip address and port
     void askServerInfo();
     //username

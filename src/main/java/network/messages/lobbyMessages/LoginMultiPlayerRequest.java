@@ -1,5 +1,6 @@
 package network.messages.lobbyMessages;
 
+import exceptions.GameAlreadyStartedException;
 import exceptions.LobbyFullException;
 import network.messages.MessageType;
 import network.server.LobbyHandler;
@@ -28,11 +29,12 @@ public class LoginMultiPlayerRequest extends LobbyMessage{
         }catch (LobbyFullException l){
             s = new LoginMultiPlayerResponse(getUsername(), "Lobby selected is full");
             virtualClient.getVirtualView().sendLobbyResponse(s);
-        }catch (IndexOutOfBoundsException i){
+        }catch (IndexOutOfBoundsException i) {
             s = new LoginMultiPlayerResponse(getUsername(), "Lobby selected doesn't exist");
             virtualClient.getVirtualView().sendLobbyResponse(s);
-        }catch (Exception e){
-            e.printStackTrace();
+        }catch(GameAlreadyStartedException g){
+            s = new LoginMultiPlayerResponse(getUsername(), g.getMessage());
+            virtualClient.getVirtualView().sendLobbyResponse(s);
         }
     }
 

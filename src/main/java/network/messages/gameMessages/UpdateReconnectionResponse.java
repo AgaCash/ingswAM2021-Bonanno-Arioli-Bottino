@@ -5,8 +5,9 @@ import network.messages.MessageType;
 
 public class UpdateReconnectionResponse extends GameMessage{
 
-    //todo: teo mi servi tu qua zio
-    //      mi serve un update completo di tutto il model
+    //todo:
+    //      questi 2 messaggi servono a ricaricare tutto il light
+    //      model dopo che il player si riconnette al game
 
 
     public UpdateReconnectionResponse(String username/* + TUTTO IL MODEEEEEEEEEEEEEL*/) {

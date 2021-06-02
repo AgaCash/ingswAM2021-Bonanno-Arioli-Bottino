@@ -1,5 +1,6 @@
 package network.server;
 
+import exceptions.GameAlreadyStartedException;
 import exceptions.LobbyFullException;
 import exceptions.NoSuchUsernameException;
 import exceptions.NotEnoughPlayersException;
@@ -54,7 +55,7 @@ public class LobbyHandler {
         }
     }
 
-    public synchronized void joinLobby(Player player, int id, VirtualClient virtualClient) throws LobbyFullException, IndexOutOfBoundsException {
+    public synchronized void joinLobby(Player player, int id, VirtualClient virtualClient) throws LobbyFullException, IndexOutOfBoundsException, GameAlreadyStartedException {
         if(id < 0 || id >= lobbies.size())
             throw new IndexOutOfBoundsException();
         for (Lobby l: lobbies) {
@@ -107,7 +108,7 @@ public class LobbyHandler {
     public synchronized ArrayList<Lobby> getMultiLobbies() {
         ArrayList<Lobby> multiLobbies = new ArrayList<>();
         lobbies.forEach((l)->{
-            if(!l.isSinglePlayerMode()){
+            if(!l.isSinglePlayerMode() && !l.isGameStarted()){
                 multiLobbies.add(l);
             }
         });

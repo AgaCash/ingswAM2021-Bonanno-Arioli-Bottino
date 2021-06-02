@@ -13,9 +13,7 @@ public class ClientPingReceiverTimer extends ResettableTimer{
 
     @Override
     protected void timeout() {
-        lightController.serverDisconnected();
         super.finish();
-        //todo: notificare che il server non è più online
-        //      terminare il client
+        lightController.serverDisconnected();
     }
 }

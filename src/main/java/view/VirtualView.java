@@ -26,7 +26,6 @@ public class VirtualView implements ServerView {
         this.username = username;
         gson = new Gson();
         gson = new GsonBuilder().registerTypeAdapter(LeaderCard.class, new LeaderCardDeserializer()).create();
-        //todo a caso? capiamo
     }
 
     public VirtualView(PrintWriter out) {
