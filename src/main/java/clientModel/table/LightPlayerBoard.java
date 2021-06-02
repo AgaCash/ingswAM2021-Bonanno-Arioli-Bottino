@@ -48,7 +48,6 @@ public class LightPlayerBoard {
     public void setFaithTrack(LightFaithTrack faithTrack){ this.faithTrack = faithTrack;}
 
     public ArrayList<LightLeaderCard> getLeaderSlot(){
-        System.out.println(leaderSlot);
         return leaderSlot;
     }
     public void setLeaderSlot(ArrayList<LightLeaderCard> cards){ this.leaderSlot = cards;

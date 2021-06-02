@@ -2,9 +2,7 @@ package clientController;
 
 import clientModel.LightGame;
 import clientModel.cards.LightDevelopmentCard;
-import clientModel.cards.LightExtraProd;
 import clientModel.cards.LightLeaderCard;
-import clientModel.cards.LightWhiteConverter;
 import clientModel.player.LightPlayer;
 import clientModel.resources.LightResource;
 import clientModel.strongbox.LightStrongbox;
@@ -18,10 +16,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import exceptions.MessageNotSuccededException;
 import exceptions.NoSuchUsernameException;
-import model.cards.Discount;
-import model.cards.ExtraProd;
-import model.cards.WhiteConverter;
-import model.resources.Resource;
 import network.client.Client;
 import network.messages.MessageType;
 import network.messages.gameMessages.*;
@@ -322,7 +316,7 @@ public class LightController {
         }
     }
 
-    public void sendDefaultProductionRequest (ArrayList<LightResource> input, LightResource output, LightExtraProd card, LightResource chosenOutput){
+    public void sendDefaultProductionRequest (ArrayList<LightResource> input, LightResource output, LightLeaderCard card, LightResource chosenOutput){
         Gson gson = new Gson();
         DefaultProductionRequest request = new DefaultProductionRequest(game.getUsername(), input, output, card, chosenOutput);
         client.send(gson.toJson(request));
@@ -336,7 +330,7 @@ public class LightController {
 
     }
 
-    public void sendDevCardProductionRequest (int slot, Resource chosenResource, ExtraProd card){
+    public void sendDevCardProductionRequest (int slot, LightResource chosenResource, LightLeaderCard card){
         Gson gson = new Gson();
         DevCardProductionRequest request = new DevCardProductionRequest(game.getUsername(), slot, chosenResource, card);
         client.send(gson.toJson(request));
@@ -349,11 +343,9 @@ public class LightController {
         }
     }
 
-    public void sendBuyResourceRequest (boolean line, int num, LightWhiteConverter lightCard){
+    public void sendBuyResourceRequest (boolean line, int num, LightLeaderCard lightCard){
         Gson gson = new Gson();
-        String s = gson.toJson(lightCard);
-        WhiteConverter card = gson.fromJson(s, WhiteConverter.class);
-        BuyResourcesRequest request = new BuyResourcesRequest(game.getUsername(), line, num, card);
+        BuyResourcesRequest request = new BuyResourcesRequest(game.getUsername(), line, num, lightCard);
         client.send(gson.toJson(request));
         try {
             String responseS = client.recv();
@@ -364,7 +356,7 @@ public class LightController {
         }
     }
 
-    public void sendBuyDevCardRequest (int deck, int slot, Discount card){
+    public void sendBuyDevCardRequest (int deck, int slot, LightLeaderCard card){
         Gson gson = new Gson();
         BuyDevCardRequest request = new BuyDevCardRequest(game.getUsername(), deck, slot, card);
         client.send(gson.toJson(request));

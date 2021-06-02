@@ -255,19 +255,29 @@ public class CLI implements View{
                 System.out.println("digitare il numero di riga");
                 number = in.nextInt();
             }
-            while(number<1 || number>3);
-            controller.sendBuyResourceRequest(line, number-1, null);
-            //todo aggiungere leadercard
+            while (number < 1 || number > 3);
         }
-        else{
+        else {
             do {
                 System.out.println("digitare il numero di colonna");
                 number = in.nextInt();
             }
-            while(number<1 || number>4);
-            controller.sendBuyResourceRequest(line, number-1, null);
-            //todo aggiungere leadercard
+            while (number < 1 || number > 4);
         }
+        String ans;
+        do {
+            System.out.println("do u want to add a leader card?\n [y/n]\n");
+            ans = in.nextLine();
+        }while(!ans.equals("y") && !ans.equals("n"));
+        if(ans.equals("y")) {
+            LightLeaderCard card = askLeaderCardUse();
+            if (card != null && card.isWhiteConverter())
+                controller.sendBuyResourceRequest(line, number - 1, card);
+        }
+        else
+            controller.sendBuyResourceRequest(line, number - 1, null);
+
+
         System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());
     }
 
@@ -275,7 +285,7 @@ public class CLI implements View{
     public void askBuyDevCards() {
         LightDevelopmentBoard board = controller.getDevBoard();
         ArrayList<LightDevelopmentCard> slots = controller.getPlayerBoard().getCardSlots();
-        System.out.println(board.toString());//todo da fare
+        System.out.println(board.toString());
         System.out.println(slots);
         int deck = 0;
         do{
@@ -288,10 +298,20 @@ public class CLI implements View{
             System.out.println("scegli a quale slot aggiungere la carta");
             slot = in.nextInt();
         }while(slot<1 || slot>3);
-
-        controller.sendBuyDevCardRequest(deck-1, slot-1, null);
+        String ans;
+        do {
+            System.out.println("do u want to add a leader card?\n [y/n]\n");
+            ans = in.nextLine();
+        }while(!ans.equals("y") && !ans.equals("n"));
+        if(ans.equals("y")) {
+            LightLeaderCard card = askLeaderCardUse();
+            if (card != null && card.isDiscount())
+                controller.sendBuyDevCardRequest(deck-1, slot-1, card);
+        }
+        else{
+            controller.sendBuyDevCardRequest(deck-1, slot-1, null);
+        }
         System.out.println(controller.getPlayerBoard().getCardSlots());
-        //todo aggiungere leadercard
     }
 
     @Override
@@ -309,18 +329,42 @@ public class CLI implements View{
                 slot = in.nextInt();
             } while (slot < 1 || slot > numSlots);
             try {
-                if (controller.getPlayerBoard().getCardSlots().get(slot) != null){}
+                if (controller.getPlayerBoard().getCardSlots().get(slot) != null){
+                    String ans;
+                    do {
+                        System.out.println("do u want to add a leader card?\n [y/n]\n");
+                        ans = in.nextLine();
+                    }while(!ans.equals("y") && !ans.equals("n"));
+                    if(ans.equals("y")) {
+                        LightLeaderCard card = askLeaderCardUse();
+                        if (card != null && card.isExtraProd()) {
+                            LightResource chosenResource = null;
+                            int res;
+                            do {
+                                System.out.println("choose resource " +
+                                        "1 for COIN\n2 for SERVANT\n3 for SHIELD\n4 for STONE");
+                                res = in.nextInt();
+                            }
+                            while(res<1 || res>4);
+                            switch (res) {
+                                case 1 -> chosenResource = LightResource.COIN;
+                                case 2 -> chosenResource = LightResource.SERVANT;
+                                case 3 -> chosenResource = LightResource.SHIELD;
+                                case 4 -> chosenResource = LightResource.STONE;
+                            }
+                            controller.sendDevCardProductionRequest(slot, chosenResource, card);
+                        }
+                    }
+                    else{
+                        controller.sendDevCardProductionRequest(slot, null, null);
+                    }
+                    System.out.println(controller.getPlayerBoard().getStrongbox().toString());
+                    System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());
+                }
             } catch (NullPointerException | IndexOutOfBoundsException e) {
                 System.out.println("slot vuoto");
             }
         }
-
-        controller.sendDevCardProductionRequest(slot, null, null);
-        //todo add leadercards
-        System.out.println(controller.getPlayerBoard().getStrongbox());
-
-
-
     }
 
     @Override
@@ -367,10 +411,36 @@ public class CLI implements View{
             case 3 -> output = LightResource.SHIELD;
             case 4 -> output = LightResource.STONE;
         }
-        controller.sendDefaultProductionRequest(choice, output, null, null);
+        String ans;
+        do {
+            System.out.println("do u want to add a leader card?\n [y/n]\n");
+            ans = in.nextLine();
+        }while(!ans.equals("y") && !ans.equals("n"));
+        if(ans.equals("y")) {
+            LightLeaderCard card = askLeaderCardUse();
+            if (card != null && card.isExtraProd()) {
+                LightResource chosenResource = null;
+                int res;
+                do {
+                    System.out.println("choose resource " +
+                            "1 for COIN\n2 for SERVANT\n3 for SHIELD\n4 for STONE");
+                    res = in.nextInt();
+                }
+                while(res<1 || res>4);
+                switch (res) {
+                    case 1 -> chosenResource = LightResource.COIN;
+                    case 2 -> chosenResource = LightResource.SERVANT;
+                    case 3 -> chosenResource = LightResource.SHIELD;
+                    case 4 -> chosenResource = LightResource.STONE;
+                }
+                controller.sendDefaultProductionRequest(choice, output, card, chosenResource);
+            }
+        }
+        else{
+            controller.sendDefaultProductionRequest(choice, output, null, null);
+        }
         System.out.println(controller.getPlayerBoard().getStrongbox().toString());
         System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());
-
     }
 
     @Override
@@ -439,6 +509,23 @@ public class CLI implements View{
         }
         controller.sendStartItems(couple, chosenResources, faithPoints);
 
+    }
+
+    public LightLeaderCard askLeaderCardUse(){
+        System.out.println("choose an active leader card: ");
+        ArrayList<LightLeaderCard> cards = controller.getPlayerBoard().getLeaderSlot();
+        int choice = 0;
+        do{
+            System.out.println(cards);
+            choice = in.nextInt();
+        }while(choice != 1 && choice!=2);
+
+        LightLeaderCard card = cards.get(choice);
+        if(!card.isEnabled()) {
+            System.out.println("Leader card not active!");
+            card = null;
+        }
+        return card;
     }
 
     public void notifyJoin(){

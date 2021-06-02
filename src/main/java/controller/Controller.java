@@ -1,8 +1,9 @@
 package controller;
 
-import clientModel.cards.LightExtraProd;
+import clientModel.cards.LightLeaderCard;
 import clientModel.player.LightPlayer;
 import clientModel.resources.LightResource;
+import com.google.gson.Gson;
 import exceptions.*;
 import model.Game;
 import model.cards.Discount;
@@ -137,36 +138,48 @@ public class Controller {
     }
 
     //-----------tutto quello nel gioco
-    public void buyDevCard(int deck, int slot, Discount card) throws FullCardSlotException,
+    public void buyDevCard(int deck, int slot, LightLeaderCard lightCard) throws FullCardSlotException,
             NonCorrectLevelCardException,
             InsufficientResourcesException,
             EmptyDeckException,
             UnusableCardException{
-
-        try {
-            game.buyDevCard(deck, slot, card);
-        }catch(UnknownError e){
-            handleError(e.getMessage());
-        }
+        Gson gson = new Gson();
+        String s = gson.toJson(lightCard);
+        Discount card = gson.fromJson(s, Discount.class);
+        game.buyDevCard(deck, slot, card);
     }
-    public void buyResources(boolean line, int num, WhiteConverter card) throws UnusableCardException {
+    public void buyResources(boolean line, int num, LightLeaderCard lightCard) throws UnusableCardException {
+        Gson gson = new Gson();
+        String s = gson.toJson(lightCard);
+        WhiteConverter card = gson.fromJson(s, WhiteConverter.class);
         game.buyResources(line, num, card);
 
     }
     public ArrayList<LightResource> getThrewResources(){
         return game.getCurrentPlayer().getPlayerBoard().getWarehouseDepot().getThrewResources();
     }
-    public void devCardProduction(int slot, Resource chosenOutput, ExtraProd card) throws InsufficientResourcesException,
+    public void devCardProduction(int slot, LightResource lightChosenOutput, LightLeaderCard lightCard) throws InsufficientResourcesException,
             UnusableCardException {
+        Gson gson = new Gson();
+        String s = gson.toJson(lightCard);
+        ExtraProd card = gson.fromJson(s, ExtraProd.class);
+        Resource chosenOutput = Resource.valueOf(lightChosenOutput.toString());
         game.devCardProduction(slot, chosenOutput, card);
     }
-    public void defaultProduction(ArrayList<LightResource> input, LightResource output, LightExtraProd card, LightResource chosenOutput) throws InsufficientResourcesException,
+    public void defaultProduction(ArrayList<LightResource> input, LightResource output, LightLeaderCard lightCard, LightResource lightChosenOutput) throws InsufficientResourcesException,
             UnusableCardException {
+        //leadercard
+        Gson gson = new Gson();
+        String s = gson.toJson(lightCard);
+        ExtraProd card = gson.fromJson(s, ExtraProd.class);
+        //defprod
         ArrayList<Resource> newInput = new ArrayList<>();
         input.forEach(e -> newInput.add(Resource.valueOf(e.toString())));
         Resource newOutput = Resource.valueOf(output.toString());
-        //todo da sistemare (leaderCard)
-        game.defaultProduction(newInput, newOutput, null, null);
+        //leader choice
+        Resource chosenOutput = Resource.valueOf(lightChosenOutput.toString());
+
+        game.defaultProduction(newInput, newOutput, card, chosenOutput);
     }
     public void activateLeaderCard(LeaderCard card) throws InsufficientRequirementsException,
             InsufficientResourcesException {

@@ -71,7 +71,7 @@ public class LightExtraDepot extends LightLeaderCard {
             s+="\n|\t "+r;
         }
         s+=     "\n|Victory Points: "+victoryPoints;
-        s+="\n______________________";
+        s+="\n______________________\n";
         return s;
     }
 }

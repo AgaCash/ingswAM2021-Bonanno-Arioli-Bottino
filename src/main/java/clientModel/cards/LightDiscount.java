@@ -44,7 +44,7 @@ public class LightDiscount extends LightLeaderCard {
         }
         s+=     "\n|Discount: " +discount;
         s+=     "\n|Victory Points: "+victoryPoints;
-        s+="\n______________________";
+        s+="\n______________________\n";
         return s;
     }
 

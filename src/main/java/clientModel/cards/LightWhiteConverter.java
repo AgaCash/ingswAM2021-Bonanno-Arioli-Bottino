@@ -46,7 +46,7 @@ public class LightWhiteConverter extends LightLeaderCard {
         }
         s+=      "\n|Convert: " +resource;
         s+=      "\n|Victory Points: "+victoryPoints;
-        s+= "\n______________________";
+        s+= "\n______________________\n";
         return s;
     }
 

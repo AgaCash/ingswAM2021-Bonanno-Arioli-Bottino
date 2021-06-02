@@ -24,6 +24,7 @@ abstract public class LightLeaderCard{
     public boolean isWhiteConverter(){
         return false;
     }
+    public boolean isEnabled(){ return  isEnabled; }
     //subclasses specific methods
     //public LightResource whichResource() throws UnusableCardException { return null; }
     //public LightResource whichDiscount() throws UnusableCardException { return null; }

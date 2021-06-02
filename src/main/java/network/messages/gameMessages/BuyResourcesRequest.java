@@ -1,19 +1,19 @@
 package network.messages.gameMessages;
 
+import clientModel.cards.LightLeaderCard;
 import clientModel.table.LightMarketBoard;
 import clientModel.warehouse.LightWarehouseDepot;
 import controller.Controller;
 import exceptions.UnusableCardException;
-import model.cards.WhiteConverter;
 import network.messages.MessageType;
 import view.VirtualClient;
 
 public class BuyResourcesRequest extends GameMessage{
     private boolean line;
     private int num;
-    private WhiteConverter card;
+    private LightLeaderCard card;
 
-    public BuyResourcesRequest(String username, boolean line, int num, WhiteConverter card){
+    public BuyResourcesRequest(String username, boolean line, int num, LightLeaderCard card){
         super(username, MessageType.MARKET);
         this.line = line;
         this.num = num;

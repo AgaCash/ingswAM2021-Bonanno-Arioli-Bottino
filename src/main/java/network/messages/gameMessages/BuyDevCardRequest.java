@@ -1,9 +1,9 @@
 package network.messages.gameMessages;
 
 import clientModel.cards.LightDevelopmentCard;
+import clientModel.cards.LightLeaderCard;
 import controller.Controller;
 import exceptions.*;
-import model.cards.Discount;
 import network.messages.MessageType;
 import view.VirtualClient;
 
@@ -12,10 +12,10 @@ import java.util.ArrayList;
 public class BuyDevCardRequest extends GameMessage{
     private int deck;
     private int slot;
-    private Discount card;
+    private LightLeaderCard card;
 
 
-    public BuyDevCardRequest(String username, int deck, int slot, Discount card){
+    public BuyDevCardRequest(String username, int deck, int slot, LightLeaderCard card){
         super(username, MessageType.BUYDEVCARDS);
         this.deck = deck;
         this.slot = slot;

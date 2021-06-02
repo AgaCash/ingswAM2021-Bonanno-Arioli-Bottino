@@ -65,7 +65,7 @@ public class LightExtraProd extends LightLeaderCard {
         s+=    "\n|\tInput: "+input;
         s+=      "\n|Produce: \n\t"+output+" and a chosen resource";
         s+=      "\n|Victory Points: "+victoryPoints;
-        s+="\n______________________";
+        s+="\n______________________\n";
         return s;
     }
 }
