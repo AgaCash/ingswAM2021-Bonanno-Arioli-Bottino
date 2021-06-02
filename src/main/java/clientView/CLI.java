@@ -136,29 +136,6 @@ public class CLI implements View{
         controller.sendSignalMultiPlayerGame();
     }
 
-    /*
-    public void notifyCreatorPlayerJoined(){
-        boolean success = false;
-        String ch = null;
-        do{
-            System.out.println("Start game? (y/n)");
-            do {
-                 ch = in.nextLine(); //temporary solution, alla buona
-            }while (ch.isEmpty());
-
-            switch (ch.toLowerCase()){
-                case "y":
-                    success = true;
-                    controller.sendSignalMultiPlayerGame();
-                    break;
-                case "n":
-                    success = true;
-                    break;
-            }
-        }while (!success);
-
-    }*/
-
 
     public void showWaitingRoom(){
         System.out.println("You joined the room");
@@ -423,6 +400,7 @@ public class CLI implements View{
         System.out.println(message);
 
     }
+
     @Override
     public void askStartItems(ArrayList<LightLeaderCard> quartet, int numResources, boolean faithPoints) {
         for(LightLeaderCard card: quartet)

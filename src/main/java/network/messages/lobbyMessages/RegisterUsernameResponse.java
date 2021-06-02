@@ -25,7 +25,6 @@ public class RegisterUsernameResponse extends LobbyMessage{
     public void executeCommand(LightController lightController) {
         if(success){
             if(reconnection){
-                //System.out.println("SEI TORNATO IN GAME");
                 lightController.reconnectToGame();
             }else {
                 //deve mostrargli il menù

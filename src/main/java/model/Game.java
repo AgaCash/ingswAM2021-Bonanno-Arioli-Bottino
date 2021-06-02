@@ -72,6 +72,11 @@ public class Game {
     //A QUA.
     //=================
 
+
+    public boolean isSinglePlayer() {
+        return singlePlayer;
+    }
+
     public ArrayList<String> getPlayerTurns(){
         ArrayList<String> turns = new ArrayList<>();
         for(Player p : players)

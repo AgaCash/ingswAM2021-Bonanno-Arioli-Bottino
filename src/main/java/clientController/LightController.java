@@ -51,10 +51,26 @@ public class LightController {
     //RESILIENCE
 
     public void reconnectToGame(){
-        System.out.println("RICONNESSIONE AL GAME");
+        System.out.println("RICONNESSIONE AL GAME...");
         //TODO:
         //  CAMBIARE LA SCENA IN GAME
-        //  RICARICARE LO STATO DEL GAME FINO A QUEL MOMENTO
+        //  RICARICARE LO STATO DEL GAME FINO A QUEL MOMENTO:
+        //          NUOVA IDEA:::::::
+        //                  SE SI DISCONNETTE NON POTRA' MAI ESSERE IL SUO TURNO, QUINDI
+        //                  ASPETTERA' SEMPRE CHE TOCCHI DI NUOVO A LUI
+        //
+        //
+
+        UpdateReconnectionRequest request = new UpdateReconnectionRequest(username);
+        try {
+            String responseS = client.recv();
+            UpdateReconnectionResponse response;
+            response = gson.fromJson(responseS, UpdateReconnectionResponse.class);
+            response.executeCommand(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void notifyPlayerDisconnected(String username){
@@ -249,7 +265,7 @@ public class LightController {
             StartGameResponse startGameResponse = gson.fromJson(response, StartGameResponse.class);
             startGameResponse.executeCommand(this);
         } catch (IOException e){
-            System.out.println("errore");
+            //System.out.println("errore");
             view.showError("error ");
             //todo da abbellire
         }
@@ -480,6 +496,10 @@ public class LightController {
         return this.game.getPlayer();
     }
 
-
+    public void waitForMyTurn(){
+        //todo:
+        // waitForMyTurn è il metodo che ascolta gli update degli altri giocatori e vede quando è il suo turno
+        System.out.println("waiting for my turn to start");
+    }
 
 }

@@ -53,6 +53,10 @@ public class VirtualView implements ServerView {
         outStream.println(gson.toJson(playerDisconnectedMessage));
     }
 
+    public void sendReconnectionUpdate(UpdateReconnectionResponse updateReconnectionResponse){
+        outStream.println(gson.toJson(updateReconnectionResponse));
+    }
+
 
     //GAME
 

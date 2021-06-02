@@ -54,6 +54,9 @@ public class Controller {
     //ping
     public void disconnectPlayer(String username){
         System.out.println(username+" disconnesso!");
+        if(game.getCurrentPlayer().getNickname().equals(username)){
+            endTurn();
+        }
         for(VirtualClient v: views){
             if(v.getVirtualView().getUsername().equals(username)){
                 disconnectedPlayer.add(username);
@@ -182,7 +185,14 @@ public class Controller {
     public DevelopmentBoard getDevBoard(){
         return game.getDevBoard();
     }
-    public void endTurn(){ game.updateTurn(); }
+    public void endTurn(){
+        do{
+            game.updateTurn();
+        }while(disconnectedPlayer.contains(game.getCurrentPlayer().getNickname()) && !game.isSinglePlayer());
+        //OCCHIO AGLI UPDATE E AL MECCANISMO DI UNDERSTANDING DEL TURNO DA PARTE DEL CLIENT
+        //
+        //SE TUTTI E 4 SI SONO DISCONNESSI FANCULO TUTTO SI BUTTA VIA LA PARTITA
+    }
 
     public void handleError(String message){
         views.forEach(element -> element.getVirtualView().updateInternalError(new InternalErrorNotify(element.getVirtualView().getUsername(), message)));

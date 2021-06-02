@@ -18,6 +18,8 @@ public enum MessageType {
     //RESILIENCE
     PLAYER_DISCONNECTED(PlayerDisconnectedMessage.class, ""),
     PLAYER_RECONNECTED(PlayerReconnectedMessage.class, ""),
+    RECONNECTION_UPDATE_REQUEST(UpdateReconnectionRequest.class, ""),
+    RECONNECTION_UPDATE_RESPONSE(UpdateReconnectionResponse.class, ""),
 
     //SETUP //SERVE ANCORA? //STA COSA LA FA GIA' REGISTER_USERNAME
     CHECK_USERNAME_REQUEST,
