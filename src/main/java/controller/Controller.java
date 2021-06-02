@@ -221,4 +221,8 @@ public class Controller {
         return game.getFaithTracks();
     }
 
+    public ArrayList<Player> getPlayers(){
+        return game.getPlayers();
+    }
+
 }

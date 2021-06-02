@@ -1,8 +1,11 @@
 package network.messages.gameMessages;
 
+import clientModel.player.LightPlayer;
 import controller.Controller;
 import network.messages.MessageType;
 import view.VirtualClient;
+
+import java.util.ArrayList;
 
 public class UpdateReconnectionRequest extends GameMessage{
     public UpdateReconnectionRequest(String username) {
@@ -15,9 +18,13 @@ public class UpdateReconnectionRequest extends GameMessage{
 
         //sto messaggio alla fine deve solo creare l'update
 
-        //crea il messaggio e lo fa inviare a VV
-        UpdateReconnectionResponse response = null;
-                                         // = new UpdateReconnectionResponse(TUTTO IL MODEL);
+        ArrayList<LightPlayer> players = new ArrayList<>();
+        controller.getPlayers().forEach(e-> players.add(e.convert()));
+        UpdateReconnectionResponse response = new UpdateReconnectionResponse(
+                                                    getUsername(),
+                                                    controller.getMarketBoard().convert(),
+                                                    controller.getDevBoard().convert(),
+                                                    players);
         client.getVirtualView().sendReconnectionUpdate(response);
     }
 }
