@@ -1,7 +1,6 @@
 package clientModel.cards;
 
 import clientModel.resources.LightResource;
-import model.cards.DevelopmentCard;
 
 import java.util.ArrayList;
 
@@ -39,15 +38,15 @@ public class LightWhiteConverter extends LightLeaderCard {
 
     @Override
     public String toString(){
-        String s = "\nWHITE CONVERTER";
-        s+= "\nID: "+id;
-        s+= "\nRequires: ";
+        String s =  "______________________";
+        s+=      "\n|    WHITE CONVERTER   |";
+        s+=      "\n|Requires:             |";
         for (LightDevelopmentCard d:requires) {
-            s+="\n\t "+d;
+            s+="\n|\t "+d;
         }
-        s+= "\nConvert: " +resource;
-        s+= "\nVictory Points: "+victoryPoints;
-        s+= "\nIs Enabled: "+ isEnabled;
+        s+=      "\n|Convert: " +resource;
+        s+=      "\n|Victory Points: "+victoryPoints;
+        s+= "\n______________________";
         return s;
     }
 

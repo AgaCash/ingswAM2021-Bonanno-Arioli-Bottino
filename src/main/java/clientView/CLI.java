@@ -26,7 +26,6 @@ public class CLI implements View{
     }
 
     public void askServerInfo(){
-
         boolean connectionCorrect = false;
         do{
             out.println("IP [127.0.0.1]: ");
@@ -65,7 +64,7 @@ public class CLI implements View{
     public void askMenu() {
         boolean stop = false;
         while (!stop) {
-            out.println("Scegli cosa vuoi fare \n1- Singleplayer \n2- Join Multiplayer Lobby" +
+            out.println("CHOOSE MODALITY: \n1- Single player \n2- Join Multiplayer Lobby" +
                     " \n3- Create Multiplayer Lobby");
             int choice = in.nextInt();
             switch (choice) {
@@ -85,7 +84,7 @@ public class CLI implements View{
                     break;
                 }
                 default -> {
-                    out.println("CaggiaFà? invalid choice ");
+                    out.println("INVALID CHOICE\n");
                 }
             }
         }
@@ -199,11 +198,11 @@ public class CLI implements View{
 
     @Override
     public void askTurn() {
-        System.out.println("PARTIAMOOOOOO");
+        System.out.println("GAME IS STARTING...\n");
         int ans = 0;
         do{
             do {
-                System.out.println("scegli un azione\n\b" +
+                System.out.println("CHOOSE YOUR ACTION\n\b" +
                         "1 per attivare la carta leader\n\b" +
                         "2 per attivare la produzione\n\b" +
                         "3 per comprare le risorse\n\b" +
@@ -392,6 +391,8 @@ public class CLI implements View{
             case 4 -> output = LightResource.STONE;
         }
         controller.sendDefaultProductionRequest(choice, output, null, null);
+        System.out.println(controller.getPlayerBoard().getStrongbox().toString());
+        System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());
 
     }
 
@@ -424,7 +425,8 @@ public class CLI implements View{
     }
     @Override
     public void askStartItems(ArrayList<LightLeaderCard> quartet, int numResources, boolean faithPoints) {
-        quartet.forEach(System.out::println);
+        for(LightLeaderCard card: quartet)
+            System.out.println(card.toString());
         System.out.println("you have " + numResources +
                 " resources to choose");
         if (faithPoints)
@@ -432,7 +434,7 @@ public class CLI implements View{
         ArrayList<LightLeaderCard> couple = new ArrayList<>();
         int first, second;
         do{
-            System.out.println("insert two number from 1 to 4 to choose 2 leader cards mammt hai capito");
+            System.out.println("insert two number from 1 to 4 to choose 2 leader cards from the quartet");
             first = in.nextInt() - 1;
             second = in.nextInt() - 1;
          }

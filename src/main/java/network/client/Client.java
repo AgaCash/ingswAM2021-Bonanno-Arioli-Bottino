@@ -5,14 +5,15 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import network.messages.MessageType;
 import network.messages.gameMessages.GameMessage;
-import network.messages.lobbyMessages.*;
-import network.messages.pingMessages.PingGameMessage;
-import network.messages.pingMessages.PingLobbyMessage;
+import network.messages.lobbyMessages.LobbyMessage;
+import network.messages.lobbyMessages.LoginMultiPlayerResponse;
 import network.timer.ClientPingReceiverTimer;
 
 import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 public class Client {
     private final InetAddress address;
@@ -42,7 +43,7 @@ public class Client {
             do{
                 try {
                     String r = in.readLine();
-                    System.out.println("LETTO DALLA RETE::::"+r); //DEBUG
+                    //System.out.println("LETTO DALLA RETE::::"+r); //DEBUG
                     clientPingReciverTimer.reset();
                     synchronized (queueLock){
                         if(!ifAsyncMessageExecute(r)) //se non è un messaggio di ping lo aggiunge alla coda

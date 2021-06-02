@@ -2,8 +2,6 @@ package network.messages.gameMessages;
 
 import clientController.LightController;
 import clientModel.cards.LightLeaderCard;
-import com.google.gson.Gson;
-import model.cards.LeaderCard;
 import network.messages.MessageType;
 
 import java.util.ArrayList;
@@ -34,9 +32,6 @@ public class StartGameResponse extends GameMessage {
     public void executeCommand(LightController controller){
         if(this.success) {
             controller.showSuccess(getUsername(), "starting single player game ...");
-            System.out.println("sono la response");
-            this.quartet.forEach(element -> System.out.println(element));
-            System.out.println(" ci sono ");
             controller.chooseStartItems(this.quartet, this.numResources, this.faithPoint);
         }
         else{

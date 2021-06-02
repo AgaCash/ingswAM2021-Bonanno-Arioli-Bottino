@@ -59,13 +59,13 @@ public class LightExtraProd extends LightLeaderCard {
 
     @Override
     public String toString(){
-        String s = "\nEXTRA PROD";
-        s+= "\nID: "+id;
-        s+= "\nRequires: ";
-        s+="\n\t Input: "+input;
-        s+="\nProduce: \n\t"+output+" and a chosen resource";
-        s+= "\nVictory Points: "+victoryPoints;
-        s+= "\nIs Enabled: "+ isEnabled;
+        String s =  "______________________";
+        s+=      "\n|       EXTRA PROD     |";
+        s+=      "\n|Requires:             |";
+        s+=    "\n|\tInput: "+input;
+        s+=      "\n|Produce: \n\t"+output+" and a chosen resource";
+        s+=      "\n|Victory Points: "+victoryPoints;
+        s+="\n______________________";
         return s;
     }
 }

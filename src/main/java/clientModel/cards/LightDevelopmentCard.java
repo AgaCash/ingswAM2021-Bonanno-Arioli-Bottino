@@ -62,24 +62,25 @@ public class LightDevelopmentCard {
     @Override
     public String toString(){
         StringBuilder s = new StringBuilder();
-        s.append("\nColour: ").append(colour);
-        s.append("\nLevel: ").append(level);
+        s.append("____________________\n");
+        s.append("\n|Colour: ").append(colour);
+        s.append("\n|Level: ").append(level);
         if(isUsable()){
-            s.append("\nID: ").append(id);
-            s.append("\nVictory Points: ").append(victoryPoints);
-            s.append("\nCost: ");
+            s.append("\n|Victory Points: ").append(victoryPoints);
+            s.append("\n|Cost: ");
             for (LightResource resource : cost) {
-                s.append("\n\t").append(resource);
+                s.append("\n|\t").append(resource);
             }
-            s.append("\nProdInput: ");
+            s.append("\n|ProdInput: ");
             for (LightResource resource : prodInput) {
-                s.append("\n\t").append(resource);
+                s.append("\n|\t").append(resource);
             }
-            s.append("\nProdOutput: ");
+            s.append("\n|ProdOutput: ");
             for (LightResource resource : prodOutput) {
-                s.append("\n\t").append(resource);
+                s.append("\n|\t").append(resource);
             }
         }
+        s.append("\n____________________\n");
         return s.toString();
     }
 }

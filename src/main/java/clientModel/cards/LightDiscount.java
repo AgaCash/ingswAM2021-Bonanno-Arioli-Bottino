@@ -1,9 +1,6 @@
 package clientModel.cards;
 
 import clientModel.resources.LightResource;
-import model.cards.Discount;
-import model.cards.LeaderCard;
-import model.resources.Resource;
 
 import java.util.ArrayList;
 
@@ -39,15 +36,15 @@ public class LightDiscount extends LightLeaderCard {
  */
     @Override
     public String toString(){
-        String s = "\nDISCOUNT";
-        s+= "\nID: "+id;
-        s+= "\nRequires: ";
+        String s = "______________________";
+        s+=     "\n|        DISCOUNT      |";
+        s+=     "\n|Requires:             |";
         for (LightDevelopmentCard d:requires) {
-            s+="\n\t "+d;
+            s+="\n\t"+d;
         }
-        s+=  "\nDiscount: " +discount;
-        s+= "\nVictory Points: "+victoryPoints;
-        s+= "\nIs Enabled: "+ isEnabled;
+        s+=     "\n|Discount: " +discount;
+        s+=     "\n|Victory Points: "+victoryPoints;
+        s+="\n______________________";
         return s;
     }
 
