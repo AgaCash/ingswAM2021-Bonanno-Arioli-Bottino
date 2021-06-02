@@ -204,6 +204,44 @@ public class CLI implements View{
         }while(ans!=5);
     }
 
+    public void askTurnFinal() {
+        System.out.println("GAME IS STARTING...\n");
+        int ans = 0;
+        do{
+            do {
+                System.out.println("CHOOSE YOUR ACTION\n\b" +
+                        "1 per attivare la carta leader\n\b" +
+                        "5 per terminare il turno");
+                ans = in.nextInt();
+            } while (ans != 1 && ans != 5);
+            switch (ans) {
+                case 1 : askLeaderCardActivation(); break;
+                case 5 : askEndTurn(); break;
+            }
+
+        }while(ans!=5);
+    }
+
+    public void askTurnAfterProduction() {
+        System.out.println("GAME IS STARTING...\n");
+        int ans = 0;
+        do{
+            do {
+                System.out.println("CHOOSE YOUR ACTION\n\b" +
+                        "1 per attivare la carta leader\n\b" +
+                        "2 per attivare la produzione\n\b" +
+                        "5 per terminare il turno");
+                ans = in.nextInt();
+            } while (ans < 1 || ans > 5);
+            switch (ans) {
+                case 1 : askLeaderCardActivation(); break;
+                case 2 : askProduction(); break;
+                case 5 : askEndTurn(); break;
+            }
+
+        }while(ans!=5);
+    }
+
     private void askProduction(){
         int ans =0;
         do {

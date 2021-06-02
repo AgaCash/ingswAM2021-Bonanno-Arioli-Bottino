@@ -371,7 +371,7 @@ public class LightController {
 
     public void sendLeaderCardActivationRequest (LightLeaderCard card){
         Gson gson = new Gson();
-        System.out.println("capiamo");
+        //System.out.println("capiamo");
         LeaderCardActivationRequest request = new LeaderCardActivationRequest(getUsername(), card);
         client.send(gson.toJson(request));
         try {
@@ -490,7 +490,24 @@ public class LightController {
     public void waitForMyTurn(){
         //todo:
         // waitForMyTurn è il metodo che ascolta gli update degli altri giocatori e vede quando è il suo turno
-        System.out.println("waiting for my turn to start");
+        System.out.println("Others are playing, waiting for your turn starts");
+        boolean myTurn = false;
+        do{
+            try {
+                String responseS = client.recv();
+                MessageType msgType = MessageType.valueOf(
+                        gson.fromJson(responseS, JsonObject.class).get("messageType").getAsString());
+                ((GameMessage) gson.fromJson(responseS, msgType.getClassType())).executeCommand(this);
+                if(true/* todo: DAL MESSAGGIO CAPISCO CHE TOCCA A ME*/){
+                    myTurn = true;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }while(!myTurn);
+        view.askTurn();
+
     }
 
 }
+
