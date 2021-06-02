@@ -63,8 +63,6 @@ public class Client {
         new Thread(clientPingReciverTimer).start();
     }
 
-    //TODO:
-    //  SISTEMARE LA RICEZIONE DI MESSAGGI NON VALIDI?
     private boolean ifAsyncMessageExecute(String s){
         Gson gson = new Gson();
         boolean retValue = false;
@@ -72,7 +70,7 @@ public class Client {
         try{
             MessageType m = MessageType.valueOf(jsonObject.get("messageType").getAsString());
             switch (m) {
-                case PING_LOBBY -> {
+                case PING_LOBBY, LOBBY_PLAYER_DISCONNECTED -> {
                     ((LobbyMessage) gson.fromJson(s, m.getClassType())).executeCommand(lightController);
                     retValue = true;
                 }

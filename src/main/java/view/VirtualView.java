@@ -19,15 +19,6 @@ public class VirtualView implements ServerView {
     private String username;
     private Gson gson;
 
-    //TODO:
-    //  serve istanziare VV già con l'username???
-    public VirtualView(PrintWriter out, String username) {
-        this.outStream = out;
-        this.username = username;
-        gson = new Gson();
-        gson = new GsonBuilder().registerTypeAdapter(LeaderCard.class, new LeaderCardDeserializer()).create();
-    }
-
     public VirtualView(PrintWriter out) {
         this.outStream = out;
         gson = new Gson();
@@ -50,6 +41,10 @@ public class VirtualView implements ServerView {
 
     public void sendPlayerResilienceMessage(PlayerDisconnectedMessage playerDisconnectedMessage){
         outStream.println(gson.toJson(playerDisconnectedMessage));
+    }
+
+    public void sendPlayerResilienceMessage(LobbyPlayerDisconnectedMessage lobbyPlayerDisconnectedMessage){
+        outStream.println(gson.toJson((lobbyPlayerDisconnectedMessage)));
     }
 
     public void sendReconnectionUpdate(UpdateReconnectionResponse updateReconnectionResponse){

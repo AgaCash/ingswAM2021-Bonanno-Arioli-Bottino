@@ -16,6 +16,7 @@ public enum MessageType {
     PONG_GAME(PongGameMessage.class, "PONG"),
 
     //RESILIENCE
+    LOBBY_PLAYER_DISCONNECTED(LobbyPlayerDisconnectedMessage.class, ""),
     PLAYER_DISCONNECTED(PlayerDisconnectedMessage.class, ""),
     PLAYER_RECONNECTED(PlayerReconnectedMessage.class, ""),
     RECONNECTION_UPDATE_REQUEST(UpdateReconnectionRequest.class, ""),
@@ -48,7 +49,7 @@ public enum MessageType {
     SETUPRESPONSE(SetupResponse.class, "GAME"),
 
     //ACTIONS
-    //TODO PRONTO AD ESPLODERE (GUARDAMI PER FUTURI PROBLEMI)
+    // PRONTO AD ESPLODERE (GUARDAMI PER FUTURI PROBLEMI)
     STARTINGTURNCHOOSES,
     STARTINGUPDATE,
     MARKET(BuyResourcesRequest.class, "GAME"),

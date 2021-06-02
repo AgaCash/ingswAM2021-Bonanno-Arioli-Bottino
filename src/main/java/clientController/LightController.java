@@ -56,10 +56,10 @@ public class LightController {
         //
 
         UpdateReconnectionRequest request = new UpdateReconnectionRequest(username);
+        client.send(gson.toJson(request));
         try {
             String responseS = client.recv();
-            UpdateReconnectionResponse response;
-            response = gson.fromJson(responseS, UpdateReconnectionResponse.class);
+            UpdateReconnectionResponse response = gson.fromJson(responseS, UpdateReconnectionResponse.class);
             response.executeCommand(this);
         } catch (IOException e) {
             e.printStackTrace();
@@ -79,7 +79,7 @@ public class LightController {
 
     public void serverDisconnected(){
         view.serverLostConnection();
-        //poi quit?
+        //poi quit
         System.exit(0);
     }
 
@@ -185,8 +185,6 @@ public class LightController {
     }
 */
 
-    //TODO:
-    //  quando il client perde la connessione rimane in loop. deve disconnettersi
 
 
     //RICORDA CHE 2 RECV IN CONTEMPORANEA FREGANO IL TUTTO
@@ -490,6 +488,7 @@ public class LightController {
     public void waitForMyTurn(){
         //todo:
         // waitForMyTurn è il metodo che ascolta gli update degli altri giocatori e vede quando è il suo turno
+        //  singleplayer: get state and ask again things
         System.out.println("Others are playing, waiting for your turn starts");
         boolean myTurn = false;
         do{

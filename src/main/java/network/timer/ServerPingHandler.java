@@ -3,6 +3,7 @@ package network.timer;
 import exceptions.NoSuchUsernameException;
 import network.messages.pingMessages.PingGameMessage;
 import network.messages.pingMessages.PingLobbyMessage;
+import network.server.Lobby;
 import network.server.LobbyHandler;
 import view.VirtualClient;
 
@@ -101,9 +102,10 @@ public class ServerPingHandler extends Thread {
             //System.out.println("DISCONNESSO DA LOBBY");
             try {
                 String username = virtualClient.getVirtualView().getUsername();
-                LobbyHandler.getInstance().getLobbyFromUsername(username).leaveLobby(username);
+                Lobby lobby = LobbyHandler.getInstance().getLobbyFromUsername(username);
+                LobbyHandler.getInstance().leaveLobby(lobby, username);
             } catch (NoSuchUsernameException e) {
-                System.out.println(virtualClient.getVirtualView().getUsername() +" disconnected");
+                System.out.println(virtualClient.getVirtualView().getUsername() +" disconnected from hub");
             }
         }
     }

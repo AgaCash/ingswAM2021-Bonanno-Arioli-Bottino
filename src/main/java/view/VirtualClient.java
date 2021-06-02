@@ -51,7 +51,7 @@ public class VirtualClient extends Thread{
         serverPingHandler.reset();
         //gameServerTimerCheckConnection.reset();
     }
-
+    /*
     //TODO: todo???
     public void disconnectPlayerFromGame(){
         System.out.println("DISCONNECT FROM GAME");
@@ -60,14 +60,14 @@ public class VirtualClient extends Thread{
 
     public void disconnectPlayerFromLobby(){
         System.out.println("DISCONNECT FROM LOBBY");
-        /*try {
+        try {
             Lobby l = LobbyHandler.getInstance().getLobbyFromUsername(virtualView.getUsername());
             l.leaveLobby(virtualView.getUsername());
         } catch (NoSuchUsernameException e) {
             System.out.println(e.getMessage());
             //Player was not in any lobby
-        }*/
-    }
+        }
+    }*/
 
     public void setController(Controller controller) {
         this.controller = controller;

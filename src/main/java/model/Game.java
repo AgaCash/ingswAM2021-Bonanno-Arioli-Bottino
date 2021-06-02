@@ -17,7 +17,7 @@ public class Game {
     private Table table;
     private Player currentPlayer;
     private Lorenzo cpu;
-    public ArrayList<Token> tokens ;
+    public ArrayList<Token> tokens;
     private boolean singlePlayer;
     //Lorenzo cpu = new Lorenzo();  will be ok when DevBoard will adopt singleton pattern
 
@@ -33,8 +33,10 @@ public class Game {
         //table = Table.getTableInstance();
         table = new Table();
         Collections.shuffle(players);
-        if(singlePlayer)
+        if(singlePlayer){
             cpu = new Lorenzo(table.getDevBoard());
+            tokens = cpu.tokens;
+        }
     }
 
     //========DA RIVEDERE DA QUA:

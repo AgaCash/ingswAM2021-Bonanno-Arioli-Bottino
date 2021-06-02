@@ -5,6 +5,7 @@ import exceptions.GameAlreadyStartedException;
 import exceptions.LobbyFullException;
 import exceptions.NotEnoughPlayersException;
 import model.player.Player;
+import network.messages.lobbyMessages.LobbyPlayerDisconnectedMessage;
 import network.messages.lobbyMessages.LoginMultiPlayerResponse;
 import view.VirtualClient;
 
@@ -57,15 +58,11 @@ public class Lobby {
 
    public synchronized void leaveLobby(String username){
        System.out.println(username+" disconnected from lobby");
-        players.removeIf(p->p.getNickname().equals(username));
-        LobbyHandler.getInstance().destroyLobby(this);
-        /*
-        if(this.isEmpty()){
-            LobbyHandler.getInstance().destroyLobby(this);
-        }*/
+       LobbyPlayerDisconnectedMessage l = new LobbyPlayerDisconnectedMessage(username);
+       views.removeIf(v->v.getVirtualView().getUsername().equals(username));
+       views.forEach((v)->v.getVirtualView().sendPlayerResilienceMessage(l));
+       players.removeIf(p->p.getNickname().equals(username));
     }
-
-    //todo: se inserisci numero lobby single throw error
 
     public synchronized ArrayList<String> getUsernameList(){
         ArrayList<String> names = new ArrayList<>();
@@ -89,7 +86,11 @@ public class Lobby {
     }
 
     public synchronized boolean isUsernameDisconnected(String username){
-        return sharedController.isUsernameDisconnected(username);
+        try{
+            return sharedController.isUsernameDisconnected(username);
+        }catch (NullPointerException n){
+            return false;
+        }
     }
 
     public synchronized int getId(){
@@ -111,9 +112,11 @@ public class Lobby {
         sharedController = new Controller(id, views);
         System.out.println(sharedController);
         System.out.println(views);
+        System.out.println(players);
+        System.out.println(views);
         if(singlePlayerMode){
-            views.get(0).setController(sharedController);
             sharedController.addSinglePlayer(players.get(0));
+            views.get(0).setController(sharedController);
         }else{
             for (VirtualClient v:views) {
                 v.setController(sharedController);

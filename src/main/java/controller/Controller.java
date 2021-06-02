@@ -53,6 +53,8 @@ public class Controller {
     }
 
     //ping
+    //todo: 2 exception quando ci si disconnette da game
+    //          -> è perchè game in multiplayer non viene ancora inizializzato
     public void disconnectPlayer(String username){
         System.out.println(username+" disconnesso!");
         if(game.getCurrentPlayer().getNickname().equals(username)){
@@ -77,10 +79,6 @@ public class Controller {
             return true;
         return false;
     }
-
-    //non centra con questa posizione
-    //todo: disconnessione da lobby
-    //non centra con questa posizione
 
     public void reconnectUsername(String username, VirtualClient virtualClient){
         /*

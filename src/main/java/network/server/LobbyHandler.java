@@ -93,16 +93,12 @@ public class LobbyHandler {
             return false;
         }
     }
-    //TODO: NOTIFY PLAYER LEFT LOBBY
-    //TODO: array 0 -> destry
-    public synchronized void destroyLobby(Lobby lobby){
-        AtomicReference<Lobby> tmpLobby = new AtomicReference<>();
-        lobbies.forEach((l)->{
-            if(l.equals(lobby)){
-                tmpLobby.set(lobby);
-            }
-        });
-        lobbies.remove(tmpLobby);
+
+    public synchronized void leaveLobby(Lobby lobby, String username){
+        lobby.leaveLobby(username);
+        if(lobby.isEmpty()){
+            lobbies.remove(lobby);
+        }
     }
 
     public synchronized ArrayList<Lobby> getMultiLobbies() {
