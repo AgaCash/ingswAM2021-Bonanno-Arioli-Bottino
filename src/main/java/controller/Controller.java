@@ -132,13 +132,13 @@ public class Controller {
             NonCorrectLevelCardException,
             InsufficientResourcesException,
             EmptyDeckException,
-            UnusableCardException, InvalidPurchaseException {
+            UnusableCardException, InvalidActionException {
         Gson gson = new Gson();
         String s = gson.toJson(lightCard);
         Discount card = gson.fromJson(s, Discount.class);
         game.buyDevCard(deck, slot, card);
     }
-    public void buyResources(boolean line, int num, LightLeaderCard lightCard) throws UnusableCardException, InvalidPurchaseException {
+    public void buyResources(boolean line, int num, LightLeaderCard lightCard) throws UnusableCardException, InvalidActionException {
         Gson gson = new Gson();
         String s = gson.toJson(lightCard);
         WhiteConverter card = gson.fromJson(s, WhiteConverter.class);
@@ -161,7 +161,7 @@ public class Controller {
         game.devCardProduction(slot, chosenOutput, card);
     }
     public void defaultProduction(ArrayList<LightResource> input, LightResource output, LightLeaderCard lightCard, LightResource lightChosenOutput) throws InsufficientResourcesException,
-            UnusableCardException {
+            UnusableCardException, InvalidActionException {
         ArrayList<Resource> newInput = new ArrayList<>();
         input.forEach(e -> newInput.add(Resource.valueOf(e.toString())));
         Resource newOutput = Resource.valueOf(output.toString());

@@ -19,6 +19,7 @@ public class Game {
     private Lorenzo cpu;
     public ArrayList<Token> tokens;
     private boolean singlePlayer;
+    private boolean didAction = false;
 
     private boolean isOver;
     private boolean victory;
@@ -115,7 +116,14 @@ public class Game {
     //============GIOCO
 
     //--------------------BUY DEV CARDS--------------------
-    public void buyDevCard(int numDeck, int slotPosition, Discount card) throws FullCardSlotException, NonCorrectLevelCardException, InsufficientResourcesException, UnusableCardException, EmptyDeckException, InvalidPurchaseException {
+    public void buyDevCard(int numDeck, int slotPosition, Discount card) throws FullCardSlotException,
+            NonCorrectLevelCardException,
+            InsufficientResourcesException,
+            UnusableCardException,
+            EmptyDeckException,
+            InvalidActionException {
+        if(didAction)
+            throw new InvalidActionException("you already did an action in this turn!\n");
         Resource discount;
         Deck deck = table.getDevBoard().getDeck(numDeck);
         ArrayList<Resource> cost = deck.getCost();
@@ -132,6 +140,7 @@ public class Game {
                 this.victory = true;
                 this.finalMessage = "\nVITTORIA! HAI COMPRATO LA TUA SETTIMA CARTA SVILUPPO\n";
             }
+            this.didAction=true;
         }
         else{
             throw new InsufficientResourcesException("Can't buy this card: insufficient resources!");
@@ -139,7 +148,10 @@ public class Game {
     }
 
     //--------------------MARKET--------------------
-    public void buyResources(boolean line, int num, WhiteConverter card) throws UnusableCardException, InvalidPurchaseException {
+    public void buyResources(boolean line, int num, WhiteConverter card) throws UnusableCardException,
+            InvalidActionException {
+        if(didAction)
+            throw new InvalidActionException("you already did an action in this turn!\n");
         ArrayList<Resource> bought = new ArrayList<>();
         if(line &&  num>=0 && num<=2) {
             bought = table.getMarketBoard().addMarketLine(num, card);
@@ -163,6 +175,7 @@ public class Game {
 
                 }
             }
+        this.didAction=true;
 
     }
 
@@ -197,7 +210,9 @@ public class Game {
     /*defaultProduction: activates production from the developmentBoard
     @input and @output are set by @Controller
      */
-    public void defaultProduction(ArrayList<Resource> input, Resource output, LeaderCard card, Resource chosenOutput) throws InsufficientResourcesException, UnusableCardException {
+    public void defaultProduction(ArrayList<Resource> input, Resource output, LeaderCard card, Resource chosenOutput) throws InsufficientResourcesException, UnusableCardException, InvalidActionException {
+        if(didAction)
+            throw new InvalidActionException("you already did an action in this turn!\n");
         ArrayList<Resource> prodResources = new ArrayList<>();
 
         if(checkResources(input, true )){
@@ -214,6 +229,7 @@ public class Game {
                 }
             }catch(NullPointerException e){;}
             prodResources.forEach(element -> currentPlayer.getPlayerBoard().getStrongbox().addResource(element));
+            this.didAction =true;
         }
         else{
             throw new InsufficientResourcesException("Can't do this production: insufficient resources!");
@@ -305,8 +321,7 @@ public class Game {
     public void updateTurn(){
         updateStrongbox();
         updateCardSlots();
-        this.table.getMarketBoard().backUsable();
-        this.table.getDevBoard().backUsable();
+        this.didAction = false;
         changeTurn();
     }
     private void updateCardSlots(){

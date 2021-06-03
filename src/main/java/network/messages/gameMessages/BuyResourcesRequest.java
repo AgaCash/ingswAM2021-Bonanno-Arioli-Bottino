@@ -1,10 +1,10 @@
 package network.messages.gameMessages;
 
 import clientModel.cards.LightLeaderCard;
-import clientModel.table.LightMarketBoard;
-import clientModel.warehouse.LightWarehouseDepot;
+
 import controller.Controller;
-import exceptions.InvalidPurchaseException;
+import exceptions.InvalidActionException;
+
 import exceptions.UnusableCardException;
 import network.messages.MessageType;
 import view.VirtualClient;
@@ -26,7 +26,7 @@ public class BuyResourcesRequest extends GameMessage{
         try {
             controller.buyResources(line, num, card);
             update(controller);
-        }catch(UnusableCardException | InvalidPurchaseException e){
+        }catch(UnusableCardException | InvalidActionException e){
             BuyResourcesResponse notify =  new BuyResourcesResponse(this.getUsername(), e.getMessage());
             client.getVirtualView().updateBuyResources(notify);
         }

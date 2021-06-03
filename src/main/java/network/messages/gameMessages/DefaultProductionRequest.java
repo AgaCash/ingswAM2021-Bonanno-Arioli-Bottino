@@ -5,6 +5,7 @@ import clientModel.resources.LightResource;
 import com.google.gson.Gson;
 import controller.Controller;
 import exceptions.InsufficientResourcesException;
+import exceptions.InvalidActionException;
 import exceptions.UnusableCardException;
 import network.messages.MessageType;
 import view.VirtualClient;
@@ -33,7 +34,7 @@ public class DefaultProductionRequest extends GameMessage{
             System.out.println("defaultProdRequest riga 33");
             controller.defaultProduction(input, output, card, chosenOutput);
             update(controller);
-        } catch (InsufficientResourcesException | UnusableCardException e) {
+        } catch (InsufficientResourcesException | UnusableCardException | InvalidActionException e) {
             DefaultProductionResponse notify = new DefaultProductionResponse(this.getUsername(), e.getMessage());
             client.getVirtualView().updateDefaultProduction(notify);
         }

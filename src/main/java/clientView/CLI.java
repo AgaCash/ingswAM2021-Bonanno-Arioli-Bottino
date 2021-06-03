@@ -184,10 +184,6 @@ public class CLI implements View{
         System.out.println("The lobby creator has left the lobby");
     }
 
-    @Override
-    public void askStartup() {
-
-    }
 
     @Override
     public void askTurn() {

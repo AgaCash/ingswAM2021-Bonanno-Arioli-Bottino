@@ -2,7 +2,6 @@ package model.table;
 
 import clientModel.marbles.LightMarble;
 import clientModel.table.LightMarketBoard;
-import exceptions.InvalidPurchaseException;
 import exceptions.UnusableCardException;
 import model.cards.WhiteConverter;
 import model.marbles.Marble;
@@ -19,7 +18,6 @@ import java.util.Collections;
 public class MarketBoard {
     private ArrayList<ArrayList<Marble>> marbleGrid = new ArrayList<>(3);
     private Marble freeMarble;
-    private boolean usedInThisTurn = false;
     //private static MarketBoard instance = null;
 
     /*private MarketBoard(){
@@ -68,9 +66,8 @@ public class MarketBoard {
      * @param card eventual leader card passed to obtain bonuses
      * @return arraylist of requested model.resources
      */
-    public ArrayList<Resource> addMarketLine (int line, WhiteConverter card) throws UnusableCardException, InvalidPurchaseException {
-        if(usedInThisTurn)
-            throw new InvalidPurchaseException("you have already bought resources in this turn");
+    public ArrayList<Resource> addMarketLine (int line, WhiteConverter card) throws UnusableCardException{
+
         Resource convertResource;
         try {
             convertResource = card.whichResource();
@@ -95,7 +92,7 @@ public class MarketBoard {
             marbleGrid.get(line).set(i, marbleGrid.get(line).get(i-1));
         marbleGrid.get(line).set(3, tmp);
         System.out.println("new grid:  "+marbleGrid);
-        this.usedInThisTurn = true;
+
         return resLine;
     }
 
@@ -104,9 +101,8 @@ public class MarketBoard {
      * @param card eventual leader card passed to obtain bonuses
      * @return arraylist of requested model.resources
      */
-    public ArrayList<Resource> addMarketColumn (int col, WhiteConverter card) throws UnusableCardException, InvalidPurchaseException {
-        if(usedInThisTurn)
-            throw new InvalidPurchaseException("you have already bought resources in this turn");
+    public ArrayList<Resource> addMarketColumn (int col, WhiteConverter card) throws UnusableCardException{
+
         Resource convertResource;
         try {
              convertResource = card.whichResource();
@@ -129,7 +125,6 @@ public class MarketBoard {
         for(i =1 ; i<=2; i++)
           marbleGrid.get(i-1).set(col, marbleGrid.get(i).get(col));
         marbleGrid.get(2).set(col, tmp);
-        this.usedInThisTurn = true;
         return resColumn;
     }
 
@@ -153,10 +148,6 @@ public class MarketBoard {
         marketCopy.add(LightMarble.valueOf(freeMarble.toString()));
         market.setMarketBoard(marketCopy);
         return market;
-    }
-
-    public void backUsable(){
-        this.usedInThisTurn = false;
     }
 }
 

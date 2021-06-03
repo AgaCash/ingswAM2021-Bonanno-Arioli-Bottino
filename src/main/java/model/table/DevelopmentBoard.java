@@ -4,7 +4,6 @@ package model.table;
 import clientModel.cards.LightDevelopmentCard;
 import clientModel.table.LightDevelopmentBoard;
 import exceptions.EmptyDeckException;
-import exceptions.InvalidPurchaseException;
 import model.cards.DevelopmentCard;
 import model.colour.Colour;
 import utilities.JsonParser;
@@ -15,7 +14,7 @@ import java.util.InputMismatchException;
 public final class DevelopmentBoard {
     //private static DevelopmentBoard instance = null;
     private final ArrayList<Deck> decks = new ArrayList<>();  //12 decks
-    private boolean usedInThisTurn = false;
+
 
     /*private DevelopmentBoard(){
         initializeBoard();
@@ -64,12 +63,9 @@ public final class DevelopmentBoard {
      * @param deckNumber index of the deck (0-11)
      * @return the reference of the selected deck
      */
-    public Deck getDeck(int deckNumber) throws InvalidPurchaseException {
-        if(usedInThisTurn)
-            throw new InvalidPurchaseException("you have already bought a dev card in this turn");
+    public Deck getDeck(int deckNumber){
         if(deckNumber<0 || deckNumber >decks.size()-1)
             throw new InputMismatchException();
-        this.usedInThisTurn =true;
         return decks.get(deckNumber);
     }
 
@@ -109,8 +105,5 @@ public final class DevelopmentBoard {
         return board;
     }
 
-    public void backUsable(){
-        this.usedInThisTurn = false;
-    }
 }
 
