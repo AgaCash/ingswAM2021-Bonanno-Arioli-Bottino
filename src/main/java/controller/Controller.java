@@ -182,8 +182,11 @@ public class Controller {
     public void endTurn(String username) {
         if (game.isSinglePlayer()) {
             game.updateTurn();
-            game.LorenzoDoesSomething();
-            EndTurnResponse response = new EndTurnResponse(username, true);
+
+            EndTurnResponse response = new EndTurnResponse(username,
+                                                        game.getDevBoard().convert(),
+                                                        game.getCurrentPlayer().getFaithTrack().convert(),
+                                                        game.getLorenzo().getLorenzoLastAction());
             getViews().forEach((element) -> {
                 element.getVirtualView().sendEndTurnNotify(response);
             });

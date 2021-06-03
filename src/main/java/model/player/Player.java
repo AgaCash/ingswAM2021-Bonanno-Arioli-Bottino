@@ -1,6 +1,7 @@
 package model.player;
 
 import clientModel.player.LightPlayer;
+import model.table.FaithTrack;
 import model.table.PlayerBoard;
 
 public class Player {
@@ -44,6 +45,10 @@ public class Player {
 
     public PlayerBoard getPlayerBoard(){
         return this.playerboard;
+    }
+
+    public FaithTrack getFaithTrack(){
+        return this.playerboard.getFaithTrack();
     }
 
 

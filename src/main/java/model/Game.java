@@ -301,8 +301,7 @@ public class Game {
     //change turn
     private void changeTurn(){
         if(singlePlayer) {
-            //pick();
-            System.out.println("RIGA 337 GAME DA SISTEMARE");
+            cpu.pick();
         }
         else {
             int turn = players.indexOf(currentPlayer);
@@ -354,11 +353,16 @@ public class Game {
             turns.add(p.getNickname());
         return turns;
     }
-
+    public Lorenzo getLorenzo(){
+        return this.cpu;
+    }
+    //------------------------------------------------------------------------------------------------------------------
+    /*
     //----SINGLEPLAYER-------
     /**
      * method that picks the token on top of the deck and executes the token's effects
      */
+    /*
     public void pick () {
         Token token = tokens.get(0);
         Token tmp;
@@ -387,9 +391,12 @@ public class Game {
     /**
      * method that shuffles the token's deck
      */
+    /*
     private void shuffle(){
         Collections.shuffle(tokens);
     }
+
+     */
 
 
 

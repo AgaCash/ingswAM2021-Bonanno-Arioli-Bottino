@@ -51,15 +51,16 @@ public class Token {
     /** executes a token action by eliminating model.cards from the development board
      * @param developmentBoard passed to link Lorenzo with the development model.cards to discard
      */
-    public void cardAction(DevelopmentBoard developmentBoard) throws UnknownError {
+    public String cardAction(DevelopmentBoard developmentBoard){
+        String whatAction;
         try {
             DevelopmentCard d = developmentBoard.popCardFromDeckColour(colour);
-            if (d == null) {
-                //GIOCO FINITO, GIOCATORE PERDE
-                System.out.println("GIOCO FINITO, GIOCATORE PERDE");
-            }
+            whatAction = "Lorenzo ha rimosso la carta: "+d.convert().toString();
+            return whatAction;
         }catch(EmptyDeckException e){
-            throw new UnknownError("Internal error"+e.getMessage());
+            whatAction = "ENDGAME";
+            System.out.println("GIOCO FINITO, GIOCATORE PERDE");
+            return whatAction;
         }
     }
 

@@ -200,18 +200,47 @@ public class CLI implements View{
                         "2 per attivare la produzione\n\b" +
                         "3 per comprare le risorse\n\b" +
                         "4 per comprare la carta sviluppo\n\b" +
-                        "5 per terminare il turno");
+                        "5 per visualizzare lo stato del gioco\n\b" +
+                        "6 per terminare il turno");
                 ans = in.nextInt();
-            } while (ans < 1 || ans > 5);
+            } while (ans < 1 || ans > 6);
             switch (ans) {
                 case 1 : askLeaderCardActivation(); break;
                 case 2 : askProduction(); break;
                 case 3 : askBuyResources(); break;
                 case 4 : askBuyDevCards(); break;
-                case 5 : askEndTurn(); break;
+                case 5 : askShow(); break;
+                case 6 : askEndTurn(); break;
             }
 
-        }while(ans!=5);
+        }while(ans!=6);
+    }
+
+    private void askShow(){
+        int ans;
+        do {
+            System.out.println(
+                    "1 per visualizzare la DevBoard\n\b" +
+                    "2 per visualzizare il Market\n\b" +
+                    "3 per visualizzare il tuo warehouse\n\b" +
+                    "4 per visualizzare il tuo strongbox\n\b" +
+                    "5 per visualizzare i tuoi card slots\n\b" +
+                    "6 per visualizzare il tuo faithtrack");
+            ans = in.nextInt();
+        } while (ans < 1 || ans > 6);
+        switch (ans) {
+            case 1 : System.out.println(controller.getDevBoard().toString()); break;
+            case 2 : System.out.println(controller.getMarketBoard().toString()); break;
+            case 3 :
+                System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());break;
+            case 4 :
+                System.out.println(controller.getPlayerBoard().getStrongbox().toString()); break;
+            case 5 :
+                System.out.println(controller.getPlayerBoard().getCardSlots());; break;
+            case 6 :
+                System.out.println(controller.getPlayerBoard().getFaithTrack().toString());; break;
+        }
+
     }
 
     public void askTurnFinal() {
