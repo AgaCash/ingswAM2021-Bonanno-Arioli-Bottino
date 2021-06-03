@@ -1,11 +1,8 @@
 package view;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import exceptions.UsernameAlreadyInAGameException;
 import exceptions.UsernameAlreadyUsedException;
-import model.cards.LeaderCard;
-import utilities.LeaderCardDeserializer;
 import network.messages.gameMessages.*;
 import network.messages.lobbyMessages.*;
 import network.messages.pingMessages.PingGameMessage;
@@ -151,6 +148,11 @@ public class VirtualView implements ServerView {
     public void sendStandardLobbyResponse(StandardLobbyResponse lobbyMessage){
         System.out.println("LOBBY STRINGA USCENTE:::"+gson.toJson(lobbyMessage));
         outStream.println(gson.toJson(lobbyMessage));
+    }
+
+    public void sendEndTurnNotify(EndTurnResponse response){
+        System.out.println("LOBBY STRINGA USCENTE:::"+gson.toJson(response));
+        outStream.println(gson.toJson(response));
     }
 
 

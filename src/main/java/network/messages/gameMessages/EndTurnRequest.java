@@ -6,20 +6,16 @@ import network.messages.MessageType;
 import view.VirtualClient;
 
 public class EndTurnRequest extends GameMessage{
+    private String message;
 
     public EndTurnRequest(String username){
         super(username, MessageType.ENDTURN);
+        message = username+" has ended turn ...";
     }
 
     @Override
     public void executeCommand(Controller controller, VirtualClient client){
         Gson gson = new Gson();
-        controller.endTurn();
-       //out.println(gson.toJson(new EndTurnResponse(this.getUsername()), MarketResponse.class));
-        update();
-    }
-
-    private void update(){
-
+        controller.endTurn(getUsername());
     }
 }

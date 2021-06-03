@@ -191,7 +191,7 @@ public class CLI implements View{
 
     @Override
     public void askTurn() {
-        System.out.println("GAME IS STARTING...\n");
+        System.out.println("IT'S YOUR TURN!\n");
         int ans = 0;
         do{
             do {
@@ -501,6 +501,7 @@ public class CLI implements View{
     public void askEndTurn() {
         System.out.println(" FINE TURNO ");
         System.out.println(" attendi ...");
+        controller.sendEndTurnRequest();
 
     }
 

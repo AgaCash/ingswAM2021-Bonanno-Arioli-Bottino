@@ -36,7 +36,7 @@ public class Controller {
         disconnectedPlayer = new ArrayList<>();
         System.out.println("CONTROLLER CREATO");
     }
-
+    //EVERY MESSAGE
     public void executeCommand(GameMessage message, VirtualClient client) {
         if(message.getUsername().equals(getCurrentPlayer().getNickname()))
             message.executeCommand(this, client);
@@ -45,20 +45,14 @@ public class Controller {
             //todo mantenere failed action? questa non è la singola risposta
         }
     }
-    public ArrayList<VirtualClient> getViews(){
-        return views;
-    }
-    public int getId() {
-        return id;
-    }
 
-    //ping
+    //PING
     //todo: 2 exception quando ci si disconnette da game
     //          -> è perchè game in multiplayer non viene ancora inizializzato
     public void disconnectPlayer(String username){
         System.out.println(username+" disconnesso!");
         if(game.getCurrentPlayer().getNickname().equals(username)){
-            endTurn();
+            endTurn(username);
         }
         for(VirtualClient v: views){
             if(v.getVirtualView().getUsername().equals(username)){
@@ -73,13 +67,12 @@ public class Controller {
         });
     }
 
-    //resilienza
+    //RESILIENCE
     public boolean isUsernameDisconnected(String username){
         if(disconnectedPlayer.contains(username))
             return true;
         return false;
     }
-
     public void reconnectUsername(String username, VirtualClient virtualClient){
         /*
         if(!isUsernameDisconnected(username)){
@@ -94,7 +87,7 @@ public class Controller {
         views.add(virtualClient);
     }
 
-    //start
+    //STARTUP
     public void setOrder(){
         game.setOrder();
     }
@@ -104,6 +97,16 @@ public class Controller {
         Player player = getPlayer(username);
         for(Resource element : resources)
             player.getPlayerBoard().getWarehouseDepot().addResource(element);
+    }
+    //singleplayer
+    public void addSinglePlayer(Player newPlayer){
+        game.addPlayer(newPlayer);
+    }
+    //multiplayer
+    public void addMultiPlayers(ArrayList<Player> newPlayers, ArrayList<VirtualClient> newViews){
+        views = newViews;
+        for(Player player : newPlayers)
+            game.addPlayer(player);
     }
     public void notifyReadiness(){
         this.readyPlayers++;
@@ -124,18 +127,8 @@ public class Controller {
             }
         }
     }
-    //singleplayer
-    public void addSinglePlayer(Player newPlayer){
-        game.addPlayer(newPlayer);
-    }
-    //multiplayer
-    public void addMultiPlayers(ArrayList<Player> newPlayers, ArrayList<VirtualClient> newViews){
-        views = newViews;
-        for(Player player : newPlayers)
-            game.addPlayer(player);
-    }
 
-    //-----------tutto quello nel gioco
+    //ACTIONS
     public void buyDevCard(int deck, int slot, LightLeaderCard lightCard) throws FullCardSlotException,
             NonCorrectLevelCardException,
             InsufficientResourcesException,
@@ -186,7 +179,53 @@ public class Controller {
     public void throwLeaderCard(LeaderCard card){
         game.throwLeaderCard(card);
     }
+    public void endTurn(String username) {
+        if (game.isSinglePlayer()) {
+            game.updateTurn();
+            game.LorenzoDoesSomething();
+            EndTurnResponse response = new EndTurnResponse(username, true);
+            getViews().forEach((element) -> {
+                element.getVirtualView().sendEndTurnNotify(response);
+            });
+        }
+        else{
+            do {
+                game.updateTurn();
+                EndTurnResponse response = new EndTurnResponse(username, game.getCurrentPlayer().getNickname());
+                getViews().forEach((element) -> {
+                    element.getVirtualView().sendEndTurnNotify(response);
+                });
 
+            } while (disconnectedPlayer.contains(game.getCurrentPlayer().getNickname()) && !game.isSinglePlayer());
+            //OCCHIO AGLI UPDATE E AL MECCANISMO DI UNDERSTANDING DEL TURNO DA PARTE DEL CLIENT
+            //
+            //SE TUTTI E 4 SI SONO DISCONNESSI FANCULO TUTTO SI BUTTA VIA LA PARTITA
+        }
+    }
+
+    //ERRORS
+    public void handleError(String message){
+        views.forEach(element -> element.getVirtualView().updateInternalError(new InternalErrorNotify(element.getVirtualView().getUsername(), message)));
+
+    }
+    public void handleError(VirtualClient view, String message){
+        view.getVirtualView().updateInternalError(new InternalErrorNotify(view.getVirtualView().getUsername(), message));
+    }
+
+    //GETTERS
+    public Player getPlayer(String username) throws NoSuchUsernameException { return game.getPlayer(username); }
+    public ArrayList<FaithTrack> getFaithTracks(){
+        return game.getFaithTracks();
+    }
+    public ArrayList<Player> getPlayers(){
+        return game.getPlayers();
+    }
+    public ArrayList<VirtualClient> getViews(){
+        return views;
+    }
+    public int getId() {
+        return id;
+    }
     public Player getCurrentPlayer() {
         return game.getCurrentPlayer();
     }
@@ -196,31 +235,7 @@ public class Controller {
     public DevelopmentBoard getDevBoard(){
         return game.getDevBoard();
     }
-    public void endTurn(){
-        do{
-            game.updateTurn();
-        }while(disconnectedPlayer.contains(game.getCurrentPlayer().getNickname()) && !game.isSinglePlayer());
-        //OCCHIO AGLI UPDATE E AL MECCANISMO DI UNDERSTANDING DEL TURNO DA PARTE DEL CLIENT
-        //
-        //SE TUTTI E 4 SI SONO DISCONNESSI FANCULO TUTTO SI BUTTA VIA LA PARTITA
-    }
 
-    public void handleError(String message){
-        views.forEach(element -> element.getVirtualView().updateInternalError(new InternalErrorNotify(element.getVirtualView().getUsername(), message)));
 
-    }
-    public void handleError(VirtualClient view, String message){
-        view.getVirtualView().updateInternalError(new InternalErrorNotify(view.getVirtualView().getUsername(), message));
-    }
-    public Player getPlayer(String username) throws NoSuchUsernameException {
-        return game.getPlayer(username);
-    }
-    public ArrayList<FaithTrack> getFaithTracks(){
-        return game.getFaithTracks();
-    }
-
-    public ArrayList<Player> getPlayers(){
-        return game.getPlayers();
-    }
 
 }

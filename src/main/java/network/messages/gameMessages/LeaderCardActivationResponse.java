@@ -24,7 +24,7 @@ public class LeaderCardActivationResponse extends GameMessage{
     @Override
     public void executeCommand(LightController controller){
         if(this.success){
-            controller.showSuccess(getUsername(), message);
+            controller.showSuccess(message);
             //todo: è nei messaggi che viene deciso cosa può fare dopo l'utente
         }
         else{

@@ -386,6 +386,20 @@ public class LightController {
         }
     }
 
+    public void sendEndTurnRequest(){
+        Gson gson = new Gson();
+        EndTurnRequest request = new EndTurnRequest(getUsername());
+        client.send((gson.toJson(request)));
+        try{
+            String responseS = client.recv();
+            EndTurnResponse response = gson.fromJson(responseS, EndTurnResponse.class);
+            response.executeCommand(this);
+            waitForMyTurn();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
     public void updateCardSlots(String username, ArrayList<LightDevelopmentCard> cardSlots){
         Gson gson = new Gson();
         //todo assolutamente
@@ -428,7 +442,7 @@ public class LightController {
         view.showError(message);
     }
 
-    public void showSuccess(String username, String message){
+    public void showSuccess(String message){
         view.showSuccess(message);
     }
 
@@ -511,6 +525,10 @@ public class LightController {
         }while(!myTurn);
         view.askTurn();
 
+    }
+
+    public void startTurn(){
+        view.askTurn();
     }
 
 }

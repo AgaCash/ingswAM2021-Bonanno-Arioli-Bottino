@@ -60,8 +60,8 @@ public enum MessageType {
     BUYDEVCARDSUPDATE(BuyDevCardResponse.class, "GAME"),
     LEADERCARD(LeaderCardActivationRequest.class, "GAME"),
     LEADERCARDUPDATE(LeaderCardActivationResponse.class, "GAME"),
-    ENDTURN,
-    ENDTURNUPDATE,
+    ENDTURN(EndTurnRequest.class, "GAME"),
+    ENDTURNUPDATE(EndTurnResponse.class, "GAME"),
 
     //da eliminare
     FAILEDACTIONNOTIFY;

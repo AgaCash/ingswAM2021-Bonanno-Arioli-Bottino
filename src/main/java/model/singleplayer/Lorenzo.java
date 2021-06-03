@@ -44,6 +44,11 @@ public class Lorenzo {
     public void setFaithBox(FaithBox newBox){
         this.faithBox = newBox;
     }
+
+    public void testAction(){
+
+    }
+
 /*
 
 

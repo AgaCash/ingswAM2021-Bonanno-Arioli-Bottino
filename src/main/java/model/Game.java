@@ -333,7 +333,8 @@ public class Game {
     //change turn
     private void changeTurn(){
         if(singlePlayer) {
-            pick();
+            //pick();
+            System.out.println("RIGA 337 GAME DA SISTEMARE");
         }
         else {
             int turn = players.indexOf(currentPlayer);
@@ -406,5 +407,13 @@ public class Game {
     public ArrayList<Player> getPlayers(){
         return players;
     }
+
+    //JUST 4 TESTS
+    public void LorenzoDoesSomething(){
+        System.out.println("lorenzo does");
+    }
+
+
+
 
 }
