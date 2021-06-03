@@ -30,6 +30,10 @@ public interface View {
     void notifyPlayerDisconnected(String username);
     // // ... reconnected
     void notifyPlayerReconnected(String username);
+    // // creator disconnected
+    void notifyCreatorDisconnected();
+    // // the app is going to be killed
+    void quittingApplication();
     //lobby id to join it
     void askLobbyID(ArrayList<Lobby> lobbies);
     //write/press start to begin

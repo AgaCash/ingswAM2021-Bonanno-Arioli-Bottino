@@ -21,11 +21,8 @@ public class LoginMultiPlayerRequest extends LobbyMessage{
     public void executeCommand(VirtualClient virtualClient) {
         LoginMultiPlayerResponse s = null;
         try{
-            //System.out.println(getUsername() + " trying to join lobby "+lobbyId);
+            //joinLobby notifica già a tutti l'arrivo del nuovo player
             LobbyHandler.getInstance().joinLobby(new Player(this.getUsername()), this.lobbyId, virtualClient);
-            //System.out.println(getUsername()+" joined lobby "+lobbyId);
-            //LO FACCIO FARE A .joinLobby così notifica a tutti l'arrivo di qualcuno
-            //s = new LoginMultiPlayerResponse(getUsername());
         }catch (LobbyFullException l){
             s = new LoginMultiPlayerResponse(getUsername(), "Lobby selected is full");
             virtualClient.getVirtualView().sendLobbyResponse(s);

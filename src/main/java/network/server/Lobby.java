@@ -56,9 +56,17 @@ public class Lobby {
         }*/
     }
 
+    public Player getCreator(){
+        return players.get(0);
+    }
+
    public synchronized void leaveLobby(String username){
        System.out.println(username+" disconnected from lobby");
-       LobbyPlayerDisconnectedMessage l = new LobbyPlayerDisconnectedMessage(username);
+       LobbyPlayerDisconnectedMessage l;
+       if (players.get(0).getNickname().equals(username))
+           l = new LobbyPlayerDisconnectedMessage(username, true);
+       else
+           l = new LobbyPlayerDisconnectedMessage(username, false);
        views.removeIf(v->v.getVirtualView().getUsername().equals(username));
        views.forEach((v)->v.getVirtualView().sendPlayerResilienceMessage(l));
        players.removeIf(p->p.getNickname().equals(username));

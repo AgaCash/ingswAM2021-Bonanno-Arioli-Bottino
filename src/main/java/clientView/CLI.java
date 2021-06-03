@@ -28,12 +28,17 @@ public class CLI implements View{
     //ping
     public void serverLostConnection(){
         System.out.println("LOST SERVER CONNECTION");
-        System.out.println("Client will be closed in 5 seconds");
+        quittingApplication();
+    }
+
+    public void quittingApplication(){
+        System.out.println("Quitting the game in 5 seconds");
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        System.exit(0);
     }
 
     public void askServerInfo(){
@@ -172,6 +177,11 @@ public class CLI implements View{
     @Override
     public void notifyPlayerReconnected(String username) {
         System.out.println(username + " reconnected");
+    }
+
+    @Override
+    public void notifyCreatorDisconnected() {
+        System.out.println("The lobby creator has left the lobby");
     }
 
     @Override

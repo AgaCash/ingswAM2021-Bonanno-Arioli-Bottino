@@ -56,14 +56,13 @@ public class LobbyHandler {
     }
 
     public synchronized void joinLobby(Player player, int id, VirtualClient virtualClient) throws LobbyFullException, IndexOutOfBoundsException, GameAlreadyStartedException {
-        if(id < 0 || id >= lobbies.size())
-            throw new IndexOutOfBoundsException();
         for (Lobby l: lobbies) {
             if(l.getId()==id){
                 l.joinLobby(player, virtualClient);
-                break;
+                return;
             }
         }
+        throw new IndexOutOfBoundsException();
     }
 
     public synchronized Lobby getLobbyFromUsername(String username) throws NoSuchUsernameException {
@@ -95,6 +94,10 @@ public class LobbyHandler {
     }
 
     public synchronized void leaveLobby(Lobby lobby, String username){
+        if(lobby.getCreator().getNickname().equals(username)){
+            //si è disconnesso colui che può iniziare la partita
+        }
+
         lobby.leaveLobby(username);
         if(lobby.isEmpty()){
             lobbies.remove(lobby);

@@ -75,12 +75,17 @@ public class LightController {
         view.notifyPlayerReconnected(username);
     }
 
+    public void notifyCreatorDisconnected(){
+        view.notifyCreatorDisconnected();
+        view.quittingApplication();
+    }
+
     //PING
 
     public void serverDisconnected(){
         view.serverLostConnection();
         //poi quit
-        System.exit(0);
+        //in view o in controller?
     }
 
     public void sendGamePong(){
