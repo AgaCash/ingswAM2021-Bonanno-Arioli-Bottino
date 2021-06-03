@@ -65,6 +65,7 @@ public class Strongbox {
 
     public void updateStrongbox(){
         strongbox.addAll(tmpStrongbox);
+        tmpStrongbox.clear();
     }
 
     //only 4 tests
@@ -73,13 +74,15 @@ public class Strongbox {
     }
 
     public LightStrongbox convert(){
-        LightStrongbox newStrongbox = new LightStrongbox();
-        ArrayList<LightResource> tmp = new ArrayList<>();
-        strongbox.forEach(element -> tmp.add(LightResource.valueOf(element.toString())));
-        newStrongbox.setStrongbox(tmp);
-        tmp.clear();
-        tmpStrongbox.forEach(e -> tmp.add(LightResource.valueOf(e.toString())));
-        newStrongbox.setTmpStrongbox(tmp);
-        return newStrongbox;
+        LightStrongbox strongbox = new LightStrongbox();
+        ArrayList<LightResource> newStrongbox = new ArrayList<>();
+        ArrayList<LightResource> newTmpStrongbox = new ArrayList<>();
+
+        this.strongbox.forEach(element -> newStrongbox.add(LightResource.valueOf(element.toString())));
+        this.tmpStrongbox.forEach(element -> newTmpStrongbox.add(LightResource.valueOf(element.toString())));
+        strongbox.setTmpStrongbox(newTmpStrongbox);
+        strongbox.setStrongbox(newStrongbox);
+
+        return strongbox;
     }
 }

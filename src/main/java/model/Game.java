@@ -74,8 +74,6 @@ public class Game {
         ArrayList<Resource> clonedWarehouse = currentPlayer.getPlayerBoard().getWarehouseDepot().status();
         ArrayList<Resource> clonedStrongbox = currentPlayer.getPlayerBoard().getStrongbox().status();
         for(Resource r :cost){
-            ArrayList<Resource> tmp = new ArrayList<>();
-            tmp.add(r);
             if(clonedWarehouse.remove(r)){
                 if(remove)
                     try {
@@ -193,15 +191,17 @@ public class Game {
 
         if(checkResources(input, true )){
             prodResources.add(output);
-            if(checkExtraProd(card)) {
-                card.setChosenOutput(chosenOutput);
-                prodResources.addAll(card.production());
-                for (Resource res : card.production())
-                    if (res == Resource.FAITH) {
-                        faithAdvance(1);
-                        prodResources.remove(Resource.FAITH);
-                    }
-            }
+            try {
+                if (checkExtraProd(card)) {
+                    card.setChosenOutput(chosenOutput);
+                    prodResources.addAll(card.production());
+                    for (Resource res : card.production())
+                        if (res == Resource.FAITH) {
+                            faithAdvance(1);
+                            prodResources.remove(Resource.FAITH);
+                        }
+                }
+            }catch(NullPointerException e){;}
             prodResources.forEach(element -> currentPlayer.getPlayerBoard().getStrongbox().addResource(element));
         }
         else{
@@ -296,7 +296,9 @@ public class Game {
     }
     private void updateCardSlots(){
         for(int i = 0; i<3; i++)
-            currentPlayer.getPlayerBoard().getCardSlots().getCard(i).backUsable();
+            try {
+                currentPlayer.getPlayerBoard().getCardSlots().getCard(i).backUsable();
+            }catch(NullPointerException e){}
     }
     private void updateStrongbox(){
         currentPlayer.getPlayerBoard().getStrongbox().updateStrongbox();

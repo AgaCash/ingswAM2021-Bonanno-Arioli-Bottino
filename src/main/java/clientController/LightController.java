@@ -416,21 +416,15 @@ public class LightController {
     }
 
     public void updateWarehouse(String username, LightWarehouseDepot warehouseDepot){
-        Gson gson = new Gson();
-        String s = gson.toJson(warehouseDepot);
-        LightWarehouseDepot newWarehouse = gson.fromJson(s, LightWarehouseDepot.class);
         try {
-            game.updateWarehouse(username, newWarehouse);
+            game.updateWarehouse(username, warehouseDepot);
         } catch(NoSuchUsernameException e){
             view.showError(e.getMessage());
         }
     }
 
     public void updateMarketBoard(LightMarketBoard market){
-        Gson gson = new Gson();
-        String s = gson.toJson(market);
-        LightMarketBoard newMarket = gson.fromJson(s, LightMarketBoard.class);
-        game.updateMarketBoard(newMarket);
+        game.updateMarketBoard(market);
     }
 
     public void showThrewResources(String username, ArrayList<LightResource> threwResources){
