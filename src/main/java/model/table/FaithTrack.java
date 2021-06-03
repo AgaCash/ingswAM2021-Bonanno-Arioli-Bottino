@@ -20,7 +20,6 @@ public class FaithTrack {
      * method that advances player's position in the faith track
      *
      * @param playerBox   current player position in the track
-     * @param playerTrack player's track
      * @return new player position in the track
      */
     /*public FaithBox faithAdvance (FaithBox playerBox, FaithTrack playerTrack, int advance){
@@ -31,11 +30,11 @@ public class FaithTrack {
         return nextBox;
     }
 */
-    public FaithBox faithAdvance(FaithBox playerBox, FaithTrack playerTrack) {
+    public FaithBox faithAdvance(FaithBox playerBox) {
         FaithBox nextBox;
         int pos;
         pos = playerBox.getPosition();
-        nextBox = playerTrack.box.get(pos + 1);
+        nextBox = this.box.get(pos + 1);
         return nextBox;
     }
 

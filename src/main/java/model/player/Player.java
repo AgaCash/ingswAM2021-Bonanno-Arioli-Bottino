@@ -1,6 +1,7 @@
 package model.player;
 
 import clientModel.player.LightPlayer;
+import model.table.FaithBox;
 import model.table.FaithTrack;
 import model.table.PlayerBoard;
 
@@ -51,6 +52,9 @@ public class Player {
         return this.playerboard.getFaithTrack();
     }
 
+    public FaithBox getFaithBox(){
+        return this.playerboard.getFaithBox();
+    }
 
 
     @Override

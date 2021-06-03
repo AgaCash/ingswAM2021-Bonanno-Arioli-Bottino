@@ -221,13 +221,13 @@ public class Game {
     }
 
     //--------------------FAITH TRACK--------------------
-    /** advances the player's pawn position in the Faith Track, calling faithAdvance in FaitTrack
+    /** advances the player's pawn position in the Faith Track, calling faithAdvance in FaithTrack
      * @param advance how many position the player gets
      */
     public void faithAdvance (int advance){
         boolean[] check;
         for(int i=0; i<advance ;i++) {
-            FaithBox faithBox  = currentPlayer.getPlayerBoard().getFaithTrack().faithAdvance(currentPlayer.getPlayerBoard().getFaithBox(), currentPlayer.getPlayerBoard().getFaithTrack());
+            FaithBox faithBox  = currentPlayer.getFaithTrack().faithAdvance(currentPlayer.getFaithBox());
             if (faithBox.getPosition() == 24)
                 System.out.println("faith track completed");
             //endgame

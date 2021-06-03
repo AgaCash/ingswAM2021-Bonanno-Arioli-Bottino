@@ -65,7 +65,7 @@ public class Lorenzo {
             System.out.println("riga 65 Lorenzo");
         } else {
             for(int i=0; i< token.getBlackCrossFaithPoints();i++) {
-                faithBox = faithTrack.faithAdvance(faithBox, faithTrack);
+                faithBox = faithTrack.faithAdvance(faithBox);
                 this.lorenzoLastAction += "Lorenzo ha avanzato sul tracciato";
                 if (faithBox.getPosition() == 24)
                     ;

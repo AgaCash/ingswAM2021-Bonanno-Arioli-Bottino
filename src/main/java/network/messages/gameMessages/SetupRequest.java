@@ -54,9 +54,7 @@ public class SetupRequest extends GameMessage{
         try{
             if(this.faithPoint)
                 controller.getPlayer(getUsername()).getPlayerBoard().getFaithTrack().faithAdvance(
-                    controller.getPlayer(getUsername()).getPlayerBoard().getFaithBox(),
-                    controller.getPlayer(getUsername()).getPlayerBoard().getFaithTrack()
-                );
+                    controller.getPlayer(getUsername()).getPlayerBoard().getFaithBox());
             controller.notifyReadiness();
         } catch(NoSuchUsernameException e){
             controller.handleError(e.getMessage());
