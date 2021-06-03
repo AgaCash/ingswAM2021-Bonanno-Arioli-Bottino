@@ -62,4 +62,5 @@ public interface View {
     void showThrewResources(ArrayList<LightResource> threwResources);
     void showError(String message);
     void showSuccess(String message);
+    void endGame();
 }

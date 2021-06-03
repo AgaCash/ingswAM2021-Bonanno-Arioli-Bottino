@@ -7,6 +7,7 @@ import clientModel.player.LightPlayer;
 import clientModel.resources.LightResource;
 import clientModel.strongbox.LightStrongbox;
 import clientModel.table.LightDevelopmentBoard;
+import clientModel.table.LightFaithTrack;
 import clientModel.table.LightMarketBoard;
 import clientModel.table.LightPlayerBoard;
 import clientModel.warehouse.LightWarehouseDepot;
@@ -449,6 +450,14 @@ public class LightController {
         }
     }
 
+    public void updateFaithTrack(String username, LightFaithTrack newFaithTrack){
+        try{
+            game.updateFaithTrack(username, newFaithTrack);
+        }catch(NoSuchUsernameException e){
+            e.printStackTrace();
+        }
+    }
+
     public void chooseStartItems(ArrayList<LightLeaderCard> quartet, int numResources, boolean faithPoints){
         view.askStartItems(quartet, numResources, faithPoints);
     }
@@ -523,6 +532,11 @@ public class LightController {
 
     public void startTurn(){
         view.askTurn();
+    }
+
+    public void endSinglePlayerGame(boolean victory, String message){
+        view.showSuccess(message);
+        view.endGame();
     }
 
 }

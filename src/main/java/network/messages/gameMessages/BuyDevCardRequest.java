@@ -28,7 +28,7 @@ public class BuyDevCardRequest extends GameMessage{
         try {
             controller.buyDevCard(deck, slot, card);
             update(controller);
-        } catch (FullCardSlotException | NonCorrectLevelCardException | InsufficientResourcesException | EmptyDeckException | UnusableCardException e) {
+        } catch (FullCardSlotException | NonCorrectLevelCardException | InsufficientResourcesException | EmptyDeckException | UnusableCardException | InvalidPurchaseException e) {
             BuyDevCardResponse notify = new BuyDevCardResponse(this.getUsername(), e.getMessage());
             client.getVirtualView().updateBuyDevCard(notify);
         }

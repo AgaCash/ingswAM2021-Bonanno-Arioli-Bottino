@@ -11,12 +11,14 @@ import java.util.Stack;
 public class CardSlots {
     private ArrayList<Stack<DevelopmentCard>> slots;
     private boolean isEnable;
+    private int cardCount;
 
     public CardSlots() {
         this.slots = new ArrayList<>(3);
         for(int i = 0; i<3; i++)
             slots.add(new Stack<>());
         this.isEnable = false;
+        this.cardCount = 0;
     }
 
     public boolean isPresent(DevelopmentCard toFind){
@@ -57,6 +59,7 @@ public class CardSlots {
                 throw new NonCorrectLevelCardException("Can't add the card in this slot: incorrect level!"); //New card level not correct
         }
         slots.get(slot).push(card);
+        this.cardCount++;
     }
 
     public ArrayList<LightDevelopmentCard> convert(){
@@ -70,6 +73,11 @@ public class CardSlots {
         return slots;
     }
 
+    public boolean isOver(){
+        if(cardCount == 7)
+            return true;
+        return false;
+    }
 
 
 }

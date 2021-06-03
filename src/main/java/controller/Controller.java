@@ -132,13 +132,13 @@ public class Controller {
             NonCorrectLevelCardException,
             InsufficientResourcesException,
             EmptyDeckException,
-            UnusableCardException{
+            UnusableCardException, InvalidPurchaseException {
         Gson gson = new Gson();
         String s = gson.toJson(lightCard);
         Discount card = gson.fromJson(s, Discount.class);
         game.buyDevCard(deck, slot, card);
     }
-    public void buyResources(boolean line, int num, LightLeaderCard lightCard) throws UnusableCardException {
+    public void buyResources(boolean line, int num, LightLeaderCard lightCard) throws UnusableCardException, InvalidPurchaseException {
         Gson gson = new Gson();
         String s = gson.toJson(lightCard);
         WhiteConverter card = gson.fromJson(s, WhiteConverter.class);
@@ -183,18 +183,24 @@ public class Controller {
     public void throwLeaderCard(LeaderCard card){
         game.throwLeaderCard(card);
     }
+
+
     public void endTurn(String username) {
         if (game.isSinglePlayer()) {
             game.updateTurn();
-            EndTurnResponse response = new EndTurnResponse(username,
-                                                        game.getDevBoard().convert(),
-                                                        game.getCurrentPlayer().getFaithTrack().convert(),
-                                                        game.getLorenzo().getLorenzoLastAction(),
-                                                        game.getCurrentPlayer().getPlayerBoard().getCardSlots().convert(),
-                                                        game.getCurrentPlayer().getPlayerBoard().getStrongbox().convert());
-            getViews().forEach((element) -> {
-                element.getVirtualView().sendEndTurnNotify(response);
-            });
+            EndTurnResponse response;
+            if(!game.isOver())
+                response = new EndTurnResponse(username,
+                        game.getDevBoard().convert(),
+                        game.getCurrentPlayer().getFaithTrack().convert(),
+                        game.getLorenzo().getLorenzoLastAction(),
+                        game.getCurrentPlayer().getPlayerBoard().getCardSlots().convert(),
+                        game.getCurrentPlayer().getPlayerBoard().getStrongbox().convert());
+
+
+            else
+                response = new EndTurnResponse(username, game.victory(), game.endingSinglePlayerGame());
+            getViews().get(0).getVirtualView().sendEndTurnNotify(response);
         }
         else{
             do {

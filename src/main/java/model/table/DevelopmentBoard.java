@@ -4,6 +4,7 @@ package model.table;
 import clientModel.cards.LightDevelopmentCard;
 import clientModel.table.LightDevelopmentBoard;
 import exceptions.EmptyDeckException;
+import exceptions.InvalidPurchaseException;
 import model.cards.DevelopmentCard;
 import model.colour.Colour;
 import utilities.JsonParser;
@@ -14,6 +15,7 @@ import java.util.InputMismatchException;
 public final class DevelopmentBoard {
     //private static DevelopmentBoard instance = null;
     private final ArrayList<Deck> decks = new ArrayList<>();  //12 decks
+    private boolean usedInThisTurn = false;
 
     /*private DevelopmentBoard(){
         initializeBoard();
@@ -62,9 +64,12 @@ public final class DevelopmentBoard {
      * @param deckNumber index of the deck (0-11)
      * @return the reference of the selected deck
      */
-    public Deck getDeck(int deckNumber){
+    public Deck getDeck(int deckNumber) throws InvalidPurchaseException {
+        if(usedInThisTurn)
+            throw new InvalidPurchaseException("you have already bought a dev card in this turn");
         if(deckNumber<0 || deckNumber >decks.size()-1)
             throw new InputMismatchException();
+        this.usedInThisTurn =true;
         return decks.get(deckNumber);
     }
 
@@ -83,16 +88,6 @@ public final class DevelopmentBoard {
     }
 
     /**
-     * Method that pop the first card of the selected deck (by index)
-     * @param deckNumber index of the deck (0-11)
-     * @return the card on the top of the selected deck
-     */
-
-    public DevelopmentCard popCardFromDeck(int deckNumber) throws EmptyDeckException {
-        return this.getDeck(deckNumber).popCard();
-    }
-
-    /**
      * Method that pop the first card of the selected deck (by model.colour)
      * @param colour model.colour of the deck
      * @return the first card in the deck
@@ -105,9 +100,17 @@ public final class DevelopmentBoard {
         LightDevelopmentBoard board = new LightDevelopmentBoard();
         ArrayList<LightDevelopmentCard> cards = new ArrayList<>();
         for(Deck deck : decks)
-            cards.add(deck.getCard().convert());
+            try {
+                cards.add(deck.getCard().convert());
+            }catch(NullPointerException e){
+                cards.add(new LightDevelopmentCard());
+            }
         board.setDecks(cards);
         return board;
+    }
+
+    public void backUsable(){
+        this.usedInThisTurn = false;
     }
 }
 

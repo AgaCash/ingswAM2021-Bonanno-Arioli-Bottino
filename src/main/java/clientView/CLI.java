@@ -615,4 +615,9 @@ public class CLI implements View{
     public void notifyJoin(){
 
     }
+
+    public void endGame(){
+        System.out.println("see you space cowboy...\n");
+        quittingApplication();
+    }
 }

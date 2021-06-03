@@ -29,6 +29,10 @@ public class LightDevelopmentCard {
         this.level = level;
     }
 
+    public LightDevelopmentCard(){
+        this.level = -1;
+    }
+
     public int getLevel() {
         return level;
     }
@@ -62,6 +66,10 @@ public class LightDevelopmentCard {
     @Override
     public String toString(){
         StringBuilder s = new StringBuilder();
+        if(this.level == -1)
+            return "____________________\n" +
+                   "|     DECK VUOTO    |\n" +
+                    "____________________\n";
         if(isUsable()){
             s.append("____________________\n");
             s.append("\n|Colour: ").append(colour);

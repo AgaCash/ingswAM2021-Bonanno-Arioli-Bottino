@@ -4,6 +4,7 @@ import clientModel.cards.LightLeaderCard;
 import clientModel.table.LightMarketBoard;
 import clientModel.warehouse.LightWarehouseDepot;
 import controller.Controller;
+import exceptions.InvalidPurchaseException;
 import exceptions.UnusableCardException;
 import network.messages.MessageType;
 import view.VirtualClient;
@@ -25,20 +26,17 @@ public class BuyResourcesRequest extends GameMessage{
         try {
             controller.buyResources(line, num, card);
             update(controller);
-        }catch(UnusableCardException e){
+        }catch(UnusableCardException | InvalidPurchaseException e){
             BuyResourcesResponse notify =  new BuyResourcesResponse(this.getUsername(), e.getMessage());
             client.getVirtualView().updateBuyResources(notify);
         }
     }
 
     public void update(Controller controller){
-        //todo aggiornamento faithtrack
-        LightWarehouseDepot warehouse = controller.getCurrentPlayer().getPlayerBoard().getWarehouseDepot().convert();
-        LightMarketBoard market = controller.getMarketBoard().convert();
-
         BuyResourcesResponse response = new BuyResourcesResponse(getUsername(),
-                                                                warehouse,
-                                                                market,
+                                                                controller.getCurrentPlayer().getPlayerBoard().getWarehouseDepot().convert(),
+                                                                controller.getMarketBoard().convert(),
+                                                                controller.getCurrentPlayer().getFaithTrack().convert(),
                                                                 controller.getThrewResources());
         controller.getViews().forEach((element)-> { element.getVirtualView().updateBuyResources(response);});
     }

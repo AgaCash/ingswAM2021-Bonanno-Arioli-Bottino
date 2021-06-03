@@ -2,6 +2,7 @@ package network.messages.gameMessages;
 
 import clientController.LightController;
 import clientModel.resources.LightResource;
+import clientModel.table.LightFaithTrack;
 import clientModel.table.LightMarketBoard;
 import clientModel.warehouse.LightWarehouseDepot;
 import network.messages.MessageType;
@@ -12,14 +13,17 @@ public class BuyResourcesResponse extends GameMessage{
     private LightWarehouseDepot newWarehouse;
     private LightMarketBoard newMarketBoard;
     private ArrayList<LightResource> threwResource;
+    private LightFaithTrack newFaithTrack;
     private boolean success;
     private String message;
 
     public BuyResourcesResponse(String username, LightWarehouseDepot newWarehouse, LightMarketBoard newMarketBoard,
+                                LightFaithTrack newFaithTrack,
                                 ArrayList<LightResource> threwResource){
         super(username, MessageType.MARKET);
         this.newWarehouse = newWarehouse;
         this.newMarketBoard = newMarketBoard;
+        this.newFaithTrack = newFaithTrack;
         if(threwResource==null)
             threwResource=new ArrayList<>();
         else
@@ -38,7 +42,9 @@ public class BuyResourcesResponse extends GameMessage{
         if(this.success) {
             controller.updateWarehouse(getUsername(), newWarehouse);
             controller.updateMarketBoard(newMarketBoard);
+            controller.updateFaithTrack(getUsername(), newFaithTrack);
             controller.showThrewResources(getUsername(), threwResource);
+
         }
         else
             controller.showError(getUsername(), message);

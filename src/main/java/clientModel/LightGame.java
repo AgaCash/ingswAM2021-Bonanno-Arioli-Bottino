@@ -4,10 +4,7 @@ import clientModel.cards.LightDevelopmentCard;
 import clientModel.player.LightPlayer;
 import clientModel.resources.LightResource;
 import clientModel.strongbox.LightStrongbox;
-import clientModel.table.LightDevelopmentBoard;
-import clientModel.table.LightMarketBoard;
-import clientModel.table.LightPlayerBoard;
-import clientModel.table.LightTable;
+import clientModel.table.*;
 import clientModel.warehouse.LightWarehouseDepot;
 import exceptions.NoSuchUsernameException;
 
@@ -58,6 +55,11 @@ public class LightGame {
     public void updateStrongbox(String username, LightStrongbox strongbox) throws NoSuchUsernameException {
         LightPlayer player = getPlayer(username);
         player.getPlayerBoard().setStrongbox(strongbox);
+    }
+    public void updateFaithTrack(String username, LightFaithTrack faithTrack) throws NoSuchUsernameException {
+        LightPlayer player = getPlayer(username);
+        player.getPlayerBoard().setFaithTrack(faithTrack);
+
     }
     private LightPlayer getPlayer(String username) throws NoSuchUsernameException {
         if(player.getNickname().equals(username))

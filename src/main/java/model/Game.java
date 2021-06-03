@@ -20,6 +20,10 @@ public class Game {
     public ArrayList<Token> tokens;
     private boolean singlePlayer;
 
+    private boolean isOver;
+    private boolean victory;
+    private String finalMessage;
+
     //COSTRUTTORE
     public Game(boolean singlePlayer){
         this.singlePlayer = singlePlayer;
@@ -111,7 +115,7 @@ public class Game {
     //============GIOCO
 
     //--------------------BUY DEV CARDS--------------------
-    public void buyDevCard(int numDeck, int slotPosition, Discount card) throws FullCardSlotException, NonCorrectLevelCardException, InsufficientResourcesException, UnusableCardException, EmptyDeckException {
+    public void buyDevCard(int numDeck, int slotPosition, Discount card) throws FullCardSlotException, NonCorrectLevelCardException, InsufficientResourcesException, UnusableCardException, EmptyDeckException, InvalidPurchaseException {
         Resource discount;
         Deck deck = table.getDevBoard().getDeck(numDeck);
         ArrayList<Resource> cost = deck.getCost();
@@ -123,6 +127,11 @@ public class Game {
         }
         if(checkResources(cost, true)){
             currentPlayer.getPlayerBoard().getCardSlots().addCard(slotPosition, deck.popCard());
+            if(currentPlayer.getPlayerBoard().getCardSlots().isOver()){
+                this.isOver = true;
+                this.victory = true;
+                this.finalMessage = "\nVITTORIA! HAI COMPRATO LA TUA SETTIMA CARTA SVILUPPO\n";
+            }
         }
         else{
             throw new InsufficientResourcesException("Can't buy this card: insufficient resources!");
@@ -130,7 +139,7 @@ public class Game {
     }
 
     //--------------------MARKET--------------------
-    public void buyResources(boolean line, int num, WhiteConverter card) throws UnusableCardException {
+    public void buyResources(boolean line, int num, WhiteConverter card) throws UnusableCardException, InvalidPurchaseException {
         ArrayList<Resource> bought = new ArrayList<>();
         if(line &&  num>=0 && num<=2) {
             bought = table.getMarketBoard().addMarketLine(num, card);
@@ -147,7 +156,9 @@ public class Game {
                 try{
                     currentPlayer.getPlayerBoard().getWarehouseDepot().addResource(res);
                     } catch(FullWarehouseException e){
-                        //todo: aggiungere punti fede agli altri
+                        for(Player player: this.players)
+                            if(!player.getNickname().equals(currentPlayer.getNickname()))
+                                player.getPlayerBoard().getFaithTrack().faithAdvance(player.getFaithBox());
                     }
 
                 }
@@ -228,10 +239,12 @@ public class Game {
         boolean[] check;
         for(int i=0; i<advance ;i++) {
             FaithBox faithBox  = currentPlayer.getFaithTrack().faithAdvance(currentPlayer.getFaithBox());
-            if (faithBox.getPosition() == 24)
-                System.out.println("faith track completed");
-            //endgame
-            ;
+            if (faithBox.getPosition() == 24) {
+                this.isOver = true;
+                this.victory = true;
+                this.finalMessage = "\nVITTORIA! HAI RAGGIUNTO LA FINE DEL FAITHTRACK\n";
+                return;
+            }
             check = faithBox.getPopeFlag();
             checkPopeFlags(check);
         }
@@ -292,6 +305,8 @@ public class Game {
     public void updateTurn(){
         updateStrongbox();
         updateCardSlots();
+        this.table.getMarketBoard().backUsable();
+        this.table.getDevBoard().backUsable();
         changeTurn();
     }
     private void updateCardSlots(){
@@ -307,6 +322,11 @@ public class Game {
     private void changeTurn(){
         if(singlePlayer) {
             cpu.pick();
+            if(cpu.gameIsOver()){
+                this.isOver = true;
+                this.victory = false;
+                this.finalMessage = cpu.getLorenzoLastAction();
+            }
         }
         else {
             int turn = players.indexOf(currentPlayer);
@@ -322,6 +342,18 @@ public class Game {
     //============ENDGAME=======
     //contare i punti vittoria dei giocatori su faithTrack, leaderCards, devCards ecc...
     //fare la classifica dei punti vittoria
+
+    public boolean isOver(){
+        return this.isOver;
+    }
+
+    public boolean victory(){
+        return this.victory;
+    }
+
+    public String endingSinglePlayerGame(){
+        return this.finalMessage;
+    }
 
 
     //GETTERS
@@ -362,55 +394,5 @@ public class Game {
         return this.cpu;
     }
     //------------------------------------------------------------------------------------------------------------------
-    /*
-    //----SINGLEPLAYER-------
-    /**
-     * method that picks the token on top of the deck and executes the token's effects
-     */
-    /*
-    public void pick () {
-        Token token = tokens.get(0);
-        Token tmp;
-        if (!(token.getIsAboutLorenzo())) {
-            for (int i = 0; i < token.getRemoveQuantity(); i++)
-                token.cardAction(cpu.getDevelopmentBoard());
-        } else {
-            for(int i=0; i< token.getBlackCrossFaithPoints();i++) {
-                cpu.setFaithBox(cpu.getFaithTrack().faithAdvance(cpu.getFaithBox(), cpu.getFaithTrack()));
-                if (cpu.getFaithBox().getPosition() == 24)
-                    //endgame
-                    ;
-                boolean[] check = cpu.getFaithBox().getPopeFlag();
-                checkPopeFlags(check);
-            }
-            if (token.getShuffle())
-                shuffle();
-        }
-        tmp = tokens.get(0);
-        for(int i=0; i<tokens.size()-1; i++){
-            tokens.set(i, tokens.get(i+1));
-        }
-        tokens.set(tokens.size()-1, tmp);
-    }
-
-    /**
-     * method that shuffles the token's deck
-     */
-    /*
-    private void shuffle(){
-        Collections.shuffle(tokens);
-    }
-
-     */
-
-
-
-    //JUST 4 TESTS
-    public void LorenzoDoesSomething(){
-        System.out.println("lorenzo does");
-    }
-
-
-
 
 }

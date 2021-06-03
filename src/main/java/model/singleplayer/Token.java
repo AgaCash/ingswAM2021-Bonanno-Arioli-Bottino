@@ -55,11 +55,10 @@ public class Token {
         String whatAction;
         try {
             DevelopmentCard d = developmentBoard.popCardFromDeckColour(colour);
-            whatAction = "Lorenzo ha rimosso la carta: "+d.convert().toString();
+            whatAction = "\nLorenzo ha rimosso la carta: "+d.convert().toString();
             return whatAction;
         }catch(EmptyDeckException e){
-            whatAction = "ENDGAME";
-            System.out.println("GIOCO FINITO, GIOCATORE PERDE");
+            whatAction = "GAMEOVER";
             return whatAction;
         }
     }

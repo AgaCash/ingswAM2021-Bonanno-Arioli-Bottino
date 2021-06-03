@@ -5,6 +5,7 @@ import clientModel.cards.LightDevelopmentCard;
 import clientModel.strongbox.LightStrongbox;
 import clientModel.table.LightDevelopmentBoard;
 import clientModel.table.LightFaithTrack;
+import network.messages.Message;
 import network.messages.MessageType;
 
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ public class EndTurnResponse extends GameMessage{
     private LightStrongbox strongbox;
     private String message;
     private boolean isSinglePlayer;
+    private boolean gameOver = false;
+    private boolean victory;
 
     public EndTurnResponse(String oldPlayer, String newPlayer){
         super(oldPlayer, MessageType.ENDTURNUPDATE);
@@ -33,16 +36,30 @@ public class EndTurnResponse extends GameMessage{
         this.slots = newSlots;
         this.strongbox = newStrongbox;
         this.isSinglePlayer = true;
+        this.gameOver = false;
+    }
+
+    public EndTurnResponse(String username, boolean victory, String message){
+        super(username, MessageType.ENDTURNUPDATE);
+        this.gameOver=true;
+        this.isSinglePlayer = true;
+        this.victory = victory;
+        this.message = message;
     }
     @Override
     public void executeCommand(LightController controller){
+        controller.updateDevBoard(board);
+        controller.updateFaithTrack(getUsername(), this.track);
+        controller.updateStrongbox(getUsername(), this.strongbox);
+        controller.updateCardSlots(getUsername(), this.slots);
         if(this.isSinglePlayer){
-            controller.updateDevBoard(board);
-            //controller.updateFaithTrack(this.track);
-            controller.updateStrongbox(getUsername(), this.strongbox);
-            controller.updateCardSlots(getUsername(), this.slots);
-            controller.showSuccess(message);
-            controller.startTurn();
+            if(gameOver){
+                controller.endSinglePlayerGame(this.victory, this.message);
+            }
+            else {
+                controller.showSuccess(message);
+                controller.startTurn();
+            }
 
         }else{
             controller.showSuccess(getUsername()+" ha terminato il turno");

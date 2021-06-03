@@ -1,6 +1,7 @@
 package model.table;
 
 import clientModel.table.LightMarketBoard;
+import exceptions.InvalidPurchaseException;
 import exceptions.UnusableCardException;
 import model.resources.Resource;
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,7 @@ class MarketBoardTest {
             bought = market.addMarketLine(0, null);
             System.out.println(bought);
 
-        }catch(UnusableCardException e){
+        }catch(UnusableCardException | InvalidPurchaseException e){
             System.out.println(e.getMessage());
         }
 
@@ -35,7 +36,7 @@ class MarketBoardTest {
         try {
             bought = market.addMarketLine(0, null);
             System.out.println(bought);
-        }catch(UnusableCardException e){
+        }catch(UnusableCardException | InvalidPurchaseException e){
             System.out.println(e.getMessage());
         }
 
