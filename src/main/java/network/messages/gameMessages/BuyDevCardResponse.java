@@ -2,9 +2,9 @@ package network.messages.gameMessages;
 
 import clientController.LightController;
 import clientModel.cards.LightDevelopmentCard;
+import clientModel.strongbox.LightStrongbox;
 import clientModel.table.LightDevelopmentBoard;
-import model.cards.CardSlots;
-import model.table.DevelopmentBoard;
+import clientModel.warehouse.LightWarehouseDepot;
 import network.messages.MessageType;
 
 import java.util.ArrayList;
@@ -12,13 +12,18 @@ import java.util.ArrayList;
 public class BuyDevCardResponse extends GameMessage{
     private ArrayList<LightDevelopmentCard> newCardSlot;
     private LightDevelopmentBoard newDevBoard;
-    private boolean success = true;
+    private LightWarehouseDepot newWarehouse;
+    private LightStrongbox newStrongbox;
+    private boolean success;
     private String message;
 
-    public BuyDevCardResponse(String username, ArrayList<LightDevelopmentCard> newCardSlot, LightDevelopmentBoard newDevBoard) {
+    public BuyDevCardResponse(String username, ArrayList<LightDevelopmentCard> newCardSlot, LightDevelopmentBoard newDevBoard,
+                                LightWarehouseDepot newWarehouse, LightStrongbox newStrongbox) {
         super(username, MessageType.MARKETUPDATE);
         this.newCardSlot = newCardSlot;
         this.newDevBoard = newDevBoard;
+        this.newWarehouse = newWarehouse;
+        this.newStrongbox = newStrongbox;
         this.success= true;
     }
 
@@ -32,6 +37,8 @@ public class BuyDevCardResponse extends GameMessage{
         if(this.success) {
             controller.updateCardSlots(getUsername(), newCardSlot);
             controller.updateDevBoard(newDevBoard);
+            controller.updateStrongbox(getUsername(), newStrongbox);
+            controller.updateWarehouse(getUsername(), newWarehouse);
         }else{
             controller.showError(getUsername(), message);
         }

@@ -3,9 +3,11 @@ package clientModel;
 import clientModel.cards.LightDevelopmentCard;
 import clientModel.player.LightPlayer;
 import clientModel.resources.LightResource;
-import clientModel.singleplayer.LightLorenzo;
 import clientModel.strongbox.LightStrongbox;
-import clientModel.table.*;
+import clientModel.table.LightDevelopmentBoard;
+import clientModel.table.LightMarketBoard;
+import clientModel.table.LightPlayerBoard;
+import clientModel.table.LightTable;
 import clientModel.warehouse.LightWarehouseDepot;
 import exceptions.NoSuchUsernameException;
 
@@ -15,7 +17,6 @@ public class LightGame {
     private LightPlayer player = new LightPlayer();
     private ArrayList<LightPlayer> otherPlayers = new ArrayList<>();
     private LightTable table;
-    private LightLorenzo cpu;
     private ArrayList<LightResource> threwResources = new ArrayList<>();
 
     public LightGame (ArrayList<LightPlayer> setPlayers){

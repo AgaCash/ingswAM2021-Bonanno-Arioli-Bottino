@@ -1,6 +1,5 @@
 package network.messages.gameMessages;
 
-import clientModel.cards.LightExtraProd;
 import clientModel.cards.LightLeaderCard;
 import clientModel.resources.LightResource;
 import com.google.gson.Gson;
@@ -19,7 +18,7 @@ public class DefaultProductionRequest extends GameMessage{
     private LightResource chosenOutput;
 
     public DefaultProductionRequest(String username, ArrayList<LightResource> input, LightResource output, LightLeaderCard card, LightResource chosenOutput){
-        super(username, MessageType.PRODUCTION);
+        super(username, MessageType.DEFPRODUCTION);
         this.input = input;
         this.output = output;
         this.card = card;

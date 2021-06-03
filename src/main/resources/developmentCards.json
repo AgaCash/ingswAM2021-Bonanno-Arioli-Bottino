@@ -16,7 +16,8 @@
     "id": "1",
     "colour": "GREEN",
     "level": "1",
-    "victoryPoints": "1"
+    "victoryPoints": "1",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -36,7 +37,8 @@
     "id": "2",
     "colour": "GREEN",
     "level": "1",
-    "victoryPoints": "2"
+    "victoryPoints": "2",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -59,7 +61,8 @@
     "id": "3",
     "colour": "GREEN",
     "level": "1",
-    "victoryPoints": "3"
+    "victoryPoints": "3",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -83,7 +86,8 @@
     "id": "4",
     "colour": "GREEN",
     "level": "1",
-    "victoryPoints": "4"
+    "victoryPoints": "4",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -102,7 +106,8 @@
     "id": "5",
     "colour": "BLUE",
     "level": "1",
-    "victoryPoints": "1"
+    "victoryPoints": "1",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -122,7 +127,8 @@
     "id": "6",
     "colour": "BLUE",
     "level": "1",
-    "victoryPoints": "2"
+    "victoryPoints": "2",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -145,7 +151,8 @@
     "id": "7",
     "colour": "BLUE",
     "level": "1",
-    "victoryPoints": "3"
+    "victoryPoints": "3",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -169,7 +176,8 @@
     "id": "8",
     "colour": "BLUE",
     "level": "1",
-    "victoryPoints": "4"
+    "victoryPoints": "4",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -188,7 +196,8 @@
     "id": "9",
     "colour": "YELLOW",
     "level": "1",
-    "victoryPoints": "1"
+    "victoryPoints": "1",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -208,7 +217,8 @@
     "id": "10",
     "colour": "YELLOW",
     "level": "1",
-    "victoryPoints": "2"
+    "victoryPoints": "2",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -231,7 +241,8 @@
     "id": "11",
     "colour": "YELLOW",
     "level": "1",
-    "victoryPoints": "3"
+    "victoryPoints": "3",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -255,7 +266,8 @@
     "id": "12",
     "colour": "YELLOW",
     "level": "1",
-    "victoryPoints": "4"
+    "victoryPoints": "4",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -274,7 +286,8 @@
     "id": "13",
     "colour": "PURPLE",
     "level": "1",
-    "victoryPoints": "1"
+    "victoryPoints": "1",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -294,7 +307,8 @@
     "id": "14",
     "colour": "PURPLE",
     "level": "1",
-    "victoryPoints": "2"
+    "victoryPoints": "2",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -317,7 +331,8 @@
     "id": "15",
     "colour": "PURPLE",
     "level": "1",
-    "victoryPoints": "3"
+    "victoryPoints": "3",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -341,7 +356,8 @@
     "id": "16",
     "colour": "PURPLE",
     "level": "1",
-    "victoryPoints": "4"
+    "victoryPoints": "4",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -363,7 +379,8 @@
     "id": "17",
     "colour": "GREEN",
     "level": "2",
-    "victoryPoints": "5"
+    "victoryPoints": "5",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -388,7 +405,8 @@
     "id": "18",
     "colour": "GREEN",
     "level": "2",
-    "victoryPoints": "6"
+    "victoryPoints": "6",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -414,7 +432,8 @@
     "id": "19",
     "colour": "GREEN",
     "level": "2",
-    "victoryPoints": "7"
+    "victoryPoints": "7",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -439,7 +458,8 @@
     "id": "20",
     "colour": "GREEN",
     "level": "2",
-    "victoryPoints": "8"
+    "victoryPoints": "8",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -461,7 +481,8 @@
     "id": "21",
     "colour": "BLUE",
     "level": "2",
-    "victoryPoints": "5"
+    "victoryPoints": "5",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -486,7 +507,8 @@
     "id": "22",
     "colour": "BLUE",
     "level": "2",
-    "victoryPoints": "6"
+    "victoryPoints": "6",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -512,7 +534,8 @@
     "id": "23",
     "colour": "BLUE",
     "level": "2",
-    "victoryPoints": "7"
+    "victoryPoints": "7",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -537,7 +560,8 @@
     "id": "24",
     "colour": "BLUE",
     "level": "2",
-    "victoryPoints": "8"
+    "victoryPoints": "8",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -559,7 +583,8 @@
     "id": "25",
     "colour": "YELLOW",
     "level": "2",
-    "victoryPoints": "5"
+    "victoryPoints": "5",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -584,7 +609,8 @@
     "id": "26",
     "colour": "YELLOW",
     "level": "2",
-    "victoryPoints": "6"
+    "victoryPoints": "6",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -610,7 +636,8 @@
     "id": "27",
     "colour": "YELLOW",
     "level": "2",
-    "victoryPoints": "7"
+    "victoryPoints": "7",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -635,7 +662,8 @@
     "id": "28",
     "colour": "YELLOW",
     "level": "2",
-    "victoryPoints": "8"
+    "victoryPoints": "8",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -657,7 +685,8 @@
     "id": "29",
     "colour": "PURPLE",
     "level": "2",
-    "victoryPoints": "5"
+    "victoryPoints": "5",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -682,7 +711,8 @@
     "id": "30",
     "colour": "PURPLE",
     "level": "2",
-    "victoryPoints": "6"
+    "victoryPoints": "6",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -708,7 +738,8 @@
     "id": "31",
     "colour": "PURPLE",
     "level": "2",
-    "victoryPoints": "7"
+    "victoryPoints": "7",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -733,7 +764,8 @@
     "id": "32",
     "colour": "PURPLE",
     "level": "2",
-    "victoryPoints": "8"
+    "victoryPoints": "8",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -761,7 +793,8 @@
     "id": "33",
     "colour": "GREEN",
     "level": "3",
-    "victoryPoints": "9"
+    "victoryPoints": "9",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -790,7 +823,8 @@
     "id": "34",
     "colour": "GREEN",
     "level": "3",
-    "victoryPoints": "10"
+    "victoryPoints": "10",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -817,7 +851,8 @@
     "id": "35",
     "colour": "GREEN",
     "level": "3",
-    "victoryPoints": "11"
+    "victoryPoints": "11",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -845,7 +880,8 @@
     "id": "36",
     "colour": "GREEN",
     "level": "3",
-    "victoryPoints": "12"
+    "victoryPoints": "12",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -873,7 +909,8 @@
     "id": "37",
     "colour": "BLUE",
     "level": "3",
-    "victoryPoints": "9"
+    "victoryPoints": "9",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -902,7 +939,8 @@
     "id": "38",
     "colour": "BLUE",
     "level": "3",
-    "victoryPoints": "10"
+    "victoryPoints": "10",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -957,7 +995,8 @@
     "id": "40",
     "colour": "BLUE",
     "level": "3",
-    "victoryPoints": "12"
+    "victoryPoints": "12",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -985,7 +1024,8 @@
     "id": "41",
     "colour": "YELLOW",
     "level": "3",
-    "victoryPoints": "9"
+    "victoryPoints": "9",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -1014,7 +1054,8 @@
     "id": "42",
     "colour": "YELLOW",
     "level": "3",
-    "victoryPoints": "10"
+    "victoryPoints": "10",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -1041,7 +1082,8 @@
     "id": "43",
     "colour": "YELLOW",
     "level": "3",
-    "victoryPoints": "11"
+    "victoryPoints": "11",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -1069,7 +1111,8 @@
     "id": "44",
     "colour": "YELLOW",
     "level": "3",
-    "victoryPoints": "12"
+    "victoryPoints": "12",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -1097,7 +1140,8 @@
     "id": "45",
     "colour": "PURPLE",
     "level": "3",
-    "victoryPoints": "9"
+    "victoryPoints": "9",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -1126,7 +1170,8 @@
     "id": "46",
     "colour": "PURPLE",
     "level": "3",
-    "victoryPoints": "10"
+    "victoryPoints": "10",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -1153,7 +1198,8 @@
     "id": "47",
     "colour": "PURPLE",
     "level": "3",
-    "victoryPoints": "11"
+    "victoryPoints": "11",
+    "usedInThisTurn": "false"
   },
   {
     "cost":[
@@ -1181,6 +1227,7 @@
     "id": "48",
     "colour": "PURPLE",
     "level": "3",
-    "victoryPoints": "12"
+    "victoryPoints": "12",
+    "usedInThisTurn": "false"
   }
 ]

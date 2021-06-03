@@ -26,7 +26,6 @@ public class Controller {
     private ArrayList<VirtualClient> views;
     private ArrayList<String> disconnectedPlayer;
     private int readyPlayers = 0;
-    //private transient ModelToLightParser parser = new ModelToLightParser();
 
     public Controller(int id, ArrayList<VirtualClient> views){
         this.views = views;
@@ -151,24 +150,29 @@ public class Controller {
     }
     public void devCardProduction(int slot, LightResource lightChosenOutput, LightLeaderCard lightCard) throws InsufficientResourcesException,
             UnusableCardException {
-        Gson gson = new Gson();
-        String s = gson.toJson(lightCard);
-        ExtraProd card = gson.fromJson(s, ExtraProd.class);
-        Resource chosenOutput = Resource.valueOf(lightChosenOutput.toString());
+        ExtraProd card =  null; Resource chosenOutput = null;
+        if(lightCard!=null) {
+            Gson gson = new Gson();
+            String s = gson.toJson(lightCard);
+            card = gson.fromJson(s, ExtraProd.class);
+            chosenOutput = Resource.valueOf(lightChosenOutput.toString());
+        }
+
         game.devCardProduction(slot, chosenOutput, card);
     }
     public void defaultProduction(ArrayList<LightResource> input, LightResource output, LightLeaderCard lightCard, LightResource lightChosenOutput) throws InsufficientResourcesException,
             UnusableCardException {
-        //leadercard
-        Gson gson = new Gson();
-        String s = gson.toJson(lightCard);
-        ExtraProd card = gson.fromJson(s, ExtraProd.class);
-        //defprod
         ArrayList<Resource> newInput = new ArrayList<>();
         input.forEach(e -> newInput.add(Resource.valueOf(e.toString())));
         Resource newOutput = Resource.valueOf(output.toString());
-        //leader choice
-        Resource chosenOutput = Resource.valueOf(lightChosenOutput.toString());
+
+        ExtraProd card =  null; Resource chosenOutput = null;
+        if(lightCard!=null) {
+            Gson gson = new Gson();
+            String s = gson.toJson(lightCard);
+            card = gson.fromJson(s, ExtraProd.class);
+            chosenOutput = Resource.valueOf(lightChosenOutput.toString());
+        }
 
         game.defaultProduction(newInput, newOutput, card, chosenOutput);
     }

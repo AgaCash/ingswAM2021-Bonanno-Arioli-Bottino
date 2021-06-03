@@ -12,14 +12,14 @@ public class DevCardProductionResponse extends GameMessage{
     private boolean success;
 
     public DevCardProductionResponse(String username, LightWarehouseDepot newWarehouse, LightStrongbox newStrongbox) {
-        super(username, MessageType.PRODUCTIONUPDATE);
+        super(username, MessageType.DEVCARDPRODUCTIONUPDATE);
         this.newWarehouse = newWarehouse;
         this.newStrongbox = newStrongbox;
         this.success = true;
     }
 
     public DevCardProductionResponse(String username, String message){
-        super(username, MessageType.PRODUCTION);
+        super(username, MessageType.DEVCARDPRODUCTIONUPDATE);
         this.message = message;
         this.success = false;
     }

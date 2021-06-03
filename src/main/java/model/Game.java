@@ -19,7 +19,6 @@ public class Game {
     private Lorenzo cpu;
     public ArrayList<Token> tokens;
     private boolean singlePlayer;
-    //Lorenzo cpu = new Lorenzo();  will be ok when DevBoard will adopt singleton pattern
 
     //COSTRUTTORE
     public Game(boolean singlePlayer){
@@ -27,12 +26,11 @@ public class Game {
         initializeGame();
     }
     public void initializeGame(){
-        //table = Table.getTableInstance();
         table = new Table();
         Collections.shuffle(players);
         if(singlePlayer){
             cpu = new Lorenzo(table.getDevBoard());
-            tokens = cpu.tokens;
+            tokens = cpu.getTokens();
         }
     }
 
@@ -293,7 +291,12 @@ public class Game {
     //END TURN
     public void updateTurn(){
         updateStrongbox();
+        updateCardSlots();
         changeTurn();
+    }
+    private void updateCardSlots(){
+        for(int i = 0; i<3; i++)
+            currentPlayer.getPlayerBoard().getCardSlots().getCard(i).backUsable();
     }
     private void updateStrongbox(){
         currentPlayer.getPlayerBoard().getStrongbox().updateStrongbox();

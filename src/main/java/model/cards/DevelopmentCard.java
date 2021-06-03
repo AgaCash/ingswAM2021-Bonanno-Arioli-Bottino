@@ -19,6 +19,7 @@ public class DevelopmentCard extends Card {
     private ArrayList<Resource> cost;
     private ArrayList<Resource> prodInput;
     private ArrayList<Resource> prodOutput;
+    private boolean usedInThisTurn;
 
     /**
      *  Default constructor to create the card
@@ -55,12 +56,16 @@ public class DevelopmentCard extends Card {
      *
      */
     public ArrayList<Resource> createProduction(ExtraProd extraProd) throws UnusableCardException {
+        if(usedInThisTurn)
+            throw new UnusableCardException("DevCard already used in this turn!");
+
         ArrayList<Resource> outputResources = (ArrayList<Resource>) prodOutput.clone();
         if(!isUsable())
-            throw new UnusableCardException();
+            throw new UnusableCardException();//non dovrebbe succedere mai
 
         if(extraProd!=null && extraProd.isEnabled())
                 outputResources.addAll(extraProd.production());
+        this.usedInThisTurn = true;
         return outputResources;
     }
 
@@ -78,6 +83,10 @@ public class DevelopmentCard extends Card {
 
     public ArrayList<Resource> getCost(){
         return this.cost;
+    }
+
+    public void backUsable(){
+        this.usedInThisTurn = false;
     }
 
     @Override

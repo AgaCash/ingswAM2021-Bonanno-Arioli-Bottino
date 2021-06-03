@@ -12,14 +12,14 @@ public class DefaultProductionResponse extends GameMessage {
     private String message;
 
     public DefaultProductionResponse(String username, LightWarehouseDepot newWarehouse, LightStrongbox newStrongbox) {
-        super(username, MessageType.PRODUCTIONUPDATE);
+        super(username, MessageType.DEFPRODUCTIONUPDATE);
         this.newWarehouse = newWarehouse;
         this.newStrongbox = newStrongbox;
         this.success = true;
     }
 
     public DefaultProductionResponse(String username, String message){
-        super(username, MessageType.PRODUCTIONUPDATE);
+        super(username, MessageType.DEFPRODUCTIONUPDATE);
         this.success = false;
         this.message = message;
     }

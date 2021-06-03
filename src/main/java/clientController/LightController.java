@@ -474,7 +474,7 @@ public class LightController {
 
     }
 
-    public void start(String message){
+    public void start(){
         view.askTurn();
     }
 

@@ -11,7 +11,7 @@ import java.util.Collections;
 public class Lorenzo {
     private FaithTrack faithTrack = new FaithTrack();
     private FaithBox faithBox = new FaithBox();
-    public ArrayList<Token> tokens ;//= new ArrayList<>(6);
+    private ArrayList<Token> tokens ;//= new ArrayList<>(6);
     private DevelopmentBoard developmentBoard;
     private int faithPoints; //probabilmente attributo già incluso in faithBox
     //private Token token = new Token(0, 1);//DA CAMBIARE
@@ -46,8 +46,8 @@ public class Lorenzo {
         this.faithBox = newBox;
     }
 
-    public void testAction(){
-
+    public ArrayList<Token> getTokens(){
+        return this.tokens;
     }
 
     public void pick () {

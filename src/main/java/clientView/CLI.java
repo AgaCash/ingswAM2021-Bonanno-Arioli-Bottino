@@ -412,7 +412,7 @@ public class CLI implements View{
                 slot = in.nextInt();
             } while (slot < 1 || slot > numSlots);
             try {
-                if (controller.getPlayerBoard().getCardSlots().get(slot) != null){
+                if (controller.getPlayerBoard().getCardSlots().get(slot-1) != null){
                     String ans;
                     do {
                         System.out.println("do u want to add a leader card?\n [y/n]\n");
@@ -435,11 +435,11 @@ public class CLI implements View{
                                 case 3 -> chosenResource = LightResource.SHIELD;
                                 case 4 -> chosenResource = LightResource.STONE;
                             }
-                            controller.sendDevCardProductionRequest(slot, chosenResource, card);
+                            controller.sendDevCardProductionRequest(slot-1, chosenResource, card);
                         }
                     }
                     else{
-                        controller.sendDevCardProductionRequest(slot, null, null);
+                        controller.sendDevCardProductionRequest(slot-1, null, null);
                     }
                     System.out.println(controller.getPlayerBoard().getStrongbox().toString());
                     System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());

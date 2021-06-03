@@ -38,7 +38,9 @@ public class BuyDevCardRequest extends GameMessage{
         ArrayList<LightDevelopmentCard> slots = controller.getCurrentPlayer().getPlayerBoard().getCardSlots().convert();
         BuyDevCardResponse response = new BuyDevCardResponse(getUsername(),
                                                             slots,
-                                                            controller.getDevBoard().convert());
+                                                            controller.getDevBoard().convert(),
+                                                            controller.getCurrentPlayer().getPlayerBoard().getWarehouseDepot().convert(),
+                                                            controller.getCurrentPlayer().getPlayerBoard().getStrongbox().convert());
         controller.getViews().forEach((element)-> { element.getVirtualView().updateBuyDevCard(response);});
     }
 }

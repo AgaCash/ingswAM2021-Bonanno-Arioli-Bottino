@@ -6,8 +6,6 @@ import com.google.gson.Gson;
 import controller.Controller;
 import exceptions.InsufficientResourcesException;
 import exceptions.UnusableCardException;
-import model.cards.ExtraProd;
-import model.resources.Resource;
 import network.messages.MessageType;
 import view.VirtualClient;
 
@@ -17,7 +15,7 @@ public class DevCardProductionRequest extends GameMessage{
     private LightLeaderCard card;
 
     public DevCardProductionRequest(String username, int slot, LightResource chosenResource, LightLeaderCard card){
-        super(username, MessageType.PRODUCTION);
+        super(username, MessageType.DEVCARDPRODUCTION);
         this.slot = slot;
         this.chosenResource = chosenResource;
         this.card = card;

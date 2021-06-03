@@ -50,6 +50,6 @@ public class SetupResponse extends GameMessage {
         controller.setPlayers(this.players);
         controller.setDevBoard(this.board);
         controller.setMarketBoard(this.market);
-        controller.start(this.message);
+        controller.start();
     }
 }

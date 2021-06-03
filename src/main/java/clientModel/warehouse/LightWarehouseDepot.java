@@ -62,7 +62,7 @@ public class LightWarehouseDepot {
      */
     @Override
     public String toString(){
-        String s = new String();
+        String s = "\nWAREHOUSE: \n";
         for(LightResource res: warehouse)
             s+=res.toString()+" ";
         return s;

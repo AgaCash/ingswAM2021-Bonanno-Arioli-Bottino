@@ -30,6 +30,18 @@ public class LightStrongbox {
         res = strongbox.get(whichOne);
         return res;
     }
+
+    @Override
+    public String toString(){
+        String s = "\nSTRONGBOX: \n";
+        for(LightResource res: strongbox)
+            s+=res.toString()+" ";
+        s+="\n disponibili dal prossimo turno: ";
+        for(LightResource res: tmpStrongbox)
+            s+=res.toString()+" ";
+
+        return s;
+    }
 /*
     public static boolean isPresent(ArrayList<LightResource> res){
         ArrayList<LightResource> clonedStrongbox = (ArrayList<LightResource>) strongbox.clone();
