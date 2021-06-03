@@ -25,10 +25,7 @@ public class Game {
     public Game(boolean singlePlayer){
         this.singlePlayer = singlePlayer;
         initializeGame();
-
     }
-
-    //@CONTROLLER
     public void initializeGame(){
         //table = Table.getTableInstance();
         table = new Table();
@@ -39,7 +36,7 @@ public class Game {
         }
     }
 
-    //========DA RIVEDERE DA QUA:
+    //START
     public void addPlayer(Player newPlayer){
         if(players.size()<4){
             players.add(newPlayer);
@@ -57,39 +54,11 @@ public class Game {
             System.out.println(player);
         }
     }
-    //send leader cards
     public ArrayList<LeaderCard> sendQuartet(){
         return table.sendQuartet();
     }
-    //receive leader cards
-    /*public void assignLeaderCards(String username, LeaderCard first, LeaderCard second){
-        Player user = getPlayer(username);
-        if(user!=null)
-            user.getPlayerBoard().addLeaderCards(first, second);
-    }*/
-    //starting resources
-    public void addStartingResources(){
-        //bla bla bla
-    }
-    //A QUA.
-    //=================
 
 
-    public boolean isSinglePlayer() {
-        return singlePlayer;
-    }
-
-    public ArrayList<String> getPlayerTurns(){
-        ArrayList<String> turns = new ArrayList<>();
-        for(Player p : players)
-            turns.add(p.getNickname());
-        return turns;
-    }
-
-    public void updateTurn(){
-        updateStrongbox();
-        changeTurn();
-    }
     //===========UTILITIES
     private boolean checkDevCards(ArrayList<DevelopmentCard> requirements){
         for(DevelopmentCard card : requirements){
@@ -254,7 +223,6 @@ public class Game {
     }
 
     //--------------------FAITH TRACK--------------------
-
     /** advances the player's pawn position in the Faith Track, calling faithAdvance in FaitTrack
      * @param advance how many position the player gets
      */
@@ -322,11 +290,11 @@ public class Game {
         faithAdvance(1);
     }
 
-
-    //============ENDGAME=======
-    //contare i punti vittoria dei giocatori su faithTrack, leaderCards, devCards ecc...
-    //fare la classifica dei punti vittoria
-    //============utilities
+    //END TURN
+    public void updateTurn(){
+        updateStrongbox();
+        changeTurn();
+    }
     private void updateStrongbox(){
         currentPlayer.getPlayerBoard().getStrongbox().updateStrongbox();
     }
@@ -346,6 +314,13 @@ public class Game {
         }
     }
 
+
+    //============ENDGAME=======
+    //contare i punti vittoria dei giocatori su faithTrack, leaderCards, devCards ecc...
+    //fare la classifica dei punti vittoria
+
+
+    //GETTERS
     public Player getPlayer(String username) throws NoSuchUsernameException {
         for(Player player: players)
             if(player.getNickname().equals(username))
@@ -366,6 +341,18 @@ public class Game {
         for(Player player : players)
             tracks.add(player.getPlayerBoard().getFaithTrack());
         return tracks;
+    }
+    public ArrayList<Player> getPlayers(){
+        return players;
+    }
+    public boolean isSinglePlayer() {
+        return singlePlayer;
+    }
+    public ArrayList<String> getPlayerTurns(){
+        ArrayList<String> turns = new ArrayList<>();
+        for(Player p : players)
+            turns.add(p.getNickname());
+        return turns;
     }
 
     //----SINGLEPLAYER-------
@@ -404,9 +391,7 @@ public class Game {
         Collections.shuffle(tokens);
     }
 
-    public ArrayList<Player> getPlayers(){
-        return players;
-    }
+
 
     //JUST 4 TESTS
     public void LorenzoDoesSomething(){
