@@ -84,16 +84,30 @@ public class MarketBoard {
                 resLine.add(toConvert.convertMarble(convertResource));
         }
         System.out.println("resLine: "+resLine);
-        Marble tmp = freeMarble;
+/*        Marble tmp = freeMarble;
         freeMarble = marbleGrid.get(line).get(0);
 
         int i;
         for(i =3 ; i>0; i--)
-            marbleGrid.get(line).set(i, marbleGrid.get(line).get(i-1));
+            marbleGrid.get(line).set(i - 1, marbleGrid.get(line).get(i));
         marbleGrid.get(line).set(3, tmp);
         System.out.println("new grid:  "+marbleGrid);
 
+ */
+        changeLine(line);
         return resLine;
+    }
+
+    public void changeLine(int line){
+        Marble changed1, changed2;
+        Marble tmp = freeMarble;
+        freeMarble = marbleGrid.get(line).get(0);
+        changed1= marbleGrid.get(line).get(2);
+        changed2= marbleGrid.get(line).get(1);
+        marbleGrid.get(line).set(2, marbleGrid.get(line).get(3));
+        marbleGrid.get(line).set(1,changed1);
+        marbleGrid.get(line).set(0, changed2);
+        marbleGrid.get(line).set(3,tmp);
     }
 
     /** method to obtain model.resources from the market by column
@@ -116,16 +130,27 @@ public class MarketBoard {
             if(toConvert.convertMarble(convertResource)!=null)
                 resColumn.add(toConvert.convertMarble(convertResource));
         }
+        /*
         Marble tmp = freeMarble;
         freeMarble = marbleGrid.get(0).get(col);
 
-        //marbleGrid.get(1).set(col, marbleGrid.get(0).get(col));
-        //marbleGrid.get(0).set(col, tmp);
         int i;
         for(i =1 ; i<=2; i++)
           marbleGrid.get(i-1).set(col, marbleGrid.get(i).get(col));
         marbleGrid.get(2).set(col, tmp);
+         */
+        changeColumn(col);
         return resColumn;
+    }
+
+    public void changeColumn(int col){
+        Marble changed;
+        Marble tmp = freeMarble;
+        freeMarble = marbleGrid.get(0).get(col);
+        changed= marbleGrid.get(1).get(col);
+        marbleGrid.get(1).set(col, marbleGrid.get(2).get(col));
+        marbleGrid.get(0).set(col,changed);
+        marbleGrid.get(2).set(col,tmp);
     }
 
     /** getter method for the market board
