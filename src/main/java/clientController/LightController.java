@@ -458,6 +458,14 @@ public class LightController {
         }
     }
 
+    public void updateLeaderSlot(String username, ArrayList<LightLeaderCard> cards){
+        try{
+            game.updateLeaderSlot(username, cards);
+        }catch(NoSuchUsernameException e){
+            e.printStackTrace();
+        }
+    }
+
     public void chooseStartItems(ArrayList<LightLeaderCard> quartet, int numResources, boolean faithPoints){
         view.askStartItems(quartet, numResources, faithPoints);
     }

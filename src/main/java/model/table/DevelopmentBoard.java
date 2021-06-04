@@ -77,8 +77,10 @@ public final class DevelopmentBoard {
     public Deck getDeck(Colour colour){
         Deck tmpDeck = null;
         for (Deck d:decks) {
-            if(d.getColourDeck()==colour && !d.isEmpty())
+            if(d.getColourDeck()==colour && !d.isEmpty()) {
                 tmpDeck = d;
+                break;
+            }
         }
         return tmpDeck;
     }

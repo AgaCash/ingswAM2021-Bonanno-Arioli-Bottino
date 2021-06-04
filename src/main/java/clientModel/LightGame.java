@@ -1,6 +1,7 @@
 package clientModel;
 
 import clientModel.cards.LightDevelopmentCard;
+import clientModel.cards.LightLeaderCard;
 import clientModel.player.LightPlayer;
 import clientModel.resources.LightResource;
 import clientModel.strongbox.LightStrongbox;
@@ -42,6 +43,11 @@ public class LightGame {
         LightPlayer player = getPlayer(username);
         player.getPlayerBoard().setCardSlots(cardSlots);
     }
+    public void updateLeaderSlot(String username, ArrayList<LightLeaderCard> leaderSlot) throws NoSuchUsernameException {
+        LightPlayer player = getPlayer(username);
+        player.getPlayerBoard().setLeaderSlot(leaderSlot);
+    }
+
     public void updateDevBoard(LightDevelopmentBoard developmentBoard){
         table.setDevelopmentBoard(developmentBoard);
     }

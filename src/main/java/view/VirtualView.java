@@ -81,6 +81,9 @@ public class VirtualView implements ServerView {
     public void updateLeaderCardActivation(LeaderCardActivationResponse response){
         System.out.println("GAME STRINGA USCENTE:::"+gson.toJson(response));
         outStream.println(gson.toJson(response));}
+    public void updateLeaderCardThrow(LeaderCardThrowResponse response){
+        System.out.println("GAME STRINGA USCENTE:::"+gson.toJson(response));
+        outStream.println(gson.toJson(response));}
     public void updateStartGame(StartGameResponse response){
         System.out.println("GAME STRINGA USCENTE:::"+gson.toJson(response));
         outStream.println(gson.toJson(response));}

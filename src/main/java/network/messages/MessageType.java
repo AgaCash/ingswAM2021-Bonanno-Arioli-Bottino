@@ -62,6 +62,8 @@ public enum MessageType {
     BUYDEVCARDSUPDATE(BuyDevCardResponse.class, "GAME"),
     LEADERCARD(LeaderCardActivationRequest.class, "GAME"),
     LEADERCARDUPDATE(LeaderCardActivationResponse.class, "GAME"),
+    LEADERCARDTHROW(LeaderCardThrowRequest.class, "GAME"),
+    LEADERCARDTHROWUPDATE(LeaderCardThrowResponse.class, "GAME"),
     ENDTURN(EndTurnRequest.class, "GAME"),
     ENDTURNUPDATE(EndTurnResponse.class, "GAME"),
 

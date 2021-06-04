@@ -19,7 +19,7 @@ public class BuyDevCardResponse extends GameMessage{
 
     public BuyDevCardResponse(String username, ArrayList<LightDevelopmentCard> newCardSlot, LightDevelopmentBoard newDevBoard,
                                 LightWarehouseDepot newWarehouse, LightStrongbox newStrongbox) {
-        super(username, MessageType.MARKETUPDATE);
+        super(username, MessageType.BUYDEVCARDSUPDATE);
         this.newCardSlot = newCardSlot;
         this.newDevBoard = newDevBoard;
         this.newWarehouse = newWarehouse;
