@@ -24,7 +24,8 @@ public class UpdateReconnectionRequest extends GameMessage{
                                                     getUsername(),
                                                     controller.getMarketBoard().convert(),
                                                     controller.getDevBoard().convert(),
-                                                    players);
+                                                    players,
+                                                    controller.isSinglePlayer());
         client.getVirtualView().sendReconnectionUpdate(response);
     }
 }

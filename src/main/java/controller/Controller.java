@@ -16,6 +16,8 @@ import model.table.DevelopmentBoard;
 import model.table.FaithTrack;
 import model.table.MarketBoard;
 import network.messages.gameMessages.*;
+import network.server.Lobby;
+import network.server.LobbyHandler;
 import view.VirtualClient;
 
 import java.util.ArrayList;
@@ -50,7 +52,7 @@ public class Controller {
     //          -> è perchè game in multiplayer non viene ancora inizializzato
     public void disconnectPlayer(String username){
         System.out.println(username+" disconnesso!");
-        if(game.getCurrentPlayer().getNickname().equals(username)){
+        if(game.getCurrentPlayer().getNickname().equals(username) && !isSinglePlayer()){
             endTurn(username);
         }
         for(VirtualClient v: views){
@@ -72,6 +74,11 @@ public class Controller {
             return true;
         return false;
     }
+
+    public boolean isSinglePlayer(){
+        return game.isSinglePlayer();
+    }
+
     public void reconnectUsername(String username, VirtualClient virtualClient){
         /*
         if(!isUsernameDisconnected(username)){
@@ -214,6 +221,14 @@ public class Controller {
             //OCCHIO AGLI UPDATE E AL MECCANISMO DI UNDERSTANDING DEL TURNO DA PARTE DEL CLIENT
             //
             //SE TUTTI E 4 SI SONO DISCONNESSI FANCULO TUTTO SI BUTTA VIA LA PARTITA
+        }
+        if(game.isOver()){
+            try {
+                Lobby lobby = LobbyHandler.getInstance().getLobbyFromUsername(username);
+
+            } catch (NoSuchUsernameException e) {
+                e.printStackTrace();
+            }
         }
     }
 

@@ -524,8 +524,16 @@ public class LightController {
                 game.setPlayer(p);
     }
 
+    public void setPlayer(LightPlayer player){
+        game.setPlayer(player);
+    }
+
     public LightPlayer getPlayer(){
         return this.game.getPlayer();
+    }
+
+    public void reconnectSinglePlayer(){
+        sendEndTurnRequest();
     }
 
     public void waitForMyTurn(){

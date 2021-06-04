@@ -91,14 +91,16 @@ public class LobbyHandler {
     }
 
     public synchronized void leaveLobby(Lobby lobby, String username){
-        if(lobby.getCreator().getNickname().equals(username)){
-            //si è disconnesso colui che può iniziare la partita
-        }
-
         lobby.leaveLobby(username);
         if(lobby.isEmpty()){
             lobbies.remove(lobby);
         }
+    }
+
+    public synchronized void destroyLobby(){
+        //disconnetti tutti
+
+        //elimina la lobby dalla lista
     }
 
     public synchronized ArrayList<Lobby> getMultiLobbies() {
