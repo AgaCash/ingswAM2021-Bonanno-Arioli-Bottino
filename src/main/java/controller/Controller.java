@@ -225,7 +225,8 @@ public class Controller {
         if(game.isOver()){
             try {
                 Lobby lobby = LobbyHandler.getInstance().getLobbyFromUsername(username);
-
+                Player creator = lobby.getCreator();
+                lobby.leaveLobby(creator.getNickname());
             } catch (NoSuchUsernameException e) {
                 e.printStackTrace();
             }

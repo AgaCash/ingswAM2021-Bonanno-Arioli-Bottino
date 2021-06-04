@@ -97,11 +97,16 @@ public class LobbyHandler {
         }
     }
 
-    public synchronized void destroyLobby(){
+    //serve????
+    public synchronized void destroyLobby(Lobby lobby){
         //disconnetti tutti
-
+        if(!lobbies.contains(lobby)){
+            return;
+        }
         //elimina la lobby dalla lista
+        lobby.getUsernameList().forEach(lobby::leaveLobby);
     }
+    //me sa de no
 
     public synchronized ArrayList<Lobby> getMultiLobbies() {
         ArrayList<Lobby> multiLobbies = new ArrayList<>();
