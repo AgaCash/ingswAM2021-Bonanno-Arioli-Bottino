@@ -39,6 +39,7 @@ public class Client {
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         outStream = new PrintWriter(new BufferedWriter(
                 new OutputStreamWriter(socket.getOutputStream())),true);
+        new Thread(clientPingReciverTimer).start();
         new Thread(()->{
             do{
                 try {
@@ -60,7 +61,7 @@ public class Client {
 
         }).start();
 
-        new Thread(clientPingReciverTimer).start();
+
     }
 
     private boolean ifAsyncMessageExecute(String s){

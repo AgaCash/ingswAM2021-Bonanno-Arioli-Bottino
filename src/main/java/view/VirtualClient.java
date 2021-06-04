@@ -163,7 +163,7 @@ public class VirtualClient extends Thread{
                         s = inStream.readLine();
                     System.out.println("GAME STRINGA ENTRANTE:::"+s);
                     serverPingHandler.reset();
-                }while (ifPingExecute(s));
+                }while (ifPingExecute(s) && ((s="")!=null));
                 try{
                     //gameServerTimerCheckConnection.reset();
 
