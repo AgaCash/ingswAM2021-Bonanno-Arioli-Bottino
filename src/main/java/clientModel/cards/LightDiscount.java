@@ -40,7 +40,7 @@ public class LightDiscount extends LightLeaderCard {
         s+=     "\n|        DISCOUNT      |";
         s+=     "\n|Requires:             |";
         for (LightDevelopmentCard d:requires) {
-            s+="\n\t"+d;
+            s+="\n|\t"+d.toString();
         }
         s+=     "\n|Discount: " +discount;
         s+=     "\n|Victory Points: "+victoryPoints;

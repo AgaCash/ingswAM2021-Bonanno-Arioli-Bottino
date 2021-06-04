@@ -189,27 +189,24 @@ public class CLI implements View{
     public void askTurn() {
         System.out.println("IT'S YOUR TURN!\n");
         int ans = 0;
-        do{
-            do {
-                System.out.println("CHOOSE YOUR ACTION\n\b" +
-                        "1 per attivare la carta leader\n\b" +
-                        "2 per attivare la produzione\n\b" +
-                        "3 per comprare le risorse\n\b" +
-                        "4 per comprare la carta sviluppo\n\b" +
-                        "5 per visualizzare lo stato del gioco\n\b" +
-                        "6 per terminare il turno");
-                ans = in.nextInt();
-            } while (ans < 1 || ans > 6);
-            switch (ans) {
-                case 1 : askLeaderCardActivation(); break;
-                case 2 : askProduction(); break;
-                case 3 : askBuyResources(); break;
-                case 4 : askBuyDevCards(); break;
-                case 5 : askShow(); break;
-                case 6 : askEndTurn(); break;
-            }
-
-        }while(ans!=6);
+        do {
+            System.out.println("CHOOSE YOUR ACTION\n\b" +
+                    "1 per compiere un`azione leader\n\b" +
+                    "2 per attivare la produzione\n\b" +
+                    "3 per comprare le risorse\n\b" +
+                    "4 per comprare la carta sviluppo\n\b" +
+                    "5 per visualizzare lo stato del gioco\n\b" +
+                    "6 per terminare il turno");
+            ans = in.nextInt();
+        } while (ans < 1 || ans > 6);
+        switch (ans) {
+            case 1 : askLeader(); break;
+            case 2 : askProduction(); break;
+            case 3 : askBuyResources(); break;
+            case 4 : askBuyDevCards(); break;
+            case 5 : askShow(); break;
+            case 6 : askEndTurn(); break;
+        }
     }
 
     private void askShow(){
@@ -236,21 +233,37 @@ public class CLI implements View{
             case 6 :
                 System.out.println(controller.getPlayerBoard().getFaithTrack().toString());; break;
         }
+        askTurn();
+    }
 
+    private void askLeader(){
+        int ans = 0;
+        do {
+            System.out.println("CHOOSE YOUR ACTION\n\b" +
+                    "1 per attivare la carta leader\n\b" +
+                    "2 per scartare la carta leader\n\b" +
+                    "3 per tornare al menu");
+            ans = in.nextInt();
+        } while (ans < 1 || ans > 3);
+        switch (ans) {
+            case 1 : askLeaderCardActivation(); break;
+            case 2 : askLeaderCardThrowing(); break;
+            case 3 : break;
+        }
+        askTurn();
     }
 
     public void askTurnFinal() {
-        System.out.println("GAME IS STARTING...\n");
         int ans = 0;
         do{
             do {
                 System.out.println("CHOOSE YOUR ACTION\n\b" +
-                        "1 per attivare la carta leader\n\b" +
+                        "1 per compiere un`azione leader\n\b" +
                         "5 per terminare il turno");
                 ans = in.nextInt();
             } while (ans != 1 && ans != 5);
             switch (ans) {
-                case 1 : askLeaderCardActivation(); break;
+                case 1 : askLeader(); break;
                 case 5 : askEndTurn(); break;
             }
 
@@ -288,12 +301,11 @@ public class CLI implements View{
             case 1 -> askDevCardProduction();
             case 2 -> askDefaultProduction();
         }
+        askTurn();
     }
 
     @Override
     public void askLeaderCardActivation() {
-        System.out.println(controller.getPlayer());
-        System.out.println(controller.getPlayerBoard());
         ArrayList<LightLeaderCard> couple = controller.getPlayerBoard().getLeaderSlot();
         couple.forEach(System.out::println);
         int ans = 0;
@@ -306,10 +318,22 @@ public class CLI implements View{
         } while(ans!= 1 && ans != 2);
        controller.sendLeaderCardActivationRequest(couple.get(ans-1));
 
+
     }
 
     @Override
     public void askLeaderCardThrowing() {
+        ArrayList<LightLeaderCard> couple = controller.getPlayerBoard().getLeaderSlot();
+        couple.forEach(System.out::println);
+        int ans = 0;
+        do {
+            System.out.println("scegli la carta:");
+            for(LightLeaderCard card: couple){
+                System.out.println("\n\b"+ (couple.indexOf(card)+1)+" per "+card);
+            }
+            ans = in.nextInt();
+        } while(ans!= 1 && ans != 2);
+        controller.sendLeaderCardThrowRequest(couple.get(ans-1));
 
     }
 
@@ -358,6 +382,7 @@ public class CLI implements View{
 
 
         System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());
+        askTurn();
     }
 
     @Override
@@ -391,6 +416,7 @@ public class CLI implements View{
             controller.sendBuyDevCardRequest(deck-1, slot-1, null);
         }
         System.out.println(controller.getPlayerBoard().getCardSlots());
+        askTurn();
     }
 
     @Override

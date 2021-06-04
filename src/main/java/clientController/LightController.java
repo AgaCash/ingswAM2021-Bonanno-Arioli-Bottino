@@ -387,6 +387,19 @@ public class LightController {
         }
     }
 
+    public void sendLeaderCardThrowRequest (LightLeaderCard card){
+        Gson gson = new Gson();
+        LeaderCardThrowRequest request = new LeaderCardThrowRequest(getUsername(), card);
+        client.send(gson.toJson(request));
+        try {
+            String responseS = client.recv();
+            LeaderCardThrowResponse response = gson.fromJson(responseS, LeaderCardThrowResponse.class);
+            response.executeCommand(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void sendEndTurnRequest(){
         Gson gson = new Gson();
         EndTurnRequest request = new EndTurnRequest(getUsername());

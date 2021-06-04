@@ -62,6 +62,8 @@ public class LightExtraProd extends LightLeaderCard {
         String s =  "______________________";
         s+=      "\n|       EXTRA PROD     |";
         s+=      "\n|Requires:             |";
+        for(LightDevelopmentCard card: requires)
+            s+=   "\n|\t"+card.toString();
         s+=    "\n|\tInput: "+input;
         s+=      "\n|Produce: \n\t"+output+" and a chosen resource";
         s+=      "\n|Victory Points: "+victoryPoints;

@@ -81,10 +81,10 @@ public class WarehouseDepot {
 
     }
 
-    public Resource removeResource(Resource tmp) throws ResourceNotFoundException {
+    public void removeResource(Resource tmp) throws ResourceNotFoundException {
         for(ExtraDepot card : cards)
                 if(card.removeResource(tmp)) {
-                    return tmp;
+                    return;
                 }
         if(warehouse.containsKey(tmp)){
             int i = warehouse.get(tmp);
@@ -92,7 +92,7 @@ public class WarehouseDepot {
                 warehouse.remove(tmp);
             else
                 warehouse.put(tmp, i-1);
-            return tmp;
+            return;
         }
         else {
             throw new ResourceNotFoundException();
