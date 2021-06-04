@@ -146,8 +146,10 @@ public class VirtualClient extends Thread{
                 }while (ifPingExecute(s) && controller == null);
                 try {
                     handleLobbyMessage(s);//handle lobby message
+                    s = "";
                 } catch (InvalidMessageException e) {
                     sendInvalidMessage(e.getMessage());
+                } catch (ClassCastException c){
                 }
             }
 
@@ -157,7 +159,8 @@ public class VirtualClient extends Thread{
             //robe initialize
             while (true) { // TODO: esce se gioco finisce
                 do{
-                    s = inStream.readLine();
+                    if(s == "")
+                        s = inStream.readLine();
                     System.out.println("GAME STRINGA ENTRANTE:::"+s);
                     serverPingHandler.reset();
                 }while (ifPingExecute(s));
@@ -168,6 +171,7 @@ public class VirtualClient extends Thread{
                 }catch (InvalidMessageException e) {
                     sendInvalidMessage(e.getMessage());
                 }
+                s = "";
             }
         } catch (IOException e) {
             //e.printStackTrace();

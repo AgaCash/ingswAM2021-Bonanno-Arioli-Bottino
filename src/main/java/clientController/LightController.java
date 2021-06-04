@@ -252,8 +252,18 @@ public class LightController {
 
     }
 
+
     public void startSinglePlayerGame() {
-        view.switchToGame(true);
+        //view.switchToGame(true);
+        startGameProcedure();
+    }
+
+    public void startMultiPlayerGame(){
+        //view.switchToGame(false);
+        startGameProcedure();
+    }
+
+    private void startGameProcedure() {
         StartGameRequest startGameRequest = new StartGameRequest(getUsername());
         String request = gson.toJson(startGameRequest);
         client.send(request);
@@ -266,12 +276,6 @@ public class LightController {
             view.showError("error ");
             //todo da abbellire
         }
-    }
-
-    public void startMultiPlayerGame(){
-        view.switchToGame(false);
-        //todo:
-        // da qui sei tu teoo
     }
 
     public void sendSignalMultiPlayerGame(){
@@ -547,16 +551,14 @@ public class LightController {
                 String responseS = client.recv();
                 MessageType msgType = MessageType.valueOf(
                         gson.fromJson(responseS, JsonObject.class).get("messageType").getAsString());
-                ((GameMessage) gson.fromJson(responseS, msgType.getClassType())).executeCommand(this);
-                if(true/* todo: DAL MESSAGGIO CAPISCO CHE TOCCA A ME*/){
+                if(msgType == MessageType.ENDTURNUPDATE && (gson.fromJson(responseS, EndTurnResponse.class).getNewPlayerName()).equals(username)){
                     myTurn = true;
                 }
+                ((GameMessage) gson.fromJson(responseS, msgType.getClassType())).executeCommand(this);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }while(!myTurn);
-        view.askTurn();
-
     }
 
     public void startTurn(){

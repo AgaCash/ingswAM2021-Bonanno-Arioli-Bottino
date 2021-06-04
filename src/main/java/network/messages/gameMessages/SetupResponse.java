@@ -50,6 +50,9 @@ public class SetupResponse extends GameMessage {
         controller.setPlayers(this.players);
         controller.setDevBoard(this.board);
         controller.setMarketBoard(this.market);
-        controller.start();
+        if(players.get(0).getNickname().equals(controller.getUsername()))
+            controller.start();
+        else
+            controller.waitForMyTurn();
     }
 }

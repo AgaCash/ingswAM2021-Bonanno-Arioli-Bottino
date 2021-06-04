@@ -69,4 +69,8 @@ public class EndTurnResponse extends GameMessage{
         }
 
     }
+
+    public String getNewPlayerName() {
+        return newPlayerName;
+    }
 }

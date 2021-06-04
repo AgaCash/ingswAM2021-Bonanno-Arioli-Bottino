@@ -31,7 +31,7 @@ public class StartGameResponse extends GameMessage {
     @Override
     public void executeCommand(LightController controller){
         if(this.success) {
-            controller.showSuccess( "starting single player game ...");
+            controller.showSuccess( "starting game ...");
             controller.chooseStartItems(this.quartet, this.numResources, this.faithPoint);
         }
         else{

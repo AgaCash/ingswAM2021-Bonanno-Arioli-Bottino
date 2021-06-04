@@ -203,8 +203,6 @@ public class Controller {
                         game.getLorenzo().getLorenzoLastAction(),
                         game.getCurrentPlayer().getPlayerBoard().getCardSlots().convert(),
                         game.getCurrentPlayer().getPlayerBoard().getStrongbox().convert());
-
-
             else
                 response = new EndTurnResponse(username, game.victory(), game.endingSinglePlayerGame());
             getViews().get(0).getVirtualView().sendEndTurnNotify(response);
@@ -216,8 +214,10 @@ public class Controller {
                 getViews().forEach((element) -> {
                     element.getVirtualView().sendEndTurnNotify(response);
                 });
-
-            } while (disconnectedPlayer.contains(game.getCurrentPlayer().getNickname()) && !game.isSinglePlayer());
+                if(disconnectedPlayer.size() == game.getPlayers().size()){
+                    //fanculo tutto
+                }
+            } while (disconnectedPlayer.contains(game.getCurrentPlayer().getNickname()));
             //OCCHIO AGLI UPDATE E AL MECCANISMO DI UNDERSTANDING DEL TURNO DA PARTE DEL CLIENT
             //
             //SE TUTTI E 4 SI SONO DISCONNESSI FANCULO TUTTO SI BUTTA VIA LA PARTITA
