@@ -36,47 +36,29 @@ public class WarehouseDepot {
             }
         }
         if (!added) {
-            if (warehouse.containsKey(tmp)) {
+            if(warehouse.containsKey(tmp)){
                 int level = warehouse.get(tmp);
-                if ((level == 1 && (!warehouse.containsValue(2)) && !warehouse.containsValue(3))
-                        || level == 2 && (!warehouse.containsValue(3)))
-                        warehouse.put(tmp, level + 1);
-
-                if(level ==1) {
-                    if (warehouse.containsValue(2)){
-                        if (!warehouse.containsValue(3)) {
-                            warehouse.put(tmp, level + 1);
-                        } else {
-                            threw(tmp);
-                        }
-                    } else {
-                        warehouse.put(tmp, level + 1);
-                    }
-                }
-                else if(level == 2) {
-                    if (!warehouse.containsValue(3))
-                        warehouse.put(tmp, level+1);
-                    else
-                        threw(tmp);
-                }
-                else {
+                if(warehouse.size() == 1 && level<3)
+                    warehouse.put(tmp, level+1);
+                else if(warehouse.size()==2 && ((!warehouse.containsValue(3) && level == 2) ||
+                                                (level == 1)))
+                    warehouse.put(tmp, level+1);
+                else if(warehouse.size() == 3 && ((level == 1 && !warehouse.containsValue(2)) ||
+                                                    (level == 2 && !warehouse.containsValue(3))))
+                    warehouse.put(tmp, level+1);
+                else
                     threw(tmp);
-                }
-            }
-            else{
+            }else
                 if(warehouse.size()<3)
                     warehouse.put(tmp, 1);
-                else if(warehouse.size() == 3){
-                   threw(tmp);
-                }
+                else
+                    threw(tmp);
 
-            }
         }
     }
 
     private void threw(Resource tmp) throws FullWarehouseException {
         threwResources.add(tmp);
-        System.out.println("Resource" + tmp + "can't be added to Warehouse: full warehouse");
         throw new FullWarehouseException("Resource" + tmp + "can't be added to Warehouse: full warehouse");
 
     }

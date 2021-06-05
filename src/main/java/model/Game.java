@@ -192,16 +192,20 @@ public class Game {
                 if (checkExtraProd(card)) {
                     card.setChosenOutput(chosenOutput);
                     prodResources.addAll(card.production());
-                    for (Resource res : prodResources)
-                        if (res == Resource.FAITH) {
-                            faithAdvance(1);
-                            prodResources.remove(Resource.FAITH);
-                        }
                 }
             }catch(NullPointerException e){
                 //todo va bene?
             }
-            prodResources.forEach(element -> currentPlayer.getPlayerBoard().getStrongbox().addResource(element));
+            for (Resource res : prodResources) {
+                if (res == Resource.FAITH) {
+                    faithAdvance(1);
+                    prodResources.remove(Resource.FAITH);
+                }
+                else {
+                    currentPlayer.getPlayerBoard().getStrongbox().addResource(res);
+
+                }
+            }
         }
         else {
             throw new InsufficientResourcesException("Can`t do this production: insufficient resources!");
@@ -221,14 +225,18 @@ public class Game {
                 if (checkExtraProd(card)) {
                     card.setChosenOutput(chosenOutput);
                     prodResources.addAll(card.production());
-                    for (Resource res : card.production())
-                        if (res == Resource.FAITH) {
-                            faithAdvance(1);
-                            prodResources.remove(Resource.FAITH);
-                        }
                 }
             }catch(NullPointerException e){;}
-            prodResources.forEach(element -> currentPlayer.getPlayerBoard().getStrongbox().addResource(element));
+            for (Resource res : prodResources) {
+                if (res == Resource.FAITH) {
+                    faithAdvance(1);
+                    prodResources.remove(Resource.FAITH);
+                }
+                else {
+                    currentPlayer.getPlayerBoard().getStrongbox().addResource(res);
+
+                }
+            }
             this.didAction =true;
         }
         else{

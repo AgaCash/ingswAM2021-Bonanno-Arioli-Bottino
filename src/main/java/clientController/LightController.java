@@ -420,7 +420,6 @@ public class LightController {
 
     public void updateCardSlots(String username, ArrayList<LightDevelopmentCard> cardSlots){
         Gson gson = new Gson();
-        //todo assolutamente
         try {
             game.updateCardSlots(username, cardSlots);
         }catch (NoSuchUsernameException e){

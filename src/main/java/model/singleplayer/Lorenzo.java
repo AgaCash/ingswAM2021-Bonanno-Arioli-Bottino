@@ -66,7 +66,6 @@ public class Lorenzo {
                 else
                     this.lorenzoLastAction += message;
             }
-            System.out.println("riga 65 Lorenzo");
         } else {
             for(int i=0; i< token.getBlackCrossFaithPoints();i++) {
                 faithBox = faithTrack.faithAdvance(faithBox);
@@ -78,8 +77,10 @@ public class Lorenzo {
                 }
                 boolean[] check = faithBox.getPopeFlag();
             }
-            if (token.getShuffle())
+            if (token.getShuffle()) {
                 shuffle();
+                this.lorenzoLastAction+="\nLorenzo ha rimescolato i segnalini";
+            }
         }
         tmp = tokens.get(0);
         for(int i=0; i<tokens.size()-1; i++){

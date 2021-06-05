@@ -70,6 +70,7 @@ class WarehouseDepotTest {
     @Test
     void addResource() {
         ArrayList<Resource> addedResources = new ArrayList<>();
+        w = new WarehouseDepot();
         //test adding 1 resource of the same type
         try {
             w.addResource(Resource.COIN);
@@ -101,7 +102,6 @@ class WarehouseDepotTest {
 
         }catch(FullWarehouseException e ) {
             System.out.println(e.getMessage());
-            System.out.println("riga 104");
         }
         //System.out.println("added: "+ addedResources);
         assertFalse(w.isPresent(addedResources));
@@ -156,6 +156,35 @@ class WarehouseDepotTest {
         addedResources.remove(Resource.SERVANT);
         System.out.println(addedResources);
         System.out.println(w.status());
+
+        //test error 2-2-2
+        w = new WarehouseDepot();
+        addedResources.clear();
+        try {
+            addedResources.add(Resource.SERVANT);
+            w.addResource(Resource.SERVANT);
+            addedResources.add(Resource.SERVANT);
+            w.addResource(Resource.SERVANT);
+            addedResources.add(Resource.SHIELD);
+            w.addResource(Resource.SHIELD);
+            addedResources.add(Resource.SHIELD);
+            w.addResource(Resource.SHIELD);
+            addedResources.add(Resource.COIN);
+            w.addResource(Resource.COIN);
+        } catch(FullWarehouseException e){
+            System.out.println(e.getMessage());
+            System.out.println("riga 176");
+        }
+        assertTrue(w.isPresent(addedResources));
+        try{
+            addedResources.add(Resource.COIN);
+            w.addResource(Resource.COIN);
+        }catch(FullWarehouseException e){
+            System.out.println(e.getMessage());
+            System.out.println("riga 186");
+        }
+        assertFalse(w.isPresent(addedResources));
+
 
 
     }
