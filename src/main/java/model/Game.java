@@ -199,14 +199,12 @@ public class Game {
                 //todo va bene?
             }
             for (Resource res : prodResources) {
-                if (res == Resource.FAITH) {
+                if (res == Resource.FAITH)
                     faithAdvance(1);
-                    prodResources.remove(Resource.FAITH);
-                }
-                else {
+                else
                     currentPlayer.getPlayerBoard().getStrongbox().addResource(res);
 
-                }
+
             }
         }
         else {
@@ -233,14 +231,12 @@ public class Game {
             }catch(NullPointerException e){;}
 
             for (Resource res : prodResources) {
-                if (res == Resource.FAITH) {
+                if (res == Resource.FAITH)
                     faithAdvance(1);
-                    prodResources.remove(Resource.FAITH);
-                }
-                else {
+                else
                     currentPlayer.getPlayerBoard().getStrongbox().addResource(res);
 
-                }
+
             }
             this.didAction =true;
         }

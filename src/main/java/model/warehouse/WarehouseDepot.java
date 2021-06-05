@@ -43,7 +43,7 @@ public class WarehouseDepot {
                 else if(warehouse.size()==2 && ((!warehouse.containsValue(3) && level == 2) ||
                                                 (level == 1)))
                     warehouse.put(tmp, level+1);
-                else if(warehouse.size() == 3 && ((level == 1 && !warehouse.containsValue(2)) ||
+                else if(warehouse.size() == 3 && ((level == 1 && (!warehouse.containsValue(2) || !warehouse.containsValue(3))) ||
                                                     (level == 2 && !warehouse.containsValue(3))))
                     warehouse.put(tmp, level+1);
                 else
