@@ -67,11 +67,11 @@ public class LightDevelopmentCard {
     public String toString(){
         StringBuilder s = new StringBuilder();
         if(this.level == -1)
-            return "____________________\n" +
+            return "\n____________________\n" +
                    "|     DECK VUOTO    |\n" +
                     "____________________\n";
         if(isUsable()){
-            s.append("____________________\n");
+            s.append("\n____________________\n");
             s.append("\n|Colour: ").append(colour);
             s.append("\n|Level: ").append(level);
             s.append("\n|Victory Points: ").append(victoryPoints);

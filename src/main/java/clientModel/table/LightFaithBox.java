@@ -27,4 +27,9 @@ public class LightFaithBox {
         popeFlag[1] = flagTwo;
         popeFlag[2] = flagThree;
     }
+
+    @Override
+    public String toString(){
+        return "|  |";
+    }
 }

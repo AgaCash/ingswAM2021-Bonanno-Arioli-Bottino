@@ -9,4 +9,12 @@ public class LightFaithTrack {
         return box;
     }
     public void setTrack(ArrayList<LightFaithBox> box){ this.box = box;}
+
+    @Override
+    public String toString(){
+        String s = "\n";
+        for(LightFaithBox box: this.box)
+            s+=box.toString();
+        return s;
+    }
 }

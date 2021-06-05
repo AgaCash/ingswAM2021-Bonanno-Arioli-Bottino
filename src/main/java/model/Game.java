@@ -76,8 +76,8 @@ public class Game {
      */
     private boolean checkResources(ArrayList<Resource> cost, boolean remove){
 
-        ArrayList<Resource> clonedWarehouse = currentPlayer.getPlayerBoard().getWarehouseDepot().status();
-        ArrayList<Resource> clonedStrongbox = currentPlayer.getPlayerBoard().getStrongbox().status();
+        ArrayList<Resource> clonedWarehouse = (ArrayList<Resource>) currentPlayer.getPlayerBoard().getWarehouseDepot().status().clone();
+        ArrayList<Resource> clonedStrongbox = (ArrayList<Resource>) currentPlayer.getPlayerBoard().getStrongbox().status().clone();
         for(Resource r :cost){
             if(clonedWarehouse.remove(r)){
                 if(remove)
@@ -94,8 +94,10 @@ public class Game {
                         return false;
                     }
             }else{
+
                 return false;
             }
+
         }
         return true;
     }
@@ -220,13 +222,16 @@ public class Game {
         ArrayList<Resource> prodResources = new ArrayList<>();
 
         if(checkResources(input, true )){
+            System.out.println(input+" riga 225  game");
             prodResources.add(output);
+            //leader card
             try {
                 if (checkExtraProd(card)) {
                     card.setChosenOutput(chosenOutput);
                     prodResources.addAll(card.production());
                 }
             }catch(NullPointerException e){;}
+
             for (Resource res : prodResources) {
                 if (res == Resource.FAITH) {
                     faithAdvance(1);
@@ -240,6 +245,7 @@ public class Game {
             this.didAction =true;
         }
         else{
+            System.out.println(input+" riga 248  game");
             throw new InsufficientResourcesException("Can't do this production: insufficient resources!");
 
         }
@@ -338,7 +344,7 @@ public class Game {
                 currentPlayer.getPlayerBoard().getCardSlots().getCard(i).backUsable();
             }catch(NullPointerException e){}
     }
-    private void updateStrongbox(){
+    public void updateStrongbox(){
         currentPlayer.getPlayerBoard().getStrongbox().updateStrongbox();
     }
     //change turn

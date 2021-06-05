@@ -12,7 +12,7 @@ public class Strongbox {
      * class that stores all the model.resources created by productions
      */
 
-    private ArrayList<Resource> strongbox = new ArrayList<Resource>();
+    private ArrayList<Resource> strongbox = new ArrayList<>();
     private ArrayList<Resource> tmpStrongbox = new ArrayList<>();
 
     /** this method adds a new resource to the model.strongbox arraylist
@@ -64,6 +64,7 @@ public class Strongbox {
     }
 
     public void updateStrongbox(){
+        System.out.println(" update strongbox riga 67");
         strongbox.addAll(tmpStrongbox);
         tmpStrongbox.clear();
     }
