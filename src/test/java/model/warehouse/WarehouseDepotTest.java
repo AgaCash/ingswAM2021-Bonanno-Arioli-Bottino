@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class WarehouseDepotTest {
     WarehouseDepot w = new WarehouseDepot();
+    //todo fare una  batteria di test seri
 
     @Test
     void addNewExtraDepot() {
@@ -176,6 +177,7 @@ class WarehouseDepotTest {
             System.out.println("riga 176");
         }
         assertTrue(w.isPresent(addedResources));
+
         try{
             addedResources.add(Resource.COIN);
             w.addResource(Resource.COIN);
@@ -183,6 +185,7 @@ class WarehouseDepotTest {
             System.out.println(e.getMessage());
             System.out.println("riga 186");
         }
+        System.out.println(w.status());
         assertFalse(w.isPresent(addedResources));
 
 

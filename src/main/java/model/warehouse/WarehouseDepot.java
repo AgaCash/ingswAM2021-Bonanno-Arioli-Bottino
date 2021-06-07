@@ -38,14 +38,17 @@ public class WarehouseDepot {
         if (!added) {
             if(warehouse.containsKey(tmp)){
                 int level = warehouse.get(tmp);
-                if(warehouse.size() == 1 && level<3)
-                    warehouse.put(tmp, level+1);
-                else if(warehouse.size()==2 && ((!warehouse.containsValue(3) && level == 2) ||
-                                                (level == 1)))
-                    warehouse.put(tmp, level+1);
-                else if(warehouse.size() == 3 && ((level == 1 && (!warehouse.containsValue(2) || !warehouse.containsValue(3))) ||
-                                                    (level == 2 && !warehouse.containsValue(3))))
-                    warehouse.put(tmp, level+1);
+                if(level == 1)
+                    if(!(warehouse.containsValue(2) && warehouse.containsValue(3)) &&
+                            !(warehouse.containsValue(2) && warehouse.size()==3))
+                        warehouse.put(tmp, level+1);
+                    else
+                        threw(tmp);
+                else if(level == 2)
+                    if(!warehouse.containsValue(3))
+                        warehouse.put(tmp, level+1);
+                    else
+                        threw(tmp);
                 else
                     threw(tmp);
             }else
@@ -53,8 +56,9 @@ public class WarehouseDepot {
                     warehouse.put(tmp, 1);
                 else
                     threw(tmp);
-
         }
+
+
     }
 
     private void threw(Resource tmp) throws FullWarehouseException {
@@ -133,28 +137,26 @@ public class WarehouseDepot {
         return cloned;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-    //just 4 tests
     public ArrayList<Resource> status(){
         ArrayList<Resource> image = new ArrayList<>();
         ArrayList<Map.Entry<Resource, Integer>> orderedWarehouse = new ArrayList<>(warehouse.entrySet());
         orderedWarehouse.sort(Map.Entry.comparingByValue());
-        System.out.println(orderedWarehouse);
+        //System.out.println(orderedWarehouse);
         for (Map.Entry<Resource, Integer> entry : orderedWarehouse) {
             for(int i = 0; i<entry.getValue(); i++)
                 image.add(entry.getKey());
         }
         return image;
+    }
+
+    public void reorder(){
+        ArrayList<Resource> image = new ArrayList<>();
+        ArrayList<Map.Entry<Resource, Integer>> orderedWarehouse = new ArrayList<>(warehouse.entrySet());
+        orderedWarehouse.sort(Map.Entry.comparingByValue());
+        warehouse.clear();
+        for (Map.Entry<Resource, Integer> entry : orderedWarehouse)
+            warehouse.put(entry.getKey(), entry.getValue());
+        System.out.println(warehouse);
     }
 
 }
