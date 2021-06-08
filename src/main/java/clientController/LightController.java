@@ -564,7 +564,7 @@ public class LightController {
         view.askTurn();
     }
 
-    public void endSinglePlayerGame(boolean victory, String message){
+    public void endSinglePlayerGame(String message){
         view.showSuccess(message);
         view.endGame();
     }

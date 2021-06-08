@@ -5,7 +5,6 @@ import clientModel.cards.LightDevelopmentCard;
 import clientModel.strongbox.LightStrongbox;
 import clientModel.table.LightDevelopmentBoard;
 import clientModel.table.LightFaithTrack;
-import network.messages.Message;
 import network.messages.MessageType;
 
 import java.util.ArrayList;
@@ -39,11 +38,10 @@ public class EndTurnResponse extends GameMessage{
         this.gameOver = false;
     }
 
-    public EndTurnResponse(String username, boolean victory, String message){
+    public EndTurnResponse(String username, boolean isSinglePlayer, String message){
         super(username, MessageType.ENDTURNUPDATE);
         this.gameOver=true;
-        this.isSinglePlayer = true;
-        this.victory = victory;
+        this.isSinglePlayer = isSinglePlayer;
         this.message = message;
     }
     @Override
@@ -54,7 +52,7 @@ public class EndTurnResponse extends GameMessage{
         controller.updateCardSlots(getUsername(), this.slots);
         if(this.isSinglePlayer){
             if(gameOver){
-                controller.endSinglePlayerGame(this.victory, this.message);
+                controller.endSinglePlayerGame(this.message);
             }
             else {
                 controller.showSuccess(message);

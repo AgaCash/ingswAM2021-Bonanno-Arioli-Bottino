@@ -25,7 +25,7 @@ public class BuyResourcesResponse extends GameMessage{
         this.newMarketBoard = newMarketBoard;
         this.newFaithTrack = newFaithTrack;
         if(threwResource==null)
-            threwResource=new ArrayList<>();
+            this.threwResource=new ArrayList<>();
         else
             this.threwResource = threwResource;
         this.success = true;

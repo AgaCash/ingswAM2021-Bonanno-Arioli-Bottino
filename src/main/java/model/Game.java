@@ -8,7 +8,6 @@ import model.singleplayer.Lorenzo;
 import model.singleplayer.Token;
 import model.table.*;
 
-
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -78,6 +77,8 @@ public class Game {
 
         ArrayList<Resource> clonedWarehouse = (ArrayList<Resource>) currentPlayer.getPlayerBoard().getWarehouseDepot().status().clone();
         ArrayList<Resource> clonedStrongbox = (ArrayList<Resource>) currentPlayer.getPlayerBoard().getStrongbox().status().clone();
+        System.out.println("CLONED STRONGBOX: "+clonedStrongbox);
+        System.out.println("CLONED WAREHOUSE: "+clonedWarehouse);
         for(Resource r :cost){
             if(clonedWarehouse.remove(r)){
                 if(remove)
@@ -367,6 +368,28 @@ public class Game {
     //============ENDGAME=======
     //contare i punti vittoria dei giocatori su faithTrack, leaderCards, devCards ecc...
     //fare la classifica dei punti vittoria
+
+    public String getRanking(){
+        ArrayList<Integer> scores = new ArrayList<>(players.size());
+        for(Player p: players){
+            scores.add(p.getScore());
+        }
+        scores.sort(Integer::compareTo);
+
+        /*
+        public void reorder(){
+        ArrayList<Resource> image = new ArrayList<>();
+        ArrayList<Map.Entry<Resource, Integer>> orderedWarehouse = new ArrayList<>(warehouse.entrySet());
+        orderedWarehouse.sort(Map.Entry.comparingByValue());
+        warehouse.clear();
+        for (Map.Entry<Resource, Integer> entry : orderedWarehouse)
+            warehouse.put(entry.getKey(), entry.getValue());
+        System.out.println(warehouse);
+    }
+         */
+
+        return null;
+    }
 
     public boolean isOver(){
         return this.isOver;

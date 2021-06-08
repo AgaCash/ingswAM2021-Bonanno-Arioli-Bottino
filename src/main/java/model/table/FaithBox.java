@@ -45,7 +45,6 @@ public class FaithBox {
 
     public LightFaithBox convert(){
         LightFaithBox newBox = new LightFaithBox();
-        newBox.setPosition(this.position);
         newBox.setPopeFlag(this.popeFlag[0], this.popeFlag[1], this.popeFlag[2]);
         newBox.setPoints(this.points);
         return newBox;

@@ -187,7 +187,7 @@ public class CLI implements View{
 
     @Override
     public void askTurn() {
-        System.out.println("IT'S YOUR TURN!\n");
+        // System.out.println("IT'S YOUR TURN!\n");
         int ans = 0;
         do {
             System.out.println("CHOOSE YOUR ACTION\n\b" +
@@ -197,6 +197,10 @@ public class CLI implements View{
                     "4 per comprare la carta sviluppo\n\b" +
                     "5 per visualizzare lo stato del gioco\n\b" +
                     "6 per terminare il turno");
+            System.out.println("FAITHTRACK: "+controller.getPlayerBoard().getFaithTrack().toString());
+            System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());
+            System.out.println(controller.getPlayerBoard().getStrongbox().toString());
+            System.out.println("CARD SLOTS: "+controller.getPlayerBoard().getCardSlots());
             ans = in.nextInt();
         } while (ans < 1 || ans > 6);
         switch (ans) {
@@ -215,23 +219,21 @@ public class CLI implements View{
             System.out.println(
                     "1 per visualizzare la DevBoard\n\b" +
                     "2 per visualzizare il Market\n\b" +
-                    "3 per visualizzare il tuo warehouse\n\b" +
-                    "4 per visualizzare il tuo strongbox\n\b" +
-                    "5 per visualizzare i tuoi card slots\n\b" +
-                    "6 per visualizzare il tuo faithtrack");
+                     "3 per tornare al menu\n\b");
+                   // +"3 per visualizzare il tuo warehouse\n\b" +
+                   // "4 per visualizzare il tuo strongbox\n\b" +
+                    //"5 per visualizzare i tuoi card slots\n\b" +
+                    //"6 per visualizzare il tuo faithtrack");
             ans = in.nextInt();
-        } while (ans < 1 || ans > 6);
+        } while (ans < 1 || ans > 3);
         switch (ans) {
             case 1 : System.out.println(controller.getDevBoard().toString()); break;
             case 2 : System.out.println(controller.getMarketBoard().toString()); break;
-            case 3 :
-                System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());break;
-            case 4 :
-                System.out.println(controller.getPlayerBoard().getStrongbox().toString()); break;
-            case 5 :
-                System.out.println(controller.getPlayerBoard().getCardSlots());; break;
-            case 6 :
-                System.out.println(controller.getPlayerBoard().getFaithTrack().toString());; break;
+            case 3 : break;
+            //case 3 : System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());break;
+            //case 4 : System.out.println(controller.getPlayerBoard().getStrongbox().toString()); break;
+            //case 5 : System.out.println(controller.getPlayerBoard().getCardSlots());; break;
+            //case 6 : System.out.println(controller.getPlayerBoard().getFaithTrack().toString());; break;
         }
         askTurn();
     }
@@ -293,13 +295,16 @@ public class CLI implements View{
     private void askProduction(){
         int ans =0;
         do {
-            System.out.println("digita 1 per produrre da una carta sviluppo, 2 per produrre dalla board");
+            System.out.println("digita 1 per produrre da una carta sviluppo\n" +
+                    "2 per produrre dalla board\n" +
+                    "3 per tornare al menu\n");
             ans = in.nextInt();
-        }while(ans!= 1 && ans != 2);
+        }while(ans <1 || ans > 3);
 
         switch (ans) {
-            case 1 -> askDevCardProduction();
-            case 2 -> askDefaultProduction();
+            case 1 : askDevCardProduction(); break;
+            case 2 : askDefaultProduction(); break;
+            case 3 : break;
         }
         askTurn();
     }

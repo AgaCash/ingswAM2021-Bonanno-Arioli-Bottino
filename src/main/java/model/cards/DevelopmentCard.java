@@ -85,6 +85,11 @@ public class DevelopmentCard extends Card {
         return this.cost;
     }
 
+    public int getVictoryPoints(){
+        return this.victoryPoints;
+    }
+
+
     public void backUsable(){
         this.usedInThisTurn = false;
     }

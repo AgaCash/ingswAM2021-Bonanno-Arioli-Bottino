@@ -204,7 +204,7 @@ public class Controller {
                         game.getCurrentPlayer().getPlayerBoard().getCardSlots().convert(),
                         game.getCurrentPlayer().getPlayerBoard().getStrongbox().convert());
             else
-                response = new EndTurnResponse(username, game.victory(), game.endingSinglePlayerGame());
+                response = new EndTurnResponse(username, isSinglePlayer(), game.endingSinglePlayerGame());
             getViews().get(0).getVirtualView().sendEndTurnNotify(response);
         }
         else{

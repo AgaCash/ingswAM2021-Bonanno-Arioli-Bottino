@@ -14,7 +14,6 @@ public class PlayerBoard {
     private WarehouseDepot warehouseDepot = new WarehouseDepot();
     private Strongbox strongbox = new Strongbox();
     private FaithTrack faithTrack = new FaithTrack();
-    private FaithBox faithBox = new FaithBox();
     private ArrayList<LeaderCard> leaderSlots = new ArrayList<>();
     private boolean hasInkwell = false;
     private int faithPoints = 0;
@@ -41,7 +40,7 @@ public class PlayerBoard {
 
     public WarehouseDepot getWarehouseDepot(){return warehouseDepot;}
 
-    public FaithBox getFaithBox(){ return faithBox; }
+    public FaithBox getFaithBox(){ return this.faithTrack.getFaithBox(); }
 
     public FaithTrack getFaithTrack(){ return faithTrack;}
 

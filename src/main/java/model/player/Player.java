@@ -1,6 +1,8 @@
 package model.player;
 
 import clientModel.player.LightPlayer;
+import model.cards.DevelopmentCard;
+import model.cards.LeaderCard;
 import model.table.FaithBox;
 import model.table.FaithTrack;
 import model.table.PlayerBoard;
@@ -54,6 +56,26 @@ public class Player {
 
     public FaithBox getFaithBox(){
         return this.playerboard.getFaithBox();
+    }
+
+    public int getScore(){
+        points += getFaithTrack().getFaithBox().getPoints();
+        for(int i = 0; i<3; i++)
+            try {
+                DevelopmentCard card = this.playerboard.getCardSlots().getCard(i);
+                points += card.getVictoryPoints();
+            }catch(NullPointerException e){
+                ;
+            }
+        for(LeaderCard card: this.playerboard.getLeaders())
+            if(card.isEnabled())
+                points += card.getVictoryPoints();
+
+        int numResources = this.playerboard.getWarehouseDepot().status().size();
+        numResources+=this.playerboard.getStrongbox().status().size();
+        points += numResources/5;
+
+        return points;
     }
 
 

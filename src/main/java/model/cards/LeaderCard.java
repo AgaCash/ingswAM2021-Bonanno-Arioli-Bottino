@@ -17,6 +17,7 @@ import java.util.ArrayList;
 	}
 	public ArrayList<DevelopmentCard> getRequiredCards(){return null;}
 	public ArrayList<Resource> getRequiredResources(){return null;}
+	 public int getVictoryPoints(){ return this.victoryPoints;}
 	//identification methods
 	public boolean isDiscount(){
 		return false;

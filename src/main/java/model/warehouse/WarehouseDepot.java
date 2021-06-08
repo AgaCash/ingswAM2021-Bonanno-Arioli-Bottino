@@ -149,14 +149,5 @@ public class WarehouseDepot {
         return image;
     }
 
-    public void reorder(){
-        ArrayList<Resource> image = new ArrayList<>();
-        ArrayList<Map.Entry<Resource, Integer>> orderedWarehouse = new ArrayList<>(warehouse.entrySet());
-        orderedWarehouse.sort(Map.Entry.comparingByValue());
-        warehouse.clear();
-        for (Map.Entry<Resource, Integer> entry : orderedWarehouse)
-            warehouse.put(entry.getKey(), entry.getValue());
-        System.out.println(warehouse);
-    }
 
 }
