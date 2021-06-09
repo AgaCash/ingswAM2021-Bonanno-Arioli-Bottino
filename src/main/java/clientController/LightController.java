@@ -123,7 +123,7 @@ public class LightController {
         if(!success)
             throw new MessageNotSuccededException(response.getMessage());
         this.username = username;
-        view.showSuccess(username+" registred");
+        view.showSuccess(username+" registered");
         response.executeCommand(this);
     }
 
