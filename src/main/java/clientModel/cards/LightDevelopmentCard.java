@@ -65,34 +65,59 @@ public class LightDevelopmentCard {
 
     @Override
     public String toString(){
-        StringBuilder s = new StringBuilder();
-        if(this.level == -1)
-            return "\n____________________\n" +
-                   "|     DECK VUOTO    |\n" +
-                    "____________________\n";
+        String s = new String();
         if(isUsable()){
-            s.append("\n____________________\n");
-            s.append("\n|Colour: ").append(colour);
-            s.append("\n|Level: ").append(level);
-            s.append("\n|Victory Points: ").append(victoryPoints);
-            s.append("\n|Cost: ");
-            for (LightResource resource : cost) {
-                s.append("\n|\t").append(resource);
-            }
-            s.append("\n|ProdInput: ");
-            for (LightResource resource : prodInput) {
-                s.append("\n|\t").append(resource);
-            }
-            s.append("\n|ProdOutput: ");
-            for (LightResource resource : prodOutput) {
-                s.append("\n|\t").append(resource);
-            }
-            s.append("\n____________________\n");
+            s +="\n__________________________________\n";
+            s +=toStringLevel()+"\n";
+            s +=toStringPoints()+"\n";
+            s +=toStringCost()+"\n";
+            s += toStringProdInput()+"\n";
+            s += toStringProdOutput()+"\n";
+            s += "__________________________________\n";
         }
         else{
-            s.append("\n|Colour: ").append(colour);
-            s.append("\n|Level: ").append(level);
+            s += "\n|Colour: "+colour.name();
+            s += "\n|Level: "+level;
         }
-        return s.toString();
+        return s;
+    }
+
+    public String toStringLevel(){
+        if(this.level==-1)
+            return "                                ";
+        return colour.toString()+"Level: "+level;
+    }
+
+    public String toStringPoints(){
+        if(this.level==-1)
+            return "                                ";
+        return colour.toString()+"Victory Points: "+victoryPoints;
+    }
+
+    public String toStringCost(){
+        if(this.level==-1)
+            return "         EMPTY DECK              ";
+        String s =colour.toString()+"Cost: ";
+        for(LightResource resource : cost)
+            s += resource.toColoredString()+" ";
+        return s;
+    }
+
+    public String toStringProdInput(){
+        if(this.level==-1)
+            return "                                ";
+        String s = colour.toString()+"ProdInput: ";
+        for(LightResource resource : prodInput)
+            s += resource.toColoredString()+ " ";
+        return s;
+    }
+
+    public String toStringProdOutput(){
+        if(this.level==-1)
+            return "                                ";
+        String s = colour.toString()+"ProdOutput: ";
+        for (LightResource resource : prodOutput)
+            s += resource.toColoredString()+" ";
+        return s;
     }
 }

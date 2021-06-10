@@ -35,11 +35,11 @@ public class LightStrongbox {
     public String toString(){
         String s = "\nSTRONGBOX: \n";
         for(LightResource res: strongbox)
-            s+=res.toString()+" ";
+            s+=res.toColoredString()+" ";
         if(!tmpStrongbox.isEmpty()) {
             s += "\n disponibili dal prossimo turno: ";
             for (LightResource res : tmpStrongbox)
-                s += res.toString() + " ";
+                s += res.toColoredString() + " ";
         }
         return s;
     }

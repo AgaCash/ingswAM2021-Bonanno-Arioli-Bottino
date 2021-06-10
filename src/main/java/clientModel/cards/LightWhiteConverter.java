@@ -44,7 +44,7 @@ public class LightWhiteConverter extends LightLeaderCard {
         for (LightDevelopmentCard d:requires) {
             s+="\n|\t "+d;
         }
-        s+=      "\n|Convert: " +resource;
+        s+=      "\n|Convert: " +resource.toColoredString();
         s+=      "\n|Victory Points: "+victoryPoints;
         s+= "\n______________________\n";
         return s;

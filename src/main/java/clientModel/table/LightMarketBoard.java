@@ -46,14 +46,16 @@ public class LightMarketBoard {
     }
     @Override
     public String toString(){
-        String s = new String();
+        String s = "______________________\n";
         for(int i=0; i<3; i++){
+            s+="|";
             for(int j =0; j<4; j++){
-                s+=" | "+marbleGrid.get(i).get(j)+" | ";
+                s+="| "+marbleGrid.get(i).get(j)+" |";
             }
-            s+=" \n";
+            s+="|\n";
         }
-        s+=freeMarble+" \n";
+        s+="|| "+freeMarble+" ||\n";
+        s+="______________________";
         return s;
     }
 

@@ -64,7 +64,7 @@ public class LightWarehouseDepot {
     public String toString(){
         String s = "\nWAREHOUSE: \n";
         for(LightResource res: warehouse)
-            s+=res.toString()+" ";
+            s+=res.toColoredString()+" ";
         return s;
     }
 }

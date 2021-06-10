@@ -80,24 +80,28 @@ public class Game {
         System.out.println("CLONED WAREHOUSE: "+clonedWarehouse);
         for(Resource r :cost){
             if(clonedWarehouse.remove(r)){
-                if(remove)
-                    try {
-                        currentPlayer.getPlayerBoard().getWarehouseDepot().removeResource(r);
-                    } catch(ResourceNotFoundException e){
-                        return false;
-                    }
+                ;
             }else if(clonedStrongbox.remove(r)){
-                if(remove)
-                    try {
-                        currentPlayer.getPlayerBoard().getStrongbox().removeResource(r);
-                    }catch(ResourceNotFoundException e){
-                        return false;
-                    }
+                ;
             }else{
-
                 return false;
             }
+        }
 
+        if(remove){
+            for(Resource r: cost){
+                try{
+                    currentPlayer.getPlayerBoard().getWarehouseDepot().removeResource(r);
+                } catch (ResourceNotFoundException e) {
+                    try {
+                        currentPlayer.getPlayerBoard().getStrongbox().removeResource(r);
+                    }catch(ResourceNotFoundException f){
+                        System.out.println();
+                        //todo da sistemare GAME CHECKRESOURCES RIGA 100
+                        return false;
+                    }
+                }
+            }
         }
         return true;
     }

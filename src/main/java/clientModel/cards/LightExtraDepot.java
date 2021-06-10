@@ -64,11 +64,11 @@ public class LightExtraDepot extends LightLeaderCard {
         s+=     "\n|      EXTRA DEPOT     |";
         s+=     "\n|Requires:             |";
         for (LightResource r:requiredResource) {
-            s+="\n|\t "+r;
+            s+="\n|\t "+r.toColoredString();
         }
         s+=     "\n|Extra resources:      |";
         for(LightResource r: extraDepotResource ){
-            s+="\n|\t "+r;
+            s+="\n|\t "+r.toColoredString();
         }
         s+=     "\n|Victory Points: "+victoryPoints;
         s+="\n______________________\n";
