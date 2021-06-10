@@ -7,8 +7,8 @@ import utilities.JsonParser;
 import java.util.ArrayList;
 
 public class FaithTrack {
-    private ArrayList<FaithBox> box = new ArrayList<>(25);
-    private FaithBox actualBox = new FaithBox();
+    private ArrayList<FaithBox> box ;
+    private FaithBox actualBox;
 
     /**
      * loads the faith boxes from a json file
@@ -51,7 +51,7 @@ public class FaithTrack {
         ArrayList<LightFaithBox> newTrack = new ArrayList<>();
         for(FaithBox box : this.box){
             LightFaithBox newBox = box.convert();
-            if(box == this.actualBox)
+            if(box.equals(this.actualBox))
                 newBox.setPos(true);
             newTrack.add(newBox);
         }

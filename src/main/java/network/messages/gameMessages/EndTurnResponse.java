@@ -16,6 +16,7 @@ public class EndTurnResponse extends GameMessage{
     private ArrayList<LightDevelopmentCard> slots;
     private LightStrongbox strongbox;
     private String message;
+    private int lorenzoPos;
     private boolean isSinglePlayer;
     private boolean gameOver = false;
     private boolean victory;
@@ -27,13 +28,14 @@ public class EndTurnResponse extends GameMessage{
     }
 
     public EndTurnResponse(String username, LightDevelopmentBoard board, LightFaithTrack track, String message,
-                           ArrayList<LightDevelopmentCard> newSlots, LightStrongbox newStrongbox){
+                           ArrayList<LightDevelopmentCard> newSlots, LightStrongbox newStrongbox, int lorenzoPos){
         super(username, MessageType.ENDTURNUPDATE);
         this.board = board;
         this.track = track;
         this.message = message;
         this.slots = newSlots;
         this.strongbox = newStrongbox;
+        this.lorenzoPos = lorenzoPos;
         this.isSinglePlayer = true;
         this.gameOver = false;
     }
@@ -55,6 +57,7 @@ public class EndTurnResponse extends GameMessage{
                 controller.endSinglePlayerGame(this.message);
             }
             else {
+                controller.getPlayerBoard().getFaithTrack().setLorenzoPos(lorenzoPos);
                 controller.showSuccess(message);
                 controller.startTurn();
             }

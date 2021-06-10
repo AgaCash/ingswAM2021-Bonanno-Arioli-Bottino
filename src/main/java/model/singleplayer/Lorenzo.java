@@ -10,7 +10,7 @@ import java.util.Collections;
 
 public class Lorenzo {
     private FaithTrack faithTrack = new FaithTrack();
-    private FaithBox faithBox = new FaithBox();
+    private FaithBox faithBox = faithTrack.getFaithBox();
     private ArrayList<Token> tokens ;//= new ArrayList<>(6);
     private DevelopmentBoard developmentBoard;
     private int faithPoints; //probabilmente attributo già incluso in faithBox

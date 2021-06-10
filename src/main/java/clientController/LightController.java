@@ -392,7 +392,6 @@ public class LightController {
     }
 
     public void sendLeaderCardThrowRequest (LightLeaderCard card){
-        Gson gson = new Gson();
         LeaderCardThrowRequest request = new LeaderCardThrowRequest(getUsername(), card);
         client.send(gson.toJson(request));
         try {

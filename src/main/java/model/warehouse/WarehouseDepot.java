@@ -52,10 +52,10 @@ public class WarehouseDepot {
                 else
                     threw(tmp);
             }else
-                if(warehouse.size()<3)
-                    warehouse.put(tmp, 1);
-                else
-                    threw(tmp);
+            if(warehouse.size()<3)
+                warehouse.put(tmp, 1);
+            else
+                threw(tmp);
         }
 
 
@@ -69,9 +69,9 @@ public class WarehouseDepot {
 
     public void removeResource(Resource tmp) throws ResourceNotFoundException {
         for(ExtraDepot card : cards)
-                if(card.removeResource(tmp)) {
-                    return;
-                }
+            if(card.removeResource(tmp)) {
+                return;
+            }
         if(warehouse.containsKey(tmp)){
             int i = warehouse.get(tmp);
             if(i == 1)
@@ -114,8 +114,8 @@ public class WarehouseDepot {
     }
 
     public LightWarehouseDepot convert(){
-       ArrayList<LightResource> image = new ArrayList<>();
-       status().forEach(e -> image.add(LightResource.valueOf(e.toString())));
+        ArrayList<LightResource> image = new ArrayList<>();
+        status().forEach(e -> image.add(LightResource.valueOf(e.toString())));
 
         LightWarehouseDepot warehouseDepot = new LightWarehouseDepot();
         warehouseDepot.setWarehouse(image);
@@ -149,5 +149,14 @@ public class WarehouseDepot {
         return image;
     }
 
+    public void reorder(){
+        ArrayList<Resource> image = new ArrayList<>();
+        ArrayList<Map.Entry<Resource, Integer>> orderedWarehouse = new ArrayList<>(warehouse.entrySet());
+        orderedWarehouse.sort(Map.Entry.comparingByValue());
+        warehouse.clear();
+        for (Map.Entry<Resource, Integer> entry : orderedWarehouse)
+            warehouse.put(entry.getKey(), entry.getValue());
+        System.out.println(warehouse);
+    }
 
 }

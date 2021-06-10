@@ -36,7 +36,7 @@ public class BuyResourcesRequest extends GameMessage{
         BuyResourcesResponse response = new BuyResourcesResponse(getUsername(),
                                                                 controller.getCurrentPlayer().getPlayerBoard().getWarehouseDepot().convert(),
                                                                 controller.getMarketBoard().convert(),
-                                                                controller.getCurrentPlayer().getFaithTrack().convert(),
+                                                                controller.getCurrentPlayer().getFaithTrack().getFaithBox().getPosition(),
                                                                 controller.getThrewResources());
         controller.getViews().forEach((element)-> { element.getVirtualView().updateBuyResources(response);});
     }

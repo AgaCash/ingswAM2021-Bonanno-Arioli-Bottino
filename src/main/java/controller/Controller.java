@@ -12,6 +12,7 @@ import model.cards.LeaderCard;
 import model.cards.WhiteConverter;
 import model.player.Player;
 import model.resources.Resource;
+import model.singleplayer.Lorenzo;
 import model.table.DevelopmentBoard;
 import model.table.FaithTrack;
 import model.table.MarketBoard;
@@ -122,14 +123,12 @@ public class Controller {
                 ArrayList<LightPlayer> players = new ArrayList<>();
 
                 game.getPlayers().forEach(element -> players.add(element.convert()));
-                System.out.println("riga 86");
-                System.out.println(game.getPlayers()+" "+ players);
+                //System.out.println(game.getPlayers()+" "+ players);
                 v.getVirtualView().updateSetup(new SetupResponse(v.getVirtualView().getUsername(),
                                                                 getCurrentPlayer().getNickname(),
                                                                 game.getMarketBoard().convert(),
                                                                 game.getDevBoard().convert(),
                                                                 players));
-                System.out.println("riga 91");
             }
         }
     }
@@ -202,7 +201,8 @@ public class Controller {
                         game.getCurrentPlayer().getFaithTrack().convert(),
                         game.getLorenzo().getLorenzoLastAction(),
                         game.getCurrentPlayer().getPlayerBoard().getCardSlots().convert(),
-                        game.getCurrentPlayer().getPlayerBoard().getStrongbox().convert());
+                        game.getCurrentPlayer().getPlayerBoard().getStrongbox().convert(),
+                        game.getLorenzo().getFaithBox().getPosition());
             else
                 response = new EndTurnResponse(username, isSinglePlayer(), game.endingSinglePlayerGame());
             getViews().get(0).getVirtualView().sendEndTurnNotify(response);
@@ -265,6 +265,7 @@ public class Controller {
     public DevelopmentBoard getDevBoard(){
         return game.getDevBoard();
     }
+    public Lorenzo getLorenzo(){return game.getLorenzo(); }
 
 
 

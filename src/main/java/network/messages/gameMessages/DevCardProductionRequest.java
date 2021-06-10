@@ -37,7 +37,8 @@ public class DevCardProductionRequest extends GameMessage{
     private void update(Controller controller){
         DevCardProductionResponse response = new DevCardProductionResponse(getUsername(),
                 controller.getCurrentPlayer().getPlayerBoard().getWarehouseDepot().convert(),
-                controller.getCurrentPlayer().getPlayerBoard().getStrongbox().convert());
+                controller.getCurrentPlayer().getPlayerBoard().getStrongbox().convert(),
+                controller.getCurrentPlayer().getPlayerBoard().getFaithTrack().getFaithBox().getPosition());
         controller.getViews().forEach((element)-> { element.getVirtualView().updateDevCardProduction(response);});
     }
 }

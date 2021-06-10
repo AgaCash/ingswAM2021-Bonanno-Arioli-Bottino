@@ -23,26 +23,6 @@ public class SetupResponse extends GameMessage {
         this.market = marketBoard;
         this.board = board;
         this.players = players;
-        /*for(LightPlayer p: players){
-            LightPlayer newPlayer = new LightPlayer();
-            LightPlayerBoard lBoard = new LightPlayerBoard();
-
-            ArrayList<LightLeaderCard> leaderCards =(ArrayList<LightLeaderCard>) p.getPlayerBoard().getLeaderSlot().clone();
-            ArrayList<LightDevelopmentCard> slots = (ArrayList<LightDevelopmentCard>) p.getPlayerBoard().getCardSlots().clone();
-
-            lBoard.setLeaderSlot(leaderCards);
-            lBoard.setCardSlots(slots);
-            lBoard.setInkwell(p.getPlayerBoard().getInkwell());
-            lBoard.setFaithTrack(p.getPlayerBoard().getFaithTrack());
-            lBoard.setWarehouse(p.getPlayerBoard().getWarehouseDepot());
-            lBoard.setStrongbox(p.getPlayerBoard().getStrongbox());
-            lBoard.setPoints(p.getPlayerBoard().getPoints());
-
-            newPlayer.setPlayerBoard(lBoard);
-            newPlayer.setPoints(p.getPoints());
-            newPlayer.setNickname(p.getNickname());
-            newPlayer.setStartingTurn(p.getStartingTurn());
-        }*/
     }
     @Override
     public void executeCommand(LightController controller){
@@ -50,9 +30,14 @@ public class SetupResponse extends GameMessage {
         controller.setPlayers(this.players);
         controller.setDevBoard(this.board);
         controller.setMarketBoard(this.market);
-        if(firstPlayer.equals(controller.getUsername()))
+
+        if(firstPlayer.equals(controller.getUsername())) {
+            if (players.size() == 1)
+                controller.getPlayerBoard().getFaithTrack().setLorenzoPos(0);
             controller.start();
+        }
         else
             controller.waitForMyTurn();
+
     }
 }

@@ -8,8 +8,7 @@ import model.singleplayer.Lorenzo;
 import model.singleplayer.Token;
 import model.table.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 
 public class Game {
     private ArrayList<Player> players = new ArrayList<>();
@@ -370,25 +369,19 @@ public class Game {
     //fare la classifica dei punti vittoria
 
     public String getRanking(){
-        ArrayList<Integer> scores = new ArrayList<>(players.size());
+        Hashtable<Integer, String> rank = new Hashtable<>();
+        ArrayList<Integer> scores = new ArrayList<>();
+        String finalScoreMessage = new String();
         for(Player p: players){
             scores.add(p.getScore());
+            rank.put(p.getScore(), p.getNickname());
         }
-        scores.sort(Integer::compareTo);
-
-        /*
-        public void reorder(){
-        ArrayList<Resource> image = new ArrayList<>();
-        ArrayList<Map.Entry<Resource, Integer>> orderedWarehouse = new ArrayList<>(warehouse.entrySet());
-        orderedWarehouse.sort(Map.Entry.comparingByValue());
-        warehouse.clear();
-        for (Map.Entry<Resource, Integer> entry : orderedWarehouse)
-            warehouse.put(entry.getKey(), entry.getValue());
-        System.out.println(warehouse);
-    }
-         */
-
-        return null;
+        Collections.sort(scores);
+        Collections.reverse(scores);
+        for(Integer score : scores)
+            finalScoreMessage += rank.get(score)+" : "+score+" points\n";
+        return finalScoreMessage;
+        //todo da ripensare: se uno ha dei punti uguali ?
     }
 
     public boolean isOver(){
