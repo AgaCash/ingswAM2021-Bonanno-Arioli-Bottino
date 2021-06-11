@@ -38,12 +38,16 @@ public class WarehouseDepot {
         if (!added) {
             if(warehouse.containsKey(tmp)){
                 int level = warehouse.get(tmp);
-                if(level == 1)
-                    if(!(warehouse.containsValue(2) && warehouse.containsValue(3)) &&
-                            !(warehouse.containsValue(2) && warehouse.size()==3))
-                        warehouse.put(tmp, level+1);
-                    else
+                if(level == 1) {
+                    warehouse.remove(tmp);
+                    if (!(warehouse.containsValue(2) && warehouse.containsValue(3)) &&
+                            !(warehouse.containsValue(2) && !warehouse.containsValue(1)))
+                        warehouse.put(tmp, level + 1);
+                    else {
+                        warehouse.put(tmp, level);
                         threw(tmp);
+                    }
+                }
                 else if(level == 2)
                     if(!warehouse.containsValue(3))
                         warehouse.put(tmp, level+1);

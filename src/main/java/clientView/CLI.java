@@ -1,10 +1,8 @@
 package clientView;
 
 import clientController.LightController;
-import clientModel.cards.LightDevelopmentCard;
 import clientModel.cards.LightLeaderCard;
 import clientModel.resources.LightResource;
-import clientModel.table.LightDevelopmentBoard;
 import clientModel.table.LightMarketBoard;
 import exceptions.MessageNotSuccededException;
 import network.server.Lobby;
@@ -200,7 +198,7 @@ public class CLI implements View{
             System.out.println("FAITHTRACK: "+controller.getPlayerBoard().getFaithTrack().toString());
             System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());
             System.out.println(controller.getPlayerBoard().getStrongbox().toString());
-            System.out.println("CARD SLOTS: "+controller.getPlayerBoard().getCardSlots());
+            System.out.println("CARD SLOTS: "+controller.getPlayerBoard().getCardSlots().toString());
             ans = in.nextInt();
         } while (ans < 1 || ans > 6);
         switch (ans) {
@@ -392,10 +390,8 @@ public class CLI implements View{
 
     @Override
     public void askBuyDevCards() {
-        LightDevelopmentBoard board = controller.getDevBoard();
-        ArrayList<LightDevelopmentCard> slots = controller.getPlayerBoard().getCardSlots();
-        System.out.println(board.toString());
-        System.out.println(slots);
+        System.out.println(controller.getDevBoard().toString());
+        System.out.println(controller.getPlayerBoard().getCardSlots().toString());
         int deck = 0;
         do{
             System.out.println("scegli il numero del deck");
@@ -420,7 +416,7 @@ public class CLI implements View{
         else{
             controller.sendBuyDevCardRequest(deck-1, slot-1, null);
         }
-        System.out.println(controller.getPlayerBoard().getCardSlots());
+        System.out.println(controller.getPlayerBoard().getCardSlots().toString());
         askTurn();
     }
 
@@ -428,7 +424,7 @@ public class CLI implements View{
     public void askDevCardProduction() {
         System.out.println(controller.getPlayerBoard().getCardSlots());
         int slot = 0;
-        int numSlots = controller.getPlayerBoard().getCardSlots().size();
+        int numSlots = controller.getPlayerBoard().getCardSlots().getSize();
         if(numSlots == 0){
             System.out.println("nessuno slot disponibile");
             return;
@@ -439,7 +435,7 @@ public class CLI implements View{
                 slot = in.nextInt();
             } while (slot < 1 || slot > numSlots);
             try {
-                if (controller.getPlayerBoard().getCardSlots().get(slot-1) != null){
+                if (controller.getPlayerBoard().getCardSlots().getCard(slot-1) != null){
                     String ans;
                     do {
                         System.out.println("do u want to add a leader card?\n [y/n]\n");

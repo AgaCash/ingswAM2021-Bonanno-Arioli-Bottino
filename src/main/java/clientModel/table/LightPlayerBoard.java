@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class LightPlayerBoard {
     private transient LightPlayer player;
-    private ArrayList<LightDevelopmentCard> cardSlots = new ArrayList<>();
+    private LightCardSlots cardSlots = new LightCardSlots();
     private LightWarehouseDepot warehouseDepot = new LightWarehouseDepot();
     private LightStrongbox strongbox = new LightStrongbox();
     private LightFaithTrack faithTrack = new LightFaithTrack();
@@ -36,8 +36,8 @@ public class LightPlayerBoard {
     }
     public void setStrongbox(LightStrongbox strongbox){ this.strongbox = strongbox;}
 
-    public ArrayList<LightDevelopmentCard> getCardSlots(){ return cardSlots; }
-    public void setCardSlots(ArrayList<LightDevelopmentCard> cardSlots){ this.cardSlots = cardSlots;}
+    public LightCardSlots getCardSlots(){ return cardSlots; }
+    public void setCardSlots(ArrayList<LightDevelopmentCard> cardSlots){ this.cardSlots.setCards(cardSlots);}
 
     public LightWarehouseDepot getWarehouseDepot(){return warehouseDepot;}
     public void setWarehouse(LightWarehouseDepot warehouseDepot){ this.warehouseDepot = warehouseDepot;}

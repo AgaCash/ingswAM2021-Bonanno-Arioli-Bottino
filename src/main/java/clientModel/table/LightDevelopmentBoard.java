@@ -36,7 +36,6 @@ public class LightDevelopmentBoard {
      */
     @Override
     public String toString(){
-        //todo renderlo + elegante
         String s = new String();
         for(int i=0; i<12; i+=4) {
             s+="\n________________________________";
