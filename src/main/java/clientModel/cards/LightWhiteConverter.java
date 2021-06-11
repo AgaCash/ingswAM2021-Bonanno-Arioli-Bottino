@@ -39,8 +39,8 @@ public class LightWhiteConverter extends LightLeaderCard {
     @Override
     public String toString(){
         String s =  "______________________";
-        s+=      "\n|    WHITE CONVERTER   |";
-        s+=      "\n|Requires:             |";
+        s+=      "\n|    WHITE CONVERTER  |";
+        s+=      "\n|Requires:            |";
         for (LightDevelopmentCard d:requires) {
             s+="\n|\t "+d;
         }

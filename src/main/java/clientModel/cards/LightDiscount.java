@@ -37,12 +37,12 @@ public class LightDiscount extends LightLeaderCard {
     @Override
     public String toString(){
         String s = "______________________";
-        s+=     "\n|        DISCOUNT      |";
-        s+=     "\n|Requires:             |";
+        s+=     "\n|       DISCOUNT      |";
+        s+=     "\n|Requires:            |";
         for (LightDevelopmentCard d:requires) {
             s+="\n|\t"+d.toString();
         }
-        s+=     "\n|Discount: " +discount.toColoredString();
+        s+=     "\n|Discount: \n\t" +discount.toColoredString();
         s+=     "\n|Victory Points: "+victoryPoints;
         s+="\n______________________\n";
         return s;

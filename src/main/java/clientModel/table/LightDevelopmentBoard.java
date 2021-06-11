@@ -39,32 +39,37 @@ public class LightDevelopmentBoard {
         //todo renderlo + elegante
         String s = new String();
         for(int i=0; i<12; i+=4) {
-            s+="\n__________________________________";
-            s+="__________________________________";
-            s+="__________________________________";
-            s+="__________________________________\n";
+            s+="\n________________________________";
+            s+="________________________________";
+            s+="________________________________";
+            s+="________________________________\n";
             for(int j = 0; j<4; j++)
-                s+=(i+j+1)+":  "+insertTabs(7);
+                s+=(i+j+1)+": "+insertTabs(29);
             s+="\n";
-            for(int j = 0; j<4; j++)
-                s +=decks.get(i + j).toStringLevel()+insertTabs(6);
+            for(int j = 0; j<4; j++) {
+                s += decks.get(i + j).toStringLevel() + insertTabs(24);
+            }
             s+="\n";
-            for(int j = 0; j<4; j++)
-                s+=decks.get(i+j).toStringPoints()+insertTabs(4);
+            for(int j = 0; j<4; j++) {
+                s += decks.get(i + j).toStringPoints() + insertTabs(15-decks.get(i+j).getPoints()/10);
+            }
             s+="\n";
-            for(int j = 0; j<4; j++)
-                s+=decks.get(i+j).toStringCost()+insertTabs(4-i/2+i/8);
+            for(int j = 0; j<4; j++) {
+                s += decks.get(i + j).toStringCost() + insertTabs(32-6-3*decks.get(i+j).getCost().size());
+            }
             s+="\n";
-            for(int j = 0; j<4; j++)
-                s+=decks.get(i+j).toStringProdInput()+insertTabs(4-i/8+i/4);
+            for(int j = 0; j<4; j++) {
+                s += decks.get(i + j).toStringProdInput() + insertTabs(32 - 11 - 3*decks.get(i+j).getProdInput().size());
+            }
             s+="\n";
-            for(int j = 0; j<4; j++)
-                s+=decks.get(i+j).toStringProdOutput()+insertTabs(3-i/8);
+            for(int j = 0; j<4; j++) { ;
+                s += decks.get(i + j).toStringProdOutput() + insertTabs(32 -12  -3*decks.get(i+j).getProdOutput().size());
+            }
         }
-        s+="\n__________________________________";
-        s+="__________________________________";
-        s+="__________________________________";
-        s+="__________________________________\n";
+        s+="\n________________________________";
+        s+="________________________________";
+        s+="________________________________";
+        s+="________________________________\n";
 
         return s;
     }
@@ -72,7 +77,7 @@ public class LightDevelopmentBoard {
     private String insertTabs(int num){
         String s = new String();
         for(int i=0; i<num; i++)
-            s+="\t";
+            s+=" ";
         return s;
     }
 }

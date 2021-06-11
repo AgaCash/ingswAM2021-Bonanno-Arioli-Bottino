@@ -62,13 +62,13 @@ public class LightExtraDepot extends LightLeaderCard {
     public String toString(){
         String s = "______________________";
         s+=     "\n|      EXTRA DEPOT     |";
-        s+=     "\n|Requires:             |";
+        s+=     "\n|Requires:             |\n\t";
         for (LightResource r:requiredResource) {
-            s+="\n|\t "+r.toColoredString();
+            s+=r.toColoredString()+ " ";
         }
-        s+=     "\n|Extra resources:      |";
+        s+=     "\n|Extra resources:      |\n\t";
         for(LightResource r: extraDepotResource ){
-            s+="\n|\t "+r.toColoredString();
+            s+=r.toColoredString()+" ";
         }
         s+=     "\n|Victory Points: "+victoryPoints;
         s+="\n______________________\n";
