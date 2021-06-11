@@ -31,10 +31,6 @@ public class LightDevelopmentCard {
 
     public LightDevelopmentCard(){
         this.level = -1;
-        //this.victoryPoints = 0;
-        //this.cost = new ArrayList<>();
-        //this.prodInput = new ArrayList<>();
-       // this.prodOutput = new ArrayList<>();
     }
 
     public int getLevel() {
@@ -67,20 +63,10 @@ public class LightDevelopmentCard {
             return this.victoryPoints;
     }
 
-    private boolean isUsable(){
-        return this.cost != null || this.prodInput != null || this.prodOutput != null;
+    public boolean isUsable(){
+        return this.cost != null && this.prodInput != null && this.level !=1 && this.prodOutput != null;
     }
-
-
-    /*public boolean checkCard (ArrayList<LightResource> required){
-        boolean check;
-        check = LightStrongbox.isPresent(required);
-        if(!check || required!=null)
-            check = LightWarehouse.isPresent(required);
-        return check;
-    }
-    */
-
+//CLI
     @Override
     public String toString(){
         String s = new String();
@@ -93,27 +79,21 @@ public class LightDevelopmentCard {
             s += toStringProdOutput()+"\n";
             s += "__________________________________\n";
         }
-        else{
+        else if(this.level!= -1){
             s += colour.toString()+"|DevCard Lvl: "+level+LightColour.WHITE;
         }
         return s;
     }
 
     public String toStringLevel(){
-        if(this.level==-1)
-            return "##################";
         return colour.toString()+"Level: "+level;
     }
 
     public String toStringPoints(){
-        if(this.level==-1)
-            return "                 ";
         return colour.toString()+"Victory Points: "+victoryPoints;
     }
 
     public String toStringCost(){
-        if(this.level==-1)
-            return "";
         String s =colour.toString()+"Cost: ";
         for(LightResource resource : cost)
             s += resource.toColoredString()+" ";
@@ -121,8 +101,6 @@ public class LightDevelopmentCard {
     }
 
     public String toStringProdInput(){
-        if(this.level==-1)
-            return "";
         String s = colour.toString()+"ProdInput: ";
         for(LightResource resource : prodInput)
             s += resource.toColoredString()+ " ";
@@ -130,8 +108,6 @@ public class LightDevelopmentCard {
     }
 
     public String toStringProdOutput(){
-        if(this.level==-1)
-            return "";
         String s = colour.toString()+"ProdOutput: ";
         for (LightResource resource : prodOutput)
             s += resource.toColoredString()+" ";
