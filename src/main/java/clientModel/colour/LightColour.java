@@ -1,6 +1,7 @@
 package clientModel.colour;
 
 public enum LightColour {
+    BLACK,
     BLUE,
     GREEN,
     PURPLE,
@@ -11,6 +12,7 @@ public enum LightColour {
     @Override
     public String toString(){
         switch(this){
+            case BLACK: return "\u001B[30m";
             case BLUE: return "\u001B[34m";
             case GREEN: return "\u001B[32m";
             //case GREY: return "\u001B[30m"+"●"+ "\u001B[0m";

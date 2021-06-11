@@ -1,5 +1,7 @@
 package clientModel.table;
 
+import clientModel.colour.LightColour;
+
 import java.util.ArrayList;
 //todo da rivedere?
 public class LightFaithTrack {
@@ -29,8 +31,15 @@ public class LightFaithTrack {
     @Override
     public String toString(){
         String s = "\n|";
-        for(LightFaithBox box: this.box)
-            s += box.toString();
+
+        for(int i=0; i<25; i++) {
+            LightColour color = LightColour.WHITE;
+            if (i == 8 || i == 16 || i == 24)
+                color = LightColour.RED;
+            if((i>=5 && i<=7) || (i>=12 && i<=15) || (i>=19 && i<=23))
+                color = LightColour.YELLOW;
+            s +=color+"|"+box.get(i).toString()+color+"|"+LightColour.WHITE;
+        }
         s+="|";
         return s;
     }

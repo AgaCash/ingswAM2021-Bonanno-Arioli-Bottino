@@ -31,17 +31,14 @@ public class LightFaithBox {
     @Override
     public String toString(){
         String s = new String();
-        if(popeFlag[0] || popeFlag[1] || popeFlag[2])
-            s+= LightColour.RED;
         if(actualPos && !lorenzoPos)
-            s+= "| * |";
+            s+= " "+ LightColour.RED+ "✝ ";
         else if(!actualPos && lorenzoPos)
-            s+= "| L |";
+            s+= " "+ LightColour.BLACK+ "✝ ";
         else if(lorenzoPos && actualPos)
-            s+= "|* L|";
+            s+= ""+ LightColour.RED+ "✝"+" "+LightColour.BLACK+ "✝";
         else
-            s+="|   |";
-        s+=LightColour.WHITE;
+            s+="   ";
         return s;
     }
 }
