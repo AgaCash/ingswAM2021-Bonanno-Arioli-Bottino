@@ -1,5 +1,7 @@
 package GUI;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -27,6 +29,20 @@ public class AlertBox {
             window.close();
         });
 
+        Scene scene = new Scene(vbox);
+        window.setScene(scene);
+        window.showAndWait();
+    }
+
+    public void illegalAlert(Gui gui){
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        Label label = new Label("You cannot do this action, please retry");
+        Button gotcha = new Button("Ok");
+        VBox vbox = new VBox();
+        vbox.getChildren().addAll(label,gotcha);
+
+        gotcha.setOnAction(e-> window.close());
         Scene scene = new Scene(vbox);
         window.setScene(scene);
         window.showAndWait();

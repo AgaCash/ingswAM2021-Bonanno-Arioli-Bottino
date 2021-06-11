@@ -118,7 +118,6 @@ public class Gui extends Application {
     }
 
     //TODO drawImages liv2,3 nel playerboard
-    //TODO draw on strongbox
     //TODO creare le finestre pop-up per uscita gioco e illegal choices
     //TODO collegare tutto
 
