@@ -27,13 +27,15 @@ public class SetupResponse extends GameMessage {
     @Override
     public void executeCommand(LightController controller){
         controller.setPlayer(getUsername(), this.players);
-        controller.setPlayers(this.players);
+        if (players.size() == 1)
+            controller.getPlayerBoard().getFaithTrack().setLorenzoPos(0);
+        else {
+            controller.setPlayers(this.players);
+        }
         controller.setDevBoard(this.board);
         controller.setMarketBoard(this.market);
 
         if(firstPlayer.equals(controller.getUsername())) {
-            if (players.size() == 1)
-                controller.getPlayerBoard().getFaithTrack().setLorenzoPos(0);
             controller.start();
         }
         else

@@ -64,7 +64,7 @@ public class LightDevelopmentCard {
     }
 
     public boolean isUsable(){
-        return this.cost != null && this.prodInput != null && this.level !=1 && this.prodOutput != null;
+        return this.cost != null && this.prodInput != null && this.level !=-1 && this.prodOutput != null;
     }
 //CLI
     @Override

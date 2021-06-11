@@ -1,5 +1,7 @@
 package clientModel.table;
 
+import clientModel.colour.LightColour;
+
 public class LightFaithBox {
     private boolean[] popeFlag = new boolean[3];
     private int points;
@@ -28,12 +30,18 @@ public class LightFaithBox {
 
     @Override
     public String toString(){
+        String s = new String();
+        if(popeFlag[0] || popeFlag[1] || popeFlag[2])
+            s+= LightColour.RED;
         if(actualPos && !lorenzoPos)
-            return "| * ";
+            s+= "| * |";
         else if(!actualPos && lorenzoPos)
-            return "| L ";
+            s+= "| L |";
         else if(lorenzoPos && actualPos)
-            return "|* L";
-        return "|   ";
+            s+= "|* L|";
+        else
+            s+="|   |";
+        s+=LightColour.WHITE;
+        return s;
     }
 }

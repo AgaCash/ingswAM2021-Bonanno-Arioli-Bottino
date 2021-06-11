@@ -28,9 +28,10 @@ public class LightFaithTrack {
 
     @Override
     public String toString(){
-        String s = "\n";
+        String s = "\n|";
         for(LightFaithBox box: this.box)
             s += box.toString();
+        s+="|";
         return s;
     }
 }
