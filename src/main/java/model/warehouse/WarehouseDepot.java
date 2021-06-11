@@ -41,7 +41,7 @@ public class WarehouseDepot {
                 if(level == 1) {
                     warehouse.remove(tmp);
                     if (!(warehouse.containsValue(2) && warehouse.containsValue(3)) &&
-                            !(warehouse.containsValue(2) && !warehouse.containsValue(1)))
+                            !(warehouse.containsValue(2) && !warehouse.containsValue(1) && warehouse.size()==2))
                         warehouse.put(tmp, level + 1);
                     else {
                         warehouse.put(tmp, level);
