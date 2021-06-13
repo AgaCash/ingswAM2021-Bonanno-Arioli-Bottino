@@ -18,6 +18,7 @@ public class Game {
     public ArrayList<Token> tokens;
     private boolean singlePlayer;
     private boolean didAction = false;
+    private boolean didProduction = false;
 
     private boolean isOver;
     private boolean victory;
@@ -128,7 +129,7 @@ public class Game {
             UnusableCardException,
             EmptyDeckException,
             InvalidActionException {
-        if(didAction)
+        if(didAction || didProduction)
             throw new InvalidActionException("you already did an action in this turn!\n");
         Resource discount;
         Deck deck = table.getDevBoard().getDeck(numDeck);
@@ -146,7 +147,6 @@ public class Game {
                 this.victory = true;
                 this.finalMessage = "\nVITTORIA! HAI COMPRATO LA TUA SETTIMA CARTA SVILUPPO\n";
             }
-            this.didAction=true;
         }
         else{
             throw new InsufficientResourcesException("Can't buy this card: insufficient resources!");
@@ -156,7 +156,7 @@ public class Game {
     //--------------------MARKET--------------------
     public void buyResources(boolean line, int num, WhiteConverter card) throws UnusableCardException,
             InvalidActionException {
-        if(didAction)
+        if(didAction || didProduction)
             throw new InvalidActionException("you already did an action in this turn!\n");
         ArrayList<Resource> bought = new ArrayList<>();
         if(line &&  num>=0 && num<=2) {
@@ -190,7 +190,9 @@ public class Game {
     @chosenOutput is set by @Controller and it's the optional resource produced by @card
      */
     public void devCardProduction(int slot, Resource chosenOutput, ExtraProd card) throws
-            InsufficientResourcesException, UnusableCardException {
+            InsufficientResourcesException, UnusableCardException, InvalidActionException {
+        if(didAction)
+            throw new InvalidActionException("you already did an action in this turn!\n");
         ArrayList<Resource> prodResources;
         if(checkResources(currentPlayer.getPlayerBoard().getCardSlots().getCard(slot).getProdInput(), true)){
             prodResources = currentPlayer.getPlayerBoard().getCardSlots().getCard(slot).createProduction(card);
@@ -219,7 +221,7 @@ public class Game {
     @input and @output are set by @Controller
      */
     public void defaultProduction(ArrayList<Resource> input, Resource output, LeaderCard card, Resource chosenOutput) throws InsufficientResourcesException, UnusableCardException, InvalidActionException {
-        if(didAction)
+        if(didAction || didProduction)
             throw new InvalidActionException("you already did an action in this turn!\n");
         ArrayList<Resource> prodResources = new ArrayList<>();
 
@@ -336,6 +338,7 @@ public class Game {
         updateStrongbox();
         updateCardSlots();
         this.didAction = false;
+        this.didProduction = false;
         changeTurn();
     }
     private void updateCardSlots(){

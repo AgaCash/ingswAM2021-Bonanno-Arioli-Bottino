@@ -188,17 +188,7 @@ public class CLI implements View{
         // System.out.println("IT'S YOUR TURN!\n");
         int ans = 0;
         do {
-            System.out.println("CHOOSE YOUR ACTION\n\b" +
-                    "1 per compiere un`azione leader\n\b" +
-                    "2 per attivare la produzione\n\b" +
-                    "3 per comprare le risorse\n\b" +
-                    "4 per comprare la carta sviluppo\n\b" +
-                    "5 per visualizzare lo stato del gioco\n\b" +
-                    "6 per terminare il turno");
-            System.out.println("FAITHTRACK: "+controller.getPlayerBoard().getFaithTrack().toString());
-            System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());
-            System.out.println(controller.getPlayerBoard().getStrongbox().toString());
-            System.out.println("CARD SLOTS: "+controller.getPlayerBoard().getCardSlots().toString());
+            printMenu();
             ans = in.nextInt();
         } while (ans < 1 || ans > 6);
         switch (ans) {
@@ -211,6 +201,21 @@ public class CLI implements View{
         }
     }
 
+    private void printMenu(){
+        System.out.println("CHOOSE YOUR ACTION\n\b" +
+                "1 per compiere un`azione leader\n\b" +
+                "2 per attivare la produzione\n\b" +
+                "3 per comprare le risorse\n\b" +
+                "4 per comprare la carta sviluppo\n\b" +
+                "5 per visualizzare lo stato del gioco\n\b" +
+                "6 per terminare il turno\n\n");
+        System.out.println("VICTORY POINTS: "+controller.getPlayerBoard().getPoints());
+        System.out.println(controller.getPlayerBoard().getFaithTrack().toString());
+        System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());
+        System.out.println(controller.getPlayerBoard().getStrongbox().toString());
+        System.out.println(controller.getPlayerBoard().getCardSlots().toString());
+    }
+
     private void askShow(){
         int ans;
         do {
@@ -218,20 +223,13 @@ public class CLI implements View{
                     "1 per visualizzare la DevBoard\n\b" +
                     "2 per visualzizare il Market\n\b" +
                      "3 per tornare al menu\n\b");
-                   // +"3 per visualizzare il tuo warehouse\n\b" +
-                   // "4 per visualizzare il tuo strongbox\n\b" +
-                    //"5 per visualizzare i tuoi card slots\n\b" +
-                    //"6 per visualizzare il tuo faithtrack");
+
             ans = in.nextInt();
         } while (ans < 1 || ans > 3);
         switch (ans) {
             case 1 : System.out.println(controller.getDevBoard().toString()); break;
             case 2 : System.out.println(controller.getMarketBoard().toString()); break;
             case 3 : break;
-            //case 3 : System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());break;
-            //case 4 : System.out.println(controller.getPlayerBoard().getStrongbox().toString()); break;
-            //case 5 : System.out.println(controller.getPlayerBoard().getCardSlots());; break;
-            //case 6 : System.out.println(controller.getPlayerBoard().getFaithTrack().toString());; break;
         }
         askTurn();
     }
@@ -252,7 +250,7 @@ public class CLI implements View{
         }
         askTurn();
     }
-
+    /*@Override
     public void askTurnFinal() {
         int ans = 0;
         do{
@@ -260,6 +258,7 @@ public class CLI implements View{
                 System.out.println("CHOOSE YOUR ACTION\n\b" +
                         "1 per compiere un`azione leader\n\b" +
                         "5 per terminare il turno");
+                printMenu();
                 ans = in.nextInt();
             } while (ans != 1 && ans != 5);
             switch (ans) {
@@ -269,9 +268,8 @@ public class CLI implements View{
 
         }while(ans!=5);
     }
-
+    @Override
     public void askTurnAfterProduction() {
-        System.out.println("GAME IS STARTING...\n");
         int ans = 0;
         do{
             do {
@@ -279,6 +277,7 @@ public class CLI implements View{
                         "1 per attivare la carta leader\n\b" +
                         "2 per attivare la produzione\n\b" +
                         "5 per terminare il turno");
+                printMenu();
                 ans = in.nextInt();
             } while (ans < 1 || ans > 5);
             switch (ans) {
@@ -288,7 +287,7 @@ public class CLI implements View{
             }
 
         }while(ans!=5);
-    }
+    }*/
 
     private void askProduction(){
         int ans =0;
@@ -305,6 +304,7 @@ public class CLI implements View{
             case 3 : break;
         }
         askTurn();
+
     }
 
     @Override
@@ -337,7 +337,6 @@ public class CLI implements View{
             ans = in.nextInt();
         } while(ans!= 1 && ans != 2);
         controller.sendLeaderCardThrowRequest(couple.get(ans-1));
-
     }
 
     @Override
@@ -346,46 +345,47 @@ public class CLI implements View{
         System.out.println(market.toString());
         int choice;
         do {
-            System.out.println("1 per scegliere la colonna\n 2 per scegliere la riga:");
+            System.out.println("1 per scegliere la colonna\n2 per scegliere la riga\n3 per uscire\n");
             choice = in.nextInt();
-        } while(choice!= 1 && choice != 2);
+        } while(choice!= 1 && choice != 2 && choice!=3);
 
-        boolean line = choice==2;
-        if(line)
-            System.out.println("u choosed line ");
-        else
-            System.out.println("u choosed column");
-        int number;
-        if(line) {
-            do {
-                System.out.println("digitare il numero di riga");
-                number = in.nextInt();
+        if(choice != 3) {
+            boolean line = choice == 2;
+            if (line)
+                System.out.println("u choosed line ");
+            else
+                System.out.println("u choosed column");
+            int number;
+            if (line) {
+                do {
+                    System.out.println("digitare il numero di riga");
+                    number = in.nextInt();
+                }
+                while (number < 1 || number > 3);
+            } else {
+                do {
+                    System.out.println("digitare il numero di colonna");
+                    number = in.nextInt();
+                }
+                while (number < 1 || number > 4);
             }
-            while (number < 1 || number > 3);
-        }
-        else {
+            String ans;
             do {
-                System.out.println("digitare il numero di colonna");
-                number = in.nextInt();
-            }
-            while (number < 1 || number > 4);
-        }
-        String ans;
-        do {
-            System.out.println("do u want to add a leader card?\n [y/n]\n");
-            ans = in.nextLine();
-        }while(!ans.equals("y") && !ans.equals("n"));
-        if(ans.equals("y")) {
-            LightLeaderCard card = askLeaderCardUse();
-            if (card != null && card.isWhiteConverter())
-                controller.sendBuyResourceRequest(line, number - 1, card);
-        }
-        else
-            controller.sendBuyResourceRequest(line, number - 1, null);
+                System.out.println("do u want to add a leader card?\n [y/n]\n");
+                ans = in.nextLine();
+            } while (!ans.equals("y") && !ans.equals("n"));
+            if (ans.equals("y")) {
+                LightLeaderCard card = askLeaderCardUse();
+                if (card != null && card.isWhiteConverter())
+                    controller.sendBuyResourceRequest(line, number - 1, card);
+            } else
+                controller.sendBuyResourceRequest(line, number - 1, null);
 
 
-        System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());
+            System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());
+        }
         askTurn();
+
     }
 
     @Override
@@ -394,30 +394,31 @@ public class CLI implements View{
         System.out.println(controller.getPlayerBoard().getCardSlots().toString());
         int deck = 0;
         do{
-            System.out.println("scegli il numero del deck");
+            System.out.println("scegli il numero del deck\ndigita 0 per tornare al menu\n");
             deck=in.nextInt();
-        }while(deck<1 || deck>12);
-
-        int slot = 0;
-        do{
-            System.out.println("scegli a quale slot aggiungere la carta");
-            slot = in.nextInt();
-        }while(slot<1 || slot>3);
-        String ans;
-        do {
-            System.out.println("do u want to add a leader card?\n [y/n]\n");
-            ans = in.nextLine();
-        }while(!ans.equals("y") && !ans.equals("n"));
-        if(ans.equals("y")) {
-            LightLeaderCard card = askLeaderCardUse();
-            if (card != null && card.isDiscount())
-                controller.sendBuyDevCardRequest(deck-1, slot-1, card);
+        }while(deck<0 || deck>12);
+        if(deck != 0) {
+            int slot = 0;
+            do {
+                System.out.println("scegli a quale slot aggiungere la carta");
+                slot = in.nextInt();
+            } while (slot < 1 || slot > 3);
+            String ans;
+            do {
+                System.out.println("do u want to add a leader card?\n [y/n]\n");
+                ans = in.nextLine();
+            } while (!ans.equals("y") && !ans.equals("n"));
+            if (ans.equals("y")) {
+                LightLeaderCard card = askLeaderCardUse();
+                if (card != null && card.isDiscount())
+                    controller.sendBuyDevCardRequest(deck - 1, slot - 1, card);
+            } else {
+                controller.sendBuyDevCardRequest(deck - 1, slot - 1, null);
+            }
+            System.out.println(controller.getPlayerBoard().getCardSlots().toString());
         }
-        else{
-            controller.sendBuyDevCardRequest(deck-1, slot-1, null);
-        }
-        System.out.println(controller.getPlayerBoard().getCardSlots().toString());
         askTurn();
+
     }
 
     @Override
@@ -431,7 +432,7 @@ public class CLI implements View{
         }
         else {
             do {
-                System.out.println("scegli lo slot");
+                System.out.println("scegli lo slot\n");
                 slot = in.nextInt();
             } while (slot < 1 || slot > numSlots);
             try {

@@ -94,6 +94,30 @@ public class DevelopmentCard extends Card {
         this.usedInThisTurn = false;
     }
 
+    public LightDevelopmentCard convert(){
+        ArrayList<LightResource> cost = new ArrayList<>();
+        ArrayList<LightResource> prodInput = new ArrayList<>();
+        ArrayList<LightResource> prodOutput = new ArrayList<>();
+        LightColour colour = LightColour.valueOf(this.colour.toString());
+        if(isUsable()) {
+            this.cost.forEach(element -> cost.add(LightResource.valueOf(element.toString())));
+            this.prodInput.forEach(element -> prodInput.add(LightResource.valueOf(element.toString())));
+            this.prodOutput.forEach(element -> prodOutput.add(LightResource.valueOf(element.toString())));
+
+            return new LightDevelopmentCard(this.id,
+                    colour,
+                    this.level,
+                    this.victoryPoints,
+                    cost,
+                    prodInput,
+                    prodOutput);
+        }
+        else
+            return new LightDevelopmentCard(colour,
+                    this.level);
+    }
+
+    //just 4 tests
     @Override
     public String toString(){
         StringBuilder s = new StringBuilder();
@@ -118,28 +142,6 @@ public class DevelopmentCard extends Card {
         return s.toString();
     }
 
-    public LightDevelopmentCard convert(){
-        ArrayList<LightResource> cost = new ArrayList<>();
-        ArrayList<LightResource> prodInput = new ArrayList<>();
-        ArrayList<LightResource> prodOutput = new ArrayList<>();
-        LightColour colour = LightColour.valueOf(this.colour.toString());
-        if(isUsable()) {
-            this.cost.forEach(element -> cost.add(LightResource.valueOf(element.toString())));
-            this.prodInput.forEach(element -> prodInput.add(LightResource.valueOf(element.toString())));
-            this.prodOutput.forEach(element -> prodOutput.add(LightResource.valueOf(element.toString())));
-
-            return new LightDevelopmentCard(this.id,
-                    colour,
-                    this.level,
-                    this.victoryPoints,
-                    cost,
-                    prodInput,
-                    prodOutput);
-        }
-        else
-            return new LightDevelopmentCard(colour,
-                    this.level);
-    }
 
 
 

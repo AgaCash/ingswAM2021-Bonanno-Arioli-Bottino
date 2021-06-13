@@ -30,7 +30,7 @@ public class LightFaithTrack {
 
     @Override
     public String toString(){
-        String s = "\n|";
+        String s = "FAITH TRACK:\n|";
 
         for(int i=0; i<25; i++) {
             LightColour color = LightColour.WHITE;

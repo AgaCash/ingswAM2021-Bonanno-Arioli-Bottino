@@ -5,6 +5,7 @@ import clientModel.resources.LightResource;
 import com.google.gson.Gson;
 import controller.Controller;
 import exceptions.InsufficientResourcesException;
+import exceptions.InvalidActionException;
 import exceptions.UnusableCardException;
 import network.messages.MessageType;
 import view.VirtualClient;
@@ -27,7 +28,7 @@ public class DevCardProductionRequest extends GameMessage{
         try {
             controller.devCardProduction(slot, chosenResource, card);
             update(controller);
-        } catch (InsufficientResourcesException | UnusableCardException e){
+        } catch (InsufficientResourcesException | UnusableCardException | InvalidActionException e){
             DevCardProductionResponse notify = new DevCardProductionResponse(this.getUsername(), e.getMessage());
             client.getVirtualView().updateDevCardProduction(notify);
 

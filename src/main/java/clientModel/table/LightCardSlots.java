@@ -22,8 +22,8 @@ public class LightCardSlots {
 
     @Override
     public String toString(){
-        String s = new String();
-        s+="\n________________________________";
+        String s ="CARD SLOTS:\n";
+        s+="________________________________";
         s+="________________________________";
         s+="________________________________\n";
         for(int j = 0; j<slots.size(); j++)

@@ -155,7 +155,7 @@ public class Controller {
         return game.getCurrentPlayer().getPlayerBoard().getWarehouseDepot().getThrewResources();
     }
     public void devCardProduction(int slot, LightResource lightChosenOutput, LightLeaderCard lightCard) throws InsufficientResourcesException,
-            UnusableCardException {
+            UnusableCardException, InvalidActionException {
         ExtraProd card =  null; Resource chosenOutput = null;
         if(lightCard!=null) {
             Gson gson = new Gson();

@@ -24,7 +24,7 @@ public class CardSlots {
     public boolean isPresent(DevelopmentCard toFind){
         for(Stack<DevelopmentCard> slot : slots){
             for(DevelopmentCard card : slot)
-                if(card.getId() == toFind.getId())
+                if(card.getColour() == toFind.getColour() && card.getLevel() == toFind.getLevel())
                     return true;
         }
         return false;

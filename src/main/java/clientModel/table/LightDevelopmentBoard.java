@@ -36,9 +36,9 @@ public class LightDevelopmentBoard {
      */
     @Override
     public String toString(){
-        String s = new String();
+        String s = "DEVELOPMENT BOARD:\n";
         for(int i=0; i<12; i+=4) {
-            s+="\n________________________________";
+            s+="________________________________";
             s+="________________________________";
             s+="________________________________";
             s+="________________________________\n";
