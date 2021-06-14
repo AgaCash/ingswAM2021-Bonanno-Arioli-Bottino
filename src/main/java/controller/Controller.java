@@ -22,6 +22,7 @@ import network.server.LobbyHandler;
 import view.VirtualClient;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 
 public class Controller {
     private int id;
@@ -182,11 +183,11 @@ public class Controller {
 
         game.defaultProduction(newInput, newOutput, card, chosenOutput);
     }
-    public void activateLeaderCard(LeaderCard card) throws InsufficientRequirementsException,
-            InsufficientResourcesException {
+    public void activateLeaderCard(int card) throws InsufficientRequirementsException,
+            InsufficientResourcesException, InputMismatchException {
         game.activateLeaderCard(card);
     }
-    public void throwLeaderCard(LeaderCard card){
+    public void throwLeaderCard(int card){
         game.throwLeaderCard(card);
     }
 

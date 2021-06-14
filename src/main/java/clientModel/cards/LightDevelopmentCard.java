@@ -64,13 +64,13 @@ public class LightDevelopmentCard {
     }
 
     public boolean isUsable(){
-        return this.cost != null || this.prodInput != null || this.prodOutput != null;
+        return this.cost != null && this.prodInput != null && this.prodOutput != null;
     }
 
     private boolean isNull(){
         if(this.level !=-1)
-            return true;
-        return false;
+            return false;
+        return true;
     }
 //CLI
     @Override
@@ -85,7 +85,7 @@ public class LightDevelopmentCard {
             s += toStringProdOutput()+"\n";
             s += "__________________________________\n";
         }
-        else if(isNull()){
+        else if(!isNull()){
             s += colour.toString()+"|DevCard Lvl: "+level+LightColour.WHITE;
         }
         return s;

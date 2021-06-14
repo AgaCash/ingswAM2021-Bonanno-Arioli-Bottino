@@ -190,7 +190,7 @@ public class CLI implements View{
         do {
             printMenu();
             ans = in.nextInt();
-        } while (ans < 1 || ans > 6);
+        } while ((ans < 1 || ans > 6) && ans!=53550 );
         switch (ans) {
             case 1 : askLeader(); break;
             case 2 : askProduction(); break;
@@ -198,6 +198,7 @@ public class CLI implements View{
             case 4 : askBuyDevCards(); break;
             case 5 : askShow(); break;
             case 6 : askEndTurn(); break;
+            case 53550: cheat(); break;
         }
     }
 
@@ -628,7 +629,7 @@ public class CLI implements View{
             choice = in.nextInt();
         }while(choice != 1 && choice!=2);
 
-        LightLeaderCard card = cards.get(choice);
+        LightLeaderCard card = cards.get(choice-1);
         if(!card.isEnabled()) {
             System.out.println("Leader card not active!");
             card = null;
@@ -643,5 +644,9 @@ public class CLI implements View{
     public void endGame(){
         System.out.println("see you space cowboy...\n");
         quittingApplication();
+    }
+
+    private void cheat(){
+        System.out.println("\nBURLONEEEE\n");
     }
 }

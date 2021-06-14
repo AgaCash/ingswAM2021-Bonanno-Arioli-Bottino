@@ -378,9 +378,7 @@ public class LightController {
     }
 
     public void sendLeaderCardActivationRequest (LightLeaderCard card){
-        Gson gson = new Gson();
-        //System.out.println("capiamo");
-        LeaderCardActivationRequest request = new LeaderCardActivationRequest(getUsername(), card);
+        LeaderCardActivationRequest request = new LeaderCardActivationRequest(getUsername(), card.getId());
         client.send(gson.toJson(request));
         try {
             String responseS = client.recv();
@@ -392,7 +390,7 @@ public class LightController {
     }
 
     public void sendLeaderCardThrowRequest (LightLeaderCard card){
-        LeaderCardThrowRequest request = new LeaderCardThrowRequest(getUsername(), card);
+        LeaderCardThrowRequest request = new LeaderCardThrowRequest(getUsername(), card.getId());
         client.send(gson.toJson(request));
         try {
             String responseS = client.recv();

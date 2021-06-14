@@ -307,8 +307,14 @@ public class Game {
     }
     //--------------------LEADER CARDS--------------------
 
-    public void activateLeaderCard(LeaderCard card) throws InsufficientResourcesException,
-            InsufficientRequirementsException {
+    public void activateLeaderCard(int cardID) throws InsufficientResourcesException,
+            InsufficientRequirementsException, InputMismatchException {
+        LeaderCard card = null;
+        for(LeaderCard leaderCard : currentPlayer.getPlayerBoard().getLeaders())
+            if(leaderCard.getId() == cardID)
+                card = leaderCard;
+        if(card == null)
+            throw new InputMismatchException("Can'' find this leader card!");
         if(card.isExtraDepot()){
             ArrayList<Resource> requirements = card.getRequiredResources();
             if(checkResources(requirements, false))
@@ -328,7 +334,7 @@ public class Game {
         }
     }
 
-    public void throwLeaderCard(LeaderCard card){
+    public void throwLeaderCard(int card){
         currentPlayer.getPlayerBoard().removeLeaderCard(card);
         faithAdvance(1);
     }

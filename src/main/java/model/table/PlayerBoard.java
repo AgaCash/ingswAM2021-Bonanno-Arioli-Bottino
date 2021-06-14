@@ -8,6 +8,7 @@ import model.strongbox.Strongbox;
 import model.warehouse.WarehouseDepot;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 
 public class PlayerBoard {
     private CardSlots cardSlots = new CardSlots();
@@ -27,8 +28,14 @@ public class PlayerBoard {
         leaderSlots = couple;
     }
 
-    public void removeLeaderCard(LeaderCard card){
-        leaderSlots.remove(card);
+    public void removeLeaderCard(int cardId){
+        LeaderCard toRemove = null;
+        for(LeaderCard card: leaderSlots)
+            if(card.getId()==cardId)
+                toRemove = card;
+        if(toRemove == null)
+            throw  new InputMismatchException("Can't find this leader card!");
+        this.leaderSlots.remove(toRemove);
     }
 
 

@@ -7,6 +7,7 @@ abstract public class LightLeaderCard{
     protected LightLeaderCardType type;
     //universal methods
     //public void activate(){this.isEnabled = true;};
+    public int getId(){ return id; }
     //consult methods
     //public boolean isEnabled(){ return isEnabled; }
     //public ArrayList<LightDevelopmentCard> getRequiredCards(){return null;}
