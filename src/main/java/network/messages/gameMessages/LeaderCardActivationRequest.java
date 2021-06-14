@@ -1,19 +1,23 @@
 package network.messages.gameMessages;
 
 import clientModel.cards.LightLeaderCard;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import controller.Controller;
 import exceptions.InsufficientRequirementsException;
 import exceptions.InsufficientResourcesException;
+import model.cards.LeaderCard;
 import network.messages.MessageType;
+import utilities.LeaderCardDeserializer;
 import view.VirtualClient;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 
 public class LeaderCardActivationRequest extends GameMessage{
-    private int card;
+    private LightLeaderCard card;
 
-    public LeaderCardActivationRequest(String username, int card){
+    public LeaderCardActivationRequest(String username, LightLeaderCard card){
         super(username, MessageType.LEADERCARD);
         this.card = card;
     }

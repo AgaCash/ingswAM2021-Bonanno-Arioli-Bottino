@@ -4,12 +4,10 @@ import clientModel.cards.LightLeaderCard;
 import clientModel.player.LightPlayer;
 import clientModel.resources.LightResource;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import exceptions.*;
 import model.Game;
-import model.cards.Discount;
-import model.cards.ExtraProd;
 import model.cards.LeaderCard;
-import model.cards.WhiteConverter;
 import model.player.Player;
 import model.resources.Resource;
 import model.singleplayer.Lorenzo;
@@ -19,6 +17,7 @@ import model.table.MarketBoard;
 import network.messages.gameMessages.*;
 import network.server.Lobby;
 import network.server.LobbyHandler;
+import utilities.LeaderCardDeserializer;
 import view.VirtualClient;
 
 import java.util.ArrayList;
@@ -140,15 +139,15 @@ public class Controller {
             InsufficientResourcesException,
             EmptyDeckException,
             UnusableCardException, InvalidActionException {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().registerTypeAdapter(LeaderCard.class, new LeaderCardDeserializer()).create();
         String s = gson.toJson(lightCard);
-        Discount card = gson.fromJson(s, Discount.class);
+        LeaderCard card = gson.fromJson(s, LeaderCard.class);
         game.buyDevCard(deck, slot, card);
     }
     public void buyResources(boolean line, int num, LightLeaderCard lightCard) throws UnusableCardException, InvalidActionException {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().registerTypeAdapter(LeaderCard.class, new LeaderCardDeserializer()).create();
         String s = gson.toJson(lightCard);
-        WhiteConverter card = gson.fromJson(s, WhiteConverter.class);
+        LeaderCard card = gson.fromJson(s, LeaderCard.class);
         game.buyResources(line, num, card);
 
     }
@@ -157,11 +156,11 @@ public class Controller {
     }
     public void devCardProduction(int slot, LightResource lightChosenOutput, LightLeaderCard lightCard) throws InsufficientResourcesException,
             UnusableCardException, InvalidActionException {
-        ExtraProd card =  null; Resource chosenOutput = null;
+        LeaderCard card =  null; Resource chosenOutput = null;
         if(lightCard!=null) {
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().registerTypeAdapter(LeaderCard.class, new LeaderCardDeserializer()).create();
             String s = gson.toJson(lightCard);
-            card = gson.fromJson(s, ExtraProd.class);
+            card = gson.fromJson(s, LeaderCard.class);
             chosenOutput = Resource.valueOf(lightChosenOutput.toString());
         }
 
@@ -173,21 +172,26 @@ public class Controller {
         input.forEach(e -> newInput.add(Resource.valueOf(e.toString())));
         Resource newOutput = Resource.valueOf(output.toString());
 
-        ExtraProd card =  null; Resource chosenOutput = null;
+        LeaderCard card =  null; Resource chosenOutput = null;
         if(lightCard!=null) {
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().registerTypeAdapter(LeaderCard.class, new LeaderCardDeserializer()).create();
             String s = gson.toJson(lightCard);
-            card = gson.fromJson(s, ExtraProd.class);
+            card = gson.fromJson(s, LeaderCard.class);
             chosenOutput = Resource.valueOf(lightChosenOutput.toString());
         }
 
         game.defaultProduction(newInput, newOutput, card, chosenOutput);
     }
-    public void activateLeaderCard(int card) throws InsufficientRequirementsException,
+    public void activateLeaderCard(LightLeaderCard lightLeaderCard) throws InsufficientRequirementsException,
             InsufficientResourcesException, InputMismatchException {
+        Gson gson = new GsonBuilder().registerTypeAdapter(LeaderCard.class, new LeaderCardDeserializer()).create();
+        LeaderCard card = gson.fromJson(gson.toJson(lightLeaderCard), LeaderCard.class);
         game.activateLeaderCard(card);
     }
-    public void throwLeaderCard(int card){
+
+    public void throwLeaderCard(LightLeaderCard lightLeaderCard){
+        Gson gson = new GsonBuilder().registerTypeAdapter(LeaderCard.class, new LeaderCardDeserializer()).create();
+        LeaderCard card = gson.fromJson(gson.toJson(lightLeaderCard), LeaderCard.class);
         game.throwLeaderCard(card);
     }
 
@@ -267,6 +271,11 @@ public class Controller {
         return game.getDevBoard();
     }
     public Lorenzo getLorenzo(){return game.getLorenzo(); }
+
+
+    public void cheat(){
+        game.cheat();
+    }
 
 
 

@@ -1,0 +1,5 @@
+1) EXTRAPROD: non aggiunge i punti fede
+2) DISCOUNT: elimina dal costo della devcard lo sconto (per il resto funziona)
+3) aggiungere stampata dei punti vittoria alla fine
+4) EXTRADEPOT: non funziona
+5) WHITECONVERTER: non viene inviata dal server

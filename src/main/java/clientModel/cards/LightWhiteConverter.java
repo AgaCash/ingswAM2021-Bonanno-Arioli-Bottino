@@ -1,5 +1,6 @@
 package clientModel.cards;
 
+import clientModel.colour.LightColour;
 import clientModel.resources.LightResource;
 
 import java.util.ArrayList;
@@ -24,10 +25,7 @@ public class LightWhiteConverter extends LightLeaderCard {
         return this.resource;
     }
 
-    @Override
-    public boolean isWhiteConverter(){
-        return true;
-    }
+
 
     @Override
     public ArrayList<LightDevelopmentCard> getRequiredCards(){
@@ -35,18 +33,28 @@ public class LightWhiteConverter extends LightLeaderCard {
     }
 
  */
+@Override
+public boolean isWhiteConverter(){
+    return true;
+}
 
     @Override
     public String toString(){
-        String s =  "______________________";
+        String s = new String();
+        LightColour colour;
+        if(!isEnabled)
+            colour = LightColour.RED;
+        else
+            colour = LightColour.GREEN;
+        s += colour+"\n______________________";
         s+=      "\n|    WHITE CONVERTER  |";
         s+=      "\n|Requires:            |";
         for (LightDevelopmentCard d:requires) {
-            s+="\n|\t "+d;
+            s+="\n|\t "+d+colour;
         }
-        s+=      "\n|Convert: " +resource.toColoredString();
-        s+=      "\n|Victory Points: "+victoryPoints;
-        s+= "\n______________________\n";
+        s+=      colour+"\n|Convert: " +resource.toColoredString();
+        s+=    colour+  "\n|Victory Points: "+victoryPoints;
+        s+= "\n______________________\n"+LightColour.WHITE;
         return s;
     }
 

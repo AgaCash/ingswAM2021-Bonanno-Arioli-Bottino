@@ -378,7 +378,7 @@ public class LightController {
     }
 
     public void sendLeaderCardActivationRequest (LightLeaderCard card){
-        LeaderCardActivationRequest request = new LeaderCardActivationRequest(getUsername(), card.getId());
+        LeaderCardActivationRequest request = new LeaderCardActivationRequest(getUsername(), card);
         client.send(gson.toJson(request));
         try {
             String responseS = client.recv();
@@ -390,7 +390,7 @@ public class LightController {
     }
 
     public void sendLeaderCardThrowRequest (LightLeaderCard card){
-        LeaderCardThrowRequest request = new LeaderCardThrowRequest(getUsername(), card.getId());
+        LeaderCardThrowRequest request = new LeaderCardThrowRequest(getUsername(), card);
         client.send(gson.toJson(request));
         try {
             String responseS = client.recv();
@@ -564,6 +564,20 @@ public class LightController {
     public void endSinglePlayerGame(String message){
         view.showSuccess(message);
         view.endGame();
+    }
+
+    public void sendCheat(){
+        Gson gson = new Gson();
+        CheatRequest request = new CheatRequest(getUsername());
+        client.send(gson.toJson(request));
+        try{
+            String s = client.recv();
+            CheatResponse response = gson.fromJson(s, CheatResponse.class);
+            response.executeCommand(this);
+        } catch(IOException e){
+            view.showError(e.getMessage());
+        }
+
     }
 
 }

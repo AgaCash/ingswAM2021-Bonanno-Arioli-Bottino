@@ -68,6 +68,8 @@ public enum MessageType {
     ENDTURNUPDATE(EndTurnResponse.class, "GAME"),
 
     //da eliminare
+    CHEAT(CheatRequest.class, "GAME"),
+    CHEATUPDATE(CheatResponse.class, "GAME"),
     FAILEDACTIONNOTIFY;
 
 

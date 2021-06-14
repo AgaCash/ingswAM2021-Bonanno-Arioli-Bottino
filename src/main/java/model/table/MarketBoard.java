@@ -67,7 +67,6 @@ public class MarketBoard {
      * @return arraylist of requested model.resources
      */
     public ArrayList<Resource> addMarketLine (int line, WhiteConverter card) throws UnusableCardException{
-
         Resource convertResource;
         try {
             convertResource = card.whichResource();

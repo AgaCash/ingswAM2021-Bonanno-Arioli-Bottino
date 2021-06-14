@@ -15,7 +15,6 @@ public enum LightColour {
             case BLACK: return "\u001B[30m";
             case BLUE: return "\u001B[34m";
             case GREEN: return "\u001B[32m";
-            //case GREY: return "\u001B[30m"+"●"+ "\u001B[0m";
             case PURPLE: return "\u001B[35m";
             case RED: return "\u001B[31m";
             case WHITE: return "\u001B[0m";

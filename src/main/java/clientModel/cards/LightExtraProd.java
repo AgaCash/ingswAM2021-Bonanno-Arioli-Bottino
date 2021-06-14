@@ -1,5 +1,6 @@
 package clientModel.cards;
 
+import clientModel.colour.LightColour;
 import clientModel.resources.LightResource;
 
 import java.util.ArrayList;
@@ -45,10 +46,7 @@ public class LightExtraProd extends LightLeaderCard {
 
 
 
-    @Override
-    public boolean isExtraProd(){
-        return true;
-    }
+
 
     @Override
     public ArrayList<LightDevelopmentCard> getRequiredCards(){
@@ -56,18 +54,28 @@ public class LightExtraProd extends LightLeaderCard {
     }
 
  */
+@   Override
+    public boolean isExtraProd(){
+        return true;
+    }
 
     @Override
     public String toString(){
-        String s =  "______________________";
+        String s = new String();
+        LightColour colour;
+        if(!isEnabled)
+            colour =  LightColour.RED;
+        else
+            colour = LightColour.GREEN;
+        s += colour + "\n______________________";
         s+=      "\n|      EXTRA PROD     |";
         s+=      "\n|Requires:            |";
         for(LightDevelopmentCard card: requires)
-            s+=   "\n|\t"+card.toString();
-        s+=    "\n|Input: \n\t"+input.toColoredString();
-        s+=      "\n|Produce: \n\t"+output.toColoredString()+" free choice";
+            s+=   "\n|\t"+card.toString()+colour;
+        s+=  colour+  "\n|Input: \n\t"+input.toColoredString();
+        s+= colour.toString()+     "\n|Produce: \n\t"+output.toColoredString()+colour+" + free choice";
         s+=      "\n|Victory Points: "+victoryPoints;
-        s+="\n______________________\n";
+        s+="\n______________________\n"+LightColour.WHITE;
         return s;
     }
 }

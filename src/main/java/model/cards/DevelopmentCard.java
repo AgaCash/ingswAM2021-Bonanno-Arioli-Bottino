@@ -55,7 +55,7 @@ public class DevelopmentCard extends Card {
      *  Method that allow to activate the production
      *
      */
-    public ArrayList<Resource> createProduction(ExtraProd extraProd) throws UnusableCardException {
+    public ArrayList<Resource> createProduction() throws UnusableCardException {
         if(usedInThisTurn)
             throw new UnusableCardException("DevCard already used in this turn!");
 
@@ -63,8 +63,6 @@ public class DevelopmentCard extends Card {
         if(!isUsable())
             throw new UnusableCardException();//non dovrebbe succedere mai
 
-        if(extraProd!=null && extraProd.isEnabled())
-                outputResources.addAll(extraProd.production());
         this.usedInThisTurn = true;
         return outputResources;
     }

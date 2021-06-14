@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 
 public class LeaderCardThrowRequest extends GameMessage{
-    private int card;
+    private LightLeaderCard card;
 
-    public LeaderCardThrowRequest(String username, int card){
+    public LeaderCardThrowRequest(String username, LightLeaderCard card){
         super(username, MessageType.LEADERCARDTHROW);
         this.card = card;
         System.out.println(this.card);

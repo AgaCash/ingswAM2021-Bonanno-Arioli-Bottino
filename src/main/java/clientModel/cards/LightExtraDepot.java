@@ -1,5 +1,6 @@
 package clientModel.cards;
 
+import clientModel.colour.LightColour;
 import clientModel.resources.LightResource;
 
 import java.util.ArrayList;
@@ -48,30 +49,36 @@ public class LightExtraDepot extends LightLeaderCard {
     }
 
 
-
+*/
     @Override
     public boolean isExtraDepot(){
         return true;
     }
-
+/*
     @Override
     public ArrayList<LightResource> getRequiredResources(){
         return this.requiredResource;
     }*/
     @Override
     public String toString(){
-        String s = "______________________";
+        String s = new String();
+        LightColour colour ;
+        if(!isEnabled)
+            colour = LightColour.RED;
+        else
+            colour =LightColour.GREEN;
+        s += colour.toString()+ "\n______________________";
         s+=     "\n|      EXTRA DEPOT     |";
         s+=     "\n|Requires:             |\n\t";
         for (LightResource r:requiredResource) {
             s+=r.toColoredString()+ " ";
         }
-        s+=     "\n|Extra resources:      |\n\t";
+        s+= colour.toString()+  "\n|Extra resources:      |\n\t";
         for(LightResource r: extraDepotResource ){
             s+=r.toColoredString()+" ";
         }
-        s+=     "\n|Victory Points: "+victoryPoints;
-        s+="\n______________________\n";
+        s+= colour.toString()+   "\n|Victory Points: "+victoryPoints;
+        s+="\n______________________\n"+LightColour.WHITE;
         return s;
     }
 }

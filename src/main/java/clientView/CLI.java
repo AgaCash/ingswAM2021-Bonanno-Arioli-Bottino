@@ -314,14 +314,14 @@ public class CLI implements View{
         couple.forEach(System.out::println);
         int ans = 0;
         do {
-            System.out.println("scegli la carta:");
+            System.out.println("scegli la carta\no digita 0 per uscire:");
             for(LightLeaderCard card: couple){
                 System.out.println("\n\b"+ (couple.indexOf(card)+1)+" per "+card);
             }
             ans = in.nextInt();
-        } while(ans!= 1 && ans != 2);
-       controller.sendLeaderCardActivationRequest(couple.get(ans-1));
-
+        } while(ans!= 1 && ans != 2 && ans!=0);
+        if(ans!=0)
+            controller.sendLeaderCardActivationRequest(couple.get(ans-1));
 
     }
 
@@ -331,13 +331,14 @@ public class CLI implements View{
         couple.forEach(System.out::println);
         int ans = 0;
         do {
-            System.out.println("scegli la carta:");
+            System.out.println("scegli la carta:\no digita 0 per uscire");
             for(LightLeaderCard card: couple){
                 System.out.println("\n\b"+ (couple.indexOf(card)+1)+" per "+card);
             }
             ans = in.nextInt();
-        } while(ans!= 1 && ans != 2);
-        controller.sendLeaderCardThrowRequest(couple.get(ans-1));
+        } while(ans!= 1 && ans != 2 && ans!=0);
+        if(ans!=0)
+            controller.sendLeaderCardThrowRequest(couple.get(ans-1));
     }
 
     @Override
@@ -413,6 +414,8 @@ public class CLI implements View{
                 LightLeaderCard card = askLeaderCardUse();
                 if (card != null && card.isDiscount())
                     controller.sendBuyDevCardRequest(deck - 1, slot - 1, card);
+                else
+                    System.out.println("ERROR CANT USE THIS CARD\n");
             } else {
                 controller.sendBuyDevCardRequest(deck - 1, slot - 1, null);
             }
@@ -648,5 +651,7 @@ public class CLI implements View{
 
     private void cheat(){
         System.out.println("\nBURLONEEEE\n");
+        controller.sendCheat();
+        askTurn();
     }
 }

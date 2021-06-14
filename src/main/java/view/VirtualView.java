@@ -89,8 +89,11 @@ public class VirtualView implements ServerView {
         outStream.println(gson.toJson(response));}
     public void updateSetup(SetupResponse response){
         System.out.println("GAME STRINGA USCENTE:::"+gson.toJson(response));
-        outStream.println(gson.toJson(response));
-    }
+        outStream.println(gson.toJson(response)); }
+    public void updateCheat(CheatResponse response){
+        System.out.println("GAME STRINGA USCENTE:::"+gson.toJson(response));
+        outStream.println(gson.toJson(response)); }
+
     //public void updateFailedAction(FailedActionNotify notify){outStream.println(gson.toJson(notify));}
     //todo stesso discorso di controller: tenere un messaggio notify per tutti nei casi eccezionali?
     public void updateInternalError(InternalErrorNotify notify){ outStream.println(gson.toJson(notify));}
