@@ -2,6 +2,7 @@ package model.cards;
 import clientModel.cards.LightDevelopmentCard;
 import clientModel.cards.LightDiscount;
 import clientModel.cards.LightLeaderCard;
+import clientModel.cards.LightWhiteConverter;
 import clientModel.resources.LightResource;
 import exceptions.UnusableCardException;
 import model.resources.*;
@@ -22,8 +23,8 @@ public class WhiteConverter extends LeaderCard{
 
 	@Override
 	public Resource whichResource() throws UnusableCardException {
-		if(isEnabled())
-			throw new UnusableCardException();
+		if(!isEnabled())
+			throw new UnusableCardException("Can't use this leader card!");
 		return this.resource;
 	}
 
@@ -60,7 +61,7 @@ public class WhiteConverter extends LeaderCard{
 		ArrayList<LightDevelopmentCard> requires = new ArrayList<>();
 		this.requires.forEach(element -> requires.add(element.convert()));
 
-		return new LightDiscount(this.id,
+		return new LightWhiteConverter(this.id,
 				this.isEnabled,
 				requires,
 				LightResource.valueOf(resource.toString()));

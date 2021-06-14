@@ -42,8 +42,8 @@ public class Table {
         this.cards.addAll(new JsonParser("src/main/resources/extraDepot.json").getExtraDepotCards());
         this.cards.addAll(new JsonParser("src/main/resources/whiteConverter.json").getWhiteConverterCard());
         this.cards.addAll(new JsonParser("src/main/resources/extraProd.json").getExtraProdCards());
-        System.out.println(this.cards);
-        Collections.shuffle(cards);
+        //System.out.println(this.cards);
+        Collections.shuffle(this.cards);
     }
 
     public DevelopmentBoard getDevBoard(){
@@ -54,7 +54,8 @@ public class Table {
         return this.marketBoard;
     }
 
-    public ArrayList<LeaderCard> sendQuartet(){
+    public synchronized ArrayList<LeaderCard> sendQuartet(){
+
         ArrayList<LeaderCard> quartet = new ArrayList<>();
         for(int i=0; i<4; i++){
             quartet.add(pop());
@@ -65,7 +66,6 @@ public class Table {
     private LeaderCard pop(){
         LeaderCard card = cards.get(0);
         cards.remove(card);
-        System.out.println(" CARTA "+card.getId());
         return card;
     }
 

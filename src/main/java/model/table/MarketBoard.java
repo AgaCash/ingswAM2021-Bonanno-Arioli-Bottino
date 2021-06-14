@@ -68,6 +68,7 @@ public class MarketBoard {
      */
     public ArrayList<Resource> addMarketLine (int line, WhiteConverter card) throws UnusableCardException{
         Resource convertResource;
+        System.out.println(card);
         try {
             convertResource = card.whichResource();
         }catch(NullPointerException e){
