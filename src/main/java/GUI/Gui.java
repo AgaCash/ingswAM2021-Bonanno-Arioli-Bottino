@@ -39,9 +39,9 @@ public class Gui extends Application {
     AnchorPane player2Pane;
     AnchorPane player3Pane;
     AnchorPane player4Pane;
-    GuiController controller = new GuiController(this);
-    SceneConstructor sc = new SceneConstructor(this);
-    Drawer drawer = new Drawer(this);
+    GuiController controller;
+    SceneConstructor sc;
+    Drawer drawer;
     Button sendBTN;
     Button singleBTN;
     Button createBTN;
@@ -67,9 +67,15 @@ public class Gui extends Application {
     TextField usernameField;
     ListView<String> playersList;
 
+    public Gui(){
+        this.controller = new GuiController(this);
+        this.sc = new SceneConstructor(this);
+        this.drawer = new Drawer(this);
+    }
+
     @Override
     public void start(Stage stage) throws IOException{
-
+        Gui gui = new Gui();
         window = stage;
 
         //Button Actions

@@ -1,5 +1,7 @@
+import GUI.Gui;
 import clientView.CLI;
 import clientView.View;
+import javafx.application.Application;
 
 import java.util.Scanner;
 
@@ -12,20 +14,13 @@ public class ClientApp {
         switch (s.nextInt()){
             case 1:
                 view = new CLI();
+                view.askServerInfo();
                 break;
             case 2:
-                //GUI
+                Application.launch(Gui.class);
                 break;
             default:
                 System.out.println("numero non vaildo");
         }
-        //per ora lo metto fuori così sarà sempre cli
-        // |  |  |
-        // V  V  V
-        view = new CLI();
-        // /\ /\ /\
-        // || || ||
-
-        view.askServerInfo();
     }
 }

@@ -14,16 +14,19 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+import java.io.File;
+
 public class SceneConstructor {
     Gui gui;
 
     public SceneConstructor(Gui gui) {
         this.gui = gui;
         //Loading images
-        Image image1 = new Image("background.jpg");
-        Image image2 = new Image("market.png");
-        Image image3 = new Image("playerboard.jpg");
-        Image image4 = new Image("marketIcon.jpg");
+        String basePath = "file:src/main/resources/";
+        Image image1 = new Image(basePath+ "images/background.jpg");
+        Image image2 = new Image(basePath+ "images/market.png");
+        Image image3 = new Image(basePath+ "images/playerboard.jpg");
+        Image image4 = new Image(basePath+ "images/marketIcon.jpg");
         //Images-->ImageViews
         ImageView backgroundIMG = new ImageView(image1);
         ImageView marketIMG = new ImageView(image2);
@@ -117,28 +120,28 @@ public class SceneConstructor {
         gui.player1Canvas = new Canvas(600,400);
         //Canvas drawings experiments
         gui.gc1 = gui.leaderCanvas.getGraphicsContext2D();
-        gui.gc1.drawImage(IMGLoader.getImage("/LEADERS/LeaderD1.png"), -100,30,500, 375);
-        gui.gc1.drawImage(IMGLoader.getImage("/LEADERS/LeaderD1.png"), 165,30,500, 375);
+        gui.gc1.drawImage(IMGLoader.getImage(basePath+"/LEADERS/LeaderD1.png"), -100,30,500, 375);
+        gui.gc1.drawImage(IMGLoader.getImage(basePath+"/LEADERS/LeaderD1.png"), 165,30,500, 375);
         gui.gc2 = gui.devCanvas.getGraphicsContext2D();
-        gui.gc2.drawImage(IMGLoader.getImage("/DEVBOARD/Blue5.png"),0,-17,245,185);
-        gui.gc2.drawImage(IMGLoader.getImage("/DEVBOARD/Blue5.png"),0,130,245,185);
-        gui.gc2.drawImage(IMGLoader.getImage("/DEVBOARD/Blue5.png"),0,278,245,185);
-        gui.gc2.drawImage(IMGLoader.getImage("/DEVBOARD/Blue5.png"),130,278,245,185);
-        gui.gc2.drawImage(IMGLoader.getImage("/DEVBOARD/Blue5.png"),260,278,245,185);
-        gui.gc2.drawImage(IMGLoader.getImage("/DEVBOARD/Blue5.png"),390,278,245,185);
+        gui.gc2.drawImage(IMGLoader.getImage(basePath+"/DEVBOARD/Blue5.png"),0,-17,245,185);
+        gui.gc2.drawImage(IMGLoader.getImage(basePath+"/DEVBOARD/Blue5.png"),0,130,245,185);
+        gui.gc2.drawImage(IMGLoader.getImage(basePath+"/DEVBOARD/Blue5.png"),0,278,245,185);
+        gui.gc2.drawImage(IMGLoader.getImage(basePath+"/DEVBOARD/Blue5.png"),130,278,245,185);
+        gui.gc2.drawImage(IMGLoader.getImage(basePath+"/DEVBOARD/Blue5.png"),260,278,245,185);
+        gui.gc2.drawImage(IMGLoader.getImage(basePath+"/DEVBOARD/Blue5.png"),390,278,245,185);
         gui.gc = gui.marbleCanvas.getGraphicsContext2D();
-        gui.gc.drawImage(IMGLoader.getImage("/MARBLES/greyMarble.png"),105,100,100,100);
-        gui.gc.drawImage(IMGLoader.getImage("/MARBLES/blueMarble.png"), 165, 100, 100, 100);
-        gui.gc.drawImage(IMGLoader.getImage("/MARBLES/whiteMarble.png"), 105, 155, 100, 100);
-        gui.gc.drawImage(IMGLoader.getImage("/MARBLES/greyMarble.png"), 105, 210, 100, 100);
-        gui.gc.drawImage(IMGLoader.getImage("/MARBLES/redMarble.png"), 225, 100, 100, 100);
-        gui.gc.drawImage(IMGLoader.getImage("/MARBLES/purpleMarble.png"), 165, 155, 100, 100);
-        gui.gc.drawImage(IMGLoader.getImage("/MARBLES/yellowMarble.png"), 225, 155, 100, 100);
-        gui.gc.drawImage(IMGLoader.getImage("/MARBLES/greyMarble.png"), 285, 100, 100, 100);
+        gui.gc.drawImage(IMGLoader.getImage(basePath+"/MARBLES/greyMarble.png"),105,100,100,100);
+        gui.gc.drawImage(IMGLoader.getImage(basePath+"/MARBLES/blueMarble.png"), 165, 100, 100, 100);
+        gui.gc.drawImage(IMGLoader.getImage(basePath+"/MARBLES/whiteMarble.png"), 105, 155, 100, 100);
+        gui.gc.drawImage(IMGLoader.getImage(basePath+"/MARBLES/greyMarble.png"), 105, 210, 100, 100);
+        gui.gc.drawImage(IMGLoader.getImage(basePath+"/MARBLES/redMarble.png"), 225, 100, 100, 100);
+        gui.gc.drawImage(IMGLoader.getImage(basePath+"/MARBLES/purpleMarble.png"), 165, 155, 100, 100);
+        gui.gc.drawImage(IMGLoader.getImage(basePath+"/MARBLES/yellowMarble.png"), 225, 155, 100, 100);
+        gui.gc.drawImage(IMGLoader.getImage(basePath+"/MARBLES/greyMarble.png"), 285, 100, 100, 100);
         gui.player1GC = gui.player1Canvas.getGraphicsContext2D();
-        gui.player1GC.drawImage(IMGLoader.getImage("/DEVBOARD/Blue5.png"),168,200,255,191);
-        gui.player1GC.drawImage(IMGLoader.getImage("/DEVBOARD/Blue5.png"),288,200,255,191);
-        gui.player1GC.drawImage(IMGLoader.getImage("/DEVBOARD/Blue5.png"),408,200,255,191);
+        gui.player1GC.drawImage(IMGLoader.getImage(basePath+"/DEVBOARD/Blue5.png"),168,200,255,191);
+        gui.player1GC.drawImage(IMGLoader.getImage(basePath+"/DEVBOARD/Blue5.png"),288,200,255,191);
+        gui.player1GC.drawImage(IMGLoader.getImage(basePath+"/DEVBOARD/Blue5.png"),408,200,255,191);
         //Adding to LoginBox
         gui.loginBox.setAlignment(Pos.CENTER);
         gui.loginBox.setPadding(new Insets(0,150,0,150));
@@ -198,12 +201,12 @@ public class SceneConstructor {
         gui.bPane.setBottom(gui.hboxS);
         //Adding to AP
         gui.mainPane.getChildren().addAll(backgroundIMG, gui.loginBox);
-        gui.player1GC.drawImage(IMGLoader.getImage("/RESOURCES/coin.png"),60,180,50,50);//1
-        gui.player1GC.drawImage(IMGLoader.getImage("/RESOURCES/coin.png"),40,215,50,50);//2,1
-        gui.player1GC.drawImage(IMGLoader.getImage("/RESOURCES/coin.png"),70,215,50,50);//2,2
-        gui.player1GC.drawImage(IMGLoader.getImage("/RESOURCES/coin.png"),30,255,50,50);//3,1
-        gui.player1GC.drawImage(IMGLoader.getImage("/RESOURCES/coin.png"),55,255,50,50);//3,2
-        gui.player1GC.drawImage(IMGLoader.getImage("/RESOURCES/coin.png"),80,255,50,50);//3,3
-        gui.player1GC.drawImage(IMGLoader.getImage("/RESOURCES/coin.png"),15,320,50,50);//strongbox' first
+        gui.player1GC.drawImage(IMGLoader.getImage(basePath+"/RESOURCES/coin.png"),60,180,50,50);//1
+        gui.player1GC.drawImage(IMGLoader.getImage(basePath+"/RESOURCES/coin.png"),40,215,50,50);//2,1
+        gui.player1GC.drawImage(IMGLoader.getImage(basePath+"/RESOURCES/coin.png"),70,215,50,50);//2,2
+        gui.player1GC.drawImage(IMGLoader.getImage(basePath+"/RESOURCES/coin.png"),30,255,50,50);//3,1
+        gui.player1GC.drawImage(IMGLoader.getImage(basePath+"/RESOURCES/coin.png"),55,255,50,50);//3,2
+        gui.player1GC.drawImage(IMGLoader.getImage(basePath+"/RESOURCES/coin.png"),80,255,50,50);//3,3
+        gui.player1GC.drawImage(IMGLoader.getImage(basePath+"/RESOURCES/coin.png"),15,320,50,50);//strongbox' first
     }
 }

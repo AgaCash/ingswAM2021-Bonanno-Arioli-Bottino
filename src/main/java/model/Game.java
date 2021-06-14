@@ -181,7 +181,7 @@ public class Game {
 
         for (Resource res : bought) {
             if (res == Resource.FAITH) {
-                faithAdvance(1);
+                faithAdvance(1);//todo: PER TESTARE CAMBIARE IN 8 così 3 acquisti di FAITH e finisci il gioco
             }
             else {
                 try{
@@ -284,7 +284,7 @@ public class Game {
         boolean[] check;
         for(int i=0; i<advance ;i++) {
             FaithBox faithBox  = currentPlayer.getFaithTrack().faithAdvance(currentPlayer.getFaithBox());
-            if (faithBox.getPosition() == 24) {
+            if (faithBox.getPosition() >= 24) {
                 this.isOver = true;
                 this.victory = true;
                 this.finalMessage = "\nVITTORIA! HAI RAGGIUNTO LA FINE DEL FAITHTRACK\n";
