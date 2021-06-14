@@ -78,6 +78,8 @@ public class Gui extends Application {
         Gui gui = new Gui();
         window = stage;
 
+        stage.setResizable(false);
+
         //Button Actions
         player1BTN.setOnAction( e -> bPane.setCenter(player1Pane));
         marketBTN.setOnAction(e -> bPane.setCenter(marketPane));

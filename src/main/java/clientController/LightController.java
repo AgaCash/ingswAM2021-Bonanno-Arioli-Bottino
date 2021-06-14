@@ -47,15 +47,6 @@ public class LightController {
 
     public void reconnectToGame(){
         System.out.println("RICONNESSIONE AL GAME...");
-        //TODO:
-        //  CAMBIARE LA SCENA IN GAME
-        //  RICARICARE LO STATO DEL GAME FINO A QUEL MOMENTO:
-        //          NUOVA IDEA:::::::
-        //                  SE SI DISCONNETTE NON POTRA' MAI ESSERE IL SUO TURNO, QUINDI
-        //                  ASPETTERA' SEMPRE CHE TOCCHI DI NUOVO A LUI
-        //
-        //
-
         UpdateReconnectionRequest request = new UpdateReconnectionRequest(username);
         client.send(gson.toJson(request));
         try {

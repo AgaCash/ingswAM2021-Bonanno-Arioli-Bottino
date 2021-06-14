@@ -22,11 +22,11 @@ public class SceneConstructor {
     public SceneConstructor(Gui gui) {
         this.gui = gui;
         //Loading images
-        String basePath = "file:src/main/resources/";
-        Image image1 = new Image(basePath+ "images/background.jpg");
-        Image image2 = new Image(basePath+ "images/market.png");
-        Image image3 = new Image(basePath+ "images/playerboard.jpg");
-        Image image4 = new Image(basePath+ "images/marketIcon.jpg");
+        String basePath = "file:src/main/resources";
+        Image image1 = new Image(basePath+ "/images/background.jpg");
+        Image image2 = new Image(basePath+ "/images/market.png");
+        Image image3 = new Image(basePath+ "/images/playerboard.jpg");
+        Image image4 = new Image(basePath+ "/images/marketIcon.jpg");
         //Images-->ImageViews
         ImageView backgroundIMG = new ImageView(image1);
         ImageView marketIMG = new ImageView(image2);

@@ -61,6 +61,7 @@ public class CLI implements View{
         askUsername();
     }
 
+    //todo: METTERE TUTTI I TRY CATCH NEL CONTROLLER
     public void askUsername(){
         String username;
         do{
