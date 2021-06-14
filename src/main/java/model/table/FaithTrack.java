@@ -41,10 +41,11 @@ public class FaithTrack {
         FaithBox nextBox;
         int pos;
         pos = playerBox.getPosition();
-        nextBox = this.box.get(pos + 1);
-        this.actualBox = nextBox;
-        System.out.println(this.actualBox.getPosition());
-        return nextBox;
+        if(pos<25) {
+            nextBox = this.box.get(pos + 1);
+            this.actualBox = nextBox;
+        }
+        return this.actualBox;
     }
 
     public LightFaithTrack convert(){
