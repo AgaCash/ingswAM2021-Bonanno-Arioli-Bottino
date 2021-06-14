@@ -43,10 +43,22 @@ public class LightController {
         gson = new GsonBuilder().registerTypeAdapter(LightLeaderCard.class, new LightLeaderCardDeserializer()).create();
     }
 
+    //quitting app
+
+    public void quittingApplication(){
+        view.showSuccess("Quitting the game in 5 seconds");
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            view.showError(e.getMessage());
+        }
+        System.exit(0);
+    }
+
     //RESILIENCE
 
     public void reconnectToGame(){
-        System.out.println("RICONNESSIONE AL GAME...");
+        view.showReconnectionToGame();
         UpdateReconnectionRequest request = new UpdateReconnectionRequest(username);
         client.send(gson.toJson(request));
         try {
@@ -54,9 +66,8 @@ public class LightController {
             UpdateReconnectionResponse response = gson.fromJson(responseS, UpdateReconnectionResponse.class);
             response.executeCommand(this);
         } catch (IOException e) {
-            e.printStackTrace();
+            view.showError(e.getMessage());
         }
-
     }
 
     public void notifyPlayerDisconnected(String username){
@@ -69,15 +80,13 @@ public class LightController {
 
     public void notifyCreatorDisconnected(){
         view.notifyCreatorDisconnected();
-        view.quittingApplication();
+        quittingApplication();
     }
 
     //PING
 
     public void serverDisconnected(){
         view.serverLostConnection();
-        //poi quit
-        //in view o in controller?
     }
 
     public void sendGamePong(){
@@ -91,12 +100,18 @@ public class LightController {
     }
 
 
-    public void connectToServer(String address, int port) throws UnknownHostException, IOException{
-        client = new Client(address, port, this);
-        client.connect();
+    public void connectToServer(String address, int port){
+        try{
+            client = new Client(address, port, this);
+            client.connect();
+            view.askUsername();
+        }catch (IOException e){
+            view.showError(e.getMessage());
+            view.askServerInfo();
+        }
     }
 
-    public void setUsername(String username) throws MessageNotSuccededException {
+    public void setUsername(String username) {
         boolean success = false;
         RegisterUsernameRequest registerUsernameRequest = new RegisterUsernameRequest(username);
         String a = gson.toJson(registerUsernameRequest);
@@ -111,11 +126,15 @@ public class LightController {
         }
         RegisterUsernameResponse response = gson.fromJson(responseS, RegisterUsernameResponse.class);
         success = response.isSuccess();
-        if(!success)
-            throw new MessageNotSuccededException(response.getMessage());
-        this.username = username;
-        view.showSuccess(username+" registered");
-        response.executeCommand(this);
+        if(success){
+            this.username = username;
+            view.showSuccess(username+" registered");
+            response.executeCommand(this);
+        }
+        else{
+            view.showError(response.getMessage());
+            view.askUsername();
+        }
     }
 
     public String getUsername() {
@@ -125,13 +144,6 @@ public class LightController {
     public void askLobbyMenu(){
         view.askMenu();
     }
-
-    /*
-    TODO:
-        client.recv():
-            TOGLIERE I TRY CATCH DA QUA E METTERLI IN VIEW
-
-     */
 
     public void createSinglePlayerLobby(){
         this.game = new LightGame();
@@ -155,34 +167,12 @@ public class LightController {
         String responseS;
         try {
             responseS = client.recv();
-            //System.out.println(responseS);
             CreateLobbyResponse response = gson.fromJson(responseS, CreateLobbyResponse.class);
             response.executeCommand(this);
         } catch (IOException e) {
             view.showError(e.getMessage());
         }
     }
-
-    /*
-    public void createLobbyWaiting(){
-        view.notifyLobbyCreated();
-        boolean startSignal = false;
-        do{
-            try {
-                String someoneJoinedString = client.recv();
-                //quando uno entra viene inviato a tutti lo stesso messaggio no?
-                LoginMultiPlayerResponse response =
-                        gson.fromJson(someoneJoinedString, LoginMultiPlayerResponse.class);
-                response.executeCommand(this);
-                view.notifyCreatorPlayerJoined();
-            } catch (IOException e) {
-                view.showError(e.getMessage());
-            }
-        }while (!startSignal);
-    }
-*/
-
-
 
     //RICORDA CHE 2 RECV IN CONTEMPORANEA FREGANO IL TUTTO
 
@@ -205,14 +195,12 @@ public class LightController {
                     }
                 }while (!gameStarted);
             } catch (IOException e) {
-                e.printStackTrace();
+                view.showError(e.getMessage());
             }
         }).start();
 
         view.askStartGame();
     }
-
-
 
     public void waitStartGameString(){
         view.waitStartGameString();
@@ -238,19 +226,17 @@ public class LightController {
                 }
             }while (!gameStarted);
         } catch (IOException e) {
-            e.printStackTrace();
+            view.showError(e.getMessage());
         }
 
     }
 
 
     public void startSinglePlayerGame() {
-        //view.switchToGame(true);
         startGameProcedure();
     }
 
     public void startMultiPlayerGame(){
-        //view.switchToGame(false);
         startGameProcedure();
     }
 
@@ -275,14 +261,6 @@ public class LightController {
         //MA DAI ERA QUA IL PROBLEMA VERAMENTE???
         //2 client.recv in contemporanea bastano a spaccare tutto??????
         //    :( :( :(
-        /*
-        try {
-            String responseS = client.recv();
-            StartMultiPlayerResponse response = gson.fromJson(responseS, StartMultiPlayerResponse.class);
-            response.executeCommand(this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
     }
 
     public void getLobbyList(){
@@ -293,7 +271,7 @@ public class LightController {
             GetLobbyResponse response = gson.fromJson(responseS, GetLobbyResponse.class);
             response.executeCommand(this);
         } catch (IOException e) {
-            e.printStackTrace();
+            view.showError(e.getMessage());
         }
 
     }
@@ -310,7 +288,7 @@ public class LightController {
             LoginMultiPlayerResponse response = gson.fromJson(responseS, LoginMultiPlayerResponse.class);
             response.executeCommand(this);
         } catch (IOException e) {
-            e.printStackTrace();
+            view.showError(e.getMessage());
         }
     }
 
@@ -323,7 +301,7 @@ public class LightController {
             DefaultProductionResponse response = gson.fromJson(responseS, DefaultProductionResponse.class);
             response.executeCommand(this);
         } catch (IOException e) {
-            e.printStackTrace();
+            view.showError(e.getMessage());
         }
 
     }
@@ -337,7 +315,7 @@ public class LightController {
             DevCardProductionResponse response = gson.fromJson(responseS, DevCardProductionResponse.class);
             response.executeCommand(this);
         } catch (IOException e) {
-            e.printStackTrace();
+            view.showError(e.getMessage());
         }
     }
 
@@ -350,7 +328,7 @@ public class LightController {
             BuyResourcesResponse response = gson.fromJson(responseS, BuyResourcesResponse.class);
             response.executeCommand(this);
         } catch (IOException e) {
-            e.printStackTrace();
+            view.showError(e.getMessage());
         }
     }
 
@@ -363,7 +341,7 @@ public class LightController {
             BuyDevCardResponse response = gson.fromJson(responseS, BuyDevCardResponse.class);
             response.executeCommand(this);
         } catch (IOException e) {
-            e.printStackTrace();
+            view.showError(e.getMessage());
 
         }
     }
@@ -376,7 +354,7 @@ public class LightController {
             LeaderCardActivationResponse response = gson.fromJson(responseS, LeaderCardActivationResponse.class);
             response.executeCommand(this);
         } catch (IOException e) {
-            e.printStackTrace();
+            view.showError(e.getMessage());
         }
     }
 
@@ -388,7 +366,7 @@ public class LightController {
             LeaderCardThrowResponse response = gson.fromJson(responseS, LeaderCardThrowResponse.class);
             response.executeCommand(this);
         } catch (IOException e) {
-            e.printStackTrace();
+            view.showError(e.getMessage());
         }
     }
 
@@ -402,7 +380,7 @@ public class LightController {
             response.executeCommand(this);
             waitForMyTurn();
         }catch (IOException e){
-            e.printStackTrace();
+            view.showError(e.getMessage());
         }
     }
 
@@ -458,7 +436,7 @@ public class LightController {
         try{
             game.updateFaithTrack(username, newFaithTrack);
         }catch(NoSuchUsernameException e){
-            e.printStackTrace();
+            view.showError(e.getMessage());
         }
     }
 
@@ -466,7 +444,7 @@ public class LightController {
         try{
             game.updateLeaderSlot(username, cards);
         }catch(NoSuchUsernameException e){
-            e.printStackTrace();
+            view.showError(e.getMessage());
         }
     }
 
@@ -528,10 +506,7 @@ public class LightController {
     }
 
     public void waitForMyTurn(){
-        //todo:
-        // waitForMyTurn è il metodo che ascolta gli update degli altri giocatori e vede quando è il suo turno
-        //  singleplayer: get state and ask again things
-        System.out.println("Others are playing, waiting for your turn starts");
+        view.waitingForMyTurn();
         boolean myTurn = false;
         do{
             try {
@@ -543,7 +518,7 @@ public class LightController {
                 }
                 ((GameMessage) gson.fromJson(responseS, msgType.getClassType())).executeCommand(this);
             } catch (IOException e) {
-                e.printStackTrace();
+                view.showError(e.getMessage());
             }
         }while(!myTurn);
     }

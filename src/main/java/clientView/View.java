@@ -15,12 +15,12 @@ public interface View {
     void askUsername();
     //lobbyMenu
     void askMenu();
-    //switch to singleplayer state
-    void switchToGame(boolean singlePlayer);
     //show user that he has to wait for boss to starts the game
     void showWaitingRoom();
-    //when lobby is created notify "waiting for players"
-    void notifyLobbyCreated();
+    //when user reconnect show a message
+    void showReconnectionToGame();
+    //show message wait for turn
+    void waitingForMyTurn();
     //every time
     void notifyPlayerJoined(String username);
     //wait fot the creator that type "start" in the console
@@ -31,8 +31,6 @@ public interface View {
     void notifyPlayerReconnected(String username);
     // // creator disconnected
     void notifyCreatorDisconnected();
-    // // the app is going to be killed
-    void quittingApplication();
     //lobby id to join it
     void askLobbyID(ArrayList<Lobby> lobbies);
     //write/press start to begin

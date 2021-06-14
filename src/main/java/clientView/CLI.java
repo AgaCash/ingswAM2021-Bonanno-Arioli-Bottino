@@ -26,54 +26,28 @@ public class CLI implements View{
     //ping
     public void serverLostConnection(){
         System.out.println("LOST SERVER CONNECTION");
-        quittingApplication();
-    }
-
-    public void quittingApplication(){
-        System.out.println("Quitting the game in 5 seconds");
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.exit(0);
+        controller.quittingApplication();
     }
 
     public void askServerInfo(){
         boolean connectionCorrect = false;
-        do{
-            out.println("IP [127.0.0.1]: ");
-            String ip = in.nextLine();
-            if(ip.isBlank())
-                ip = "127.0.0.1";
-            out.println("Port [1234]: ");
-            String portS = in.nextLine();
-            if(portS.isBlank())
-                portS = "1234";
-            int port = Integer.parseInt(portS);
-            try {
-                controller.connectToServer(ip, port);
-                connectionCorrect = true;
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
-        }while (!connectionCorrect);
-        askUsername();
+        out.println("IP [127.0.0.1]: ");
+        String ip = in.nextLine();
+        if(ip.isBlank())
+            ip = "127.0.0.1";
+        out.println("Port [1234]: ");
+        String portS = in.nextLine();
+        if(portS.isBlank())
+            portS = "1234";
+        int port = Integer.parseInt(portS);
+        controller.connectToServer(ip, port);
     }
 
-    //todo: METTERE TUTTI I TRY CATCH NEL CONTROLLER
     public void askUsername(){
         String username;
-        do{
-            out.println("Username: ");
-            username = in.nextLine();
-            try {
-                controller.setUsername(username);
-            } catch (MessageNotSuccededException e) {
-                System.out.println(e.getMessage());
-                username = null;
-            }
-        }while (username == null);
+        out.println("Username: ");
+        username = in.nextLine();
+        controller.setUsername(username);
     }
 
     public void askMenu() {
@@ -109,14 +83,6 @@ public class CLI implements View{
         controller.createSinglePlayerLobby();
     }
 
-    public void switchToGame(boolean singlePlayer){
-        if(singlePlayer){
-            System.out.println("STAI GIOCANDO DA SOLO\nChe grande!");
-        }else{
-            System.out.println("Uoo stai giocando con altra gente\nTrooooppo frizzante!!");
-        }
-    }
-
     private void handleMultiJoin(){
         controller.getLobbyList();
     }
@@ -150,6 +116,14 @@ public class CLI implements View{
     public void showWaitingRoom(){
         System.out.println("You joined the room");
         System.out.println("Waiting for creator of the room starts the game...");
+    }
+
+    public void showReconnectionToGame(){
+        System.out.println("RICONNESSIONE AL GAME...");
+    }
+
+    public void waitingForMyTurn(){
+        System.out.println("Others are playing, waiting for your turn starts");
     }
 
     @Override
@@ -204,6 +178,11 @@ public class CLI implements View{
     }
 
     private void printMenu(){
+        System.out.println("VICTORY POINTS: "+controller.getPlayerBoard().getPoints());
+        System.out.println(controller.getPlayerBoard().getFaithTrack().toString());
+        System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());
+        System.out.println(controller.getPlayerBoard().getStrongbox().toString());
+        System.out.println(controller.getPlayerBoard().getCardSlots().toString());
         System.out.println("CHOOSE YOUR ACTION\n\b" +
                 "1 per compiere un`azione leader\n\b" +
                 "2 per attivare la produzione\n\b" +
@@ -211,11 +190,6 @@ public class CLI implements View{
                 "4 per comprare la carta sviluppo\n\b" +
                 "5 per visualizzare lo stato del gioco\n\b" +
                 "6 per terminare il turno\n\n");
-        System.out.println("VICTORY POINTS: "+controller.getPlayerBoard().getPoints());
-        System.out.println(controller.getPlayerBoard().getFaithTrack().toString());
-        System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());
-        System.out.println(controller.getPlayerBoard().getStrongbox().toString());
-        System.out.println(controller.getPlayerBoard().getCardSlots().toString());
     }
 
     private void askShow(){
@@ -252,44 +226,6 @@ public class CLI implements View{
         }
         askTurn();
     }
-    /*@Override
-    public void askTurnFinal() {
-        int ans = 0;
-        do{
-            do {
-                System.out.println("CHOOSE YOUR ACTION\n\b" +
-                        "1 per compiere un`azione leader\n\b" +
-                        "5 per terminare il turno");
-                printMenu();
-                ans = in.nextInt();
-            } while (ans != 1 && ans != 5);
-            switch (ans) {
-                case 1 : askLeader(); break;
-                case 5 : askEndTurn(); break;
-            }
-
-        }while(ans!=5);
-    }
-    @Override
-    public void askTurnAfterProduction() {
-        int ans = 0;
-        do{
-            do {
-                System.out.println("CHOOSE YOUR ACTION\n\b" +
-                        "1 per attivare la carta leader\n\b" +
-                        "2 per attivare la produzione\n\b" +
-                        "5 per terminare il turno");
-                printMenu();
-                ans = in.nextInt();
-            } while (ans < 1 || ans > 5);
-            switch (ans) {
-                case 1 : askLeaderCardActivation(); break;
-                case 2 : askProduction(); break;
-                case 5 : askEndTurn(); break;
-            }
-
-        }while(ans!=5);
-    }*/
 
     private void askProduction(){
         int ans =0;
@@ -560,7 +496,6 @@ public class CLI implements View{
         System.out.println(" FINE TURNO ");
         System.out.println(" attendi ...");
         controller.sendEndTurnRequest();
-
     }
 
     @Override
@@ -570,7 +505,6 @@ public class CLI implements View{
             System.out.println(threwResources);
             System.out.println("non sono state accettate: spazio insufficiente");
         }
-
     }
 
     @Override
@@ -581,7 +515,6 @@ public class CLI implements View{
     @Override
     public void showSuccess(String message) {
         System.out.println(message);
-
     }
 
     @Override
@@ -647,7 +580,7 @@ public class CLI implements View{
 
     public void endGame(){
         System.out.println("see you space cowboy...\n");
-        quittingApplication();
+        controller.quittingApplication();
     }
 
     private void cheat(){
