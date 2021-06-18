@@ -391,8 +391,8 @@ public class CLI implements View{
         int first, second;
         do{
             System.out.println("insert two number from 1 to 4 to choose 2 leader cards from the quartet");
-            first = in.nextInt() - 1;
-            second = in.nextInt() - 1;
+            first = askInt("first: ") - 1;
+            second = askInt("second: ") - 1;
          }
         while((first<0 || first>3) && (second<0 || second>3));
         couple.add(quartet.get(first));
@@ -465,4 +465,6 @@ public class CLI implements View{
             default -> null;
         };
     }
+
+
 }

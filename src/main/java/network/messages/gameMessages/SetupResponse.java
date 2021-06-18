@@ -26,7 +26,7 @@ public class SetupResponse extends GameMessage {
     }
     @Override
     public void executeCommand(LightController controller){
-        controller.setPlayer(getUsername(), this.players);
+        controller.setPlayer(this.players);
         if (players.size() == 1)
             controller.getPlayerBoard().getFaithTrack().setLorenzoPos(0);
         else {

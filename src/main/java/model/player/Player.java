@@ -91,8 +91,6 @@ public class Player {
                 '}';
     }
 
-
-
     public LightPlayer convert(){
         LightPlayer player = new LightPlayer();
 
@@ -100,7 +98,6 @@ public class Player {
         player.setStartingTurn(getStartingTurn());
         player.setPoints(this.points);
         player.setPlayerBoard(this.playerboard.convert());
-        player.getPlayerBoard().setPlayer(player);
 
         return player;
     }

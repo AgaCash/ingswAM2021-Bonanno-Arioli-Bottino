@@ -28,6 +28,7 @@ public class BuyResourcesResponse extends GameMessage{
         else
             this.threwResource = threwResource;
         this.success = true;
+        this.message = " has bought resources from the market";
     }
 
     public BuyResourcesResponse(String username, String message){
@@ -43,6 +44,7 @@ public class BuyResourcesResponse extends GameMessage{
             controller.updateMarketBoard(newMarketBoard);
             controller.getPlayerBoard().getFaithTrack().setCurrentPos(position);
             controller.showThrewResources(getUsername(), threwResource);
+            controller.showOthersActions(getUsername(), this.message);
 
         }
         else

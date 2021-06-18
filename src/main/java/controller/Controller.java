@@ -209,18 +209,19 @@ public class Controller {
                         game.getCurrentPlayer().getPlayerBoard().getStrongbox().convert(),
                         game.getLorenzo().getFaithBox().getPosition());
             else
-                response = new EndTurnResponse(username, isSinglePlayer(), game.endingSinglePlayerGame());
+                response = new EndTurnResponse(username, game.endingSinglePlayerGame());
             getViews().get(0).getVirtualView().sendEndTurnNotify(response);
         }
         else{
             do {
+                Player lastPlayer = game.getCurrentPlayer();
                 game.updateTurn();
-                EndTurnResponse response = new EndTurnResponse(username, game.getCurrentPlayer().getNickname());
-                getViews().forEach((element) -> {
-                    element.getVirtualView().sendEndTurnNotify(response);
-                });
+                EndTurnResponse response = new EndTurnResponse(username,
+                        game.getCurrentPlayer().getNickname(),
+                        lastPlayer.getPlayerBoard().getStrongbox().convert());
+                getViews().forEach((element) -> element.getVirtualView().sendEndTurnNotify(response));
                 if(disconnectedPlayer.size() == game.getPlayers().size()){
-                    //fanculo tutto
+                    //fanculo tutto todo: aggiungere qualcosa di piu elegante?
                 }
             } while (disconnectedPlayer.contains(game.getCurrentPlayer().getNickname()));
             //OCCHIO AGLI UPDATE E AL MECCANISMO DI UNDERSTANDING DEL TURNO DA PARTE DEL CLIENT

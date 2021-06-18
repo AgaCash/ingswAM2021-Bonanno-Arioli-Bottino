@@ -17,16 +17,6 @@ public class LightGame {
     private LightTable table;
     private ArrayList<LightResource> threwResources = new ArrayList<>();
 
-    public LightGame (ArrayList<LightPlayer> setPlayers){
-        this.otherPlayers = setPlayers;
-        this.table = new LightTable();
-    }
-
-   /* public LightGame (LightLorenzo cpu, LightTable table){
-        this.cpu = cpu;
-        this.table = table;
-    }*/
-
     public LightGame(){
         this.table = new LightTable();
     }

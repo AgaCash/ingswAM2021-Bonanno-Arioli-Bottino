@@ -24,6 +24,7 @@ public class BuyDevCardResponse extends GameMessage{
         this.newDevBoard = newDevBoard;
         this.newWarehouse = newWarehouse;
         this.newStrongbox = newStrongbox;
+        this.message = " has bought a development card";
         this.success= true;
     }
 
@@ -39,6 +40,7 @@ public class BuyDevCardResponse extends GameMessage{
             controller.updateDevBoard(newDevBoard);
             controller.updateStrongbox(getUsername(), newStrongbox);
             controller.updateWarehouse(getUsername(), newWarehouse);
+            controller.showOthersActions(getUsername(), this.message);
         }else{
             controller.showError(getUsername(), message);
         }

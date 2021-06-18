@@ -186,7 +186,7 @@ public class Game {
 
         for (Resource res : bought) {
             if (res == Resource.FAITH) {
-                faithAdvance(8);//todo: PER TESTARE CAMBIARE IN 8 così 3 acquisti di FAITH e finisci il gioco
+                faithAdvance(1);
             }
             else {
                 try{

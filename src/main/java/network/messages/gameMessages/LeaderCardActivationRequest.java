@@ -36,7 +36,9 @@ public class LeaderCardActivationRequest extends GameMessage{
         ArrayList<LightLeaderCard> newLeaderSlot = new ArrayList<>();
         controller.getCurrentPlayer().getPlayerBoard().getLeaders().forEach(e-> newLeaderSlot.add(e.convert()));
         LeaderCardActivationResponse response = new LeaderCardActivationResponse(getUsername(),
-                newLeaderSlot);
+                newLeaderSlot,
+                controller.getCurrentPlayer().getPlayerBoard().getWarehouseDepot().convert(),
+                controller.getCurrentPlayer().getPlayerBoard().getStrongbox().convert());
         controller.getViews().forEach((element)-> { element.getVirtualView().updateLeaderCardActivation(response);});
     };
 }

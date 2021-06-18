@@ -21,10 +21,11 @@ public class EndTurnResponse extends GameMessage{
     private boolean gameOver = false;
     private boolean victory;
 
-    public EndTurnResponse(String oldPlayer, String newPlayer){
+    public EndTurnResponse(String oldPlayer, String newPlayer, LightStrongbox strongbox){
         super(oldPlayer, MessageType.ENDTURNUPDATE);
         this.newPlayerName = newPlayer;
         this.isSinglePlayer = false;
+        this.strongbox = strongbox;
     }
 
     public EndTurnResponse(String username, LightDevelopmentBoard board, LightFaithTrack track, String message,
@@ -40,31 +41,31 @@ public class EndTurnResponse extends GameMessage{
         this.gameOver = false;
     }
 
-    public EndTurnResponse(String username, boolean isSinglePlayer, String message){
+    public EndTurnResponse(String username, String message){
         super(username, MessageType.ENDTURNUPDATE);
         this.gameOver=true;
-        this.isSinglePlayer = isSinglePlayer;
+        this.isSinglePlayer = true;
         this.message = message;
     }
     @Override
     public void executeCommand(LightController controller){
-        controller.updateDevBoard(board);
-        controller.updateFaithTrack(getUsername(), this.track);
-        controller.updateStrongbox(getUsername(), this.strongbox);
-        controller.updateCardSlots(getUsername(), this.slots);
         if(this.isSinglePlayer){
             if(gameOver){
                 controller.endSinglePlayerGame(this.message);
             }
             else {
+                controller.updateDevBoard(board);
+                controller.updateFaithTrack(getUsername(), this.track);
+                controller.updateStrongbox(getUsername(), this.strongbox);
+                controller.updateCardSlots(getUsername(), this.slots);
                 controller.getPlayerBoard().getFaithTrack().setLorenzoPos(lorenzoPos);
                 controller.showSuccess(message);
                 controller.startTurn();
             }
 
         }else{
-            controller.showSuccess(getUsername()+" ha terminato il turno");
-            controller.showSuccess(this.newPlayerName+" ha iniziato il turno");
+            controller.showSuccess(getUsername()+" has ended the turn");
+            controller.showSuccess(this.newPlayerName+" has started the turn");
             if(controller.getUsername().equals(this.newPlayerName))
                 controller.startTurn();
         }

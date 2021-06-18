@@ -15,7 +15,6 @@ import clientView.View;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import exceptions.MessageNotSuccededException;
 import exceptions.NoSuchUsernameException;
 import network.client.Client;
 import network.messages.MessageType;
@@ -27,7 +26,6 @@ import network.server.Lobby;
 import utilities.LightLeaderCardDeserializer;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public class LightController {
@@ -487,7 +485,7 @@ public class LightController {
         this.game.setPlayers(players);
     }
 
-    public void setPlayer(String username, ArrayList<LightPlayer> players){
+    public void setPlayer(ArrayList<LightPlayer> players){
         for(LightPlayer p: players)
             if(p.getNickname().equals(this.username))
                 game.setPlayer(p);
@@ -544,6 +542,11 @@ public class LightController {
             view.showError(e.getMessage());
         }
 
+    }
+
+    public void showOthersActions(String username, String message){
+        if(!game.getUsername().equals(username))
+            view.showSuccess(username+message);
     }
 
 }

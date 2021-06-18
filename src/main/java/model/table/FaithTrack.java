@@ -64,17 +64,3 @@ public class FaithTrack {
 
 
 }
-
-    /*
-    public void firstPopeCheck(String nickname){
-        //lo deve fare il game. Metodo che riceve il nickname del chiamante e gli aggiunge i punti,
-        //dopodichè per ogni player.nickname != chiamante.nickname verifica se la FaithBox ha una position>x.
-    }
-    public void secondPopeCheck(String nickname){
-        //lo deve fare il game...
-    }
-    public void thirdPopeCheck(String nickname){
-        //lo deve fare il game...
-    }
-}
-*/

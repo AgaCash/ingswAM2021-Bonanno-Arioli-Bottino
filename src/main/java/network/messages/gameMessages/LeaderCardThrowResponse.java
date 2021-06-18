@@ -15,7 +15,7 @@ public class LeaderCardThrowResponse extends GameMessage{
     public LeaderCardThrowResponse(String username, int position, ArrayList<LightLeaderCard> newSlot) {
         super(username, MessageType.LEADERCARDTHROWUPDATE);
         this.success = true;
-        this.message = "LeaderCard successfully threw";
+        this.message = " has threw a leader card";
         this.position = position;
         this.newSlot = newSlot;
     }
