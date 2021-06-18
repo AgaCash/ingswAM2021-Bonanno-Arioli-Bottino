@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 public class CLI implements View{
     private Scanner in;
-    private PrintStream out;
+    private final PrintStream out;
     LightController controller;
 
     public CLI(){
@@ -42,7 +42,7 @@ public class CLI implements View{
     }
 
     public void askUsername(){
-        String username = "";
+        String username;
         do {
             username = askString("Username: ");
         }while(username.isBlank());
@@ -50,7 +50,7 @@ public class CLI implements View{
     }
 
     public void askMenu() {
-        int choice = 0;
+        int choice;
         do {
             choice = askInt("CHOOSE MODALITY: \n1- Single player \n2- Join Multiplayer Lobby" +
                     " \n3- Create Multiplayer Lobby");
@@ -87,7 +87,7 @@ public class CLI implements View{
     }
 
     public void waitStartGameString(){
-        String s = "";
+        String s;
         do{
             s = askString("Write \"start\" to begin the game");
             s = s.toLowerCase();
@@ -112,9 +112,7 @@ public class CLI implements View{
     public void askLobbyID(ArrayList<Lobby> lobbies) {
         if(!lobbies.isEmpty()) {
             System.out.println("\tID\tPlayers");
-            lobbies.forEach((lobby -> {
-                System.out.println("\t" + lobby.getId() + "\t" + lobby.getUsernameList());
-            }));
+            lobbies.forEach((lobby -> System.out.println("\t" + lobby.getId() + "\t" + lobby.getUsernameList())));
             int numLobby = askInt("Choose the lobby you want to join by ID:");
             controller.joinLobbyById(numLobby);
         }else{
@@ -142,7 +140,7 @@ public class CLI implements View{
     @Override
     public void askTurn() {
         // System.out.println("IT'S YOUR TURN!\n");
-        int ans = 0;
+        int ans ;
         do {
             printMenu();
             ans = askInt("CHOOSE YOUR ACTION\n\b" +
@@ -154,13 +152,13 @@ public class CLI implements View{
                     "6 to end your turn\n\n");
         } while ((ans < 1 || ans > 6) && ans!=53550 );
         switch (ans) {
-            case 1 : askLeader(); break;
-            case 2 : askProduction(); break;
-            case 3 : askBuyResources(); break;
-            case 4 : askBuyDevCards(); break;
-            case 5 : askShow(); break;
-            case 6 : askEndTurn(); break;
-            case 53550: cheat(); break;
+            case 1 -> askLeader();
+            case 2 -> askProduction();
+            case 3 -> askBuyResources();
+            case 4 -> askBuyDevCards();
+            case 5 -> askShow();
+            case 6 -> askEndTurn();
+            case 53550 -> cheat();
         }
     }
 
@@ -231,7 +229,7 @@ public class CLI implements View{
     @Override
     public void askLeaderCardThrowing() {
         ArrayList<LightLeaderCard> couple = controller.getPlayerBoard().getLeaderSlot();
-        int ans = 0;
+        int ans;
         for(LightLeaderCard card: couple)
             System.out.println("\n\b"+ (couple.indexOf(card)+1)+" for "+card);
         do ans = askInt("choose the card:\nor press 0 to abort");
@@ -301,10 +299,8 @@ public class CLI implements View{
         System.out.println(controller.getPlayerBoard().getCardSlots().toString());
         int slot;
         int numSlots = controller.getPlayerBoard().getCardSlots().getSize();
-        if(numSlots == 0){
+        if(numSlots == 0)
             showError("no slot available");
-            return;
-        }
         else {
             do slot = askInt("choose a slot");
             while (slot < 1 || slot > numSlots);
@@ -335,11 +331,11 @@ public class CLI implements View{
     public void askDefaultProduction() {
         System.out.println(controller.getPlayerBoard().getStrongbox().toString());
         System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());
-        ArrayList<LightResource> choosenInput = new ArrayList<>();
+        ArrayList<LightResource> chosenInput = new ArrayList<>();
         LightResource outRes;
         System.out.println("choose the 2 input resources: ");
-        choosenInput.add(askResource());
-        choosenInput.add(askResource());
+        chosenInput.add(askResource());
+        chosenInput.add(askResource());
         System.out.println("choose the output resource: ");
         outRes = askResource();
         String ans;
@@ -348,10 +344,10 @@ public class CLI implements View{
         if(ans.equals("y")) {
             LightLeaderCard card = askLeaderCardUse();
             LightResource chosenResource = askResource();
-            controller.sendDefaultProductionRequest(choosenInput, outRes, card, chosenResource);
+            controller.sendDefaultProductionRequest(chosenInput, outRes, card, chosenResource);
         }
         else{
-            controller.sendDefaultProductionRequest(choosenInput, outRes, null, null);
+            controller.sendDefaultProductionRequest(chosenInput, outRes, null, null);
         }
         showSuccess("successful production! your new resources: ");
         System.out.println(controller.getPlayerBoard().getStrongbox().toString());
@@ -461,12 +457,12 @@ public class CLI implements View{
         do res = askInt("choose resource:\n" +
                     "1 for COIN\n2 for SERVANT\n3 for SHIELD\n4 for STONE");
         while(res<1 || res>4);
-        switch (res) {
-            case 1 : return LightResource.COIN;
-            case 2 : return LightResource.SERVANT;
-            case 3 : return LightResource.SHIELD;
-            case 4 : return LightResource.STONE;
-        }
-       return null;
+        return switch (res) {
+            case 1 -> LightResource.COIN;
+            case 2 -> LightResource.SERVANT;
+            case 3 -> LightResource.SHIELD;
+            case 4 -> LightResource.STONE;
+            default -> null;
+        };
     }
 }
