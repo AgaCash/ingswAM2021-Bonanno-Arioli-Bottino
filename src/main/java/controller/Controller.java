@@ -183,7 +183,7 @@ public class Controller {
         game.defaultProduction(newInput, newOutput, card, chosenOutput);
     }
     public void activateLeaderCard(LightLeaderCard lightLeaderCard) throws InsufficientRequirementsException,
-            InsufficientResourcesException, InputMismatchException {
+            InsufficientResourcesException, InputMismatchException, UnusableCardException {
         Gson gson = new GsonBuilder().registerTypeAdapter(LeaderCard.class, new LeaderCardDeserializer()).create();
         LeaderCard card = gson.fromJson(gson.toJson(lightLeaderCard), LeaderCard.class);
         game.activateLeaderCard(card);

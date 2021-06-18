@@ -1,12 +1,15 @@
 package model.warehouse;
 
 import exceptions.FullWarehouseException;
+import exceptions.UnusableCardException;
+import model.cards.ExtraDepot;
 import model.resources.Resource;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class WarehouseDepotTest {
     WarehouseDepot w = new WarehouseDepot();
@@ -16,53 +19,93 @@ class WarehouseDepotTest {
     void addNewExtraDepot() {
 
         //some initializing
-        /*
+        w = new WarehouseDepot();
         ArrayList<Resource> addedResources = new ArrayList<>();
         ArrayList<Resource> resources = new ArrayList<>();
-        resources.add(Resource.SERVANT); resources.add(Resource.SERVANT);
+        resources.add(Resource.SERVANT); resources.add(Resource.SERVANT); //SE SE
         ExtraDepot card1 = new ExtraDepot(0, true, null, resources);
-        resources.remove(Resource.SERVANT); resources.remove(Resource.SERVANT);
-        resources.add(Resource.COIN); resources.add(Resource.COIN);
-        ExtraDepot card2 = new ExtraDepot(0, false, null, resources);
-
-        w.addNewExtraDepot(card1);
+        //add card to warehouse
+        try {
+            w.addNewExtraDepot(card1);
+        }catch(UnusableCardException e){
+            System.out.println(e.getMessage());
+        }
         //test if card1 is working
-        w.addResource(Resource.SERVANT); addedResources.add(Resource.SERVANT);
-        w.addResource(Resource.SERVANT); addedResources.add(Resource.SERVANT);
-        w.addResource(Resource.SERVANT); addedResources.add(Resource.SERVANT);
-        w.addResource(Resource.SERVANT); addedResources.add(Resource.SERVANT);
-        w.addResource(Resource.SERVANT); addedResources.add(Resource.SERVANT);
+        try {
+            addedResources.add(Resource.SERVANT);
+            w.addResource(Resource.SERVANT);
+            System.out.println(w.convert().toString());
+            //System.out.println(w.status());
+            addedResources.add(Resource.SERVANT);
+            w.addResource(Resource.SERVANT);
+            System.out.println(w.convert().toString());
+            //System.out.println(w.status());
+            addedResources.add(Resource.SERVANT);
+            w.addResource(Resource.SERVANT);
+            System.out.println(w.convert().toString());
+            addedResources.add(Resource.SERVANT);
+            w.addResource(Resource.SERVANT);
+            System.out.println(w.convert().toString());
+            addedResources.add(Resource.SERVANT);
+            w.addResource(Resource.SERVANT);
+            System.out.println(w.convert().toString());
+        }catch (FullWarehouseException e){
+            System.out.println(e.getMessage());
+            assertTrue(false);
+        }
         assertTrue(w.isPresent(addedResources));
-        //test if not adds more than 6 items
-        addedResources.add(Resource.SERVANT);
-        assertFalse(w.isPresent(addedResources));
+        //test if not adds more than 5 items
+        try {
+            addedResources.add(Resource.SERVANT);
+            w.addResource(Resource.SERVANT);
+        }catch(FullWarehouseException e){
+            System.out.println(e.getMessage());
+            assertTrue(true);
+        }
+        //some initializing
+        ArrayList<Resource> resources2 = new ArrayList<>();
+        resources2.add(Resource.COIN); resources2.add(Resource.COIN);
+        ExtraDepot card2 = new ExtraDepot(0, true, null, resources2);
+        try {
+            w.addNewExtraDepot(card2);
+        }
+        catch(UnusableCardException e){
+            System.out.println(e.getMessage());
+            assertTrue(false);
+        }
+        addedResources = new ArrayList<>();
+        //test if cards are working
+        try {
 
-        w = new WarehouseDepot();
-        w.addNewExtraDepot(card2);
-        addedResources = new ArrayList<>();
-        //test if model.cards are not enabled
-        w.addResource(Resource.COIN); addedResources.add(Resource.COIN);
-        w.addResource(Resource.COIN); addedResources.add(Resource.COIN);
-        w.addResource(Resource.COIN); addedResources.add(Resource.COIN);
-        w.addResource(Resource.COIN); addedResources.add(Resource.COIN);
-        assertFalse(w.isPresent(addedResources));
-        //test with other model.resources
-        card2 = new ExtraDepot(0, true, null, resources);
-        WarehouseDepot w3 = new WarehouseDepot();
-        addedResources = new ArrayList<>();
-        w3.addNewExtraDepot(card1);
-        w3.addNewExtraDepot(card2);
-        w3.addResource(Resource.COIN); addedResources.add(Resource.COIN);
-        w3.addResource(Resource.COIN); addedResources.add(Resource.COIN);
-        w3.addResource(Resource.COIN); addedResources.add(Resource.COIN);
-        w3.addResource(Resource.COIN); addedResources.add(Resource.COIN);
-        w3.addResource(Resource.SERVANT); addedResources.add(Resource.SERVANT);
-        w3.addResource(Resource.SERVANT); addedResources.add(Resource.SERVANT);
-        w3.addResource(Resource.SERVANT); addedResources.add(Resource.SERVANT);
-        w3.addResource(Resource.SERVANT); addedResources.add(Resource.SERVANT);
-        w3.addResource(Resource.SHIELD); addedResources.add(Resource.SHIELD);
-        assertTrue(w3.isPresent(addedResources));
-    */
+            addedResources.add(Resource.COIN);
+            w.addResource(Resource.COIN);
+            System.out.println(w.convert().toString());
+            System.out.println(w.status());
+            addedResources.add(Resource.COIN);
+            w.addResource(Resource.COIN);
+            System.out.println(w.convert().toString());
+            System.out.println(w.status());
+            addedResources.add(Resource.COIN);
+            w.addResource(Resource.COIN);
+            System.out.println(w.convert().toString());
+            System.out.println(w.status());
+            addedResources.add(Resource.COIN);
+            w.addResource(Resource.COIN);
+            System.out.println(w.convert().toString());
+            System.out.println(w.status());
+        }catch(FullWarehouseException e){
+            System.out.println(e.getMessage());
+            assertTrue(false);
+        }
+        assertTrue(w.isPresent(addedResources));
+        //here w will broke
+        try{
+            w.addResource(Resource.COIN);
+            assertTrue(false);
+        }catch(FullWarehouseException e){
+            System.out.println(e.getMessage());
+            assertTrue(true);
+        }
 
 
 

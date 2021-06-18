@@ -1,14 +1,11 @@
 package network.messages.gameMessages;
 
 import clientModel.cards.LightLeaderCard;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import controller.Controller;
 import exceptions.InsufficientRequirementsException;
 import exceptions.InsufficientResourcesException;
-import model.cards.LeaderCard;
+import exceptions.UnusableCardException;
 import network.messages.MessageType;
-import utilities.LeaderCardDeserializer;
 import view.VirtualClient;
 
 import java.util.ArrayList;
@@ -28,7 +25,7 @@ public class LeaderCardActivationRequest extends GameMessage{
         try {
             controller.activateLeaderCard(card);
             update(controller);
-        } catch (InsufficientRequirementsException | InsufficientResourcesException | InputMismatchException e){
+        } catch (InsufficientRequirementsException | InsufficientResourcesException | InputMismatchException | UnusableCardException e){
             LeaderCardActivationResponse notify = new LeaderCardActivationResponse(this.getUsername(), e.getMessage());
             client.getVirtualView().updateLeaderCardActivation(notify);
         }

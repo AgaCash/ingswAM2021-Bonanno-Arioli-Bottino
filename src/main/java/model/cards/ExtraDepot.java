@@ -6,46 +6,37 @@ import clientModel.resources.LightResource;
 import model.resources.Resource;
 
 import java.util.ArrayList;
-import java.util.TreeMap;
 
 public class ExtraDepot extends LeaderCard{
     private ArrayList<Resource> requiredResource;
     private static int victoryPoints = 3;
     private ArrayList<Resource> extraDepotResource;
-    private TreeMap<Resource, Integer> extraWarehouseDepot = new TreeMap<>();
+    private transient ArrayList<Resource> extraWarehouseDepot = new ArrayList<>();
 
     public ExtraDepot(int id, boolean en, ArrayList<Resource> req, ArrayList<Resource> extra){
         this.id = id;
         this.isEnabled = en;
         this.requiredResource = req;
         this.extraDepotResource = extra;
-        for(Resource ptr : extraDepotResource)
-            extraWarehouseDepot.put(ptr, 0);
         super.type = LeaderCardType.EXTRADEPOT;
     }
 
     @Override
     public boolean addResource(Resource tmp){
         if(isEnabled())
-            if(extraWarehouseDepot.containsKey(tmp)) {
-                int dim = extraWarehouseDepot.get(tmp);
-                if (dim < extraDepotResource.size()) {
-                    extraWarehouseDepot.put(tmp, dim+1);
+            if(tmp.equals(this.extraDepotResource.get(0)))
+                 if(this.extraWarehouseDepot.size()<this.extraDepotResource.size() ||
+                            this.extraWarehouseDepot.isEmpty()) {
+                    extraWarehouseDepot.add(tmp);
                     return true;
                 }
-            }
         return false;
     }
     @Override
     public boolean removeResource(Resource tmp){
         if(isEnabled())
-            if(extraWarehouseDepot.containsKey(tmp)){
-                int dim = extraWarehouseDepot.get(tmp);
-                if(dim > 0){
-                    extraWarehouseDepot.put(tmp, dim-1);
+            if(extraWarehouseDepot.remove(tmp))
                     return true;
-                }
-            }
         return false;
     }
 
@@ -56,7 +47,11 @@ public class ExtraDepot extends LeaderCard{
 
     @Override
     public ArrayList<Resource> getRequiredResources(){
-        return this.requiredResource;
+        return (ArrayList<Resource>) this.requiredResource.clone();
+    }
+
+    public ArrayList<Resource> getExtraWarehouse(){
+        return (ArrayList<Resource>) this.extraWarehouseDepot.clone();
     }
     /**
      * for tests

@@ -4,10 +4,8 @@ import clientController.LightController;
 import clientModel.cards.LightLeaderCard;
 import clientModel.resources.LightResource;
 import clientModel.table.LightMarketBoard;
-import exceptions.MessageNotSuccededException;
 import network.server.Lobby;
 
-import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -178,7 +176,6 @@ public class CLI implements View{
     }
 
     private void printMenu(){
-        System.out.println("VICTORY POINTS: "+controller.getPlayerBoard().getPoints());
         System.out.println(controller.getPlayerBoard().getFaithTrack().toString());
         System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());
         System.out.println(controller.getPlayerBoard().getStrongbox().toString());

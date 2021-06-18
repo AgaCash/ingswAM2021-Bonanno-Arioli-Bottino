@@ -36,7 +36,7 @@ public class Discount extends LeaderCard{
 
     @Override
     public ArrayList<DevelopmentCard> getRequiredCards(){
-        return this.requires;
+        return (ArrayList<DevelopmentCard>) this.requires.clone();
     }
     /**
      * for tests

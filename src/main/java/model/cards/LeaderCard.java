@@ -38,8 +38,8 @@ import java.util.ArrayList;
 	public Resource whichDiscount() throws UnusableCardException {
 		return null;
 	}
-	public boolean addResource(Resource tmp){return false;}
-	public boolean removeResource(Resource tmp){return false;}
+	public boolean addResource(Resource tmp) throws UnusableCardException{return false;}
+	public boolean removeResource(Resource tmp) throws UnusableCardException {return false;}
 	public Resource getExtraProdInput() throws UnusableCardException { return null;}
 	public ArrayList<Resource> production(){return null;}
 	public void setChosenOutput(Resource chosenOutput){}

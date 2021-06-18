@@ -72,7 +72,7 @@ public class DevelopmentCard extends Card {
     }
 
     public ArrayList<Resource> getProdInput(){
-        return this.prodInput;
+        return (ArrayList<Resource>) this.prodInput.clone();
     }
 
     public Colour getColour(){
@@ -80,7 +80,7 @@ public class DevelopmentCard extends Card {
     }
 
     public ArrayList<Resource> getCost(){
-        return this.cost;
+        return (ArrayList<Resource>) this.cost.clone();
     }
 
     public int getVictoryPoints(){

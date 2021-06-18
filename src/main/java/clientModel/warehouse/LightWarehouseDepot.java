@@ -7,10 +7,16 @@ import java.util.ArrayList;
 public class LightWarehouseDepot {
 
     private ArrayList<LightResource> warehouse = new ArrayList<>();
+    private ArrayList<LightResource> extraWarehouse = new ArrayList<>();
 
     public void setWarehouse(ArrayList<LightResource> image){
         this.warehouse.clear();
         this.warehouse = image;
+    }
+
+    public void setExtraWarehouse(ArrayList<LightResource> image){
+        this.extraWarehouse.clear();
+        this.extraWarehouse = image;
     }
 
     /*
@@ -64,6 +70,9 @@ public class LightWarehouseDepot {
     public String toString(){
         String s = "\nWAREHOUSE: \n";
         for(LightResource res: warehouse)
+            s+=res.toColoredString()+" ";
+        s+="\n\t\tEXTRA: ";
+        for(LightResource res: extraWarehouse)
             s+=res.toColoredString()+" ";
         return s;
     }

@@ -29,9 +29,9 @@ public class WarehouseDepot {
     public void addResource(Resource tmp) throws FullWarehouseException {
         boolean added = false;
         for (ExtraDepot card : cards) {
+            System.out.println("card: "+card.getId()+" "+card.getExtraWarehouse());
             if (card.addResource(tmp)) {
                 added = true;
-                System.out.println("riga 34");
                 break;
             }
         }
@@ -92,12 +92,12 @@ public class WarehouseDepot {
 
     public boolean isPresent(ArrayList<Resource> res){
         TreeMap<Resource, Integer> clonedWarehouse = (TreeMap<Resource, Integer>) warehouse.clone();
-        ArrayList<ExtraDepot> clonedCards = (ArrayList<ExtraDepot>) this.cards.clone();
+
         for(Resource ptr: res){
             if(!clonedWarehouse.containsKey(ptr)) {
                 boolean found = false;
-                for(ExtraDepot card : clonedCards) {
-                    if (card.removeResource(ptr)) {
+                for(ExtraDepot card : this.cards) {
+                    if (card.getExtraWarehouse().contains(ptr)) {
                         found = true;
                         break;
                     }
@@ -119,10 +119,17 @@ public class WarehouseDepot {
 
     public LightWarehouseDepot convert(){
         ArrayList<LightResource> image = new ArrayList<>();
-        status().forEach(e -> image.add(LightResource.valueOf(e.toString())));
+        ArrayList<LightResource> extraImage = new ArrayList<>();
+
+        toArray().forEach(e-> image.add(LightResource.valueOf(e.toString())));
+        for(ExtraDepot card: cards)
+            card.getExtraWarehouse().forEach(e -> extraImage.add(LightResource.valueOf(e.toString())));
 
         LightWarehouseDepot warehouseDepot = new LightWarehouseDepot();
         warehouseDepot.setWarehouse(image);
+        if(!extraImage.isEmpty())
+            warehouseDepot.setExtraWarehouse(extraImage);
+
         return warehouseDepot;
     }
 
@@ -136,16 +143,23 @@ public class WarehouseDepot {
                     player.getPlayerBoard().getFaithTrack().faithAdvance(player.getPlayerBoard().getFaithBox(), player.getPlayerBoard().getFaithTrack());
 
              */
-        System.out.println(cloned+ "riga 123");
         threwResources.clear();
         return cloned;
     }
 
     public ArrayList<Resource> status(){
+        ArrayList<Resource> image = toArray();
+        for(ExtraDepot card: cards){
+            if(card.isEnabled())
+                image.addAll(card.getExtraWarehouse());
+        }
+        return image;
+    }
+
+    private ArrayList<Resource> toArray(){
         ArrayList<Resource> image = new ArrayList<>();
         ArrayList<Map.Entry<Resource, Integer>> orderedWarehouse = new ArrayList<>(warehouse.entrySet());
         orderedWarehouse.sort(Map.Entry.comparingByValue());
-        //System.out.println(orderedWarehouse);
         for (Map.Entry<Resource, Integer> entry : orderedWarehouse) {
             for(int i = 0; i<entry.getValue(); i++)
                 image.add(entry.getKey());
@@ -153,14 +167,5 @@ public class WarehouseDepot {
         return image;
     }
 
-    public void reorder(){
-        ArrayList<Resource> image = new ArrayList<>();
-        ArrayList<Map.Entry<Resource, Integer>> orderedWarehouse = new ArrayList<>(warehouse.entrySet());
-        orderedWarehouse.sort(Map.Entry.comparingByValue());
-        warehouse.clear();
-        for (Map.Entry<Resource, Integer> entry : orderedWarehouse)
-            warehouse.put(entry.getKey(), entry.getValue());
-        System.out.println(warehouse);
-    }
 
 }

@@ -1,14 +1,20 @@
 package model;
 
 import exceptions.*;
-import model.cards.*;
+import model.cards.DevelopmentCard;
+import model.cards.ExtraDepot;
+import model.cards.LeaderCard;
+import model.cards.WhiteConverter;
 import model.player.Player;
 import model.resources.Resource;
 import model.singleplayer.Lorenzo;
 import model.singleplayer.Token;
 import model.table.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Hashtable;
+import java.util.InputMismatchException;
 
 public class Game {
     private ArrayList<Player> players = new ArrayList<>();
@@ -21,7 +27,6 @@ public class Game {
     private boolean didProduction = false;
 
     private boolean isOver;
-    private boolean victory;
     private String finalMessage;
 
     //COSTRUTTORE
@@ -156,7 +161,7 @@ public class Game {
             currentPlayer.getPlayerBoard().getCardSlots().addCard(slotPosition, deck.popCard());
             if(currentPlayer.getPlayerBoard().getCardSlots().isOver()){
                 this.isOver = true;
-                this.victory = true;
+                this.currentPlayer.setVictory(true);
                 this.finalMessage = "\nVITTORIA! HAI COMPRATO LA TUA SETTIMA CARTA SVILUPPO\n";
             }
         }
@@ -286,7 +291,7 @@ public class Game {
             FaithBox faithBox  = currentPlayer.getFaithTrack().faithAdvance(currentPlayer.getFaithBox());
             if (faithBox.getPosition() >= 24) {
                 this.isOver = true;
-                this.victory = true;
+                this.currentPlayer.setVictory(true);
                 this.finalMessage = "\nVITTORIA! HAI RAGGIUNTO LA FINE DEL FAITHTRACK\n";
                 return;
             }
@@ -321,14 +326,16 @@ public class Game {
     //--------------------LEADER CARDS--------------------
 
     public void activateLeaderCard(LeaderCard cardFromClient) throws InsufficientResourcesException,
-            InsufficientRequirementsException, InputMismatchException {
+            InsufficientRequirementsException, InputMismatchException, UnusableCardException {
         LeaderCard card = getLeaderCard(cardFromClient);
         if(card == null)
             throw new InputMismatchException("Can't find this leader card!");
         if(card.isExtraDepot()){
             ArrayList<Resource> requirements = card.getRequiredResources();
-            if(checkResources(requirements, false))
+            if(checkResources(requirements, false)) {
                 card.activate();
+                currentPlayer.getPlayerBoard().getWarehouseDepot().addNewExtraDepot((ExtraDepot) card);
+            }
             else{
                 throw new InsufficientResourcesException("Can't activate this leader card: insufficient resources!");
             }
@@ -372,7 +379,7 @@ public class Game {
             cpu.pick();
             if(cpu.gameIsOver()){
                 this.isOver = true;
-                this.victory = false;
+                this.currentPlayer.setVictory(false);
                 this.finalMessage = cpu.getLorenzoLastAction();
             }
         }
@@ -391,28 +398,32 @@ public class Game {
     //contare i punti vittoria dei giocatori su faithTrack, leaderCards, devCards ecc...
     //fare la classifica dei punti vittoria
 
-    public String getRanking(){
+    public String getRanking()  {
         Hashtable<Integer, String> rank = new Hashtable<>();
         ArrayList<Integer> scores = new ArrayList<>();
         String finalScoreMessage = new String();
+
         for(Player p: players){
             scores.add(p.getScore());
             rank.put(p.getScore(), p.getNickname());
         }
         Collections.sort(scores);
         Collections.reverse(scores);
+
+        try {
+            getPlayer(rank.get(scores.get(0))).setVictory(true);
+        } catch(NoSuchUsernameException e) {
+            throw new UnknownError("NON DOVEVA SUCCEDERE STA COSA AAAAAA");
+        }
+
         for(Integer score : scores)
             finalScoreMessage += rank.get(score)+" : "+score+" points\n";
+
         return finalScoreMessage;
-        //todo da ripensare: se uno ha dei punti uguali ?
     }
 
     public boolean isOver(){
         return this.isOver;
-    }
-
-    public boolean victory(){
-        return this.victory;
     }
 
     public String endingSinglePlayerGame(){

@@ -1,7 +1,4 @@
-1) EXTRAPROD: non aggiunge i punti fede
-2) DISCOUNT: elimina dal costo della devcard lo sconto (per il resto funziona)
-3) aggiungere stampata dei punti vittoria (e calcolo)
-4) EXTRADEPOT: non funziona
-6) spostare boolean victory e finalmessage da game a player
-7) implementare una classifica seria
+6) spostare finalmessage da game a player
+8) rivedere meccanismo dei turni
+9) attenzione all`endturnresponse: c`è per il multiplayer?
 

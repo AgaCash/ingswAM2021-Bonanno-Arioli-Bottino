@@ -12,6 +12,7 @@ public class Player {
     private int startingTurn;
     private int points = 0;
     private PlayerBoard playerboard;
+    private boolean victory;
 
     public Player(String nickname){
         this.nickname = nickname;
@@ -76,6 +77,10 @@ public class Player {
         points += numResources/5;
 
         return points;
+    }
+
+    public void setVictory(boolean value){
+        this.victory = value;
     }
 
 

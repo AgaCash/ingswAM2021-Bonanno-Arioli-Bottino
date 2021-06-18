@@ -28,7 +28,7 @@ public class ExtraProd extends LeaderCard{
     @Override
     public Resource getExtraProdInput() throws UnusableCardException {
         if(!isEnabled())
-            throw new UnusableCardException();
+            throw new UnusableCardException("Extra Prod card is not active!");
         return this.input;
     }
 
@@ -39,7 +39,7 @@ public class ExtraProd extends LeaderCard{
     @Override
     public ArrayList<Resource> production(){
         if(isEnabled()) {
-            ArrayList products = new ArrayList();
+            ArrayList<Resource> products = new ArrayList<>();
             products.add(this.output);
             products.add(chosenOutput);
             return products;
@@ -54,7 +54,7 @@ public class ExtraProd extends LeaderCard{
 
     @Override
     public ArrayList<DevelopmentCard> getRequiredCards(){
-        return this.requires;
+        return (ArrayList<DevelopmentCard>) this.requires.clone();
     }
 
     /**

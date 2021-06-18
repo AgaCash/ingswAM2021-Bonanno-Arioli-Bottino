@@ -1,11 +1,11 @@
 package model.cards;
 import clientModel.cards.LightDevelopmentCard;
-import clientModel.cards.LightDiscount;
 import clientModel.cards.LightLeaderCard;
 import clientModel.cards.LightWhiteConverter;
 import clientModel.resources.LightResource;
 import exceptions.UnusableCardException;
-import model.resources.*;
+import model.resources.Resource;
+
 import java.util.ArrayList;
 
 public class WhiteConverter extends LeaderCard{
@@ -35,7 +35,7 @@ public class WhiteConverter extends LeaderCard{
 
 	@Override
 	public ArrayList<DevelopmentCard> getRequiredCards(){
-		return this.requires;
+		return (ArrayList<DevelopmentCard>) this.requires.clone();
 	}
 
 	/**
