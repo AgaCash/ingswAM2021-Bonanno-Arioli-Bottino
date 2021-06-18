@@ -2,12 +2,13 @@ package clientView;
 
 import clientController.LightController;
 import clientModel.cards.LightLeaderCard;
+import clientModel.colour.LightColour;
 import clientModel.resources.LightResource;
-import clientModel.table.LightMarketBoard;
 import network.server.Lobby;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CLI implements View{
@@ -23,12 +24,11 @@ public class CLI implements View{
 
     //ping
     public void serverLostConnection(){
-        System.out.println("LOST SERVER CONNECTION");
+        System.out.println(LightColour.RED+"LOST SERVER CONNECTION"+LightColour.WHITE);
         controller.quittingApplication();
     }
 
     public void askServerInfo(){
-        boolean connectionCorrect = false;
         out.println("IP [127.0.0.1]: ");
         String ip = in.nextLine();
         if(ip.isBlank())
@@ -42,39 +42,24 @@ public class CLI implements View{
     }
 
     public void askUsername(){
-        String username;
-        out.println("Username: ");
-        username = in.nextLine();
+        String username = "";
+        do {
+            username = askString("Username: ");
+        }while(username.isBlank());
         controller.setUsername(username);
     }
 
     public void askMenu() {
-        boolean stop = false;
-        while (!stop) {
-            out.println("CHOOSE MODALITY: \n1- Single player \n2- Join Multiplayer Lobby" +
+        int choice = 0;
+        do {
+            choice = askInt("CHOOSE MODALITY: \n1- Single player \n2- Join Multiplayer Lobby" +
                     " \n3- Create Multiplayer Lobby");
-            int choice = in.nextInt();
+        }while(choice<1 || choice>3);
             switch (choice) {
-                case 1 -> {
-                    handleSinglePlayer();
-                    stop = true;
-                    break;
-                }
-                case 2 -> {
-                    handleMultiJoin();
-                    stop = true;
-                    break;
-                }
-                case 3 -> {
-                    handleMultiCreate();
-                    stop = true;
-                    break;
-                }
-                default -> {
-                    out.println("INVALID CHOICE\n");
-                }
+                case 1 -> handleSinglePlayer();
+                case 2 -> handleMultiJoin();
+                case 3 -> handleMultiCreate();
             }
-        }
     }
 
     private void handleSinglePlayer(){
@@ -90,7 +75,7 @@ public class CLI implements View{
     }
 
     public void notifyLobbyCreated(){
-        System.out.println("Lobby created\nWaiting for players to join...");
+        showSuccess("Lobby created\nWaiting for players to join...");
     }
 
     public void notifyPlayerJoined(String username){
@@ -98,14 +83,13 @@ public class CLI implements View{
     }
 
     public void askStartGame(){
-        System.out.println("Write \"start\" to begin the game");
         waitStartGameString();
     }
 
     public void waitStartGameString(){
         String s = "";
         do{
-            s = in.nextLine();
+            s = askString("Write \"start\" to begin the game");
             s = s.toLowerCase();
         }while (!s.equals("start"));
         controller.sendSignalMultiPlayerGame();
@@ -117,7 +101,7 @@ public class CLI implements View{
     }
 
     public void showReconnectionToGame(){
-        System.out.println("RICONNESSIONE AL GAME...");
+        System.out.println("Reconnecting to game...");
     }
 
     public void waitingForMyTurn(){
@@ -131,8 +115,7 @@ public class CLI implements View{
             lobbies.forEach((lobby -> {
                 System.out.println("\t" + lobby.getId() + "\t" + lobby.getUsernameList());
             }));
-            System.out.println("Choose the lobby you want to join by ID:");
-            int numLobby = in.nextInt();
+            int numLobby = askInt("Choose the lobby you want to join by ID:");
             controller.joinLobbyById(numLobby);
         }else{
             System.out.println("No lobby found");
@@ -142,12 +125,12 @@ public class CLI implements View{
 
     @Override
     public void notifyPlayerDisconnected(String username) {
-        System.out.println(username + " disconnected");
+        System.out.println(LightColour.RED+username + " disconnected"+LightColour.WHITE);
     }
 
     @Override
     public void notifyPlayerReconnected(String username) {
-        System.out.println(username + " reconnected");
+        System.out.println(LightColour.GREEN+username + " reconnected"+LightColour.WHITE);
     }
 
     @Override
@@ -162,7 +145,13 @@ public class CLI implements View{
         int ans = 0;
         do {
             printMenu();
-            ans = in.nextInt();
+            ans = askInt("CHOOSE YOUR ACTION\n\b" +
+                    "1 to do a leader action\n\b" +
+                    "2 to activate a production\n\b" +
+                    "3 to buy resources at the market\n\b" +
+                    "4 to buy a development card\n\b" +
+                    "5 to show the game status\n\b" +
+                    "6 to end your turn\n\n");
         } while ((ans < 1 || ans > 6) && ans!=53550 );
         switch (ans) {
             case 1 : askLeader(); break;
@@ -180,25 +169,14 @@ public class CLI implements View{
         System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());
         System.out.println(controller.getPlayerBoard().getStrongbox().toString());
         System.out.println(controller.getPlayerBoard().getCardSlots().toString());
-        System.out.println("CHOOSE YOUR ACTION\n\b" +
-                "1 per compiere un`azione leader\n\b" +
-                "2 per attivare la produzione\n\b" +
-                "3 per comprare le risorse\n\b" +
-                "4 per comprare la carta sviluppo\n\b" +
-                "5 per visualizzare lo stato del gioco\n\b" +
-                "6 per terminare il turno\n\n");
     }
 
     private void askShow(){
         int ans;
-        do {
-            System.out.println(
-                    "1 per visualizzare la DevBoard\n\b" +
-                    "2 per visualzizare il Market\n\b" +
-                     "3 per tornare al menu\n\b");
-
-            ans = in.nextInt();
-        } while (ans < 1 || ans > 3);
+        do ans = askInt("1 to show the development board\n\b" +
+                    "2 to show the market board\n\b" +
+                    "3 to turn back to the main menu\n\b");
+        while (ans < 1 || ans > 3);
         switch (ans) {
             case 1 : System.out.println(controller.getDevBoard().toString()); break;
             case 2 : System.out.println(controller.getMarketBoard().toString()); break;
@@ -208,14 +186,12 @@ public class CLI implements View{
     }
 
     private void askLeader(){
-        int ans = 0;
-        do {
-            System.out.println("CHOOSE YOUR ACTION\n\b" +
-                    "1 per attivare la carta leader\n\b" +
-                    "2 per scartare la carta leader\n\b" +
-                    "3 per tornare al menu");
-            ans = in.nextInt();
-        } while (ans < 1 || ans > 3);
+        int ans ;
+        do ans = askInt("CHOOSE YOUR ACTION\n\b" +
+                    "1 to activate a leader card\n\b" +
+                    "2 to throw a leader card\n\b" +
+                    "3 to turn back to the main menu");
+        while (ans < 1 || ans > 3);
         switch (ans) {
             case 1 : askLeaderCardActivation(); break;
             case 2 : askLeaderCardThrowing(); break;
@@ -225,14 +201,11 @@ public class CLI implements View{
     }
 
     private void askProduction(){
-        int ans =0;
-        do {
-            System.out.println("digita 1 per produrre da una carta sviluppo\n" +
-                    "2 per produrre dalla board\n" +
-                    "3 per tornare al menu\n");
-            ans = in.nextInt();
-        }while(ans <1 || ans > 3);
-
+        int ans;
+        do ans = askInt("1 to activate the production from a development card\n" +
+                    "2 to activate the production from the player board\n" +
+                    "3 to turn back to the menu\n");
+        while(ans <1 || ans > 3);
         switch (ans) {
             case 1 : askDevCardProduction(); break;
             case 2 : askDefaultProduction(); break;
@@ -245,15 +218,11 @@ public class CLI implements View{
     @Override
     public void askLeaderCardActivation() {
         ArrayList<LightLeaderCard> couple = controller.getPlayerBoard().getLeaderSlot();
-        couple.forEach(System.out::println);
-        int ans = 0;
-        do {
-            System.out.println("scegli la carta\no digita 0 per uscire:");
-            for(LightLeaderCard card: couple){
-                System.out.println("\n\b"+ (couple.indexOf(card)+1)+" per "+card);
-            }
-            ans = in.nextInt();
-        } while(ans!= 1 && ans != 2 && ans!=0);
+        int ans ;
+        for(LightLeaderCard card: couple)
+            System.out.println("\n\b"+ (couple.indexOf(card)+1)+" for "+card);
+        do ans = askInt("choose the card\nor press 0 to abort");
+        while(ans!= 1 && ans != 2 && ans!=0);
         if(ans!=0)
             controller.sendLeaderCardActivationRequest(couple.get(ans-1));
 
@@ -262,256 +231,156 @@ public class CLI implements View{
     @Override
     public void askLeaderCardThrowing() {
         ArrayList<LightLeaderCard> couple = controller.getPlayerBoard().getLeaderSlot();
-        couple.forEach(System.out::println);
         int ans = 0;
-        do {
-            System.out.println("scegli la carta:\no digita 0 per uscire");
-            for(LightLeaderCard card: couple){
-                System.out.println("\n\b"+ (couple.indexOf(card)+1)+" per "+card);
-            }
-            ans = in.nextInt();
-        } while(ans!= 1 && ans != 2 && ans!=0);
+        for(LightLeaderCard card: couple)
+            System.out.println("\n\b"+ (couple.indexOf(card)+1)+" for "+card);
+        do ans = askInt("choose the card:\nor press 0 to abort");
+        while(ans!= 1 && ans != 2 && ans!=0);
         if(ans!=0)
             controller.sendLeaderCardThrowRequest(couple.get(ans-1));
     }
 
     @Override
     public void askBuyResources() {
-        LightMarketBoard market = controller.getMarketBoard();
-        System.out.println(market.toString());
+        System.out.println(controller.getMarketBoard().toString());
         int choice;
-        do {
-            System.out.println("1 per scegliere la colonna\n2 per scegliere la riga\n3 per uscire\n");
-            choice = in.nextInt();
-        } while(choice!= 1 && choice != 2 && choice!=3);
-
+        do choice = askInt("1 to choose column\n2 to choose row\n3 to abort\n");
+        while(choice!= 1 && choice != 2 && choice!=3);
         if(choice != 3) {
             boolean line = choice == 2;
-            if (line)
-                System.out.println("u choosed line ");
-            else
-                System.out.println("u choosed column");
             int number;
-            if (line) {
-                do {
-                    System.out.println("digitare il numero di riga");
-                    number = in.nextInt();
-                }
+            if (line)
+                do number = askInt("insert your chosen row number");
                 while (number < 1 || number > 3);
-            } else {
-                do {
-                    System.out.println("digitare il numero di colonna");
-                    number = in.nextInt();
-                }
+            else
+                do number = askInt("insert your chosen column number");
                 while (number < 1 || number > 4);
-            }
             String ans;
-            do {
-                System.out.println("do u want to add a leader card?\n [y/n]\n");
-                ans = in.nextLine();
-            } while (!ans.equals("y") && !ans.equals("n"));
+            do ans = askString("want to add a leader card?\n[y/n]\n");
+            while (!ans.equals("y") && !ans.equals("n"));
             if (ans.equals("y")) {
                 LightLeaderCard card = askLeaderCardUse();
                 if (card != null && card.isWhiteConverter())
                     controller.sendBuyResourceRequest(line, number - 1, card);
             } else
                 controller.sendBuyResourceRequest(line, number - 1, null);
-
-
+            showSuccess("successful purchase! your new warehouse: ");
             System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());
         }
         askTurn();
-
     }
 
     @Override
     public void askBuyDevCards() {
         System.out.println(controller.getDevBoard().toString());
         System.out.println(controller.getPlayerBoard().getCardSlots().toString());
-        int deck = 0;
-        do{
-            System.out.println("scegli il numero del deck\ndigita 0 per tornare al menu\n");
-            deck=in.nextInt();
-        }while(deck<0 || deck>12);
+        int deck;
+        do deck=askInt("digit a deck number\nor 0 to turn back to the main menu");
+        while(deck<0 || deck>12);
         if(deck != 0) {
-            int slot = 0;
-            do {
-                System.out.println("scegli a quale slot aggiungere la carta");
-                slot = in.nextInt();
-            } while (slot < 1 || slot > 3);
+            int slot;
+            do slot = askInt("choose the slot where add the development card");
+            while (slot < 1 || slot > 3);
             String ans;
-            do {
-                System.out.println("do u want to add a leader card?\n [y/n]\n");
-                ans = in.nextLine();
-            } while (!ans.equals("y") && !ans.equals("n"));
+            do ans = askString("want to add a leader card?\n [y/n]\n");
+            while (!ans.equals("y") && !ans.equals("n"));
             if (ans.equals("y")) {
                 LightLeaderCard card = askLeaderCardUse();
-                if (card != null && card.isDiscount())
-                    controller.sendBuyDevCardRequest(deck - 1, slot - 1, card);
-                else
-                    System.out.println("ERROR CANT USE THIS CARD\n");
-            } else {
+                controller.sendBuyDevCardRequest(deck - 1, slot - 1, card);
+            }else{
                 controller.sendBuyDevCardRequest(deck - 1, slot - 1, null);
             }
+            showSuccess("successful purchase! your new development card slots: ");
             System.out.println(controller.getPlayerBoard().getCardSlots().toString());
         }
         askTurn();
-
     }
 
     @Override
     public void askDevCardProduction() {
-        System.out.println(controller.getPlayerBoard().getCardSlots());
-        int slot = 0;
+        System.out.println(controller.getPlayerBoard().getCardSlots().toString());
+        int slot;
         int numSlots = controller.getPlayerBoard().getCardSlots().getSize();
         if(numSlots == 0){
-            System.out.println("nessuno slot disponibile");
+            showError("no slot available");
             return;
         }
         else {
-            do {
-                System.out.println("scegli lo slot\n");
-                slot = in.nextInt();
-            } while (slot < 1 || slot > numSlots);
+            do slot = askInt("choose a slot");
+            while (slot < 1 || slot > numSlots);
             try {
                 if (controller.getPlayerBoard().getCardSlots().getCard(slot-1) != null){
                     String ans;
-                    do {
-                        System.out.println("do u want to add a leader card?\n [y/n]\n");
-                        ans = in.nextLine();
-                    }while(!ans.equals("y") && !ans.equals("n"));
+                    do ans = askString("want to add a leader card?\n [y/n]\n");
+                    while(!ans.equals("y") && !ans.equals("n"));
                     if(ans.equals("y")) {
                         LightLeaderCard card = askLeaderCardUse();
-                        if (card != null && card.isExtraProd()) {
-                            LightResource chosenResource = null;
-                            int res;
-                            do {
-                                System.out.println("choose resource " +
-                                        "1 for COIN\n2 for SERVANT\n3 for SHIELD\n4 for STONE");
-                                res = in.nextInt();
-                            }
-                            while(res<1 || res>4);
-                            switch (res) {
-                                case 1 -> chosenResource = LightResource.COIN;
-                                case 2 -> chosenResource = LightResource.SERVANT;
-                                case 3 -> chosenResource = LightResource.SHIELD;
-                                case 4 -> chosenResource = LightResource.STONE;
-                            }
-                            controller.sendDevCardProductionRequest(slot-1, chosenResource, card);
-                        }
+                        LightResource chosenResource = askResource();
+                        controller.sendDevCardProductionRequest(slot-1, chosenResource, card);
                     }
                     else{
                         controller.sendDevCardProductionRequest(slot-1, null, null);
                     }
+                    showSuccess("successful production! your new resources: ");
                     System.out.println(controller.getPlayerBoard().getStrongbox().toString());
                     System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());
                 }
             } catch (NullPointerException | IndexOutOfBoundsException e) {
-                System.out.println("slot vuoto");
+                showError("empty slot!");
             }
         }
     }
 
     @Override
     public void askDefaultProduction() {
-       System.out.println(controller.getPlayerBoard().getStrongbox().toString());
+        System.out.println(controller.getPlayerBoard().getStrongbox().toString());
         System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());
-        int first =0;
-        int second = 0;
-        System.out.println("scegli le due risorse in input");
-        do {
-            System.out.println("choose resource " +
-                    "1 for COIN\n2 for SERVANT\n3 for SHIELD\n4 for STONE");
-            first = in.nextInt();
-        }while(first<1 || first>4);
-        do {
-            System.out.println("choose resource " +
-                    "1 for COIN\n2 for SERVANT\n3 for SHIELD\n4 for STONE");
-            second = in.nextInt();
-        }while(second<1 || second>4);
-        System.out.println("scegli la risorsa in output");
-        int outRes= 0;
-        do {
-            System.out.println("choose resource " +
-                    "1 for COIN\n2 for SERVANT\n3 for SHIELD\n4 for STONE");
-            outRes = in.nextInt();
-        }while(outRes<1 || outRes>4);
-        ArrayList<LightResource> choice = new ArrayList<>();
-        switch (first) {
-            case 1 -> choice.add(LightResource.COIN);
-            case 2 -> choice.add(LightResource.SERVANT);
-            case 3 -> choice.add(LightResource.SHIELD);
-            case 4 -> choice.add(LightResource.STONE);
-        }
-        switch (second) {
-            case 1 -> choice.add(LightResource.COIN);
-            case 2 -> choice.add(LightResource.SERVANT);
-            case 3 -> choice.add(LightResource.SHIELD);
-            case 4 -> choice.add(LightResource.STONE);
-        }
-        LightResource output = null;
-        switch (outRes) {
-            case 1 -> output = LightResource.COIN;
-            case 2 -> output = LightResource.SERVANT;
-            case 3 -> output = LightResource.SHIELD;
-            case 4 -> output = LightResource.STONE;
-        }
+        ArrayList<LightResource> choosenInput = new ArrayList<>();
+        LightResource outRes;
+        System.out.println("choose the 2 input resources: ");
+        choosenInput.add(askResource());
+        choosenInput.add(askResource());
+        System.out.println("choose the output resource: ");
+        outRes = askResource();
         String ans;
-        do {
-            System.out.println("do u want to add a leader card?\n [y/n]\n");
-            ans = in.nextLine();
-        }while(!ans.equals("y") && !ans.equals("n"));
+        do ans = askString("want to add a leader card?\n [y/n]");
+        while(!ans.equals("y") && !ans.equals("n"));
         if(ans.equals("y")) {
             LightLeaderCard card = askLeaderCardUse();
-            if (card != null && card.isExtraProd()) {
-                LightResource chosenResource = null;
-                int res;
-                do {
-                    System.out.println("choose resource " +
-                            "1 for COIN\n2 for SERVANT\n3 for SHIELD\n4 for STONE");
-                    res = in.nextInt();
-                }
-                while(res<1 || res>4);
-                switch (res) {
-                    case 1 -> chosenResource = LightResource.COIN;
-                    case 2 -> chosenResource = LightResource.SERVANT;
-                    case 3 -> chosenResource = LightResource.SHIELD;
-                    case 4 -> chosenResource = LightResource.STONE;
-                }
-                controller.sendDefaultProductionRequest(choice, output, card, chosenResource);
-            }
+            LightResource chosenResource = askResource();
+            controller.sendDefaultProductionRequest(choosenInput, outRes, card, chosenResource);
         }
         else{
-            controller.sendDefaultProductionRequest(choice, output, null, null);
+            controller.sendDefaultProductionRequest(choosenInput, outRes, null, null);
         }
+        showSuccess("successful production! your new resources: ");
         System.out.println(controller.getPlayerBoard().getStrongbox().toString());
         System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());
     }
 
     @Override
     public void askEndTurn() {
-        System.out.println(" FINE TURNO ");
-        System.out.println(" attendi ...");
+        System.out.println("turn ended!\nwait...");
         controller.sendEndTurnRequest();
     }
 
     @Override
     public void showThrewResources(ArrayList<LightResource> threwResources) {
         if(!threwResources.isEmpty()) {
-            System.out.println("le risorse: ");
+            System.out.println(LightColour.RED+"resources: ");
             System.out.println(threwResources);
-            System.out.println("non sono state accettate: spazio insufficiente");
+            System.out.println("were not added to the warehouse: insufficient space!"+LightColour.WHITE);
         }
     }
 
     @Override
     public void showError(String message) {
-        System.out.println("ERROR: "+message);
+        System.out.println(LightColour.RED+"ERROR: "+message+LightColour.WHITE);
     }
 
     @Override
     public void showSuccess(String message) {
-        System.out.println(message);
+        System.out.println(LightColour.GREEN+message+LightColour.WHITE);
     }
 
     @Override
@@ -533,46 +402,25 @@ public class CLI implements View{
         couple.add(quartet.get(first));
         couple.add(quartet.get(second));
         ArrayList<LightResource> chosenResources = new ArrayList<>();
-        for(int i=0; i<numResources; i++){
-            int res;
-            LightResource choice = null;
-            do {
-                System.out.println("choose resource " +
-                        "1 for COIN\n2 for SERVANT\n3 for SHIELD\n4 for STONE");
-                res = in.nextInt();
-            }
-            while(res<1 || res>4);
-            switch (res) {
-                case 1 -> choice = LightResource.COIN;
-                case 2 -> choice = LightResource.SERVANT;
-                case 3 -> choice = LightResource.SHIELD;
-                case 4 -> choice = LightResource.STONE;
-            }
-            chosenResources.add(choice);
-        }
+        for(int i=0; i<numResources; i++)
+            chosenResources.add(askResource());
         controller.sendStartItems(couple, chosenResources, faithPoints);
-
     }
 
-    public LightLeaderCard askLeaderCardUse(){
-        System.out.println("choose an active leader card: ");
+    private LightLeaderCard askLeaderCardUse(){
         ArrayList<LightLeaderCard> cards = controller.getPlayerBoard().getLeaderSlot();
-        int choice = 0;
+        int choice;
         do{
             System.out.println(cards);
-            choice = in.nextInt();
+            choice = askInt("choose an active leader card: ");
         }while(choice != 1 && choice!=2);
 
         LightLeaderCard card = cards.get(choice-1);
         if(!card.isEnabled()) {
-            System.out.println("Leader card not active!");
+            showError("Leader card not active!");
             card = null;
         }
         return card;
-    }
-
-    public void notifyJoin(){
-
     }
 
     public void endGame(){
@@ -581,8 +429,44 @@ public class CLI implements View{
     }
 
     private void cheat(){
-        System.out.println("\nBURLONEEEE\n");
+        System.out.println("BURLONEEEE");
         controller.sendCheat();
         askTurn();
+    }
+
+    private String askString(String message){
+        System.out.println(message);
+        try{
+            return in.nextLine();
+        }catch(InputMismatchException e){
+            showError("Input incorrect!");
+            this.in = new Scanner(System.in);
+            return "";
+        }
+    }
+
+    private Integer askInt(String message){
+        System.out.println(message);
+        try{
+            return in.nextInt();
+        }catch(InputMismatchException e){
+            showError("Input incorrect!");
+            this.in = new Scanner(System.in);
+            return 0;
+        }
+    }
+
+    private LightResource askResource(){
+        int res;
+        do res = askInt("choose resource:\n" +
+                    "1 for COIN\n2 for SERVANT\n3 for SHIELD\n4 for STONE");
+        while(res<1 || res>4);
+        switch (res) {
+            case 1 : return LightResource.COIN;
+            case 2 : return LightResource.SERVANT;
+            case 3 : return LightResource.SHIELD;
+            case 4 : return LightResource.STONE;
+        }
+       return null;
     }
 }

@@ -71,9 +71,11 @@ public class LightWarehouseDepot {
         String s = "\nWAREHOUSE: \n";
         for(LightResource res: warehouse)
             s+=res.toColoredString()+" ";
-        s+="\n\t\tEXTRA: ";
-        for(LightResource res: extraWarehouse)
-            s+=res.toColoredString()+" ";
+        if(!this.extraWarehouse.isEmpty()) {
+            s += "\n\t\tEXTRA: ";
+            for (LightResource res : extraWarehouse)
+                s += res.toColoredString() + " ";
+        }
         return s;
     }
 }
