@@ -1,13 +1,9 @@
 package model.table;
 
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 class FaithTrackTest {
 
-    @Test
-    void faithAdvanceTest() {
+    //@Test
+    /*void faithAdvanceTest() {
         FaithTrack track = new FaithTrack();
         FaithBox startBox = new FaithBox();
         FaithBox nextBox1;
@@ -30,4 +26,6 @@ class FaithTrackTest {
         s = nextBox1.toString();
         System.out.println(s);
     }
+
+     */
 }

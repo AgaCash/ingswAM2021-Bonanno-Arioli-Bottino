@@ -11,10 +11,7 @@ import model.singleplayer.Lorenzo;
 import model.singleplayer.Token;
 import model.table.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Hashtable;
-import java.util.InputMismatchException;
+import java.util.*;
 
 public class Game {
     private ArrayList<Player> players = new ArrayList<>();
@@ -27,6 +24,7 @@ public class Game {
     private boolean didProduction = false;
 
     private boolean isOver;
+    private boolean lastTurnIsEnded;
     private String finalMessage;
 
     //COSTRUTTORE
@@ -35,6 +33,8 @@ public class Game {
         initializeGame();
     }
     public void initializeGame(){
+        this.isOver = false;
+        this.lastTurnIsEnded = false;
         table = new Table();
         Collections.shuffle(players);
         if(singlePlayer){
@@ -160,8 +160,7 @@ public class Game {
         if(checkResources(cost, true)){
             currentPlayer.getPlayerBoard().getCardSlots().addCard(slotPosition, deck.popCard());
             if(currentPlayer.getPlayerBoard().getCardSlots().isOver()){
-                this.isOver = true;
-                this.currentPlayer.setVictory(true);
+                startLastTurn();
                 this.finalMessage = "\nVITTORIA! HAI COMPRATO LA TUA SETTIMA CARTA SVILUPPO\n";
             }
         }
@@ -194,7 +193,7 @@ public class Game {
                     } catch(FullWarehouseException e){
                         for(Player player: this.players)
                             if(!player.getNickname().equals(currentPlayer.getNickname()))
-                                player.getPlayerBoard().getFaithTrack().faithAdvance(player.getFaithBox());
+                                player.getPlayerBoard().getFaithTrack().faithAdvance();
                     }
 
                 }
@@ -288,10 +287,9 @@ public class Game {
     public void faithAdvance (int advance){
         boolean[] check;
         for(int i=0; i<advance ;i++) {
-            FaithBox faithBox  = currentPlayer.getFaithTrack().faithAdvance(currentPlayer.getFaithBox());
+            FaithBox faithBox  = currentPlayer.getFaithTrack().faithAdvance();
             if (faithBox.getPosition() >= 24) {
-                this.isOver = true;
-                this.currentPlayer.setVictory(true);
+                startLastTurn();
                 this.finalMessage = "\nVITTORIA! HAI RAGGIUNTO LA FINE DEL FAITHTRACK\n";
                 return;
             }
@@ -386,7 +384,10 @@ public class Game {
         else {
             int turn = players.indexOf(currentPlayer);
             if (turn == players.size()-1)
-                turn = 0;
+                if(isOver)
+                    lastTurnIsEnded = true;
+                else
+                    turn = 0;
             else
                 turn += 1;
             currentPlayer = players.get(turn);
@@ -399,7 +400,7 @@ public class Game {
     //fare la classifica dei punti vittoria
 
     public String getRanking()  {
-        Hashtable<Integer, String> rank = new Hashtable<>();
+        /*Hashtable<Integer, String> rank = new Hashtable<>();
         ArrayList<Integer> scores = new ArrayList<>();
         String finalScoreMessage = new String();
 
@@ -409,8 +410,10 @@ public class Game {
         }
         Collections.sort(scores);
         Collections.reverse(scores);
+        System.out.println("RIGA 416"+rank);
 
         try {
+            System.out.println(scores.get(0));
             getPlayer(rank.get(scores.get(0))).setVictory(true);
         } catch(NoSuchUsernameException e) {
             throw new UnknownError("NON DOVEVA SUCCEDERE STA COSA AAAAAA");
@@ -420,11 +423,32 @@ public class Game {
             finalScoreMessage += rank.get(score)+" : "+score+" points\n";
 
         return finalScoreMessage;
+
+         */
+        currentPlayer.setVictory(true);
+        return "CLASSIFICA DA FARE";
     }
 
     public boolean isOver(){
         return this.isOver;
     }
+
+    private void startLastTurn(){
+        this.isOver = true;
+        if(!isSinglePlayer()){
+            System.out.println("riga 436 "+players);
+            ArrayList<Player> newTurns = new ArrayList<>();
+            int start = players.indexOf(currentPlayer);
+            for(int i = start; i<players.size(); i++)
+                newTurns.add(players.get(i));
+            for(int i = 0; i<start; i++)
+                newTurns.add(players.get(i));
+            players = newTurns;
+            System.out.println("riga 444 "+players);
+        }
+    }
+
+    public boolean lastTurnIsOver(){ return this.lastTurnIsEnded; }
 
     public String endingSinglePlayerGame(){
         return this.finalMessage;
@@ -468,6 +492,13 @@ public class Game {
     public Lorenzo getLorenzo(){
         return this.cpu;
     }
+
+    public String getWinner(){
+        for(Player p: players)
+            if(p.isTheWinner())
+                return p.getNickname();
+        return null;
+    }
     //------------------------------------------------------------------------------------------------------------------
 
     public void cheat(){
@@ -479,5 +510,9 @@ public class Game {
         for(Resource r: res)
             for(int i = 0; i<10; i++)
                 currentPlayer.getPlayerBoard().getStrongbox().addResource(r);
+    }
+
+    public void cheat2(){
+        faithAdvance(20);
     }
 }

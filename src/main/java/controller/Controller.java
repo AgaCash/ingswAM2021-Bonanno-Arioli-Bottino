@@ -15,8 +15,6 @@ import model.table.DevelopmentBoard;
 import model.table.FaithTrack;
 import model.table.MarketBoard;
 import network.messages.gameMessages.*;
-import network.server.Lobby;
-import network.server.LobbyHandler;
 import utilities.LeaderCardDeserializer;
 import view.VirtualClient;
 
@@ -197,9 +195,9 @@ public class Controller {
 
 
     public void endTurn(String username) {
+        EndTurnResponse response;
         if (game.isSinglePlayer()) {
             game.updateTurn();
-            EndTurnResponse response;
             if(!game.isOver())
                 response = new EndTurnResponse(username,
                         game.getDevBoard().convert(),
@@ -213,13 +211,28 @@ public class Controller {
             getViews().get(0).getVirtualView().sendEndTurnNotify(response);
         }
         else{
-            do {
-                Player lastPlayer = game.getCurrentPlayer();
-                game.updateTurn();
-                EndTurnResponse response = new EndTurnResponse(username,
+            Player lastPlayer = game.getCurrentPlayer();
+            game.updateTurn();
+            if(game.lastTurnIsOver()){
+                response = new EndTurnResponse(username, game.getRanking(), game.getWinner());
+                EndTurnResponse finalResponse = response;
+                getViews().forEach((element) -> element.getVirtualView().sendEndTurnNotify(finalResponse));
+                /*try {
+                    Lobby lobby = LobbyHandler.getInstance().getLobbyFromUsername(username);
+                    Player creator = lobby.getCreator();
+                    lobby.leaveLobby(creator.getNickname());
+                } catch (NoSuchUsernameException e) {
+                    e.printStackTrace();
+                }
+
+                 */
+            }
+            else do {
+                response = new EndTurnResponse(username,
                         game.getCurrentPlayer().getNickname(),
                         lastPlayer.getPlayerBoard().getStrongbox().convert());
-                getViews().forEach((element) -> element.getVirtualView().sendEndTurnNotify(response));
+                EndTurnResponse finalResponse1 = response;
+                getViews().forEach((element) -> element.getVirtualView().sendEndTurnNotify(finalResponse1));
                 if(disconnectedPlayer.size() == game.getPlayers().size()){
                     //fanculo tutto todo: aggiungere qualcosa di piu elegante?
                 }
@@ -228,16 +241,8 @@ public class Controller {
             //
             //SE TUTTI E 4 SI SONO DISCONNESSI FANCULO TUTTO SI BUTTA VIA LA PARTITA
         }
-        if(game.isOver()){
-            try {
-                Lobby lobby = LobbyHandler.getInstance().getLobbyFromUsername(username);
-                Player creator = lobby.getCreator();
-                lobby.leaveLobby(creator.getNickname());
-            } catch (NoSuchUsernameException e) {
-                e.printStackTrace();
-            }
-        }
     }
+
 
     //ERRORS
     public void handleError(String message){
@@ -276,6 +281,9 @@ public class Controller {
 
     public void cheat(){
         game.cheat();
+    }
+    public void cheat2(){
+        game.cheat2();
     }
 
 

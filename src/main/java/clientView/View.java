@@ -61,4 +61,5 @@ public interface View {
     void showError(String message);
     void showSuccess(String message);
     void endGame();
+    void showRanking(String winner, String rank);
 }

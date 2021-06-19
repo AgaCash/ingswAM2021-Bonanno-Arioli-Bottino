@@ -47,8 +47,17 @@ public class EndTurnResponse extends GameMessage{
         this.isSinglePlayer = true;
         this.message = message;
     }
+
+    public EndTurnResponse(String username, String rank, String winner){
+        super(username, MessageType.ENDTURNUPDATE);
+        this.gameOver = true;
+        this.isSinglePlayer = false;
+        this.newPlayerName = winner;
+        this.message = rank;
+    }
     @Override
     public void executeCommand(LightController controller){
+        controller.updateStrongbox(getUsername(), this.strongbox);
         if(this.isSinglePlayer){
             if(gameOver){
                 controller.endSinglePlayerGame(this.message);
@@ -56,7 +65,6 @@ public class EndTurnResponse extends GameMessage{
             else {
                 controller.updateDevBoard(board);
                 controller.updateFaithTrack(getUsername(), this.track);
-                controller.updateStrongbox(getUsername(), this.strongbox);
                 controller.updateCardSlots(getUsername(), this.slots);
                 controller.getPlayerBoard().getFaithTrack().setLorenzoPos(lorenzoPos);
                 controller.showSuccess(message);
@@ -64,10 +72,15 @@ public class EndTurnResponse extends GameMessage{
             }
 
         }else{
-            controller.showSuccess(getUsername()+" has ended the turn");
-            controller.showSuccess(this.newPlayerName+" has started the turn");
-            if(controller.getUsername().equals(this.newPlayerName))
-                controller.startTurn();
+            if(gameOver){
+                controller.endMultiPlayerGame(newPlayerName, message);
+            }
+            else {
+                controller.showSuccess(getUsername() + " has ended the turn");
+                controller.showSuccess(this.newPlayerName + " has started the turn");
+                if (controller.getUsername().equals(this.newPlayerName))
+                    controller.startTurn();
+            }
         }
 
     }

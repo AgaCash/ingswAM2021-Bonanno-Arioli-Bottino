@@ -419,6 +419,13 @@ public class CLI implements View{
         return card;
     }
 
+    @Override
+    public void showRanking(String winner, String rank){
+        System.out.println(LightColour.YELLOW+"FINAL RANK:\n"+rank+LightColour.WHITE);
+        System.out.println(LightColour.GREEN+"AND THE WINNER IS...\n\t"+winner+"!"+LightColour.WHITE);
+    }
+
+    @Override
     public void endGame(){
         System.out.println("see you space cowboy...\n");
         controller.quittingApplication();
@@ -426,7 +433,10 @@ public class CLI implements View{
 
     private void cheat(){
         System.out.println("BURLONEEEE");
-        controller.sendCheat();
+        int ans;
+        do ans = askInt("choose 1 if you're a fucking liar, 2 for the strength of the Pope");
+        while(ans!=1 && ans!=2);
+        controller.sendCheat(ans);
         askTurn();
     }
 

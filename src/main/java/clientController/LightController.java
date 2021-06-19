@@ -530,9 +530,14 @@ public class LightController {
         view.endGame();
     }
 
-    public void sendCheat(){
+    public void endMultiPlayerGame(String winner, String rank){
+        view.showRanking(winner, rank);
+        view.endGame();
+    }
+
+    public void sendCheat(int ans){
         Gson gson = new Gson();
-        CheatRequest request = new CheatRequest(getUsername());
+        CheatRequest request = new CheatRequest(getUsername(), ans);
         client.send(gson.toJson(request));
         try{
             String s = client.recv();

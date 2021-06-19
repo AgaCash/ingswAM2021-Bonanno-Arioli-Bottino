@@ -11,7 +11,7 @@ public class ExtraDepot extends LeaderCard{
     private ArrayList<Resource> requiredResource;
     private static int victoryPoints = 3;
     private ArrayList<Resource> extraDepotResource;
-    private transient ArrayList<Resource> extraWarehouseDepot = new ArrayList<>();
+    private transient ArrayList<Resource> extraWarehouseDepot;
 
     public ExtraDepot(int id, boolean en, ArrayList<Resource> req, ArrayList<Resource> extra){
         this.id = id;
@@ -19,6 +19,12 @@ public class ExtraDepot extends LeaderCard{
         this.requiredResource = req;
         this.extraDepotResource = extra;
         super.type = LeaderCardType.EXTRADEPOT;
+    }
+
+    @Override
+    public void activate(){
+        this.isEnabled = true;
+        this.extraWarehouseDepot = new ArrayList<>();
     }
 
     @Override

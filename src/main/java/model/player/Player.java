@@ -15,6 +15,7 @@ public class Player {
     private boolean victory;
 
     public Player(String nickname){
+        this.victory = false;
         this.nickname = nickname;
         this.playerboard = new PlayerBoard();
     }
@@ -81,6 +82,9 @@ public class Player {
 
     public void setVictory(boolean value){
         this.victory = value;
+    }
+    public boolean isTheWinner(){
+        return this.victory;
     }
 
 

@@ -68,7 +68,7 @@ public class Lorenzo {
             }
         } else {
             for(int i=0; i< token.getBlackCrossFaithPoints();i++) {
-                faithBox = faithTrack.faithAdvance(faithBox);
+                faithBox = faithTrack.faithAdvance();
                 this.lorenzoLastAction += "\nLorenzo ha avanzato sul tracciato ";
                 if (faithBox.getPosition() == 24) {
                     this.lorenzoLastAction+="\nGAME OVER: LORENZO HA RAGGIUNTO LA FINE DEL TRACCIATO";
