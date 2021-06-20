@@ -4,13 +4,15 @@ import exceptions.*;
 import model.cards.DevelopmentCard;
 import model.cards.ExtraDepot;
 import model.cards.LeaderCard;
-import model.cards.WhiteConverter;
 import model.player.Player;
 import model.resources.Resource;
 import model.singleplayer.Lorenzo;
 import model.singleplayer.Token;
 import model.table.*;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.InputMismatchException;
 
 public class Game {
     private ArrayList<Player> players = new ArrayList<>();
@@ -129,10 +131,16 @@ public class Game {
         ArrayList<Resource> cost = deck.getCost();
 
         LeaderCard card = getLeaderCard(cardFromClient);
-        if(card!=null && card.isDiscount()) {
-            discount = card.whichDiscount();
-            cost.remove(discount);
+        if(card!=null) {
+            if (cardIsUsable(card) && card.isDiscount()) {
+                discount = card.whichDiscount();
+                cost.remove(discount);
+                System.out.println("riga 138");
+            }
+            else
+                throw new UnusableCardException("can't use this leader card!");
         }
+
 
         if(checkResources(cost, true)){
             currentPlayer.getPlayerBoard().getCardSlots().addCard(slotPosition, deck.popCard());
@@ -154,10 +162,10 @@ public class Game {
         ArrayList<Resource> bought = new ArrayList<>();
         LeaderCard card = getLeaderCard(cardFromClient);
         if(line &&  num>=0 && num<=2) {
-            bought = table.getMarketBoard().addMarketLine(num, (WhiteConverter) card);
+            bought = table.getMarketBoard().addMarketLine(num, card);
         }
         else if(!line && num>=0 && num<=3) {
-            bought = table.getMarketBoard().addMarketColumn(num, (WhiteConverter) card);
+            bought = table.getMarketBoard().addMarketColumn(num, card);
         }
 
         for (Resource res : bought) {
@@ -188,13 +196,15 @@ public class Game {
         if(didAction)
             throw new InvalidActionException("you already did an action in this turn!\n");
         LeaderCard card = getLeaderCard(cardFromClient);
-        ArrayList<Resource> prodResources;
+        ArrayList<Resource> prodResources = new ArrayList<>();
         if(checkResources(currentPlayer.getPlayerBoard().getCardSlots().getCard(slot).getProdInput(), true)){
-            prodResources = currentPlayer.getPlayerBoard().getCardSlots().getCard(slot).createProduction();
-            if (checkExtraProd(card)) {
-                card.setChosenOutput(chosenOutput);
-                prodResources.addAll(card.production());
+            if(card!=null) {
+                if (checkExtraProd(card)) {
+                    card.setChosenOutput(chosenOutput);
+                    prodResources.addAll(card.production());
+                }else throw new InsufficientResourcesException("insufficient resources for using leader card!");
             }
+            prodResources.addAll(currentPlayer.getPlayerBoard().getCardSlots().getCard(slot).createProduction());
             for (Resource res : prodResources) {
                 if (res == Resource.FAITH)
                     faithAdvance(1);
@@ -211,26 +221,22 @@ public class Game {
      */
     public void defaultProduction(ArrayList<Resource> input, Resource output, LeaderCard cardFromClient, Resource chosenOutput) throws InsufficientResourcesException, UnusableCardException, InvalidActionException {
         if(didAction || didProduction)
-            throw new InvalidActionException("you already did an action in this turn!\n");
+            throw new InvalidActionException("you already did an action in this turn!");
         ArrayList<Resource> prodResources = new ArrayList<>();
         LeaderCard card = getLeaderCard(cardFromClient);
 
         if(checkResources(input, true )){
-            System.out.println(input+" riga 225  game");
-            prodResources.add(output);
-
-            if (checkExtraProd(card)) {
-                card.setChosenOutput(chosenOutput);
-                prodResources.addAll(card.production());
+            if(card!=null) {
+                if (checkExtraProd(card)) {
+                    card.setChosenOutput(chosenOutput);
+                    prodResources.addAll(card.production());
+                }else throw new InsufficientResourcesException("Can't use this leader card: insufficient resources!");
             }
-
+            prodResources.add(output);
             for (Resource res : prodResources) {
                 if (res == Resource.FAITH)
                     faithAdvance(1);
-                else
-                    currentPlayer.getPlayerBoard().getStrongbox().addResource(res);
-
-
+                else currentPlayer.getPlayerBoard().getStrongbox().addResource(res);
             }
             this.didProduction = true;
         }
@@ -250,7 +256,7 @@ public class Game {
     }
 
     //--------------------FAITH TRACK--------------------
-    /** advances the player's pawn position in the Faith Track, calling faithAdvance in FaithTrack
+    /**Advances the player's pawn position in the Faith Track, calling faithAdvance in FaithTrack
      * @param advance how many position the player gets
      */
     public void faithAdvance (int advance){

@@ -61,15 +61,13 @@ public class BuyResourcesResponse extends GameMessage{
             controller.updateMarketBoard(newMarketBoard);
             controller.updateWarehouse(getUsername(), newWarehouse);
             if (!this.isSinglePlayer) {
+                controller.showOthersActions(getUsername(), " has bought resources from the market");
                 for (LightPlayer p : players)
                     if (controller.getUsername().equals(p.getNickname())) {
-                        int oldPos = controller.getPlayerBoard().getFaithTrack().getCurrentPos();
-                        int newPos = p.getPlayerBoard().getFaithTrack().getCurrentPos();
-                        if(oldPos<newPos)
-                            controller.showSuccess("+++ you earned "+ (newPos - oldPos) +" faith points!");
+                        if(!threwResource.isEmpty())
+                            controller.showSuccess("+++ you earned "+ threwResource.size() +" faith points!");
                         controller.updateFaithTrack(p.getNickname(), p.getPlayerBoard().getFaithTrack());
                     }
-                controller.showOthersActions(getUsername(), " has bought resources from the market");
             }else{
                 controller.getPlayerBoard().getFaithTrack().setCurrentPos(position);
             }

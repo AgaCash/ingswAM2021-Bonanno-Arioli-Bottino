@@ -284,8 +284,7 @@ public class CLI implements View{
             while (!ans.equals("y") && !ans.equals("n"));
             if (ans.equals("y")) {
                 LightLeaderCard card = askLeaderCardUse();
-                if (card != null && card.isWhiteConverter())
-                    controller.sendBuyResourceRequest(line, number - 1, card);
+                controller.sendBuyResourceRequest(line, number - 1, card);
             } else
                 controller.sendBuyResourceRequest(line, number - 1, null);
             System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());
@@ -410,12 +409,7 @@ public class CLI implements View{
             choice = askInt("choose an active leader card: ");
         }while(choice != 1 && choice!=2);
 
-        LightLeaderCard card = cards.get(choice-1);
-        if(!card.isEnabled()) {
-            showError("Leader card not active!");
-            card = null;
-        }
-        return card;
+        return cards.get(choice-1);
     }
 
     @Override

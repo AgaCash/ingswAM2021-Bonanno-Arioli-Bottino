@@ -3,7 +3,7 @@ package model.table;
 import clientModel.marbles.LightMarble;
 import clientModel.table.LightMarketBoard;
 import exceptions.UnusableCardException;
-import model.cards.WhiteConverter;
+import model.cards.LeaderCard;
 import model.marbles.Marble;
 import model.resources.Resource;
 import utilities.JsonParser;
@@ -66,13 +66,12 @@ public class MarketBoard {
      * @param card eventual leader card passed to obtain bonuses
      * @return arraylist of requested model.resources
      */
-    public ArrayList<Resource> addMarketLine (int line, WhiteConverter card) throws UnusableCardException{
-        Resource convertResource;
-        System.out.println(card);
-        try {
-            convertResource = card.whichResource();
-        }catch(NullPointerException e){
-            convertResource = null;
+    public ArrayList<Resource> addMarketLine (int line, LeaderCard card) throws UnusableCardException{
+        Resource convertResource = null;
+        if(card!=null) {
+            if (!card.isWhiteConverter())
+                throw new UnusableCardException("can't use this leader card!");
+            else convertResource = card.whichResource();
         }
 
         ArrayList<Resource> resLine = new ArrayList<>(4);
@@ -83,17 +82,6 @@ public class MarketBoard {
             if(toConvert.convertMarble(convertResource)!=null)
                 resLine.add(toConvert.convertMarble(convertResource));
         }
-        System.out.println("resLine: "+resLine);
-/*        Marble tmp = freeMarble;
-        freeMarble = marbleGrid.get(line).get(0);
-
-        int i;
-        for(i =3 ; i>0; i--)
-            marbleGrid.get(line).set(i - 1, marbleGrid.get(line).get(i));
-        marbleGrid.get(line).set(3, tmp);
-        System.out.println("new grid:  "+marbleGrid);
-
- */
         changeLine(line);
         return resLine;
     }
@@ -115,14 +103,14 @@ public class MarketBoard {
      * @param card eventual leader card passed to obtain bonuses
      * @return arraylist of requested model.resources
      */
-    public ArrayList<Resource> addMarketColumn (int col, WhiteConverter card) throws UnusableCardException{
-
-        Resource convertResource;
-        try {
-             convertResource = card.whichResource();
-        }catch(NullPointerException e){
-            convertResource = null;
+    public ArrayList<Resource> addMarketColumn (int col, LeaderCard card) throws UnusableCardException{
+        Resource convertResource = null;
+        if(card!=null) {
+            if (!card.isWhiteConverter())
+                throw new UnusableCardException("can't use this leader card!");
+            else convertResource = card.whichResource();
         }
+
         ArrayList<Resource> resColumn = new ArrayList<>(3);
         Marble toConvert;
         for(int i = 0; i<3; i++){
@@ -130,15 +118,6 @@ public class MarketBoard {
             if(toConvert.convertMarble(convertResource)!=null)
                 resColumn.add(toConvert.convertMarble(convertResource));
         }
-        /*
-        Marble tmp = freeMarble;
-        freeMarble = marbleGrid.get(0).get(col);
-
-        int i;
-        for(i =1 ; i<=2; i++)
-          marbleGrid.get(i-1).set(col, marbleGrid.get(i).get(col));
-        marbleGrid.get(2).set(col, tmp);
-         */
         changeColumn(col);
         return resColumn;
     }

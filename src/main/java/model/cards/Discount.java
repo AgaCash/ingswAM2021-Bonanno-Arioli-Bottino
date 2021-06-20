@@ -25,7 +25,7 @@ public class Discount extends LeaderCard{
     @Override
     public Resource whichDiscount() throws UnusableCardException {
         if(!isEnabled())
-            throw new UnusableCardException();
+            throw new UnusableCardException("can't use this card: not active!");
         return this.discount;
     }
 

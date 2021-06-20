@@ -291,7 +291,6 @@ public class LightController {
     }
 
     public void sendDefaultProductionRequest (ArrayList<LightResource> input, LightResource output, LightLeaderCard card, LightResource chosenOutput){
-        Gson gson = new Gson();
         DefaultProductionRequest request = new DefaultProductionRequest(game.getUsername(), input, output, card, chosenOutput);
         client.send(gson.toJson(request));
         try {
@@ -305,7 +304,6 @@ public class LightController {
     }
 
     public void sendDevCardProductionRequest (int slot, LightResource chosenResource, LightLeaderCard card){
-        Gson gson = new Gson();
         DevCardProductionRequest request = new DevCardProductionRequest(game.getUsername(), slot, chosenResource, card);
         client.send(gson.toJson(request));
         try {
@@ -318,7 +316,6 @@ public class LightController {
     }
 
     public void sendBuyResourceRequest (boolean line, int num, LightLeaderCard lightCard){
-        //Gson gson = new Gson();
         BuyResourcesRequest request = new BuyResourcesRequest(game.getUsername(), line, num, lightCard);
         client.send(gson.toJson(request));
         try {
@@ -331,7 +328,6 @@ public class LightController {
     }
 
     public void sendBuyDevCardRequest (int deck, int slot, LightLeaderCard card){
-        Gson gson = new Gson();
         BuyDevCardRequest request = new BuyDevCardRequest(game.getUsername(), deck, slot, card);
         client.send(gson.toJson(request));
         try{
@@ -369,7 +365,6 @@ public class LightController {
     }
 
     public void sendEndTurnRequest(){
-        Gson gson = new Gson();
         EndTurnRequest request = new EndTurnRequest(getUsername());
         client.send((gson.toJson(request)));
         try{
@@ -383,7 +378,6 @@ public class LightController {
     }
 
     public void updateCardSlots(String username, ArrayList<LightDevelopmentCard> cardSlots){
-        Gson gson = new Gson();
         try {
             game.updateCardSlots(username, cardSlots);
         }catch (NoSuchUsernameException e){
