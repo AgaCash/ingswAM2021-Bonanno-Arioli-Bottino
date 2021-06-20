@@ -262,7 +262,6 @@ public class CLI implements View{
                     controller.sendBuyResourceRequest(line, number - 1, card);
             } else
                 controller.sendBuyResourceRequest(line, number - 1, null);
-            showSuccess("successful purchase! your new warehouse: ");
             System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());
         }
         askTurn();
@@ -288,7 +287,6 @@ public class CLI implements View{
             }else{
                 controller.sendBuyDevCardRequest(deck - 1, slot - 1, null);
             }
-            showSuccess("successful purchase! your new development card slots: ");
             System.out.println(controller.getPlayerBoard().getCardSlots().toString());
         }
         askTurn();
@@ -317,7 +315,6 @@ public class CLI implements View{
                     else{
                         controller.sendDevCardProductionRequest(slot-1, null, null);
                     }
-                    showSuccess("successful production! your new resources: ");
                     System.out.println(controller.getPlayerBoard().getStrongbox().toString());
                     System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());
                 }
@@ -349,7 +346,6 @@ public class CLI implements View{
         else{
             controller.sendDefaultProductionRequest(chosenInput, outRes, null, null);
         }
-        showSuccess("successful production! your new resources: ");
         System.out.println(controller.getPlayerBoard().getStrongbox().toString());
         System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());
     }

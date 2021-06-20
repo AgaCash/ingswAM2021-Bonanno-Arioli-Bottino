@@ -15,7 +15,6 @@ public class LeaderCardThrowResponse extends GameMessage{
     public LeaderCardThrowResponse(String username, int position, ArrayList<LightLeaderCard> newSlot) {
         super(username, MessageType.LEADERCARDTHROWUPDATE);
         this.success = true;
-        this.message = " has threw a leader card";
         this.position = position;
         this.newSlot = newSlot;
     }
@@ -31,7 +30,9 @@ public class LeaderCardThrowResponse extends GameMessage{
         if(this.success){
             controller.updateLeaderSlot(getUsername(), this.newSlot);
             controller.getPlayerBoard().getFaithTrack().setCurrentPos(position);
-            controller.showSuccess(message);
+            controller.showOthersActions(getUsername(), " has threw a leader card");
+            if(controller.getUsername().equals(getUsername()))
+                controller.showSuccess("successful production!\n+++ you earned a faith point!");
         }
         else{
             controller.showError(getUsername(), message);

@@ -18,7 +18,6 @@ public class DevCardProductionResponse extends GameMessage{
         this.newStrongbox = newStrongbox;
         this.position = position;
         this.success = true;
-        this.message = " has activated a production from a development card";
     }
 
     public DevCardProductionResponse(String username, String message){
@@ -32,7 +31,9 @@ public class DevCardProductionResponse extends GameMessage{
             controller.updateWarehouse(getUsername(), newWarehouse);
             controller.updateStrongbox(getUsername(), newStrongbox);
             controller.getPlayerBoard().getFaithTrack().setCurrentPos(position);
-            controller.showOthersActions(getUsername(), this.message);
+            controller.showOthersActions(getUsername(), " has activated a production from a development card");
+            if(controller.getUsername().equals(getUsername()))
+                controller.showSuccess("successful production!");
         }
         else{
             controller.showError(getUsername(), message);

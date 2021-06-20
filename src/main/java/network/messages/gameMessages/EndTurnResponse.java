@@ -76,10 +76,14 @@ public class EndTurnResponse extends GameMessage{
                 controller.endMultiPlayerGame(newPlayerName, message);
             }
             else {
-                controller.showSuccess(getUsername() + " has ended the turn");
-                controller.showSuccess(this.newPlayerName + " has started the turn");
-                if (controller.getUsername().equals(this.newPlayerName))
+                controller.showOthersActions(getUsername() , " has ended the turn");
+
+                if (controller.getUsername().equals(this.newPlayerName)) {
+                    controller.showSuccess("IT'S YOUR TURN!");
                     controller.startTurn();
+                }
+                else
+                    controller.showOthersActions(this.newPlayerName , " has started the turn");
             }
         }
 

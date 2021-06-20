@@ -45,7 +45,6 @@ public class BuyResourcesResponse extends GameMessage{
         else
             this.threwResource = threwResource;
         this.success = true;
-        this.message = " has bought resources from the market";
         this.players = players;
         this.isSinglePlayer = false;
     }
@@ -67,15 +66,16 @@ public class BuyResourcesResponse extends GameMessage{
                         int oldPos = controller.getPlayerBoard().getFaithTrack().getCurrentPos();
                         int newPos = p.getPlayerBoard().getFaithTrack().getCurrentPos();
                         if(oldPos<newPos)
-                            controller.showSuccess("you earned "+ (newPos - oldPos) +" faith points!");
+                            controller.showSuccess("+++ you earned "+ (newPos - oldPos) +" faith points!");
                         controller.updateFaithTrack(p.getNickname(), p.getPlayerBoard().getFaithTrack());
                     }
-                controller.showOthersActions(getUsername(), this.message);
+                controller.showOthersActions(getUsername(), " has bought resources from the market");
             }else{
                 controller.getPlayerBoard().getFaithTrack().setCurrentPos(position);
             }
             controller.showThrewResources(getUsername(), threwResource);
-
+            if(controller.getUsername().equals(getUsername()))
+                controller.showSuccess("successful purchase!");
         }
         else
             controller.showError(getUsername(), message);

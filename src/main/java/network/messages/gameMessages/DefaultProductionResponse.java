@@ -16,7 +16,6 @@ public class DefaultProductionResponse extends GameMessage {
         this.newWarehouse = newWarehouse;
         this.newStrongbox = newStrongbox;
         this.success = true;
-        this.message = " has activated a production from the player board";
     }
 
     public DefaultProductionResponse(String username, String message){
@@ -29,7 +28,9 @@ public class DefaultProductionResponse extends GameMessage {
         if(this.success) {
             controller.updateWarehouse(getUsername(), newWarehouse);
             controller.updateStrongbox(getUsername(), newStrongbox);
-            controller.showOthersActions(getUsername(), this.message);
+            controller.showOthersActions(getUsername(), " has activated a production from the player board");
+            if(controller.getUsername().equals(getUsername()))
+                controller.showSuccess("successful production!");
         }
         else{
             controller.showError(getUsername(), message);

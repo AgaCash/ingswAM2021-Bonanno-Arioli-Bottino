@@ -21,7 +21,6 @@ public class LeaderCardActivationResponse extends GameMessage{
                                         LightStrongbox strongbox) {
         super(username, MessageType.LEADERCARDUPDATE);
         this.success = true;
-        this.message = " has activated a leader card";
         this.newSlot = newSlot;
         this.warehouse = warehouse;
         this.strongbox = strongbox;
@@ -40,7 +39,9 @@ public class LeaderCardActivationResponse extends GameMessage{
             controller.updateLeaderSlot(getUsername(), this.newSlot);
             controller.updateStrongbox(getUsername(), this.strongbox);
             controller.updateWarehouse(getUsername(), this.warehouse);
-            controller.showOthersActions(getUsername(), this.message);
+            controller.showOthersActions(getUsername(), " has activated a leader card");
+            if(controller.getUsername().equals(getUsername()))
+                controller.showSuccess("successful activation!");
         }
         else{
             controller.showError(getUsername(), message);
