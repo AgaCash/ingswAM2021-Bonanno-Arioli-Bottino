@@ -41,7 +41,6 @@ public class Game {
             tokens = cpu.getTokens();
         }
     }
-
     public void addPlayer(Player newPlayer){
         if(players.size()<4){
             players.add(newPlayer);

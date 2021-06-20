@@ -1,14 +1,1 @@
-
 4) CLI: leader card not active menu
-5) Exception in thread "Thread-3" java.lang.NullPointerException: Cannot invoke "model.cards.DevelopmentCard.getLevel()" because "oldCard" is null
-   	at model.cards.CardSlots.checkCardLevelIntegrity(CardSlots.java:45)
-   	at model.cards.CardSlots.addCard(CardSlots.java:58)
-   	at model.Game.buyDevCard(Game.java:139)
-   	at controller.Controller.buyDevCard(Controller.java:141)
-   	at network.messages.gameMessages.BuyDevCardRequest.executeCommand(BuyDevCardRequest.java:29)
-   	at view.VirtualClient.handleGameMessage(VirtualClient.java:102)
-   	at view.VirtualClient.readLoop(VirtualClient.java:170)
-   	at view.VirtualClient.run(VirtualClient.java:188)
-   	at java.base/java.lang.Thread.run(Thread.java:832)
-
-

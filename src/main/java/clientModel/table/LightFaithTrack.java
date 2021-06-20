@@ -26,6 +26,10 @@ public class LightFaithTrack {
         actualPos.setPos(true);
     }
 
+    public int getCurrentPos(){
+        return this.box.indexOf(this.actualPos);
+    }
+
 
 
     @Override

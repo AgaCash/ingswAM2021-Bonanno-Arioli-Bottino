@@ -52,7 +52,6 @@ public class CardSlots {
                                                                 NonCorrectLevelCardException {
         if(this.slots.get(slot).isEmpty() && card.getLevel()==1){}
         else {
-            //TODO really necessary? probably remove when client would be defined
             if (slot < 0 || slot > 2)
                 throw new IndexOutOfBoundsException();
             if (slots.get(slot).size() > 2)

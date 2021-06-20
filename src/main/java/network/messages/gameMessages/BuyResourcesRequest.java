@@ -35,16 +35,27 @@ public class BuyResourcesRequest extends GameMessage{
     }
 
     public void update(Controller controller){
-        ArrayList<LightPlayer> players = new ArrayList<>();
-        for(Player p: controller.getPlayers())
-            players.add(p.convert());
-        BuyResourcesResponse response = new BuyResourcesResponse(getUsername(),
-                                                                controller.getCurrentPlayer().getPlayerBoard().getWarehouseDepot().convert(),
-                                                                controller.getMarketBoard().convert(),
-                                                                controller.getCurrentPlayer().getFaithTrack().getFaithBox().getPosition(),
-                                                                controller.getThrewResources(),
-                                                                players);
-        controller.getViews().forEach((element)-> { element.getVirtualView().updateBuyResources(response);});
+        BuyResourcesResponse response;
+        if(!controller.isSinglePlayer()) {
+            ArrayList<LightPlayer> players = new ArrayList<>();
+            for (Player p : controller.getPlayers())
+                players.add(p.convert());
+            response = new BuyResourcesResponse(getUsername(),
+                    controller.getCurrentPlayer().getPlayerBoard().getWarehouseDepot().convert(),
+                    controller.getMarketBoard().convert(),
+                    controller.getThrewResources(),
+                    players);
+            controller.getViews().forEach((element) -> element.getVirtualView().updateBuyResources(response));
+        }
+        else{
+            response = new BuyResourcesResponse(getUsername(),
+                    controller.getCurrentPlayer().getPlayerBoard().getWarehouseDepot().convert(),
+                    controller.getMarketBoard().convert(),
+                    controller.getCurrentPlayer().getFaithTrack().getFaithBox().getPosition(),
+                    controller.getThrewResources());
+            controller.getViews().get(0).getVirtualView().updateBuyResources(response);
+        }
+
     }
 
 
