@@ -18,15 +18,13 @@ public class Game {
     private Player currentPlayer;
     private Lorenzo cpu;
     public ArrayList<Token> tokens;
-    private boolean singlePlayer;
-    private boolean didAction = false;
-    private boolean didProduction = false;
-
+    private final boolean singlePlayer;
+    private boolean didAction;
+    private boolean didProduction;
     private boolean isOver;
     private boolean lastTurnIsEnded;
     private String finalMessage;
 
-    //COSTRUTTORE
     public Game(boolean singlePlayer){
         this.singlePlayer = singlePlayer;
         initializeGame();
@@ -34,35 +32,34 @@ public class Game {
     public void initializeGame(){
         this.isOver = false;
         this.lastTurnIsEnded = false;
+        this.didProduction = false;
+        this.didAction = false;
         table = new Table();
-        Collections.shuffle(players);
+        //Collections.shuffle(players);
         if(singlePlayer){
             cpu = new Lorenzo(table.getDevBoard());
             tokens = cpu.getTokens();
         }
     }
 
-    //START
     public void addPlayer(Player newPlayer){
         if(players.size()<4){
             players.add(newPlayer);
         }
     }
     public void setOrder(){
+        //Collections.shuffle(players)
         for(Player player : players){
             if(players.indexOf(player)== 0) {
                 player.getPlayerBoard().setInkwell(true);
                 currentPlayer = player;
-                System.out.println(currentPlayer.getNickname());
             }
             player.setStartingTurn(players.indexOf(player));
-            System.out.println(player);
         }
     }
     public ArrayList<LeaderCard> sendQuartet(){
         return table.sendQuartet();
     }
-
 
     //===========UTILITIES
     private boolean checkDevCards(ArrayList<DevelopmentCard> requirements){
@@ -80,17 +77,12 @@ public class Game {
 
         ArrayList<Resource> clonedWarehouse = (ArrayList<Resource>) currentPlayer.getPlayerBoard().getWarehouseDepot().status().clone();
         ArrayList<Resource> clonedStrongbox = (ArrayList<Resource>) currentPlayer.getPlayerBoard().getStrongbox().status().clone();
-        System.out.println("CLONED STRONGBOX: "+clonedStrongbox);
-        System.out.println("CLONED WAREHOUSE: "+clonedWarehouse);
-        for(Resource r :cost){
-            if(clonedWarehouse.remove(r)){
-                ;
-            }else if(clonedStrongbox.remove(r)){
-                ;
-            }else{
-                return false;
-            }
-        }
+        //System.out.println("CLONED STRONGBOX: "+clonedStrongbox);
+        //System.out.println("CLONED WAREHOUSE: "+clonedWarehouse);
+        for(Resource r :cost)
+            if(clonedWarehouse.remove(r)){}
+            else if(clonedStrongbox.remove(r)){}
+            else return false;
 
         if(remove){
             for(Resource r: cost){
@@ -100,8 +92,6 @@ public class Game {
                     try {
                         currentPlayer.getPlayerBoard().getStrongbox().removeResource(r);
                     }catch(ResourceNotFoundException f){
-                        System.out.println();
-                        //todo da sistemare GAME CHECKRESOURCES RIGA 100
                         return false;
                     }
                 }
@@ -110,9 +100,7 @@ public class Game {
         return true;
     }
     private boolean cardIsUsable(LeaderCard card){
-        if(card!=null && card.isEnabled())
-            return true;
-        return false;
+        return card != null && card.isEnabled();
     }
 
     private LeaderCard getLeaderCard(LeaderCard card){
@@ -125,15 +113,6 @@ public class Game {
         return cardFromSlot;
     }
 
-    //============UTILITIES FOR PING
-    public void addPlayerAtIndex(Player player, int index){
-        players.add(index, player);
-    }
-
-    public void removePlayer(String username){
-
-    }
-    //============GIOCO
 
     //--------------------BUY DEV CARDS--------------------
     public void buyDevCard(int numDeck, int slotPosition, LeaderCard cardFromClient) throws FullCardSlotException,
@@ -160,7 +139,7 @@ public class Game {
             currentPlayer.getPlayerBoard().getCardSlots().addCard(slotPosition, deck.popCard());
             if(currentPlayer.getPlayerBoard().getCardSlots().isOver()){
                 startLastTurn();
-                this.finalMessage = "\nVITTORIA! HAI COMPRATO LA TUA SETTIMA CARTA SVILUPPO\n";
+                this.finalMessage = "\nVICTORY! YOU BOUGHT YOUR 7th DEVELOPMENT CARD!\n";
             }
         }
         else{
@@ -214,13 +193,9 @@ public class Game {
         ArrayList<Resource> prodResources;
         if(checkResources(currentPlayer.getPlayerBoard().getCardSlots().getCard(slot).getProdInput(), true)){
             prodResources = currentPlayer.getPlayerBoard().getCardSlots().getCard(slot).createProduction();
-            try {
-                if (checkExtraProd(card)) {
-                    card.setChosenOutput(chosenOutput);
-                    prodResources.addAll(card.production());
-                }
-            }catch(NullPointerException e){
-                //todo va bene?
+            if (checkExtraProd(card)) {
+                card.setChosenOutput(chosenOutput);
+                prodResources.addAll(card.production());
             }
             for (Resource res : prodResources) {
                 if (res == Resource.FAITH)
@@ -245,13 +220,11 @@ public class Game {
         if(checkResources(input, true )){
             System.out.println(input+" riga 225  game");
             prodResources.add(output);
-            //leader card
-            try {
-                if (checkExtraProd(card)) {
-                    card.setChosenOutput(chosenOutput);
-                    prodResources.addAll(card.production());
-                }
-            }catch(NullPointerException e){;}
+
+            if (checkExtraProd(card)) {
+                card.setChosenOutput(chosenOutput);
+                prodResources.addAll(card.production());
+            }
 
             for (Resource res : prodResources) {
                 if (res == Resource.FAITH)
@@ -273,8 +246,7 @@ public class Game {
         if(cardIsUsable(card) && card.isExtraProd()) {
             ArrayList<Resource> extraProdInput = new ArrayList<>();
             extraProdInput.add(card.getExtraProdInput());
-            if (checkResources(extraProdInput, true))
-                return true;
+            return checkResources(extraProdInput, true);
         }
         return false;
     }
@@ -289,7 +261,7 @@ public class Game {
             FaithBox faithBox  = currentPlayer.getFaithTrack().faithAdvance();
             if (faithBox.getPosition() >= 24) {
                 startLastTurn();
-                this.finalMessage = "\nVITTORIA! HAI RAGGIUNTO LA FINE DEL FAITHTRACK\n";
+                this.finalMessage = "\nVICTORY! YOU REACHED THE END OF THE FAITH TRACK!\n";
                 return;
             }
             check = faithBox.getPopeFlag();
@@ -363,9 +335,8 @@ public class Game {
     }
     private void updateCardSlots(){
         for(int i = 0; i<3; i++)
-            try {
+            if(currentPlayer.getPlayerBoard().getCardSlots().getCard(i)!=null)
                 currentPlayer.getPlayerBoard().getCardSlots().getCard(i).backUsable();
-            }catch(NullPointerException e){}
     }
     public void updateStrongbox(){
         currentPlayer.getPlayerBoard().getStrongbox().updateStrongbox();
@@ -395,9 +366,6 @@ public class Game {
 
 
     //============ENDGAME=======
-    //contare i punti vittoria dei giocatori su faithTrack, leaderCards, devCards ecc...
-    //fare la classifica dei punti vittoria
-
     public String getRanking()  {
         /*Hashtable<Integer, String> rank = new Hashtable<>();
         ArrayList<Integer> scores = new ArrayList<>();
@@ -415,7 +383,7 @@ public class Game {
             System.out.println(scores.get(0));
             getPlayer(rank.get(scores.get(0))).setVictory(true);
         } catch(NoSuchUsernameException e) {
-            throw new UnknownError("NON DOVEVA SUCCEDERE STA COSA AAAAAA");
+            throw new UnknownError();
         }
 
         for(Integer score : scores)
@@ -426,7 +394,7 @@ public class Game {
          */
         //todo renderlo piu oop
         ArrayList<Integer> scores = new ArrayList<>();
-        String finalScore = new String();
+        String finalScore = "";
 
         for(Player p: players)
             scores.add(p.getScore());
@@ -437,7 +405,7 @@ public class Game {
         for(Integer i: scores)
             for(Player p: players)
                 if(i == p.getPoints()) {
-                    if(i == scores.get(0))
+                    if(i.equals(scores.get(0)))
                         p.setVictory(true);
                     finalScore += p.getNickname() + " " + p.getPoints() + "\n";
                 }
@@ -499,12 +467,12 @@ public class Game {
     public boolean isSinglePlayer() {
         return singlePlayer;
     }
-    public ArrayList<String> getPlayerTurns(){
+   /* public ArrayList<String> getPlayerTurns(){
         ArrayList<String> turns = new ArrayList<>();
         for(Player p : players)
             turns.add(p.getNickname());
         return turns;
-    }
+    }*/
     public Lorenzo getLorenzo(){
         return this.cpu;
     }

@@ -163,10 +163,12 @@ public class CLI implements View{
     }
 
     private void printMenu(){
+        System.out.println(LightColour.YELLOW+"########################################################################################################################"+LightColour.WHITE);
         System.out.println(controller.getPlayerBoard().getFaithTrack().toString());
         System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());
         System.out.println(controller.getPlayerBoard().getStrongbox().toString());
         System.out.println(controller.getPlayerBoard().getCardSlots().toString());
+        System.out.println(LightColour.YELLOW+"########################################################################################################################"+LightColour.WHITE);
     }
 
     private void askShow(){
