@@ -318,7 +318,7 @@ public class LightController {
     }
 
     public void sendBuyResourceRequest (boolean line, int num, LightLeaderCard lightCard){
-        Gson gson = new Gson();
+        //Gson gson = new Gson();
         BuyResourcesRequest request = new BuyResourcesRequest(game.getUsername(), line, num, lightCard);
         client.send(gson.toJson(request));
         try {
@@ -551,7 +551,7 @@ public class LightController {
 
     public void showOthersActions(String username, String message){
         if(!game.getUsername().equals(username))
-            view.showSuccess(username+message);
+            view.showOthersActions(username+message);
     }
 
 }

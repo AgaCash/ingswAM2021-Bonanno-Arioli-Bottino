@@ -79,7 +79,7 @@ public class CLI implements View{
     }
 
     public void notifyPlayerJoined(String username){
-        System.out.println(username +" has joined the lobby");
+        System.out.println(LightColour.BLUE+" > "+username +" has joined the lobby");
     }
 
     public void askStartGame(){
@@ -88,10 +88,8 @@ public class CLI implements View{
 
     public void waitStartGameString(){
         String s;
-        do{
-            s = askString("Write \"start\" to begin the game");
-            s = s.toLowerCase();
-        }while (!s.equals("start"));
+        do s = askString("Write " + LightColour.BLUE+ "\"start\"" +LightColour.WHITE+" to begin the game").toLowerCase();
+        while (!s.equals("start"));
         controller.sendSignalMultiPlayerGame();
     }
 
@@ -478,5 +476,8 @@ public class CLI implements View{
         };
     }
 
-
+    @Override
+    public void showOthersActions(String message){
+        System.out.println(LightColour.BLUE+" > "+message+LightColour.WHITE);
+    }
 }

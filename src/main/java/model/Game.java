@@ -177,7 +177,6 @@ public class Game {
                 }
             }
         this.didAction=true;
-
     }
 
     //--------------------PRODUCTION--------------------

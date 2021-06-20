@@ -32,7 +32,6 @@ public class LeaderCardThrowResponse extends GameMessage{
             controller.updateLeaderSlot(getUsername(), this.newSlot);
             controller.getPlayerBoard().getFaithTrack().setCurrentPos(position);
             controller.showSuccess(message);
-            //todo: è nei messaggi che viene deciso cosa può fare dopo l'utente
         }
         else{
             controller.showError(getUsername(), message);
