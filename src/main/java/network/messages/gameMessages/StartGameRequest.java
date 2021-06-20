@@ -1,7 +1,6 @@
 package network.messages.gameMessages;
 
 import clientModel.cards.LightLeaderCard;
-import com.google.gson.Gson;
 import controller.Controller;
 import exceptions.NoSuchUsernameException;
 import model.cards.LeaderCard;
@@ -19,6 +18,7 @@ public class StartGameRequest extends GameMessage{
     @Override
     public void executeCommand(Controller controller, VirtualClient view) {
         try {
+            controller.setOrder();
             System.out.println("USERNAME REQUEST: "+controller.getPlayer(getUsername()));
             switch (controller.getPlayer(getUsername()).getStartingTurn()) {
                 case 0: {

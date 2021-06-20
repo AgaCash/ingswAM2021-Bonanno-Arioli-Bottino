@@ -10,7 +10,6 @@ import model.resources.Resource;
 import model.singleplayer.Lorenzo;
 import model.singleplayer.Token;
 import model.table.*;
-
 import java.util.*;
 
 public class Game {
@@ -262,7 +261,7 @@ public class Game {
 
 
             }
-            this.didAction =true;
+            this.didProduction = true;
         }
         else{
             throw new InsufficientResourcesException("Can't do this production: insufficient resources!");
@@ -425,8 +424,25 @@ public class Game {
         return finalScoreMessage;
 
          */
-        currentPlayer.setVictory(true);
-        return "CLASSIFICA DA FARE";
+        //todo renderlo piu oop
+        ArrayList<Integer> scores = new ArrayList<>();
+        String finalScore = new String();
+
+        for(Player p: players)
+            scores.add(p.getScore());
+
+        Collections.sort(scores);
+        Collections.reverse(scores);
+
+        for(Integer i: scores)
+            for(Player p: players)
+                if(i == p.getPoints()) {
+                    if(i == scores.get(0))
+                        p.setVictory(true);
+                    finalScore += p.getNickname() + " " + p.getPoints() + "\n";
+                }
+
+        return finalScore;
     }
 
     public boolean isOver(){

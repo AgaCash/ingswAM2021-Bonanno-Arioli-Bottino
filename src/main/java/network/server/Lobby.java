@@ -28,7 +28,7 @@ public class Lobby {
         initLobby();
         this.singlePlayerMode = singlePlayerMode;
         this.id = id;
-        player.setStartingTurn(players.size()+1);
+        //player.setStartingTurn(players.size()+1);
         players.add(player);
         views.add(virtualClient);
         gameStarted = false;
