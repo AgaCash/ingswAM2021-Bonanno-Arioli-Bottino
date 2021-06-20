@@ -31,7 +31,7 @@ public class LeaderCardThrowResponse extends GameMessage{
             controller.updateLeaderSlot(getUsername(), this.newSlot);
             if(controller.getUsername().equals(getUsername())) {
                 controller.getPlayerBoard().getFaithTrack().setCurrentPos(position);
-                controller.showSuccess("successful production!\n+++ you earned a faith point!");
+                controller.showSuccess("successful throwing!\n+++ you earned a faith point!");
             }
             else
                 controller.showOthersActions(getUsername(), " has threw a leader card");

@@ -22,12 +22,13 @@ public class CLI implements View{
         this.controller = new LightController(this);
     }
 
-    //ping
+    @Override
     public void serverLostConnection(){
         System.out.println(LightColour.RED+"LOST SERVER CONNECTION"+LightColour.WHITE);
         controller.quittingApplication();
     }
 
+    @Override
     public void askServerInfo(){
         String ip = askString("IP [127.0.0.1]: ");
         if(ip.isBlank())
@@ -39,6 +40,7 @@ public class CLI implements View{
         controller.connectToServer(ip, port);
     }
 
+    @Override
     public void askUsername(){
         String username;
         do username = askString("Username: ");
@@ -46,6 +48,7 @@ public class CLI implements View{
         controller.setUsername(username);
     }
 
+    @Override
     public void askMenu() {
         int choice;
         do choice = askInt("CHOOSE MODALITY: \n1- Single player \n2- Join Multiplayer Lobby" +
@@ -58,30 +61,32 @@ public class CLI implements View{
             }
     }
 
-    private void handleSinglePlayer(){
+    @Override
+    public void handleSinglePlayer(){
         controller.createSinglePlayerLobby();
     }
 
-    private void handleMultiJoin(){
+    @Override
+    public void handleMultiJoin(){
         controller.getLobbyList();
     }
 
-    private void handleMultiCreate(){
+    @Override
+    public void handleMultiCreate(){
         controller.createMultiLobby();
     }
 
-    public void notifyLobbyCreated(){
-        showSuccess("Lobby created\nWaiting for players to join...");
-    }
-
+    @Override
     public void notifyPlayerJoined(String username){
         System.out.println(LightColour.BLUE+" > "+username +" has joined the lobby");
     }
 
+    @Override
     public void askStartGame(){
         waitStartGameString();
     }
 
+    @Override
     public void waitStartGameString(){
         String s;
         do s = askString("Write " + LightColour.BLUE+ "\"start\"" +LightColour.WHITE+" to begin the game").toLowerCase();
@@ -89,17 +94,19 @@ public class CLI implements View{
         controller.sendSignalMultiPlayerGame();
     }
 
+    @Override
     public void showWaitingRoom(){
-        System.out.println("You joined the room");
-        System.out.println("Waiting for creator of the room starts the game...");
+        showSuccess("You joined the room");
+        System.out.println(LightColour.BLUE+"Waiting for creator of the room starts the game..."+LightColour.WHITE);
     }
 
+    @Override
     public void showReconnectionToGame(){
         System.out.println(LightColour.YELLOW+"Reconnecting to game..."+LightColour.WHITE);
     }
-
+    @Override
     public void waitingForMyTurn(){
-        System.out.println(" > Others are playing, waiting for your turn starts");
+        System.out.println(LightColour.BLUE+" > Others are playing, waiting for your turn starts"+LightColour.WHITE);
     }
 
     @Override
@@ -130,6 +137,30 @@ public class CLI implements View{
         System.out.println("The lobby creator has left the lobby");
     }
 
+    @Override
+    public void askStartItems(ArrayList<LightLeaderCard> quartet, int numResources, boolean faithPoints) {
+        for(LightLeaderCard card: quartet)
+            System.out.println(card.toString());
+        System.out.println("you have " + numResources +
+                " resources to choose");
+        if (faithPoints)
+            System.out.println("you have earned 1 faith point");
+        ArrayList<LightLeaderCard> couple = new ArrayList<>();
+        int first, second;
+        do{
+            System.out.println("insert two number from 1 to 4 to choose 2 leader cards from the quartet");
+            first = askInt("first: ") - 1;
+            second = askInt("second: ") - 1;
+        }
+        while((first<0 || first>3) && (second<0 || second>3));
+        couple.add(quartet.get(first));
+        couple.add(quartet.get(second));
+        ArrayList<LightResource> chosenResources = new ArrayList<>();
+        for(int i=0; i<numResources; i++)
+            chosenResources.add(askResource());
+        controller.sendStartItems(couple, chosenResources, faithPoints);
+    }
+
 
     @Override
     public void askTurn() {
@@ -156,12 +187,12 @@ public class CLI implements View{
     }
 
     private void printMenu(){
-        System.out.println(LightColour.YELLOW+"########################################################################################################################"+LightColour.WHITE);
+        System.out.println(LightColour.YELLOW+"##################################################################################################################################"+LightColour.WHITE);
         System.out.println(controller.getPlayerBoard().getFaithTrack().toString());
         System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());
         System.out.println(controller.getPlayerBoard().getStrongbox().toString());
         System.out.println(controller.getPlayerBoard().getCardSlots().toString());
-        System.out.println(LightColour.YELLOW+"########################################################################################################################"+LightColour.WHITE);
+        System.out.println(LightColour.YELLOW+"##################################################################################################################################"+LightColour.WHITE);
     }
 
     private void askShow(){
@@ -331,7 +362,7 @@ public class CLI implements View{
         System.out.println("choose the output resource: ");
         outRes = askResource();
         String ans;
-        do ans = askString("want to add a leader card?\n [y/n]");
+        do ans = askString("want to add a leader card?\n [y/n]").toLowerCase();
         while(!ans.equals("y") && !ans.equals("n"));
         if(ans.equals("y")) {
             LightLeaderCard card = askLeaderCardUse();
@@ -370,29 +401,6 @@ public class CLI implements View{
         System.out.println(LightColour.GREEN+message+LightColour.WHITE);
     }
 
-    @Override
-    public void askStartItems(ArrayList<LightLeaderCard> quartet, int numResources, boolean faithPoints) {
-        for(LightLeaderCard card: quartet)
-            System.out.println(card.toString());
-        System.out.println("you have " + numResources +
-                " resources to choose");
-        if (faithPoints)
-            System.out.println("you have earned 1 faith point");
-        ArrayList<LightLeaderCard> couple = new ArrayList<>();
-        int first, second;
-        do{
-            System.out.println("insert two number from 1 to 4 to choose 2 leader cards from the quartet");
-            first = askInt("first: ") - 1;
-            second = askInt("second: ") - 1;
-         }
-        while((first<0 || first>3) && (second<0 || second>3));
-        couple.add(quartet.get(first));
-        couple.add(quartet.get(second));
-        ArrayList<LightResource> chosenResources = new ArrayList<>();
-        for(int i=0; i<numResources; i++)
-            chosenResources.add(askResource());
-        controller.sendStartItems(couple, chosenResources, faithPoints);
-    }
 
     private LightLeaderCard askLeaderCardUse(){
         ArrayList<LightLeaderCard> cards = controller.getPlayerBoard().getLeaderSlot();
