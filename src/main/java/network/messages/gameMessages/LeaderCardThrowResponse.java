@@ -29,10 +29,13 @@ public class LeaderCardThrowResponse extends GameMessage{
     public void executeCommand(LightController controller){
         if(this.success){
             controller.updateLeaderSlot(getUsername(), this.newSlot);
-            controller.getPlayerBoard().getFaithTrack().setCurrentPos(position);
-            controller.showOthersActions(getUsername(), " has threw a leader card");
-            if(controller.getUsername().equals(getUsername()))
+            if(controller.getUsername().equals(getUsername())) {
+                controller.getPlayerBoard().getFaithTrack().setCurrentPos(position);
                 controller.showSuccess("successful production!\n+++ you earned a faith point!");
+            }
+            else
+                controller.showOthersActions(getUsername(), " has threw a leader card");
+
         }
         else{
             controller.showError(getUsername(), message);

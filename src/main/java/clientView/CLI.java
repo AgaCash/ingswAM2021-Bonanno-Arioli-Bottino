@@ -29,12 +29,10 @@ public class CLI implements View{
     }
 
     public void askServerInfo(){
-        out.println("IP [127.0.0.1]: ");
-        String ip = in.nextLine();
+        String ip = askString("IP [127.0.0.1]: ");
         if(ip.isBlank())
             ip = "127.0.0.1";
-        out.println("Port [1234]: ");
-        String portS = in.nextLine();
+        String portS = askString("Port [1234]: ");
         if(portS.isBlank())
             portS = "1234";
         int port = Integer.parseInt(portS);
@@ -43,18 +41,16 @@ public class CLI implements View{
 
     public void askUsername(){
         String username;
-        do {
-            username = askString("Username: ");
-        }while(username.isBlank());
+        do username = askString("Username: ");
+        while(username.isBlank());
         controller.setUsername(username);
     }
 
     public void askMenu() {
         int choice;
-        do {
-            choice = askInt("CHOOSE MODALITY: \n1- Single player \n2- Join Multiplayer Lobby" +
+        do choice = askInt("CHOOSE MODALITY: \n1- Single player \n2- Join Multiplayer Lobby" +
                     " \n3- Create Multiplayer Lobby");
-        }while(choice<1 || choice>3);
+        while(choice<1 || choice>3);
             switch (choice) {
                 case 1 -> handleSinglePlayer();
                 case 2 -> handleMultiJoin();
@@ -99,11 +95,11 @@ public class CLI implements View{
     }
 
     public void showReconnectionToGame(){
-        System.out.println("Reconnecting to game...");
+        System.out.println(LightColour.YELLOW+"Reconnecting to game..."+LightColour.WHITE);
     }
 
     public void waitingForMyTurn(){
-        System.out.println("Others are playing, waiting for your turn starts");
+        System.out.println(" > Others are playing, waiting for your turn starts");
     }
 
     @Override
@@ -114,7 +110,7 @@ public class CLI implements View{
             int numLobby = askInt("Choose the lobby you want to join by ID:");
             controller.joinLobbyById(numLobby);
         }else{
-            System.out.println("No lobby found");
+            showError("No lobby found");
             controller.askLobbyMenu();
         }
     }
@@ -137,7 +133,6 @@ public class CLI implements View{
 
     @Override
     public void askTurn() {
-        // System.out.println("IT'S YOUR TURN!\n");
         int ans ;
         do {
             printMenu();
@@ -461,7 +456,10 @@ public class CLI implements View{
     private LightResource askResource(){
         int res;
         do res = askInt("choose resource:\n" +
-                    "1 for COIN\n2 for SERVANT\n3 for SHIELD\n4 for STONE");
+                "1 for "+LightColour.YELLOW+"COIN"+LightColour.WHITE+"\n" +
+                "2 for "+LightColour.PURPLE+"SERVANT"+LightColour.WHITE+"\n" +
+                "3 for "+LightColour.BLUE+"SHIELD"+LightColour.WHITE+"\n" +
+                "4 for "+LightColour.BLACK+"STONE"+LightColour.WHITE);
         while(res<1 || res>4);
         return switch (res) {
             case 1 -> LightResource.COIN;
