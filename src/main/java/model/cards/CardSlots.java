@@ -42,6 +42,8 @@ public class CardSlots {
 
     private boolean checkCardLevelIntegrity(int slot, DevelopmentCard newCard){
         DevelopmentCard oldCard = getCard(slot);
+        if(oldCard == null)
+            return true;
         return oldCard.getLevel() == newCard.getLevel() - 1;
     }
 
