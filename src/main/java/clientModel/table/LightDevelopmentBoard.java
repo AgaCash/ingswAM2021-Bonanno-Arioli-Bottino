@@ -17,23 +17,6 @@ public class LightDevelopmentBoard {
         return decks.get(deckNumber);
     }
 
-    public LightDevelopmentCard getTopCard (int whichOne){
-            return decks.get(whichOne);
-    }
-
-    /*
-    public DevelopmentCard popCardFromDeck(int deckNumber){
-        Deck d = this.getDeck(deckNumber);
-        if(d == null)
-            return null;
-        else
-            return d.popCard();
-    }
-
-    public void setTopCard (int whichOne, LightDevelopmentCard newTopCard){
-        cards.set(whichOne, newTopCard);
-    }
-     */
     @Override
     public String toString(){
         String s = "DEVELOPMENT BOARD:\n";
@@ -45,40 +28,20 @@ public class LightDevelopmentBoard {
             for(int j = 0; j<4; j++)
                 s+=(i+j+1)+": "+insertTabs(29);
             s+="\n";
-            for(int j = 0; j<4; j++) {
-                if(decks.get(i+j).isUsable())
+            for(int j = 0; j<4; j++)
                     s += decks.get(i + j).toStringLevel() + insertTabs(24);
-                else
-                    s+="                                ";
-            }
             s+="\n";
-            for(int j = 0; j<4; j++) {
-                if(decks.get(i+j).isUsable())
+            for(int j = 0; j<4; j++)
                     s += decks.get(i + j).toStringPoints() + insertTabs(15-decks.get(i+j).getPoints()/10);
-                else
-                    s+="                                ";
-            }
             s+="\n";
-            for(int j = 0; j<4; j++) {
-                if(decks.get(i+j).isUsable())
+            for(int j = 0; j<4; j++)
                     s += decks.get(i + j).toStringCost() + insertTabs(32-6-3*decks.get(i+j).getCost().size());
-                else
-                    s+="             EMPTY              ";
-            }
             s+="\n";
-            for(int j = 0; j<4; j++) {
-                if(decks.get(i+j).isUsable())
+            for(int j = 0; j<4; j++)
                     s += decks.get(i + j).toStringProdInput() + insertTabs(32 - 11 - 3*decks.get(i+j).getProdInput().size());
-                else
-                    s+="                                ";
-            }
             s+="\n";
-            for(int j = 0; j<4; j++) {
-                if(decks.get(i+j).isUsable())
+            for(int j = 0; j<4; j++)
                     s += decks.get(i + j).toStringProdOutput() + insertTabs(32 -12  -3*decks.get(i+j).getProdOutput().size());
-                else
-                    s+="                                ";
-            }
         }
         s+="\n________________________________";
         s+="________________________________";

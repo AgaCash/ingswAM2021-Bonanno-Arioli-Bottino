@@ -20,7 +20,7 @@ public class ClientApp {
                 Application.launch(Gui.class);
                 break;
             default:
-                System.out.println("numero non vaildo");
+                System.out.println("invalid number!");
         }
     }
 }

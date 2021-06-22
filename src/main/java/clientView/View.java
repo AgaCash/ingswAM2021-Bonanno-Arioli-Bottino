@@ -61,4 +61,5 @@ public interface View {
     void showRanking(String winner, String rank);
     void endGame();
     void showOthersActions(String message);
+    void showLorenzoActions(String message);
 }

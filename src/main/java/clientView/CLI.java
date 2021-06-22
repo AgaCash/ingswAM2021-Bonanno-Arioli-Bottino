@@ -173,7 +173,7 @@ public class CLI implements View{
                     "3 to buy resources at the market\n\b" +
                     "4 to buy a development card\n\b" +
                     "5 to show the game status\n\b" +
-                    "6 to end your turn\n\n");
+                    "6 to end your turn\n");
         } while ((ans < 1 || ans > 6) && ans!=53550 );
         switch (ans) {
             case 1 -> askLeader();
@@ -475,5 +475,10 @@ public class CLI implements View{
     @Override
     public void showOthersActions(String message){
         System.out.println(LightColour.BLUE+" > "+message+LightColour.WHITE);
+    }
+
+    @Override
+    public void showLorenzoActions(String message){
+        System.out.println(" > "+message+LightColour.WHITE);
     }
 }

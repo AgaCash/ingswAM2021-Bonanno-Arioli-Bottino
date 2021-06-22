@@ -1,6 +1,7 @@
 package clientModel.table;
 
 
+import clientModel.cards.LightCardSlots;
 import clientModel.cards.LightDevelopmentCard;
 import clientModel.cards.LightLeaderCard;
 import clientModel.strongbox.LightStrongbox;

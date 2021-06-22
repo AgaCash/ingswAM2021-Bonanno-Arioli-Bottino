@@ -46,8 +46,12 @@ public class Deck {
      * @return the card on top
      */
 
-    public ArrayList<Resource> getCost(){
-        return cards.get(cards.size()-1).getCost();
+    public ArrayList<Resource> getCost() throws EmptyDeckException {
+        try {
+            return cards.get(cards.size() - 1).getCost();
+        }catch(IndexOutOfBoundsException e){
+            throw new EmptyDeckException("deck is empty!");
+        }
     }
 
     public DevelopmentCard popCard() throws EmptyDeckException {

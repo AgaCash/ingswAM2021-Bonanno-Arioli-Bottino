@@ -17,13 +17,12 @@ import model.table.MarketBoard;
 import network.messages.gameMessages.*;
 import utilities.LeaderCardDeserializer;
 import view.VirtualClient;
-
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 
 public class Controller {
-    private int id;
-    private Game game;
+    private final int id;
+    private final Game game;
     private ArrayList<VirtualClient> views;
     private ArrayList<String> disconnectedPlayer;
     private int readyPlayers = 0;
@@ -34,23 +33,19 @@ public class Controller {
         boolean isSinglePlayer = (views.size()==1);
         game = new Game(isSinglePlayer);
         disconnectedPlayer = new ArrayList<>();
-        System.out.println("CONTROLLER CREATO");
+        System.out.println("CONTROLLER CREATED");
     }
     //EVERY MESSAGE
     public void executeCommand(GameMessage message, VirtualClient client) {
         if(message.getUsername().equals(getCurrentPlayer().getNickname()))
             message.executeCommand(this, client);
-        else {
-            //client.getVirtualView().updateFailedAction(new FailedActionNotify(message.getUsername(), "Not your turn"));
-            //todo mantenere failed action? questa non è la singola risposta
-        }
     }
 
     //PING
     //todo: 2 exception quando ci si disconnette da game
     //          -> è perchè game in multiplayer non viene ancora inizializzato
     public void disconnectPlayer(String username){
-        System.out.println(username+" disconnesso!");
+        System.out.println(username+" disconnected!");
         if(game.getCurrentPlayer().getNickname().equals(username) && !isSinglePlayer()){
             endTurn(username);
         }
@@ -62,9 +57,7 @@ public class Controller {
             }
         }
         PlayerDisconnectedMessage pdm = new PlayerDisconnectedMessage(username);
-        views.forEach((v)->{
-            v.getVirtualView().sendPlayerResilienceMessage(pdm);
-        });
+        views.forEach((v)->v.getVirtualView().sendPlayerResilienceMessage(pdm));
     }
 
     //RESILIENCE
@@ -79,16 +72,9 @@ public class Controller {
     }
 
     public void reconnectUsername(String username, VirtualClient virtualClient){
-        /*
-        if(!isUsernameDisconnected(username)){
-            throw
-        }
-        */
         disconnectedPlayer.remove(username);
         PlayerReconnectedMessage prm = new PlayerReconnectedMessage(username);
-        views.forEach((v)->{
-            v.getVirtualView().sendPlayerResilienceMessage(prm);
-        });
+        views.forEach((v)-> v.getVirtualView().sendPlayerResilienceMessage(prm));
         views.add(virtualClient);
     }
 
@@ -103,7 +89,7 @@ public class Controller {
         for(Resource element : resources)
             player.getPlayerBoard().getWarehouseDepot().addResource(element);
     }
-    //singleplayer
+    //single player
     public void addSinglePlayer(Player newPlayer){
         game.addPlayer(newPlayer);
     }
@@ -151,7 +137,7 @@ public class Controller {
         return game.getCurrentPlayer().getPlayerBoard().getWarehouseDepot().getThrewResources();
     }
     public void devCardProduction(int slot, LightResource lightChosenOutput, LightLeaderCard lightCard) throws InsufficientResourcesException,
-            UnusableCardException, InvalidActionException {
+            UnusableCardException, InvalidActionException, EmptyDeckException {
         LeaderCard card =  null; Resource chosenOutput = null;
         if(lightCard!=null) {
             Gson gson = new GsonBuilder().registerTypeAdapter(LeaderCard.class, new LeaderCardDeserializer()).create();
@@ -179,7 +165,7 @@ public class Controller {
         game.defaultProduction(newInput, newOutput, card, chosenOutput);
     }
     public void activateLeaderCard(LightLeaderCard lightLeaderCard) throws InsufficientRequirementsException,
-            InsufficientResourcesException, InputMismatchException, UnusableCardException {
+            InsufficientResourcesException, InputMismatchException, UnusableCardException, InvalidActionException {
         Gson gson = new GsonBuilder().registerTypeAdapter(LeaderCard.class, new LeaderCardDeserializer()).create();
         LeaderCard card = gson.fromJson(gson.toJson(lightLeaderCard), LeaderCard.class);
         game.activateLeaderCard(card);
@@ -276,14 +262,10 @@ public class Controller {
     }
     public Lorenzo getLorenzo(){return game.getLorenzo(); }
 
-
     public void cheat(){
         game.cheat();
     }
     public void cheat2(){
         game.cheat2();
     }
-
-
-
 }

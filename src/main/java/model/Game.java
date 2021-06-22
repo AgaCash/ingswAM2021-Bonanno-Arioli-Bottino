@@ -24,6 +24,7 @@ public class Game {
     private boolean didAction;
     private boolean didProduction;
     private boolean isOver;
+    private boolean didActivation;
     private boolean lastTurnIsEnded;
     private String finalMessage;
 
@@ -36,8 +37,8 @@ public class Game {
         this.lastTurnIsEnded = false;
         this.didProduction = false;
         this.didAction = false;
+        this.didActivation = false;
         table = new Table();
-        //Collections.shuffle(players);
         if(singlePlayer){
             cpu = new Lorenzo(table.getDevBoard());
             tokens = cpu.getTokens();
@@ -49,7 +50,7 @@ public class Game {
         }
     }
     public void setOrder(){
-        //Collections.shuffle(players)
+        Collections.shuffle(players);
         for(Player player : players){
             if(players.indexOf(player)== 0) {
                 player.getPlayerBoard().setInkwell(true);
@@ -78,8 +79,6 @@ public class Game {
 
         ArrayList<Resource> clonedWarehouse = (ArrayList<Resource>) currentPlayer.getPlayerBoard().getWarehouseDepot().status().clone();
         ArrayList<Resource> clonedStrongbox = (ArrayList<Resource>) currentPlayer.getPlayerBoard().getStrongbox().status().clone();
-        //System.out.println("CLONED STRONGBOX: "+clonedStrongbox);
-        //System.out.println("CLONED WAREHOUSE: "+clonedWarehouse);
         for(Resource r :cost)
             if(clonedWarehouse.remove(r)){}
             else if(clonedStrongbox.remove(r)){}
@@ -135,7 +134,6 @@ public class Game {
             if (cardIsUsable(card) && card.isDiscount()) {
                 discount = card.whichDiscount();
                 cost.remove(discount);
-                System.out.println("riga 138");
             }
             else
                 throw new UnusableCardException("can't use this leader card!");
@@ -148,6 +146,7 @@ public class Game {
                 startLastTurn();
                 this.finalMessage = "\nVICTORY! YOU BOUGHT YOUR 7th DEVELOPMENT CARD!\n";
             }
+            this.didAction = true;
         }
         else{
             throw new InsufficientResourcesException("Can't buy this card: insufficient resources!");
@@ -184,6 +183,7 @@ public class Game {
                 }
             }
         this.didAction=true;
+        this.didActivation = false;
     }
 
     //--------------------PRODUCTION--------------------
@@ -191,29 +191,32 @@ public class Game {
     @chosenOutput is set by @Controller and it's the optional resource produced by @card
      */
     public void devCardProduction(int slot, Resource chosenOutput, LeaderCard cardFromClient) throws
-            InsufficientResourcesException, UnusableCardException, InvalidActionException {
+            InsufficientResourcesException, UnusableCardException, InvalidActionException, EmptyDeckException {
 
         if(didAction)
             throw new InvalidActionException("you already did an action in this turn!\n");
         LeaderCard card = getLeaderCard(cardFromClient);
         ArrayList<Resource> prodResources = new ArrayList<>();
-        if(checkResources(currentPlayer.getPlayerBoard().getCardSlots().getCard(slot).getProdInput(), true)){
-            if(card!=null) {
-                if (checkExtraProd(card)) {
-                    card.setChosenOutput(chosenOutput);
-                    prodResources.addAll(card.production());
-                }else throw new InsufficientResourcesException("insufficient resources for using leader card!");
+        try {
+            if (checkResources(currentPlayer.getPlayerBoard().getCardSlots().getCard(slot).getProdInput(), true)) {
+                if (card != null) {
+                    if (checkExtraProd(card)) {
+                        card.setChosenOutput(chosenOutput);
+                        prodResources.addAll(card.production());
+                    } else throw new InsufficientResourcesException("insufficient resources for using leader card!");
+                }
+                prodResources.addAll(currentPlayer.getPlayerBoard().getCardSlots().getCard(slot).createProduction());
+                for (Resource res : prodResources) {
+                    if (res == Resource.FAITH)
+                        faithAdvance(1);
+                    else
+                        currentPlayer.getPlayerBoard().getStrongbox().addResource(res);
+                }
+            } else {
+                throw new InsufficientResourcesException("Can`t do this production: insufficient resources!");
             }
-            prodResources.addAll(currentPlayer.getPlayerBoard().getCardSlots().getCard(slot).createProduction());
-            for (Resource res : prodResources) {
-                if (res == Resource.FAITH)
-                    faithAdvance(1);
-                else
-                    currentPlayer.getPlayerBoard().getStrongbox().addResource(res);
-            }
-        }
-        else {
-            throw new InsufficientResourcesException("Can`t do this production: insufficient resources!");
+        }catch (NullPointerException e){
+            throw new EmptyDeckException("slot is empty!");
         }
     }
     /*defaultProduction: activates production from the developmentBoard
@@ -299,7 +302,10 @@ public class Game {
     //--------------------LEADER CARDS--------------------
 
     public void activateLeaderCard(LeaderCard cardFromClient) throws InsufficientResourcesException,
-            InsufficientRequirementsException, InputMismatchException, UnusableCardException {
+            InsufficientRequirementsException, InputMismatchException, UnusableCardException, InvalidActionException {
+        if(didActivation)
+            throw new InvalidActionException("you already activated a card!");
+        System.out.println("before activation:"+currentPlayer.getPlayerBoard().getWarehouseDepot().status()+currentPlayer.getPlayerBoard().getStrongbox().status());
         LeaderCard card = getLeaderCard(cardFromClient);
         if(card == null)
             throw new InputMismatchException("Can't find this leader card!");
@@ -307,6 +313,7 @@ public class Game {
             ArrayList<Resource> requirements = card.getRequiredResources();
             if(checkResources(requirements, false)) {
                 card.activate();
+                this.didActivation = true;
                 currentPlayer.getPlayerBoard().getWarehouseDepot().addNewExtraDepot((ExtraDepot) card);
             }
             else{
@@ -315,12 +322,13 @@ public class Game {
         }
         else{
             ArrayList<DevelopmentCard> requirements = card.getRequiredCards();
-            if(checkDevCards(requirements))
+            if(checkDevCards(requirements)) {
                 card.activate();
+                System.out.println("after activation:" + currentPlayer.getPlayerBoard().getWarehouseDepot().status() + currentPlayer.getPlayerBoard().getStrongbox().status());
+            }
             else{
                 throw new InsufficientRequirementsException("Can't activate this leader card: insufficient resources!");
             }
-
         }
     }
 
@@ -335,6 +343,7 @@ public class Game {
         updateCardSlots();
         this.didAction = false;
         this.didProduction = false;
+        this.didActivation = false;
         changeTurn();
     }
     private void updateCardSlots(){
@@ -371,32 +380,6 @@ public class Game {
 
     //============ENDGAME=======
     public String getRanking()  {
-        /*Hashtable<Integer, String> rank = new Hashtable<>();
-        ArrayList<Integer> scores = new ArrayList<>();
-        String finalScoreMessage = new String();
-
-        for(Player p: players){
-            scores.add(p.getScore());
-            rank.put(p.getScore(), p.getNickname());
-        }
-        Collections.sort(scores);
-        Collections.reverse(scores);
-        System.out.println("RIGA 416"+rank);
-
-        try {
-            System.out.println(scores.get(0));
-            getPlayer(rank.get(scores.get(0))).setVictory(true);
-        } catch(NoSuchUsernameException e) {
-            throw new UnknownError();
-        }
-
-        for(Integer score : scores)
-            finalScoreMessage += rank.get(score)+" : "+score+" points\n";
-
-        return finalScoreMessage;
-
-         */
-        //todo renderlo piu oop
         ArrayList<Integer> scores = new ArrayList<>();
         String finalScore = "";
 

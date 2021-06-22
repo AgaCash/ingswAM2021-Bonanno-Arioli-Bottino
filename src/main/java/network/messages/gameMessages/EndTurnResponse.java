@@ -67,7 +67,7 @@ public class EndTurnResponse extends GameMessage{
                 controller.updateFaithTrack(getUsername(), this.track);
                 controller.updateCardSlots(getUsername(), this.slots);
                 controller.getPlayerBoard().getFaithTrack().setLorenzoPos(lorenzoPos);
-                controller.showSuccess(message);
+                controller.showLorenzoActions(message);
                 controller.startTurn();
             }
 

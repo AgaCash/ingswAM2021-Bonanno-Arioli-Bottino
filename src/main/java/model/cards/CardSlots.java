@@ -70,6 +70,8 @@ public class CardSlots {
                 card = getCard(i);
                 if(card!=null)
                     slots.add(card.convert());
+                else
+                    slots.add(new LightDevelopmentCard());
         }
         return slots;
     }

@@ -30,7 +30,7 @@ public class LightStrongbox {
         for(LightResource res: strongbox)
             s+=res.toColoredString()+" ";
         if(!tmpStrongbox.isEmpty()) {
-            s += "\n disponibili dal prossimo turno: ";
+            s += "\navailable by the next turn: ";
             for (LightResource res : tmpStrongbox)
                 s += res.toColoredString() + " ";
         }

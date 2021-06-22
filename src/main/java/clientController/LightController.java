@@ -548,5 +548,9 @@ public class LightController {
             view.showOthersActions(username+message);
     }
 
+    public void showLorenzoActions(String message){
+        view.showLorenzoActions(message);
+    }
+
 }
 

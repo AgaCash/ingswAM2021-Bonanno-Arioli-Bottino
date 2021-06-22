@@ -4,6 +4,7 @@ import clientModel.cards.LightLeaderCard;
 import controller.Controller;
 import exceptions.InsufficientRequirementsException;
 import exceptions.InsufficientResourcesException;
+import exceptions.InvalidActionException;
 import exceptions.UnusableCardException;
 import network.messages.MessageType;
 import view.VirtualClient;
@@ -25,7 +26,7 @@ public class LeaderCardActivationRequest extends GameMessage{
         try {
             controller.activateLeaderCard(card);
             update(controller);
-        } catch (InsufficientRequirementsException | InsufficientResourcesException | InputMismatchException | UnusableCardException e){
+        } catch (InsufficientRequirementsException | InsufficientResourcesException | InputMismatchException | UnusableCardException | InvalidActionException e){
             LeaderCardActivationResponse notify = new LeaderCardActivationResponse(this.getUsername(), e.getMessage());
             client.getVirtualView().updateLeaderCardActivation(notify);
         }

@@ -63,7 +63,7 @@ public class LightDevelopmentCard {
             return this.victoryPoints;
     }
 
-    public boolean isUsable(){
+    private boolean isUsable(){
         return this.cost != null && this.prodInput != null && this.prodOutput != null;
     }
 
@@ -78,12 +78,12 @@ public class LightDevelopmentCard {
         String s = new String();
         if(isUsable()){
             s +="\n__________________________________\n";
-            s +=toStringLevel()+"\n";
-            s +=toStringPoints()+"\n";
-            s +=toStringCost()+"\n";
-            s += toStringProdInput()+"\n";
-            s += toStringProdOutput()+"\n";
-            s += "__________________________________\n";
+            s +=toStringLevel()+insertTabs(24)+"\n";
+            s +=toStringPoints()+ insertTabs(15-getPoints()/10)+"\n";
+            s +=toStringCost()+ insertTabs(32-6-3*getCost().size())+"\n";
+            s += toStringProdInput()+ insertTabs(32 - 11 - 3*getProdInput().size())+"\n";
+            s += toStringProdOutput()+ insertTabs(32 -12  -3*getProdOutput().size())+"\n";
+            s += LightColour.WHITE+"__________________________________\n";
         }
         else if(!isNull()){
             s += colour.toString()+"|DevCard Lvl: "+level+LightColour.WHITE;
@@ -92,14 +92,20 @@ public class LightDevelopmentCard {
     }
 
     public String toStringLevel(){
+        if(isNull())
+            return "                                ";
         return colour.toString()+"Level: "+level;
     }
 
     public String toStringPoints(){
+        if(isNull())
+            return "                                ";
         return colour.toString()+"Victory Points: "+victoryPoints;
     }
 
     public String toStringCost(){
+        if(isNull())
+            return "                                ";
         String s =colour.toString()+"Cost: ";
         for(LightResource resource : cost)
             s += resource.toColoredString()+" ";
@@ -107,6 +113,8 @@ public class LightDevelopmentCard {
     }
 
     public String toStringProdInput(){
+        if(isNull())
+            return "                                ";
         String s = colour.toString()+"ProdInput: ";
         for(LightResource resource : prodInput)
             s += resource.toColoredString()+ " ";
@@ -114,9 +122,19 @@ public class LightDevelopmentCard {
     }
 
     public String toStringProdOutput(){
+        if(isNull())
+            return "                                ";
         String s = colour.toString()+"ProdOutput: ";
         for (LightResource resource : prodOutput)
             s += resource.toColoredString()+" ";
+        return s;
+    }
+
+
+    private String insertTabs(int num){
+        String s = new String();
+        for(int i=0; i<num; i++)
+            s+=" ";
         return s;
     }
 }

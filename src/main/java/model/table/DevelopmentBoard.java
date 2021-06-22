@@ -74,15 +74,11 @@ public final class DevelopmentBoard {
      * @param colour model.colour of the deck
      * @return  the reference of the selected deck
      */
-    public Deck getDeck(Colour colour){
-        Deck tmpDeck = null;
-        for (Deck d:decks) {
-            if(d.getColourDeck()==colour && !d.isEmpty()) {
-                tmpDeck = d;
-                break;
-            }
-        }
-        return tmpDeck;
+    public Deck getDeck(Colour colour) throws EmptyDeckException {
+        for (Deck d:decks)
+            if(d.getColourDeck()==colour && !d.isEmpty())
+                return  d;
+        throw new EmptyDeckException("Deck is empty!");
     }
 
     /**
