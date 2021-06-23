@@ -48,7 +48,7 @@ public class Deck {
 
     public ArrayList<Resource> getCost() throws EmptyDeckException {
         try {
-            return cards.get(cards.size() - 1).getCost();
+            return (ArrayList<Resource>) cards.get(cards.size() - 1).getCost().clone();
         }catch(IndexOutOfBoundsException e){
             throw new EmptyDeckException("deck is empty!");
         }

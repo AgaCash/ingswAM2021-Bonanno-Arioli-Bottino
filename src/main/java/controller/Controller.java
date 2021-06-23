@@ -171,7 +171,7 @@ public class Controller {
         game.activateLeaderCard(card);
     }
 
-    public void throwLeaderCard(LightLeaderCard lightLeaderCard){
+    public void throwLeaderCard(LightLeaderCard lightLeaderCard) throws InvalidActionException {
         Gson gson = new GsonBuilder().registerTypeAdapter(LeaderCard.class, new LeaderCardDeserializer()).create();
         LeaderCard card = gson.fromJson(gson.toJson(lightLeaderCard), LeaderCard.class);
         game.throwLeaderCard(card);

@@ -14,6 +14,10 @@ public class Player {
     private PlayerBoard playerboard;
     private boolean victory;
 
+    private boolean didAction;
+    private boolean didProduction;
+    private int didLeader;
+
     public Player(String nickname){
         this.victory = false;
         this.nickname = nickname;
@@ -105,4 +109,47 @@ public class Player {
 
         return player;
     }
+
+    public boolean canBuyResources(){
+        if(didAction || didProduction || didLeader==2)
+            return false;
+        return true;
+    }
+
+    public void didAction(){
+        this.didAction = true;
+    }
+
+    public boolean canBuyDevCards(){
+        if(didAction || didProduction || didLeader==2)
+            return  false;
+        return true;
+    }
+
+    public boolean canDoProduction(){
+        if(didAction || didLeader == 2)
+            return false;
+        return true;
+    }
+
+    public void didProduction(){
+        this.didProduction = true;
+    }
+
+    public boolean canDoLeader(){
+        if(this.didLeader<2)
+            return true;
+        return false;
+    }
+
+    public void didLeader(){
+        this.didLeader++;
+    }
+
+    public void updateActions(){
+        this.didAction = false;
+        this.didProduction = false;
+        this.didLeader = 0;
+    }
+
 }

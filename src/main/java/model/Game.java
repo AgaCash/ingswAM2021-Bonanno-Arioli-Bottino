@@ -21,10 +21,7 @@ public class Game {
     private Lorenzo cpu;
     public ArrayList<Token> tokens;
     private final boolean singlePlayer;
-    private boolean didAction;
-    private boolean didProduction;
     private boolean isOver;
-    private boolean didActivation;
     private boolean lastTurnIsEnded;
     private String finalMessage;
 
@@ -35,9 +32,6 @@ public class Game {
     public void initializeGame(){
         this.isOver = false;
         this.lastTurnIsEnded = false;
-        this.didProduction = false;
-        this.didAction = false;
-        this.didActivation = false;
         table = new Table();
         if(singlePlayer){
             cpu = new Lorenzo(table.getDevBoard());
@@ -80,24 +74,29 @@ public class Game {
         ArrayList<Resource> clonedWarehouse = (ArrayList<Resource>) currentPlayer.getPlayerBoard().getWarehouseDepot().status().clone();
         ArrayList<Resource> clonedStrongbox = (ArrayList<Resource>) currentPlayer.getPlayerBoard().getStrongbox().status().clone();
         for(Resource r :cost)
-            if(clonedWarehouse.remove(r)){}
-            else if(clonedStrongbox.remove(r)){}
+            if(clonedWarehouse.remove(r));
+            else if(clonedStrongbox.remove(r));
             else return false;
 
         if(remove){
-            for(Resource r: cost){
-                try{
-                    currentPlayer.getPlayerBoard().getWarehouseDepot().removeResource(r);
-                } catch (ResourceNotFoundException e) {
-                    try {
-                        currentPlayer.getPlayerBoard().getStrongbox().removeResource(r);
-                    }catch(ResourceNotFoundException f){
-                        return false;
-                    }
+            removeResource(cost);
+        }
+        return true;
+    }
+
+    private void removeResource(ArrayList<Resource> cost){
+        for(Resource r: cost){
+            try{
+                currentPlayer.getPlayerBoard().getWarehouseDepot().removeResource(r);
+            } catch (ResourceNotFoundException e) {
+                try {
+                    currentPlayer.getPlayerBoard().getStrongbox().removeResource(r);
+                }catch(ResourceNotFoundException f){
+                    throw new UnknownError("SERVER ERROR!");
                 }
             }
         }
-        return true;
+
     }
     private boolean cardIsUsable(LeaderCard card){
         return card != null && card.isEnabled();
@@ -122,7 +121,7 @@ public class Game {
             EmptyDeckException,
             InvalidActionException {
 
-        if(didAction || didProduction)
+        if(!currentPlayer.canBuyDevCards())
             throw new InvalidActionException("you already did an action in this turn!\n");
 
         Resource discount;
@@ -146,7 +145,7 @@ public class Game {
                 startLastTurn();
                 this.finalMessage = "\nVICTORY! YOU BOUGHT YOUR 7th DEVELOPMENT CARD!\n";
             }
-            this.didAction = true;
+            currentPlayer.didAction();
         }
         else{
             throw new InsufficientResourcesException("Can't buy this card: insufficient resources!");
@@ -156,7 +155,7 @@ public class Game {
     //--------------------MARKET--------------------
     public void buyResources(boolean line, int num, LeaderCard cardFromClient) throws UnusableCardException,
             InvalidActionException {
-        if(didAction || didProduction)
+        if(!currentPlayer.canBuyResources())
             throw new InvalidActionException("you already did an action in this turn!\n");
         ArrayList<Resource> bought = new ArrayList<>();
         LeaderCard card = getLeaderCard(cardFromClient);
@@ -182,8 +181,7 @@ public class Game {
 
                 }
             }
-        this.didAction=true;
-        this.didActivation = false;
+        currentPlayer.didAction();
     }
 
     //--------------------PRODUCTION--------------------
@@ -193,18 +191,21 @@ public class Game {
     public void devCardProduction(int slot, Resource chosenOutput, LeaderCard cardFromClient) throws
             InsufficientResourcesException, UnusableCardException, InvalidActionException, EmptyDeckException {
 
-        if(didAction)
+        if(!currentPlayer.canDoProduction())
             throw new InvalidActionException("you already did an action in this turn!\n");
         LeaderCard card = getLeaderCard(cardFromClient);
         ArrayList<Resource> prodResources = new ArrayList<>();
+        ArrayList<Resource> cost = new ArrayList<>();
         try {
-            if (checkResources(currentPlayer.getPlayerBoard().getCardSlots().getCard(slot).getProdInput(), true)) {
-                if (card != null) {
-                    if (checkExtraProd(card)) {
-                        card.setChosenOutput(chosenOutput);
-                        prodResources.addAll(card.production());
-                    } else throw new InsufficientResourcesException("insufficient resources for using leader card!");
-                }
+            if (card != null) {
+                if (checkExtraProd(card)) {
+                    cost.add(card.getExtraProdInput());
+                    card.setChosenOutput(chosenOutput);
+                    prodResources.addAll(card.production());
+                } else throw new UnusableCardException("can't use this leader card!");
+            }
+            cost.addAll(currentPlayer.getPlayerBoard().getCardSlots().getCard(slot).getProdInput());
+            if (checkResources(cost, true)) {
                 prodResources.addAll(currentPlayer.getPlayerBoard().getCardSlots().getCard(slot).createProduction());
                 for (Resource res : prodResources) {
                     if (res == Resource.FAITH)
@@ -212,6 +213,7 @@ public class Game {
                     else
                         currentPlayer.getPlayerBoard().getStrongbox().addResource(res);
                 }
+                currentPlayer.didProduction();
             } else {
                 throw new InsufficientResourcesException("Can`t do this production: insufficient resources!");
             }
@@ -219,29 +221,33 @@ public class Game {
             throw new EmptyDeckException("slot is empty!");
         }
     }
+
     /*defaultProduction: activates production from the developmentBoard
     @input and @output are set by @Controller
      */
     public void defaultProduction(ArrayList<Resource> input, Resource output, LeaderCard cardFromClient, Resource chosenOutput) throws InsufficientResourcesException, UnusableCardException, InvalidActionException {
-        if(didAction || didProduction)
+        if(!currentPlayer.canDoProduction())
             throw new InvalidActionException("you already did an action in this turn!");
         ArrayList<Resource> prodResources = new ArrayList<>();
+        ArrayList<Resource> cost = new ArrayList<>();
         LeaderCard card = getLeaderCard(cardFromClient);
 
-        if(checkResources(input, true )){
-            if(card!=null) {
-                if (checkExtraProd(card)) {
-                    card.setChosenOutput(chosenOutput);
-                    prodResources.addAll(card.production());
-                }else throw new InsufficientResourcesException("Can't use this leader card: insufficient resources!");
-            }
+        if(card!=null) {
+            if (checkExtraProd(card)) {
+                cost.add(card.getExtraProdInput());
+                card.setChosenOutput(chosenOutput);
+                prodResources.addAll(card.production());
+            }else throw new UnusableCardException("can't use this leader card!");
+        }
+        cost.addAll(input);
+        if(checkResources(cost, true )){
             prodResources.add(output);
             for (Resource res : prodResources) {
                 if (res == Resource.FAITH)
                     faithAdvance(1);
                 else currentPlayer.getPlayerBoard().getStrongbox().addResource(res);
             }
-            this.didProduction = true;
+            currentPlayer.didProduction();
         }
         else{
             throw new InsufficientResourcesException("Can't do this production: insufficient resources!");
@@ -249,12 +255,9 @@ public class Game {
         }
     }
 
-    private boolean checkExtraProd(LeaderCard card) throws UnusableCardException {
-        if(cardIsUsable(card) && card.isExtraProd()) {
-            ArrayList<Resource> extraProdInput = new ArrayList<>();
-            extraProdInput.add(card.getExtraProdInput());
-            return checkResources(extraProdInput, true);
-        }
+    private boolean checkExtraProd(LeaderCard card){
+        if(cardIsUsable(card) && card.isExtraProd())
+           return true;
         return false;
     }
 
@@ -303,8 +306,8 @@ public class Game {
 
     public void activateLeaderCard(LeaderCard cardFromClient) throws InsufficientResourcesException,
             InsufficientRequirementsException, InputMismatchException, UnusableCardException, InvalidActionException {
-        if(didActivation)
-            throw new InvalidActionException("you already activated a card!");
+        if(!currentPlayer.canDoLeader())
+            throw new InvalidActionException("you already did a leader action!");
         System.out.println("before activation:"+currentPlayer.getPlayerBoard().getWarehouseDepot().status()+currentPlayer.getPlayerBoard().getStrongbox().status());
         LeaderCard card = getLeaderCard(cardFromClient);
         if(card == null)
@@ -313,7 +316,7 @@ public class Game {
             ArrayList<Resource> requirements = card.getRequiredResources();
             if(checkResources(requirements, false)) {
                 card.activate();
-                this.didActivation = true;
+                currentPlayer.didLeader();
                 currentPlayer.getPlayerBoard().getWarehouseDepot().addNewExtraDepot((ExtraDepot) card);
             }
             else{
@@ -332,8 +335,11 @@ public class Game {
         }
     }
 
-    public void throwLeaderCard(LeaderCard card){
+    public void throwLeaderCard(LeaderCard card) throws InvalidActionException {
+        if(!currentPlayer.canDoLeader())
+            throw new InvalidActionException("you already did a leader action!");
         currentPlayer.getPlayerBoard().removeLeaderCard(card.getId());
+        currentPlayer.didLeader();
         faithAdvance(1);
     }
 
@@ -341,9 +347,7 @@ public class Game {
     public void updateTurn(){
         updateStrongbox();
         updateCardSlots();
-        this.didAction = false;
-        this.didProduction = false;
-        this.didActivation = false;
+        currentPlayer.updateActions();
         changeTurn();
     }
     private void updateCardSlots(){

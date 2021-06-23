@@ -2,6 +2,7 @@ package network.messages.gameMessages;
 
 import clientModel.cards.LightLeaderCard;
 import controller.Controller;
+import exceptions.InvalidActionException;
 import network.messages.MessageType;
 import view.VirtualClient;
 
@@ -22,7 +23,7 @@ public class LeaderCardThrowRequest extends GameMessage{
         try {
             controller.throwLeaderCard(card);
             update(controller);
-        } catch (InputMismatchException e){
+        } catch (InputMismatchException | InvalidActionException e){
             LeaderCardThrowResponse notify = new LeaderCardThrowResponse(this.getUsername(), e.getMessage());
             client.getVirtualView().updateLeaderCardThrow(notify);
         }
