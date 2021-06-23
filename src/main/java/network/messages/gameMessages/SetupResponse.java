@@ -36,7 +36,7 @@ public class SetupResponse extends GameMessage {
         controller.setMarketBoard(this.market);
 
         if(firstPlayer.equals(controller.getUsername())) {
-            controller.showSuccess("IT'S YOUR TURN!");
+            controller.showSuccess(firstPlayer, "IT'S YOUR TURN!");
             controller.start();
         }
         else

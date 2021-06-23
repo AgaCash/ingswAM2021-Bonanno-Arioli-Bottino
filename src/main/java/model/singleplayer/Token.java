@@ -51,15 +51,11 @@ public class Token {
     /** executes a token action by eliminating model.cards from the development board
      * @param developmentBoard passed to link Lorenzo with the development model.cards to discard
      */
-    public String cardAction(DevelopmentBoard developmentBoard){
-        String whatAction;
+    public DevelopmentCard cardAction(DevelopmentBoard developmentBoard){
         try {
-            DevelopmentCard d = developmentBoard.popCardFromDeckColour(colour);
-            whatAction = "\nLorenzo ha rimosso la carta: "+d.convert().toString();
-            return whatAction;
+            return developmentBoard.popCardFromDeckColour(colour);
         }catch(EmptyDeckException e){
-            whatAction = "GAMEOVER";
-            return whatAction;
+            return null;
         }
     }
 

@@ -32,8 +32,7 @@ public class DevCardProductionResponse extends GameMessage{
             controller.updateStrongbox(getUsername(), newStrongbox);
             controller.getPlayerBoard().getFaithTrack().setCurrentPos(position);
             controller.showOthersActions(getUsername(), " has activated a production from a development card");
-            if(controller.getUsername().equals(getUsername()))
-                controller.showSuccess("successful production!");
+            controller.showSuccess(getUsername(), "successful production!");
         }
         else{
             controller.showError(getUsername(), message);

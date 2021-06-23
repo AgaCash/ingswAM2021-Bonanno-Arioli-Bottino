@@ -53,11 +53,12 @@ public class CLI implements View{
         int choice;
         do choice = askInt("CHOOSE MODALITY: \n1- Single player \n2- Join Multiplayer Lobby" +
                     " \n3- Create Multiplayer Lobby");
-        while(choice<1 || choice>3);
+        while(choice<1 || choice>4);
             switch (choice) {
                 case 1 -> handleSinglePlayer();
                 case 2 -> handleMultiJoin();
                 case 3 -> handleMultiCreate();
+                case 4 -> handleNculet();
             }
     }
 
@@ -426,6 +427,10 @@ public class CLI implements View{
         askTurn();
     }
 
+    private void handleNculet(){
+        System.out.println("NNNNNNNNCUUUUUUUUULEEEEEEEEET");
+    }
+
     private String askString(String message){
         System.out.println(message);
         try{
@@ -472,6 +477,6 @@ public class CLI implements View{
 
     @Override
     public void showLorenzoActions(String message){
-        System.out.println(" > "+message+LightColour.WHITE);
+        System.out.println(message);
     }
 }

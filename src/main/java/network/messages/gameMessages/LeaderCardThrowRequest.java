@@ -15,7 +15,6 @@ public class LeaderCardThrowRequest extends GameMessage{
     public LeaderCardThrowRequest(String username, LightLeaderCard card){
         super(username, MessageType.LEADERCARDTHROW);
         this.card = card;
-        System.out.println(this.card);
     }
 
     @Override

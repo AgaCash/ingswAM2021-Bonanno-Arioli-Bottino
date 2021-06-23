@@ -1,5 +1,8 @@
 package model.singleplayer;
 
+import clientModel.cards.LightDevelopmentCard;
+import clientModel.singleplayer.LightLorenzo;
+import model.cards.DevelopmentCard;
 import model.table.DevelopmentBoard;
 import model.table.FaithBox;
 import model.table.FaithTrack;
@@ -11,12 +14,15 @@ import java.util.Collections;
 public class Lorenzo {
     private FaithTrack faithTrack = new FaithTrack();
     private FaithBox faithBox = faithTrack.getFaithBox();
-    private ArrayList<Token> tokens ;//= new ArrayList<>(6);
+    private ArrayList<Token> tokens;
     private DevelopmentBoard developmentBoard;
-    private int faithPoints; //probabilmente attributo già incluso in faithBox
-    //private Token token = new Token(0, 1);//DA CAMBIARE
     private String lorenzoLastAction = new String();
     private boolean gameIsOver = false;
+
+
+    private ArrayList<LightDevelopmentCard> cards;
+    private int position;
+    private int shuffle;
 
     /** creation of Lorenzo's deck of tokens and development board
      * @param developmentBoard connects Lorenzo with the development board
@@ -25,6 +31,9 @@ public class Lorenzo {
         tokens = new JsonParser("src/main/resources/tokensList.json").getTokens();
         this.shuffle();
         this.developmentBoard = developmentBoard;
+        this.cards = new ArrayList<>();
+        this.shuffle = 0;
+        this.position = 0;
     }
 
     private void shuffle(){
@@ -57,14 +66,16 @@ public class Lorenzo {
         Token tmp;
         if (!(token.getIsAboutLorenzo())) {
             for (int i = 0; i < token.getRemoveQuantity(); i++) {
-                String message = token.cardAction(developmentBoard);
-                if (message.equals("GAMEOVER")){
+                DevelopmentCard card  = token.cardAction(developmentBoard);
+                if (card == null){
                     this.lorenzoLastAction+="GAME OVER: LORENZO HA PESCATO L'ULTIMA CARTA";
                     this.gameIsOver = true;
                     return;
                 }
-                else
-                    this.lorenzoLastAction += message;
+                else {
+                    this.lorenzoLastAction += " picked the card: " + card.convert().toString();
+                    cards.add(card.convert());
+                }
             }
         } else {
             for(int i=0; i< token.getBlackCrossFaithPoints();i++) {
@@ -75,10 +86,13 @@ public class Lorenzo {
                     this.gameIsOver = true;
                     return;
                 }
+                else
+                    this.position++;
                 boolean[] check = faithBox.getPopeFlag();
             }
             if (token.getShuffle()) {
                 shuffle();
+                this.shuffle ++;
                 this.lorenzoLastAction+="\nLorenzo ha rimescolato i segnalini";
             }
         }
@@ -95,6 +109,22 @@ public class Lorenzo {
 
     public boolean gameIsOver(){
         return this.gameIsOver;
+    }
+
+    public LightLorenzo convert(){
+        LightLorenzo convertedLorenzo = new LightLorenzo();
+        if(!cards.isEmpty())
+            convertedLorenzo.hasPickedCards(cards);
+        if(position!=0)
+            convertedLorenzo.hasAdvanced(faithBox.getPosition(), position);
+        if(shuffle!=0)
+            convertedLorenzo.hasShuffled(shuffle);
+
+        this.cards = new ArrayList<>();
+        this.shuffle = 0;
+        this.position = 0;
+        return convertedLorenzo;
+
     }
 
 

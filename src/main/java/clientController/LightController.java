@@ -5,6 +5,7 @@ import clientModel.cards.LightDevelopmentCard;
 import clientModel.cards.LightLeaderCard;
 import clientModel.player.LightPlayer;
 import clientModel.resources.LightResource;
+import clientModel.singleplayer.LightLorenzo;
 import clientModel.strongbox.LightStrongbox;
 import clientModel.table.LightDevelopmentBoard;
 import clientModel.table.LightFaithTrack;
@@ -408,7 +409,13 @@ public class LightController {
     }
 
     public void showError(String username, String message) {
-        view.showError(message);
+        if(game.getUsername().equals(username))
+            view.showError(message);
+    }
+
+    public void showSuccess(String username, String message){
+        if(game.getUsername().equals(username))
+            view.showSuccess(message);
     }
 
     public void showSuccess(String message){
@@ -547,10 +554,10 @@ public class LightController {
         if(!game.getUsername().equals(username))
             view.showOthersActions(username+message);
     }
-
-    public void showLorenzoActions(String message){
-        view.showLorenzoActions(message);
+    public void updateLorenzo(LightLorenzo lorenzo){
+        view.showLorenzoActions(lorenzo.actions(game.getPlayerBoard().getFaithTrack()));
     }
+
 
 }
 

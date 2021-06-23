@@ -40,8 +40,7 @@ public class LeaderCardActivationResponse extends GameMessage{
             controller.updateStrongbox(getUsername(), this.strongbox);
             controller.updateWarehouse(getUsername(), this.warehouse);
             controller.showOthersActions(getUsername(), " has activated a leader card");
-            if(controller.getUsername().equals(getUsername()))
-                controller.showSuccess("successful activation!");
+            controller.showSuccess(getUsername(), "successful activation!");
         }
         else{
             controller.showError(getUsername(), message);

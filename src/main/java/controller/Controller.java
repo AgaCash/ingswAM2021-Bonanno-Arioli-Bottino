@@ -187,10 +187,9 @@ public class Controller {
                 response = new EndTurnResponse(username,
                         game.getDevBoard().convert(),
                         game.getCurrentPlayer().getFaithTrack().convert(),
-                        game.getLorenzo().getLorenzoLastAction(),
                         game.getCurrentPlayer().getPlayerBoard().getCardSlots().convert(),
                         game.getCurrentPlayer().getPlayerBoard().getStrongbox().convert(),
-                        game.getLorenzo().getFaithBox().getPosition());
+                        game.getLorenzo().convert());
             else
                 response = new EndTurnResponse(username, game.endingSinglePlayerGame());
             getViews().get(0).getVirtualView().sendEndTurnNotify(response);

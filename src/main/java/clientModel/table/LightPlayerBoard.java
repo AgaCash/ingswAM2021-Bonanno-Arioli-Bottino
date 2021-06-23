@@ -45,6 +45,5 @@ public class LightPlayerBoard {
         return leaderSlot;
     }
     public void setLeaderSlot(ArrayList<LightLeaderCard> cards){ this.leaderSlot = cards;
-        System.out.println(cards);
     }
 }

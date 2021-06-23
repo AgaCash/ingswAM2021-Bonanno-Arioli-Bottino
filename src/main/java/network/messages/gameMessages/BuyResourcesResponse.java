@@ -37,7 +37,6 @@ public class BuyResourcesResponse extends GameMessage{
     public BuyResourcesResponse(String username, LightWarehouseDepot newWarehouse, LightMarketBoard newMarketBoard,
                                 ArrayList<LightResource> threwResource,
                                 ArrayList<LightPlayer> players){
-        //todo add faithtrack
         super(username, MessageType.MARKETUPDATE);
         this.newWarehouse = newWarehouse;
         this.newMarketBoard = newMarketBoard;
@@ -63,18 +62,19 @@ public class BuyResourcesResponse extends GameMessage{
             controller.updateWarehouse(getUsername(), newWarehouse);
             if (!this.isSinglePlayer) {
                 controller.showOthersActions(getUsername(), " has bought resources from the market");
-                for (LightPlayer p : players)
-                    if (controller.getUsername().equals(p.getNickname())) {
-                        if(!threwResource.isEmpty())
-                            controller.showSuccess("+++ you earned "+ threwResource.size() +" faith points!");
-                        controller.updateFaithTrack(p.getNickname(), p.getPlayerBoard().getFaithTrack());
-                    }
+
+                for (LightPlayer p : players) {
+                    if (!controller.getUsername().equals(getUsername()))
+                        if (!threwResource.isEmpty())
+                            controller.showSuccess(p.getNickname(), "+++ you earned " + threwResource.size() + " faith points!");
+                    controller.updateFaithTrack(p.getNickname(), p.getPlayerBoard().getFaithTrack());
+                }
+
             }else{
                 controller.getPlayerBoard().getFaithTrack().setCurrentPos(position);
             }
             controller.showThrewResources(getUsername(), threwResource);
-            if(controller.getUsername().equals(getUsername()))
-                controller.showSuccess("successful purchase!");
+            controller.showSuccess(getUsername(),"successful purchase!");
         }
         else
             controller.showError(getUsername(), message);

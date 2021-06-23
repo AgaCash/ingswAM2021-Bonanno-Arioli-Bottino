@@ -2,6 +2,7 @@ package network.messages.gameMessages;
 
 import clientController.LightController;
 import clientModel.cards.LightDevelopmentCard;
+import clientModel.singleplayer.LightLorenzo;
 import clientModel.strongbox.LightStrongbox;
 import clientModel.table.LightDevelopmentBoard;
 import clientModel.table.LightFaithTrack;
@@ -16,10 +17,10 @@ public class EndTurnResponse extends GameMessage{
     private ArrayList<LightDevelopmentCard> slots;
     private LightStrongbox strongbox;
     private String message;
-    private int lorenzoPos;
     private boolean isSinglePlayer;
     private boolean gameOver = false;
     private boolean victory;
+    private LightLorenzo lorenzo;
 
     public EndTurnResponse(String oldPlayer, String newPlayer, LightStrongbox strongbox){
         super(oldPlayer, MessageType.ENDTURNUPDATE);
@@ -28,17 +29,17 @@ public class EndTurnResponse extends GameMessage{
         this.strongbox = strongbox;
     }
 
-    public EndTurnResponse(String username, LightDevelopmentBoard board, LightFaithTrack track, String message,
-                           ArrayList<LightDevelopmentCard> newSlots, LightStrongbox newStrongbox, int lorenzoPos){
+    public EndTurnResponse(String username, LightDevelopmentBoard board, LightFaithTrack track,
+                           ArrayList<LightDevelopmentCard> newSlots, LightStrongbox newStrongbox,
+                           LightLorenzo lorenzo){
         super(username, MessageType.ENDTURNUPDATE);
         this.board = board;
         this.track = track;
-        this.message = message;
         this.slots = newSlots;
         this.strongbox = newStrongbox;
-        this.lorenzoPos = lorenzoPos;
         this.isSinglePlayer = true;
         this.gameOver = false;
+        this.lorenzo = lorenzo;
     }
 
     public EndTurnResponse(String username, String message){
@@ -64,10 +65,9 @@ public class EndTurnResponse extends GameMessage{
             }
             else {
                 controller.updateDevBoard(board);
-                controller.updateFaithTrack(getUsername(), this.track);
+                //controller.updateFaithTrack(getUsername(), this.track);
                 controller.updateCardSlots(getUsername(), this.slots);
-                controller.getPlayerBoard().getFaithTrack().setLorenzoPos(lorenzoPos);
-                controller.showLorenzoActions(message);
+                controller.updateLorenzo(lorenzo);
                 controller.startTurn();
             }
 
@@ -79,7 +79,7 @@ public class EndTurnResponse extends GameMessage{
                 controller.showOthersActions(getUsername() , " has ended the turn");
 
                 if (controller.getUsername().equals(this.newPlayerName)) {
-                    controller.showSuccess("IT'S YOUR TURN!");
+                    controller.showSuccess(this.newPlayerName, "IT'S YOUR TURN!");
                     controller.startTurn();
                 }
                 else

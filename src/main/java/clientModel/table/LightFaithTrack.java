@@ -3,21 +3,22 @@ package clientModel.table;
 import clientModel.colour.LightColour;
 
 import java.util.ArrayList;
-//todo da rivedere?
+
 public class LightFaithTrack {
     private ArrayList<LightFaithBox> box = new ArrayList<>(25);
     private LightFaithBox actualPos;
+    private LightFaithBox lorenzoPos;
 
-    //public ArrayList<LightFaithBox> getTrack(){
-    //  return box;
-    //}
     public void setTrack(ArrayList<LightFaithBox> box){
         this.box = box;
         actualPos = this.box.get(0);
+        lorenzoPos = this.box.get(0);
     }
 
     public void setLorenzoPos(int pos){
-        this.box.get(pos).setLorenzoPos();
+        lorenzoPos.setLorenzoPos(false);
+        lorenzoPos = box.get(pos);
+        lorenzoPos.setLorenzoPos(true);
     }
 
     public void setCurrentPos(int position){
@@ -25,11 +26,6 @@ public class LightFaithTrack {
         actualPos = box.get(position);
         actualPos.setPos(true);
     }
-
-    public int getCurrentPos(){
-        return this.box.indexOf(this.actualPos);
-    }
-
 
 
     @Override

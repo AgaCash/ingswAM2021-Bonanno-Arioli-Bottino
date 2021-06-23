@@ -40,8 +40,7 @@ public class BuyDevCardResponse extends GameMessage{
             controller.updateStrongbox(getUsername(), newStrongbox);
             controller.updateWarehouse(getUsername(), newWarehouse);
             controller.showOthersActions(getUsername(), " has bought a development card");
-            if(controller.getUsername().equals(getUsername()))
-                controller.showSuccess("successful purchase!");
+            controller.showSuccess(getUsername(), "successful purchase!");
         }else{
             controller.showError(getUsername(), message);
         }

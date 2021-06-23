@@ -280,6 +280,7 @@ public class Game {
     }
 
     public void checkPopeFlags(boolean[] flags){
+        //todo qualcosa per notificare
         if (flags[0]){
             for(Player p : players){
                 if(p.getPlayerBoard().getFaithBox().getPosition()>=5)
