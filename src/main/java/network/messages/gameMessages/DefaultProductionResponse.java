@@ -28,11 +28,16 @@ public class DefaultProductionResponse extends GameMessage {
         if(this.success) {
             controller.updateWarehouse(getUsername(), newWarehouse);
             controller.updateStrongbox(getUsername(), newStrongbox);
-            controller.showOthersActions(getUsername(), " has activated a production from the player board");
+            showUpdates(controller);
             controller.showSuccess(getUsername(), "successful production!");
         }
         else{
             controller.showError(getUsername(), message);
         }
+    }
+
+    private void showUpdates(LightController controller){
+        controller.showOthersActions(getUsername(), " has produced from the board");
+        controller.showOthersActions(getUsername(), " strongbox after production: "+newStrongbox.toString());
     }
 }

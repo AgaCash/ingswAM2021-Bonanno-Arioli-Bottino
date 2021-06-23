@@ -133,7 +133,7 @@ public class Player {
     }
 
     public boolean canDoLeader(){
-        if(this.didLeader<2)
+        if(this.didLeader==0 || (didAction || didProduction))
             return true;
         return false;
     }

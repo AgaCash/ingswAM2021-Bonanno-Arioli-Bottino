@@ -39,11 +39,16 @@ public class BuyDevCardResponse extends GameMessage{
             controller.updateDevBoard(newDevBoard);
             controller.updateStrongbox(getUsername(), newStrongbox);
             controller.updateWarehouse(getUsername(), newWarehouse);
-            controller.showOthersActions(getUsername(), " has bought a development card");
+            showUpdates(controller);
             controller.showSuccess(getUsername(), "successful purchase!");
         }else{
             controller.showError(getUsername(), message);
         }
+    }
+
+    private void showUpdates(LightController controller){
+        controller.showOthersActions(getUsername(), " has bought a development card");
+        controller.showOthersActions(getUsername(), " card slots after purchase: "+newCardSlot.toString());
     }
 
 

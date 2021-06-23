@@ -34,11 +34,16 @@ public class LeaderCardThrowResponse extends GameMessage{
                 controller.showSuccess(getUsername(), "successful throwing!\n+++ you earned a faith point!");
             }
             else
-                controller.showOthersActions(getUsername(), " has threw a leader card");
+                showUpdates(controller);
 
         }
         else{
             controller.showError(getUsername(), message);
         }
+    }
+
+    private void showUpdates(LightController controller){
+        controller.showOthersActions(getUsername(), " has threw a leader card");
+        controller.showOthersActions(getUsername(), " leader slots after throwing: "+newSlot.toString());
     }
 }

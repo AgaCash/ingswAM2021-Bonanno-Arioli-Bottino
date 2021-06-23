@@ -39,12 +39,17 @@ public class LeaderCardActivationResponse extends GameMessage{
             controller.updateLeaderSlot(getUsername(), this.newSlot);
             controller.updateStrongbox(getUsername(), this.strongbox);
             controller.updateWarehouse(getUsername(), this.warehouse);
-            controller.showOthersActions(getUsername(), " has activated a leader card");
+            showUpdates(controller);
             controller.showSuccess(getUsername(), "successful activation!");
         }
         else{
             controller.showError(getUsername(), message);
         }
+    }
+
+    private void showUpdates(LightController controller){
+        controller.showOthersActions(getUsername(), " has activated from the board");
+        controller.showOthersActions(getUsername(), " leader slots after activation: "+newSlot.toString());
     }
 
 

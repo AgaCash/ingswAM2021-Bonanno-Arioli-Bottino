@@ -31,13 +31,18 @@ public class DevCardProductionResponse extends GameMessage{
             controller.updateWarehouse(getUsername(), newWarehouse);
             controller.updateStrongbox(getUsername(), newStrongbox);
             controller.getPlayerBoard().getFaithTrack().setCurrentPos(position);
-            controller.showOthersActions(getUsername(), " has activated a production from a development card");
+            showUpdates(controller);
             controller.showSuccess(getUsername(), "successful production!");
         }
         else{
             controller.showError(getUsername(), message);
         }
 
+    }
+
+    private void showUpdates(LightController controller){
+        controller.showOthersActions(getUsername(), " has produced from a card");
+        controller.showOthersActions(getUsername(), " strongbox after production: "+newStrongbox.toString());
     }
 
 }

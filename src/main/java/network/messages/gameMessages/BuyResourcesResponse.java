@@ -61,8 +61,7 @@ public class BuyResourcesResponse extends GameMessage{
             controller.updateMarketBoard(newMarketBoard);
             controller.updateWarehouse(getUsername(), newWarehouse);
             if (!this.isSinglePlayer) {
-                controller.showOthersActions(getUsername(), " has bought resources from the market");
-
+                showUpdates(controller);
                 for (LightPlayer p : players) {
                     if (!controller.getUsername().equals(getUsername()))
                         if (!threwResource.isEmpty())
@@ -78,6 +77,12 @@ public class BuyResourcesResponse extends GameMessage{
         }
         else
             controller.showError(getUsername(), message);
+    }
+
+    private void showUpdates(LightController controller){
+        controller.showOthersActions(getUsername(), " has bought resources from the market");
+        //controller.showOthersActions(getUsername(), " resources after purchase: "+c);
+        controller.showOthersActions(getUsername(), " resources after purchase: "+newWarehouse.toString());
     }
 
 
