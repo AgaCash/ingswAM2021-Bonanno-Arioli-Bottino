@@ -44,7 +44,7 @@ public class Game {
         }
     }
     public void setOrder(){
-        Collections.shuffle(players);
+        //Collections.shuffle(players);
         for(Player player : players){
             if(players.indexOf(player)== 0) {
                 player.getPlayerBoard().setInkwell(true);

@@ -147,12 +147,11 @@ public class CLI implements View{
             System.out.println("you have earned 1 faith point");
         ArrayList<LightLeaderCard> couple = new ArrayList<>();
         int first, second;
-        do{
-            System.out.println("insert two number from 1 to 4 to choose 2 leader cards from the quartet");
-            first = askInt("first: ") - 1;
-            second = askInt("second: ") - 1;
-        }
-        while((first<0 || first>3) && (second<0 || second>3));
+        System.out.println("insert two number from 1 to 4 to choose 2 leader cards from the quartet");
+        do first = askInt("first: ") - 1;
+        while((first<0 || first>3));
+        do second = askInt("second: ") - 1;
+        while(second<0 || second>3);
         couple.add(quartet.get(first));
         couple.add(quartet.get(second));
         ArrayList<LightResource> chosenResources = new ArrayList<>();

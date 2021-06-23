@@ -41,7 +41,7 @@ public class FaithTrack {
         FaithBox nextBox;
         int pos;
         pos = this.actualBox.getPosition();
-        if(pos<box.size()) {
+        if(pos<box.size()-1) {
             nextBox = this.box.get(pos + 1);
             this.actualBox = nextBox;
         }

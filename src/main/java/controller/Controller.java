@@ -17,6 +17,7 @@ import model.table.MarketBoard;
 import network.messages.gameMessages.*;
 import utilities.LeaderCardDeserializer;
 import view.VirtualClient;
+
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 
@@ -201,15 +202,14 @@ public class Controller {
                 response = new EndTurnResponse(username, game.getRanking(), game.getWinner());
                 EndTurnResponse finalResponse = response;
                 getViews().forEach((element) -> element.getVirtualView().sendEndTurnNotify(finalResponse));
+
                 /*try {
                     Lobby lobby = LobbyHandler.getInstance().getLobbyFromUsername(username);
                     Player creator = lobby.getCreator();
                     lobby.leaveLobby(creator.getNickname());
                 } catch (NoSuchUsernameException e) {
                     e.printStackTrace();
-                }
-
-                 */
+                }*/
             }
             else do {
                 response = new EndTurnResponse(username,

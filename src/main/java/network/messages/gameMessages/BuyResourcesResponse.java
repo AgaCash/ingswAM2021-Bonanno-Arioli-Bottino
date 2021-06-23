@@ -37,6 +37,7 @@ public class BuyResourcesResponse extends GameMessage{
     public BuyResourcesResponse(String username, LightWarehouseDepot newWarehouse, LightMarketBoard newMarketBoard,
                                 ArrayList<LightResource> threwResource,
                                 ArrayList<LightPlayer> players){
+        //todo add faithtrack
         super(username, MessageType.MARKETUPDATE);
         this.newWarehouse = newWarehouse;
         this.newMarketBoard = newMarketBoard;
