@@ -18,13 +18,13 @@ public class ServerSetupScene {
 
     String server;
     int port;
-    GUI gui = new GUI();
 
     @FXML
     private void sendServer(ActionEvent event){
+        GUI gui = GUI.getInstance();
         String portS;
         if(serverTXT.getText().isBlank())
-            server = "127.0.0.0";
+            server = "127.0.0.1";
         else
             server = serverTXT.getText();
         if(portTXT.getText().isBlank())
@@ -32,7 +32,7 @@ public class ServerSetupScene {
         else
             portS = portTXT.getText();
         port = Integer.parseInt(portS);
-        gui.askServerInfo();
+        gui.sendServerInfo(server, port);
     }
 
     public String getServer(){

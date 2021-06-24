@@ -1,4 +1,5 @@
-import GUI.Gui;
+
+import GUI.GuiStart;
 import clientView.CLI;
 import clientView.View;
 import javafx.application.Application;
@@ -17,7 +18,7 @@ public class ClientApp {
                 view.askServerInfo();
                 break;
             case 2:
-                Application.launch(Gui.class);
+                Application.launch(GuiStart.class);
                 break;
             default:
                 System.out.println("invalid number!");

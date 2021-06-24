@@ -25,9 +25,9 @@ import java.io.IOException;
 public class GuiStart extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/FXMLFiles/serverSetup.fxml"));
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
+        primaryStage.setResizable(false);
+        GUI.getInstance().setStage(primaryStage);
+        GUI.getInstance().askServerInfo();
     }
     /*
 

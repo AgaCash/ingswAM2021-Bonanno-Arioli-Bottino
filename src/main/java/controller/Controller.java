@@ -37,7 +37,7 @@ public class Controller {
         boolean isSinglePlayer = (views.size()==1);
         game = new Game(isSinglePlayer);
         disconnectedPlayer = new ArrayList<>();
-        System.out.println("CONTROLLER CREATED");
+        //System.out.println("CONTROLLER CREATED");
         this.lobbyId = lobbyId;
     }
     //EVERY MESSAGE
@@ -47,8 +47,6 @@ public class Controller {
     }
 
     //PING
-    //todo: 2 exception quando ci si disconnette da game
-    //          -> è perchè game in multiplayer non viene ancora inizializzato
     public void disconnectPlayer(String username){
         System.out.println(username+" disconnected!");
         if(game.getCurrentPlayer().getNickname().equals(username) && !isSinglePlayer()){

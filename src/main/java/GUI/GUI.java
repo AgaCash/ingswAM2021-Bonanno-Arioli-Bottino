@@ -1,32 +1,75 @@
 package GUI;
 
 import GUI.scenes.ServerSetupScene;
+import GUI.scenes.UsernameScene;
 import clientController.LightController;
 import clientModel.cards.LightLeaderCard;
 import clientModel.resources.LightResource;
 import clientView.View;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.stage.Stage;
 import network.server.Lobby;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class GUI implements View {
     LightController controller;
-    ServerSetupScene serverSetupScene;
+    Stage primaryStage;
 
-    public GUI(){
+    private static GUI instance = null;
+
+    public static GUI getInstance() {
+        if(instance == null)
+            instance = new GUI();
+        return instance;
+    }
+
+    private GUI(){
         this.controller = new LightController(this);
     }
-    @Override
-    public void serverLostConnection() {
 
+    public void setStage(Stage stage) {
+        this.primaryStage = stage;
     }
+
+    public void sendServerInfo(String addr, int port){
+        controller.connectToServer(addr, port);
+    }
+    public void sendUsername(String username){
+        controller.setUsername(username);
+    }
+
 
     @Override
     public void askServerInfo() {
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/FXMLFiles/serverSetup.fxml"));
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void askUsername() {
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/FXMLFiles/login.fxml"));
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void serverLostConnection() {
 
     }
 
@@ -152,7 +195,11 @@ public class GUI implements View {
 
     @Override
     public void showError(String message) {
-
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("An error occurred");
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     @Override

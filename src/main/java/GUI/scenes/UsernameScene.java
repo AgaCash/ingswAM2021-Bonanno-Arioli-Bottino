@@ -1,5 +1,7 @@
 package GUI.scenes;
 
+import GUI.GUI;
+import GUI.GuiStart;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -25,5 +27,7 @@ public class UsernameScene {
         loginBox.setPrefSize(839, 600);
         loginBox.setSpacing(30);
         loginBox.getChildren().addAll(title, insert, usernameField, sendBTN);
+
+
     }
 }
