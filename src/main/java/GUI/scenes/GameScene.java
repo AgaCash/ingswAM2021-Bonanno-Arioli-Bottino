@@ -1,19 +1,77 @@
 package GUI.scenes;
 
+import GUI.FXMLLoader;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 
 public class GameScene implements GenericScene{
 
-    public GameScene(){
+   @FXML
+   Button marketBTN;
+   @FXML
+   Button devBoardBTN;
+   @FXML
+   Button leaderBTN;
+   @FXML
+   Button player1BTN;
+   @FXML
+   Button player2BTN;
+   @FXML
+   Button player3BTN;
+   @FXML
+   Button player4BTN;
+   @FXML
+   Button endTurnBTN;
+   @FXML
+   BorderPane gamePane;
+
+
+   @FXML
+   private void goToMarket(ActionEvent event){
+       FXMLLoader object = new FXMLLoader();
+       Pane view = object.getPage("market");
+       gamePane.setCenter(view);
+   }
+   @FXML
+   private void goToDevBoard(ActionEvent event){
+       FXMLLoader object = new FXMLLoader();
+       Pane view = object.getPage("developmentBoard");
+       gamePane.setCenter(view);
+   }
+   @FXML
+   private void goToLeader(ActionEvent event){
+       FXMLLoader object = new FXMLLoader();
+       Pane view = object.getPage("leader");
+       gamePane.setCenter(view);
+   }
+   @FXML
+   private void goToPlayer1(ActionEvent event){
+       FXMLLoader object = new FXMLLoader();
+       Pane view = object.getPage("playerboard");
+       gamePane.setCenter(view);
+   }
+   @FXML
+   private void goToPlayer2(ActionEvent event){}
+   @FXML
+   private void goToPlayer3(ActionEvent event){}
+   @FXML
+   private void goToPlayer4(ActionEvent event){}
+   @FXML
+   private void endTurn(ActionEvent event){}
+
+
+
+
+
+
+   /* public GameScene(){
         //Loading images
         String basePath = "file:src/main/resources";
         Image image1 = new Image(basePath+ "/images/background.jpg");
@@ -115,4 +173,6 @@ public class GameScene implements GenericScene{
         bPane.setTop(hboxN);
         bPane.setBottom(hboxS);
     }
+
+         */
 }

@@ -11,7 +11,7 @@ public class FXMLLoader {
 
     public Pane getPage(String fileName){
         try {
-            URL fileURL = GuiStart.class.getResource("/FXMLFiles" + fileName + ".fxml");
+            URL fileURL = GuiStart.class.getResource("/FXMLFiles/" + fileName + ".fxml");
             if (fileURL == null) {
                 throw new java.io.FileNotFoundException("FXML file can't be found");
             }

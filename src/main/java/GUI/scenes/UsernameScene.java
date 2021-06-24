@@ -2,6 +2,8 @@ package GUI.scenes;
 
 import GUI.GUI;
 import GUI.GuiStart;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -11,6 +13,20 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 public class UsernameScene {
+
+    @FXML
+    Button sendUserBTN;
+    @FXML
+    TextField username;
+
+    @FXML
+    private void sendUser(ActionEvent event){
+
+    }
+
+
+
+    /*
     public UsernameScene() {
         Button sendBTN = new Button("SEND");
         sendBTN.setPrefSize(150,75);
@@ -30,4 +46,6 @@ public class UsernameScene {
 
 
     }
+
+     */
 }

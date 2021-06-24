@@ -5,14 +5,14 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="839.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" >
+<AnchorPane prefHeight="600.0" prefWidth="839.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.scenes.GameScene">
    <children>
       <ImageView fitHeight="600.0" fitWidth="839.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/background.jpg" />
          </image>
       </ImageView>
-      <BorderPane prefHeight="600.0" prefWidth="839.0">
+      <BorderPane fx:id="gamePane" prefHeight="600.0" prefWidth="839.0">
          <top>
             <HBox prefHeight="52.0" prefWidth="839.0" spacing="150.0" BorderPane.alignment="CENTER">
                <BorderPane.margin>
@@ -22,10 +22,10 @@
                   <Insets left="45.0" />
                </padding>
                <children>
-                  <Button mnemonicParsing="false" prefWidth="75.0" />
-                  <Button mnemonicParsing="false" prefWidth="75.0" />
-                  <Button mnemonicParsing="false" prefWidth="75.0" />
-                  <Button mnemonicParsing="false" prefWidth="75.0" />
+                  <Button fx:id="player1BTN" mnemonicParsing="false" onAction="#goToPlayer1" prefWidth="75.0" />
+                  <Button fx:id="player2BTN" mnemonicParsing="false" onAction="#goToPlayer2" prefWidth="75.0" />
+                  <Button fx:id="player3BTN" mnemonicParsing="false" onAction="#goToPlayer3" prefWidth="75.0" />
+                  <Button fx:id="player4BTN" mnemonicParsing="false" onAction="#goToPlayer4" prefWidth="75.0" />
                </children>
             </HBox>
          </top>
@@ -35,16 +35,16 @@
                   <Insets top="5.0" />
                </BorderPane.margin>
                <children>
-                  <Button mnemonicParsing="false" prefHeight="150.0" prefWidth="150.0" />
-                  <Button mnemonicParsing="false" prefHeight="150.0" prefWidth="150.0" />
-                  <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="150.0" />
+                  <Button fx:id="marketBTN" mnemonicParsing="false" onAction="#goToMarket" prefHeight="150.0" prefWidth="150.0" />
+                  <Button fx:id="devBoardBTN" mnemonicParsing="false" onAction="#goToDevBoard" prefHeight="150.0" prefWidth="150.0" />
+                  <Button fx:id="leaderBTN" mnemonicParsing="false" onAction="#goToLeader" prefHeight="100.0" prefWidth="150.0" />
                </children>
             </VBox>
          </left>
          <bottom>
             <HBox alignment="CENTER_RIGHT" prefHeight="90.0" prefWidth="839.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="75.0" />
+                  <Button fx:id="endTurnBTN" mnemonicParsing="false" onAction="#endTurn" prefHeight="50.0" prefWidth="75.0" />
                </children>
                <BorderPane.margin>
                   <Insets />
