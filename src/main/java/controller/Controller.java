@@ -15,6 +15,8 @@ import model.table.DevelopmentBoard;
 import model.table.FaithTrack;
 import model.table.MarketBoard;
 import network.messages.gameMessages.*;
+import network.server.Lobby;
+import network.server.LobbyHandler;
 import utilities.LeaderCardDeserializer;
 import view.VirtualClient;
 
@@ -27,14 +29,16 @@ public class Controller {
     private ArrayList<VirtualClient> views;
     private ArrayList<String> disconnectedPlayer;
     private int readyPlayers = 0;
+    private int lobbyId;
 
-    public Controller(int id, ArrayList<VirtualClient> views){
+    public Controller(int id, ArrayList<VirtualClient> views, int lobbyId){
         this.views = views;
         this.id = id;
         boolean isSinglePlayer = (views.size()==1);
         game = new Game(isSinglePlayer);
         disconnectedPlayer = new ArrayList<>();
         System.out.println("CONTROLLER CREATED");
+        this.lobbyId = lobbyId;
     }
     //EVERY MESSAGE
     public void executeCommand(GameMessage message, VirtualClient client) {
@@ -181,18 +185,25 @@ public class Controller {
 
     public void endTurn(String username) {
         EndTurnResponse response;
+        Lobby currL = LobbyHandler.getInstance().getLobby(lobbyId);
         if (game.isSinglePlayer()) {
             game.updateTurn();
-            if(!game.isOver())
+            if(!game.isOver()) {
                 response = new EndTurnResponse(username,
                         game.getDevBoard().convert(),
                         game.getCurrentPlayer().getFaithTrack().convert(),
                         game.getCurrentPlayer().getPlayerBoard().getCardSlots().convert(),
                         game.getCurrentPlayer().getPlayerBoard().getStrongbox().convert(),
                         game.getLorenzo().convert());
-            else
+                //getViews().get(0).getVirtualView().sendEndTurnNotify(response);
+            }else {
                 response = new EndTurnResponse(username, game.endingSinglePlayerGame());
+                if(currL != null){
+                    LobbyHandler.getInstance().destroyLobby(currL);
+                }
+            }
             getViews().get(0).getVirtualView().sendEndTurnNotify(response);
+
         }
         else{
             Player lastPlayer = game.getCurrentPlayer();
@@ -201,14 +212,9 @@ public class Controller {
                 response = new EndTurnResponse(username, game.getRanking(), game.getWinner());
                 EndTurnResponse finalResponse = response;
                 getViews().forEach((element) -> element.getVirtualView().sendEndTurnNotify(finalResponse));
-
-                /*try {
-                    Lobby lobby = LobbyHandler.getInstance().getLobbyFromUsername(username);
-                    Player creator = lobby.getCreator();
-                    lobby.leaveLobby(creator.getNickname());
-                } catch (NoSuchUsernameException e) {
-                    e.printStackTrace();
-                }*/
+                if(currL != null){
+                    LobbyHandler.getInstance().destroyLobby(currL);
+                }
             }
             else do {
                 response = new EndTurnResponse(username,
@@ -216,9 +222,6 @@ public class Controller {
                         lastPlayer.getPlayerBoard().getStrongbox().convert());
                 EndTurnResponse finalResponse1 = response;
                 getViews().forEach((element) -> element.getVirtualView().sendEndTurnNotify(finalResponse1));
-                if(disconnectedPlayer.size() == game.getPlayers().size()){
-                    //fanculo tutto todo: aggiungere qualcosa di piu elegante?
-                }
             } while (disconnectedPlayer.contains(game.getCurrentPlayer().getNickname()));
             //OCCHIO AGLI UPDATE E AL MECCANISMO DI UNDERSTANDING DEL TURNO DA PARTE DEL CLIENT
             //
