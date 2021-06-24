@@ -89,7 +89,7 @@ public class CLI implements View{
 
     @Override
     public void waitStartGameString(){
-        String s;
+        String s = "";
         do s = askString("Write " + LightColour.BLUE+ "\"start\"" +LightColour.WHITE+" to begin the game").toLowerCase();
         while (!s.equals("start"));
         controller.sendSignalMultiPlayerGame();

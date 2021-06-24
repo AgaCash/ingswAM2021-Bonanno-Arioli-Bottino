@@ -9,6 +9,7 @@ import view.VirtualClient;
 
 import javax.naming.SizeLimitExceededException;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicReference;
 
 
 /*
@@ -97,14 +98,11 @@ public class LobbyHandler {
         }
     }
 
-    //serve????
     public synchronized void destroyLobby(Lobby lobby){
-        //disconnetti tutti
         if(!lobbies.contains(lobby)){
             return;
         }
-        //elimina la lobby dalla lista
-        lobby.getUsernameList().forEach(lobby::leaveLobby);
+        lobbies.remove(lobby);
     }
     //me sa de no
 
@@ -119,9 +117,15 @@ public class LobbyHandler {
     }
 
     public synchronized Lobby getLobby(int id){
-        return lobbies.get(id);
+        for (Lobby l:lobbies) {
+            if(l.getId() == id)
+                return l;
+        }
+        return null;
     }
 
-
+    public synchronized ArrayList<Lobby> getLobbies(){
+        return lobbies;
+    }
 
 }

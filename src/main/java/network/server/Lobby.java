@@ -117,7 +117,7 @@ public class Lobby {
         if(players.size() < 2 && !singlePlayerMode) {
             throw new NotEnoughPlayersException("Not enough players");
         }
-        sharedController = new Controller(id, views);
+        sharedController = new Controller(id, views, id);
         System.out.println(sharedController);
         System.out.println(views);
         System.out.println(players);
@@ -147,5 +147,16 @@ public class Lobby {
 
     public boolean isGameStarted() {
         return gameStarted;
+    }
+
+    @Override
+    public String toString() {
+        return "Lobby{" +
+                "id=" + id +
+                ", players=" + players +
+                ", sharedController=" + sharedController +
+                ", singlePlayerMode=" + singlePlayerMode +
+                ", gameStarted=" + gameStarted +
+                '}';
     }
 }

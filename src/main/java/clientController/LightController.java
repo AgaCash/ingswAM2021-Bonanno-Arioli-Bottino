@@ -409,12 +409,12 @@ public class LightController {
     }
 
     public void showError(String username, String message) {
-        if(game.getUsername().equals(username))
+        if(getUsername().equals(username))
             view.showError(message);
     }
 
     public void showSuccess(String username, String message){
-        if(game.getUsername().equals(username))
+        if(getUsername().equals(username))
             view.showSuccess(message);
     }
 

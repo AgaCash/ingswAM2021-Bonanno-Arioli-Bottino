@@ -79,6 +79,10 @@ public class Gui extends Application {
         window = stage;
 
         stage.setResizable(false);
+        Button button = new Button();
+        button.setOnAction((actionEvent)->{
+            System.out.println(actionEvent.getEventType());
+        });
 
         //Button Actions
         player1BTN.setOnAction( e -> bPane.setCenter(player1Pane));
@@ -90,6 +94,7 @@ public class Gui extends Application {
         player4BTN.setOnAction(e->bPane.setCenter(player4Pane));
         //Setting Actions
         sendBTN.setOnAction(actionEvent -> {
+            //System.out.println(actionEvent);
             mainPane.getChildren().remove(loginBox);
             mainPane.getChildren().add(gameSelBox);
             player1BTN.setText(usernameField.getText());
