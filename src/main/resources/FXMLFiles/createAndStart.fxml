@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane prefHeight="600.0" prefWidth="839.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" >
+   <children>
+      <VBox alignment="CENTER" prefHeight="600.0" prefWidth="300.0" spacing="25.0" AnchorPane.leftAnchor="270.0">
+         <children>
+            <ListView prefHeight="200.0" prefWidth="200.0" />
+            <Button mnemonicParsing="false" prefHeight="60.0" prefWidth="100.0" text="START" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

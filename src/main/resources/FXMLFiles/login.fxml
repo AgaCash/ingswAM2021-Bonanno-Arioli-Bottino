@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="839.0" spacing="30.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Label prefHeight="46.0" prefWidth="486.0" text="MAESTRI DEL RINASCIMENTO">
+            <font>
+                <Font name="Monotype Corsiva" size="36.0" />
+            </font>
+        </Label>
+        <Label text="insert your username" />
+        <TextField fx:id="username">
+            <VBox.margin>
+                <Insets left="150.0" right="150.0" />
+            </VBox.margin></TextField>
+        <Button fx:id="sendUserBTN" alignment="CENTER" mnemonicParsing="false" prefHeight="75.0" prefWidth="200.0" text="SEND" VBox.vgrow="ALWAYS">
+            <VBox.margin>
+                <Insets />
+            </VBox.margin>
+        </Button>
+    </children>
+    <opaqueInsets>
+        <Insets />
+    </opaqueInsets>
+</VBox>

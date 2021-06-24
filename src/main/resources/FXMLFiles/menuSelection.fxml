@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane prefHeight="600.0" prefWidth="839.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" >
+   <children>
+      <VBox alignment="CENTER" prefHeight="600.0" prefWidth="839.0" spacing="40.0">
+         <children>
+            <Button mnemonicParsing="false" prefHeight="75.0" prefWidth="200.0" text="Create Multi Player Lobby" />
+            <Button mnemonicParsing="false" prefHeight="75.0" prefWidth="200.0" text="Join Multi Player Lobby" />
+            <Button mnemonicParsing="false" prefHeight="75.0" prefWidth="200.0" text="Singler Player" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

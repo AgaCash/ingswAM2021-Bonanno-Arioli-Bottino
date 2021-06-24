@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="839.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" >
+   <children>
+      <ImageView fitHeight="600.0" fitWidth="839.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/background.jpg" />
+         </image>
+      </ImageView>
+      <BorderPane prefHeight="600.0" prefWidth="839.0">
+         <top>
+            <HBox prefHeight="52.0" prefWidth="839.0" spacing="150.0" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets top="15.0" />
+               </BorderPane.margin>
+               <padding>
+                  <Insets left="45.0" />
+               </padding>
+               <children>
+                  <Button mnemonicParsing="false" prefWidth="75.0" />
+                  <Button mnemonicParsing="false" prefWidth="75.0" />
+                  <Button mnemonicParsing="false" prefWidth="75.0" />
+                  <Button mnemonicParsing="false" prefWidth="75.0" />
+               </children>
+            </HBox>
+         </top>
+         <left>
+            <VBox alignment="TOP_CENTER" prefHeight="20.0" prefWidth="217.0" spacing="15.0" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets top="5.0" />
+               </BorderPane.margin>
+               <children>
+                  <Button mnemonicParsing="false" prefHeight="150.0" prefWidth="150.0" />
+                  <Button mnemonicParsing="false" prefHeight="150.0" prefWidth="150.0" />
+                  <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="150.0" />
+               </children>
+            </VBox>
+         </left>
+         <bottom>
+            <HBox alignment="CENTER_RIGHT" prefHeight="90.0" prefWidth="839.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="75.0" />
+               </children>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+               <padding>
+                  <Insets right="40.0" />
+               </padding>
+            </HBox>
+         </bottom>
+      </BorderPane>
+   </children>
+</AnchorPane>

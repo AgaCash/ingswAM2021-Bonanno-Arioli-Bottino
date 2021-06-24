@@ -1,7 +1,11 @@
 package GUI;
 
+import GUI.scenes.UsernameScene;
+import clientView.View;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -18,7 +22,14 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class Gui extends Application {
+public class GuiStart extends Application{
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("/FXMLFiles/serverSetup.fxml"));
+        primaryStage.setScene(new Scene(root));
+        primaryStage.show();
+    }
+    /*
 
     Stage window;
     Scene mainScene;
@@ -67,9 +78,11 @@ public class Gui extends Application {
     TextField usernameField;
     ListView<String> playersList;
 
+
+
     public Gui(){
         this.controller = new GuiController(this);
-        this.sc = new SceneConstructor(this);
+        //this.sc = new SceneConstructor(this);
         this.drawer = new Drawer(this);
     }
 
@@ -125,6 +138,8 @@ public class Gui extends Application {
         stage.show();
     }
 
+
+     */
     //TODO drawImages liv2,3 nel playerboard
     //TODO creare le finestre pop-up per uscita gioco e illegal choices
     //TODO collegare tutto
