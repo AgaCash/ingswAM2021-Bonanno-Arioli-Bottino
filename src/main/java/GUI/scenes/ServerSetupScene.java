@@ -21,7 +21,6 @@ public class ServerSetupScene {
 
     @FXML
     private void sendServer(ActionEvent event){
-        GUI gui = GUI.getInstance();
         String portS;
         if(serverTXT.getText().isBlank())
             server = "127.0.0.1";
@@ -32,7 +31,7 @@ public class ServerSetupScene {
         else
             portS = portTXT.getText();
         port = Integer.parseInt(portS);
-        gui.sendServerInfo(server, port);
+        GUI.getInstance().getController().connectToServer(server, port);
     }
 
     public String getServer(){

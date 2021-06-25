@@ -151,12 +151,11 @@ public class Lobby {
 
     @Override
     public String toString() {
-        return "Lobby{" +
-                "id=" + id +
-                ", players=" + players +
-                ", sharedController=" + sharedController +
-                ", singlePlayerMode=" + singlePlayerMode +
-                ", gameStarted=" + gameStarted +
-                '}';
+        String s ="";
+        for (Player p: players) {
+            s+= p.getNickname()+", ";
+        }
+        return "ID: "+id+
+                "  - Players: "+s;
     }
 }

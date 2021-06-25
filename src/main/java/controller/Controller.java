@@ -35,7 +35,7 @@ public class Controller {
         boolean isSinglePlayer = (views.size()==1);
         game = new Game(isSinglePlayer);
         disconnectedPlayer = new ArrayList<>();
-        System.out.println("CONTROLLER CREATED");
+        //System.out.println("CONTROLLER CREATED");
         this.lobbyId = lobbyId;
     }
 
@@ -49,9 +49,8 @@ public class Controller {
     }
 
     //PING
-    public void disconnectPlayer(String username){
-        if(game.getCurrentPlayer().getNickname().equals(username) && !isSinglePlayer())
-            endTurn(username);
+    public synchronized void disconnectPlayer(String username){
+        System.out.println(username+" disconnected!");
         for(VirtualClient v: views){
             if(v.getVirtualView().getUsername().equals(username)){
                 disconnectedPlayer.add(username);
@@ -59,20 +58,25 @@ public class Controller {
                 break;
             }
         }
+        if(game.getCurrentPlayer().getNickname().equals(username) && !isSinglePlayer()){
+            endTurn(username);
+        }
         PlayerDisconnectedMessage pdm = new PlayerDisconnectedMessage(username);
         views.forEach((v)->v.getVirtualView().sendPlayerResilienceMessage(pdm));
     }
 
     //RESILIENCE
-    public boolean isUsernameDisconnected(String username){
-        return disconnectedPlayer.contains(username);
+    public synchronized boolean isUsernameDisconnected(String username){
+        if(disconnectedPlayer.contains(username))
+            return true;
+        return false;
     }
 
     public boolean isSinglePlayer(){
         return game.isSinglePlayer();
     }
 
-    public void reconnectUsername(String username, VirtualClient virtualClient){
+    public synchronized void reconnectUsername(String username, VirtualClient virtualClient){
         disconnectedPlayer.remove(username);
         PlayerReconnectedMessage prm = new PlayerReconnectedMessage(username);
         views.forEach((v)-> v.getVirtualView().sendPlayerResilienceMessage(prm));
@@ -272,7 +276,7 @@ public class Controller {
      * If all Players are disconnected or the game is ended, the Lobby will be erased from the Server
      * @param username the Player's username that ends the turn
      */
-    public void endTurn(String username) {
+    public synchronized void endTurn(String username) {
         EndTurnResponse response;
         Lobby currL = LobbyHandler.getInstance().getLobby(lobbyId);
         if (game.isSinglePlayer()) {
@@ -305,13 +309,18 @@ public class Controller {
                     LobbyHandler.getInstance().destroyLobby(currL);
                 }
             }
-            else do {
-                response = new EndTurnResponse(username,
-                        game.getCurrentPlayer().getNickname(),
-                        lastPlayer.getPlayerBoard().getStrongbox().convert());
-                EndTurnResponse finalResponse1 = response;
-                getViews().forEach((element) -> element.getVirtualView().sendEndTurnNotify(finalResponse1));
-            } while (disconnectedPlayer.contains(game.getCurrentPlayer().getNickname()));
+            else {
+                do {
+                    response = new EndTurnResponse(username,
+                            game.getCurrentPlayer().getNickname(),
+                            lastPlayer.getPlayerBoard().getStrongbox().convert());
+                    EndTurnResponse finalResponse1 = response;
+                    getViews().forEach((element) -> element.getVirtualView().sendEndTurnNotify(finalResponse1));
+                }while (disconnectedPlayer.contains(game.getCurrentPlayer().getNickname()) && !views.isEmpty());
+            }
+            if(views.isEmpty() && currL != null){
+                LobbyHandler.getInstance().destroyLobby(currL);
+            }
         }
     }
 

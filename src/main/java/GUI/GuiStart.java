@@ -2,6 +2,7 @@ package GUI;
 
 import GUI.scenes.UsernameScene;
 import clientView.View;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +20,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 
@@ -26,6 +28,13 @@ public class GuiStart extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setResizable(false);
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent windowEvent) {
+                Platform.exit();
+                System.exit(0);
+            }
+        });
         GUI.getInstance().setStage(primaryStage);
         GUI.getInstance().askServerInfo();
     }

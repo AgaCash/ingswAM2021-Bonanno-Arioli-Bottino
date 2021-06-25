@@ -25,6 +25,9 @@ public interface View {
     void askStartGame();
     //wait fot the creator that type "start" in the console
     void waitStartGameString();
+    //  Waiting room for creator
+    void showCreatorWaitingRoom();
+    //  Waiting room for plebei
     void showWaitingRoom();
     //when user reconnect show a message
     void showReconnectionToGame();

@@ -1,34 +1,33 @@
 package GUI.scenes;
 
+import GUI.GUI;
+import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import network.server.Lobby;
+
+import java.awt.event.ActionEvent;
+import java.net.Socket;
+import java.util.ArrayList;
 
 public class JoinAndWaitScene {
-    public JoinAndWaitScene(){
-        ListView playersList = new ListView<>();
-        playersList.getItems().addAll("LOBBY 1", "P1","P2","P3");
-        ListView<String> playersList1 = new ListView<>();
-        playersList1.getItems().addAll("LOBBY 2", "P1","P2","P3");
-        ListView<String> playersList2 = new ListView<>();
-        playersList2.getItems().addAll("Mario", "gerryscotti00","AGACASH","theodore");
-        ListView<String> playersList3 = new ListView<>();
-        playersList3.getItems().addAll("Mario", "gerryscotti00","AGACASH","theodore");
 
-        VBox lobbyAPane = new VBox();
-        ScrollPane lobbyPane = new ScrollPane();
-        VBox lobbiesBox = new VBox();
+    @FXML
+    ListView<Lobby> lobbyList;
 
-        lobbyAPane.setPrefSize(839,600);
-        lobbyAPane.setPadding(new Insets(70,270,70,269));
-        playersList.setPrefHeight(120);
-        //playersList.setOnMouseClicked(e->playersList.getItems().add(usernameField.getText()));
-        lobbiesBox.setSpacing(30);
-        lobbiesBox.setPrefWidth(300);
-        lobbiesBox.getChildren().addAll(playersList,playersList1,playersList2,playersList3);
-        lobbyPane.setPrefSize(300,600);
-        lobbyPane.setContent(lobbiesBox);
-        lobbyAPane.getChildren().add(lobbyPane);
+    @FXML
+    public void lobbyElementClicked(MouseEvent contextMenuEvent) {
+        Lobby lobby = lobbyList.getSelectionModel().getSelectedItem();
+        if(lobby != null){
+            GUI.getInstance().getController().joinLobbyById(lobby.getId());
+        }
+    }
+
+    public void loadLobbies(ArrayList<Lobby> lobbies){
+        lobbyList.getItems().addAll(lobbies);
     }
 }

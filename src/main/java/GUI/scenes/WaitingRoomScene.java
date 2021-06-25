@@ -5,5 +5,9 @@ import javafx.scene.control.ListView;
 
 public class WaitingRoomScene {
     @FXML
-    ListView playerList;
+    ListView<String> playerList;
+
+    public void addPlayer(String username){
+        playerList.getItems().add(username);
+    }
 }

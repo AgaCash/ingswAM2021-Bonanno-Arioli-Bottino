@@ -1,11 +1,15 @@
 package GUI;
 
+import GUI.scenes.CreateAndStartScene;
+import GUI.scenes.JoinAndWaitScene;
 import GUI.scenes.ServerSetupScene;
 import GUI.scenes.UsernameScene;
 import clientController.LightController;
 import clientModel.cards.LightLeaderCard;
 import clientModel.resources.LightResource;
 import clientView.View;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,6 +23,7 @@ import java.util.ArrayList;
 public class GUI implements View {
     LightController controller;
     Stage primaryStage;
+    FXMLLoader fxmlLoader;
 
     private static GUI instance = null;
 
@@ -36,19 +41,33 @@ public class GUI implements View {
         this.primaryStage = stage;
     }
 
-    public void sendServerInfo(String addr, int port){
-        controller.connectToServer(addr, port);
-    }
-    public void sendUsername(String username){
-        controller.setUsername(username);
-    }
+    /*
+    SAMPLE
 
+        Parent root = null;
+        try {
+            fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/.fxml"));
+            root = fxmlLoader.load();
+            //fxmlLoader.getController();
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+     */
+
+    public LightController getController() {
+        return controller;
+    }
 
     @Override
     public void askServerInfo() {
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("/FXMLFiles/serverSetup.fxml"));
+            fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/serverSetup.fxml"));
+            root = fxmlLoader.load();
+            //fxmlLoader.getController();
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
         } catch (IOException e) {
@@ -60,7 +79,9 @@ public class GUI implements View {
     public void askUsername() {
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("/FXMLFiles/login.fxml"));
+            fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/login.fxml"));
+            root = fxmlLoader.load();
+            //fxmlLoader.getController();
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
         } catch (IOException e) {
@@ -75,7 +96,16 @@ public class GUI implements View {
 
     @Override
     public void askMenu() {
-
+        Parent root = null;
+        try {
+            fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/menuSelection.fxml"));
+            root = fxmlLoader.load();
+            //fxmlLoader.getController();
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -95,6 +125,10 @@ public class GUI implements View {
 
     @Override
     public void notifyPlayerJoined(String username) {
+        CreateAndStartScene controller = fxmlLoader.getController();
+        Platform.runLater(()->{
+            controller.addPlayer(username);
+        });
 
     }
 
@@ -109,8 +143,35 @@ public class GUI implements View {
     }
 
     @Override
-    public void showWaitingRoom() {
+    public void showCreatorWaitingRoom() {
+        Platform.runLater(()-> {
+            Parent root = null;
+            try {
+                fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/createAndStart.fxml"));
+                root = fxmlLoader.load();
+                ((CreateAndStartScene) fxmlLoader.getController()).addPlayer(GUI.getInstance().getController().getUsername());
+                primaryStage.setScene(new Scene(root));
+                primaryStage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
 
+    @Override
+    public void showWaitingRoom() {
+        Platform.runLater(()->{
+            Parent root = null;
+            try {
+                fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/waitingRoom.fxml"));
+                root = fxmlLoader.load();
+                //fxmlLoader.getController();
+                primaryStage.setScene(new Scene(root));
+                primaryStage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override
@@ -125,7 +186,18 @@ public class GUI implements View {
 
     @Override
     public void askLobbyID(ArrayList<Lobby> lobbies) {
-
+        //mostro la finestra con le lobby
+        Parent root = null;
+        try {
+            fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/joinAndWait.fxml"));
+            root = fxmlLoader.load();
+            JoinAndWaitScene j = fxmlLoader.getController();
+            j.loadLobbies(lobbies);
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -145,7 +217,10 @@ public class GUI implements View {
 
     @Override
     public void askStartItems(ArrayList<LightLeaderCard> quartet, int numResources, boolean faithPoints) {
-
+        //todo:
+        //      mostrare la pagina del game
+        //      mostrare la scelta delle leader + risorse
+        System.out.println("SINGLEPLAYER INIZIATO");
     }
 
     @Override
@@ -195,16 +270,24 @@ public class GUI implements View {
 
     @Override
     public void showError(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText("An error occurred");
-        alert.setContentText(message);
-        alert.showAndWait();
+        Platform.runLater(()->{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("An error occurred");
+            alert.setContentText(message);
+            alert.showAndWait();
+        });
     }
 
     @Override
     public void showSuccess(String message) {
-
+        Platform.runLater(()->{
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Success");
+            alert.setHeaderText("Successful action");
+            alert.setContentText(message);
+            alert.showAndWait();
+        });
     }
 
     @Override

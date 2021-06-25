@@ -21,7 +21,9 @@ public class UsernameScene {
 
     @FXML
     private void sendUser(ActionEvent event){
-
+        String usernameString;
+        usernameString = username.getText();
+        GUI.getInstance().getController().setUsername(usernameString);
     }
 
 

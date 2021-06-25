@@ -177,9 +177,9 @@ public class LightController {
 
     //V1 (t'appooo!!)
     public void createLobbyWaiting(){
+        view.showCreatorWaitingRoom();
         new Thread(()->{
             boolean gameStarted = false;
-            view.showWaitingRoom();
             try {
                 do{
                     String lobbyWaiting = client.recv();
@@ -197,7 +197,6 @@ public class LightController {
                 view.showError(e.getMessage());
             }
         }).start();
-
         view.askStartGame();
     }
 
@@ -212,21 +211,23 @@ public class LightController {
     public void joinLobbyWaiting(){
         //mostra che è entrato nella lobby
         //notifica attesa che il gioco inizi
-        boolean gameStarted = false;
         view.showWaitingRoom();
-        try {
-            do{
-                String lobbyWaiting = client.recv();
-                JsonObject jsonObject = gson.fromJson(lobbyWaiting, JsonObject.class);
-                MessageType msgType = MessageType.valueOf(jsonObject.get("messageType").getAsString());
-                ((LobbyMessage) gson.fromJson(lobbyWaiting, msgType.getClassType())).executeCommand(this);
-                if(gson.fromJson(lobbyWaiting, msgType.getClassType()).getMessageType() == MessageType.LOBBYSTARTGAME_RESPONSE){
-                    gameStarted = true;
-                }
-            }while (!gameStarted);
-        } catch (IOException e) {
-            view.showError(e.getMessage());
-        }
+        new Thread(()-> {
+            boolean gameStarted = false;
+            try {
+                do {
+                    String lobbyWaiting = client.recv();
+                    JsonObject jsonObject = gson.fromJson(lobbyWaiting, JsonObject.class);
+                    MessageType msgType = MessageType.valueOf(jsonObject.get("messageType").getAsString());
+                    ((LobbyMessage) gson.fromJson(lobbyWaiting, msgType.getClassType())).executeCommand(this);
+                    if (gson.fromJson(lobbyWaiting, msgType.getClassType()).getMessageType() == MessageType.LOBBYSTARTGAME_RESPONSE) {
+                        gameStarted = true;
+                    }
+                } while (!gameStarted);
+            } catch (IOException e) {
+                view.showError(e.getMessage());
+            }
+        });
 
     }
 

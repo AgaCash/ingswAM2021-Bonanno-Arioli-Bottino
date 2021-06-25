@@ -1,5 +1,6 @@
 package GUI.scenes;
 
+import GUI.GUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -16,27 +17,18 @@ public class MenuSelectionScene {
     Button singleBTN;
 
     @FXML
-    private void createMultiLobby(ActionEvent event){}
-    @FXML
-    private void joinMultiLobby(ActionEvent event){}
-    @FXML
-    private void singlePlayerGame(ActionEvent event){}
-
-    /*
-    public MenuSelectionScene(){
-        Button singleBTN = new Button("Single Player");
-        Button createBTN = new Button("Create Multi Player Lobby");
-        Button joinBTN = new Button("Join Multi Player Lobby");
-        singleBTN.setPrefSize(175,75);
-        createBTN.setPrefSize(175,75);
-        joinBTN.setPrefSize(175,75);
-
-        VBox gameSelBox = new VBox();
-        gameSelBox.setAlignment(Pos.CENTER);
-        gameSelBox.setPrefSize(839,600);
-        gameSelBox.setSpacing(30);
-        gameSelBox.getChildren().addAll(singleBTN,createBTN,joinBTN);
+    private void createMultiLobby(ActionEvent event){
+        GUI.getInstance().getController().createMultiLobby();
     }
 
-     */
+    @FXML
+    private void joinMultiLobby(ActionEvent event){
+        GUI.getInstance().getController().getLobbyList();
+    }
+
+    @FXML
+    private void singlePlayerGame(ActionEvent event){
+        GUI.getInstance().getController().createSinglePlayerLobby();
+    }
+
 }

@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="839.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" >
+<AnchorPane prefHeight="600.0" prefWidth="839.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.scenes.JoinAndWaitScene">
    <children>
-      <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="300.0" AnchorPane.leftAnchor="270.0" />
+      <ListView fx:id="lobbyList" layoutX="207.0" layoutY="157.0" onMouseClicked="#lobbyElementClicked" prefHeight="364.0" prefWidth="426.0" />
+      <Label layoutX="334.0" layoutY="79.0" text="Choose a lobby">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

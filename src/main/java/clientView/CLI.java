@@ -102,6 +102,12 @@ public class CLI implements View{
     }
 
     @Override
+    public void showCreatorWaitingRoom(){
+        showSuccess("You created the room");
+        //System.out.println(LightColour.BLUE+"Waiting for creator of the room starts the game..."+LightColour.WHITE);
+    }
+
+    @Override
     public void showReconnectionToGame(){
         System.out.println(LightColour.YELLOW+"Reconnecting to game..."+LightColour.WHITE);
     }
