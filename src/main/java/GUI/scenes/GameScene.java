@@ -57,14 +57,24 @@ public class GameScene implements GenericScene{
        Pane view = object.getPage("playerboard");
        gamePane.setCenter(view);
    }
-   @FXML
-   private void goToPlayer2(ActionEvent event){}
-   @FXML
-   private void goToPlayer3(ActionEvent event){}
-   @FXML
-   private void goToPlayer4(ActionEvent event){}
-   @FXML
-   private void endTurn(ActionEvent event){}
+    @FXML
+    private void goToPlayer2(ActionEvent event){
+        FXMLLoader object = new FXMLLoader();
+        Pane view = object.getPage("playerboard2");
+        gamePane.setCenter(view);
+    }
+    @FXML
+    private void goToPlayer3(ActionEvent event){
+        FXMLLoader object = new FXMLLoader();
+        Pane view = object.getPage("playerboard3");
+        gamePane.setCenter(view);
+    }
+    @FXML
+    private void goToPlayer4(ActionEvent event){
+        FXMLLoader object = new FXMLLoader();
+        Pane view = object.getPage("playerboard4");
+        gamePane.setCenter(view);
+    }
 
 
 
