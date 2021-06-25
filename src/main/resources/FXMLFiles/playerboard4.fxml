@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane prefHeight="600.0" prefWidth="839.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.scenes.PlayerBoard4Scene">
+   <children>
+      <Canvas height="600.0" width="839.0" />
+      <ImageView fitHeight="600.0" fitWidth="839.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/playerboard4.jpg" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
