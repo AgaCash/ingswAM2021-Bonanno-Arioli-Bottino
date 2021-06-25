@@ -4,7 +4,7 @@ import clientModel.cards.LightLeaderCard;
 import clientModel.resources.LightResource;
 import com.google.gson.Gson;
 import controller.Controller;
-import exceptions.EmptyDeckException;
+import exceptions.EmptySlotException;
 import exceptions.InsufficientResourcesException;
 import exceptions.InvalidActionException;
 import exceptions.UnusableCardException;
@@ -29,7 +29,7 @@ public class DevCardProductionRequest extends GameMessage{
         try {
             controller.devCardProduction(slot, chosenResource, card);
             update(controller);
-        } catch (InsufficientResourcesException | UnusableCardException | InvalidActionException | EmptyDeckException e){
+        } catch (InsufficientResourcesException | UnusableCardException | InvalidActionException | EmptySlotException e){
             DevCardProductionResponse notify = new DevCardProductionResponse(this.getUsername(), e.getMessage());
             client.getVirtualView().updateDevCardProduction(notify);
 

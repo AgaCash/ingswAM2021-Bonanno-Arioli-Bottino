@@ -94,11 +94,6 @@ public class VirtualView implements ServerView {
         System.out.println("GAME STRINGA USCENTE:::"+gson.toJson(response));
         outStream.println(gson.toJson(response)); }
 
-    //public void updateFailedAction(FailedActionNotify notify){outStream.println(gson.toJson(notify));}
-    //todo stesso discorso di controller: tenere un messaggio notify per tutti nei casi eccezionali?
-    public void updateInternalError(InternalErrorNotify notify){ outStream.println(gson.toJson(notify));}
-
-
     public void sendGetLobby(GetLobbyResponse lobbyMessage){
         outStream.println(gson.toJson(lobbyMessage));
         //System.out.println("sendgetlobby: "+lobbyMessage);

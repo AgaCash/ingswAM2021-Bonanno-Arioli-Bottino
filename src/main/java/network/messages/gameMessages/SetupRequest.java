@@ -46,7 +46,7 @@ public class SetupRequest extends GameMessage{
         for(LightResource res : this.chosenResources)
             chosenResources.add(Resource.valueOf(res.toString()));
         try{
-            controller.setChosenStartup(getUsername(), chosenResources, this.faithPoint);
+            controller.setChosenStartup(getUsername(), chosenResources);
 
         } catch(NoSuchUsernameException | FullWarehouseException e){
             controller.handleError(e.getMessage());

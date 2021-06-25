@@ -12,27 +12,8 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 
 public final class DevelopmentBoard {
-    //private static DevelopmentBoard instance = null;
     private final ArrayList<Deck> decks = new ArrayList<>();  //12 decks
 
-
-    /*private DevelopmentBoard(){
-        initializeBoard();
-    }
-
-    public static DevelopmentBoard getDevBoardInstance(){
-        if (instance == null)
-            //synchronized(DevelopmentBoard.class){
-            //    if(instance == null)
-            //        instance = new DevelopmentBoard();
-            //    }   double-checked locking
-            instance = new DevelopmentBoard();
-        return instance;
-    }
-
-    //public void deleteInstance(){
-        instance = null;
-    }*/
 
     public DevelopmentBoard(){
         initializeBoard();

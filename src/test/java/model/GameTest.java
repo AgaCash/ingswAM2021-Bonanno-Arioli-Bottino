@@ -166,7 +166,7 @@ class GameTest {
         System.out.println("ACQUISTO FALLITO");
         try{
             game.devCardProduction(0, Resource.SERVANT, card);
-        } catch (InvalidActionException | InsufficientResourcesException | EmptyDeckException | UnusableCardException e) {
+        } catch (InvalidActionException | InsufficientResourcesException | EmptySlotException | UnusableCardException e) {
             System.out.println(e.getMessage());
             assertTrue(true);
         }

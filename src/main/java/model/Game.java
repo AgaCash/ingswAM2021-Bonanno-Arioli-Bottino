@@ -38,13 +38,19 @@ public class Game {
             tokens = cpu.getTokens();
         }
     }
+
+    /**Adds a new Player's instance during the setup
+     * @param newPlayer a Player instance
+     */
     public void addPlayer(Player newPlayer){
         if(players.size()<4){
             players.add(newPlayer);
         }
     }
+
+    /**Adds the Inkwell to the first Player, setup it as the currentPlayer and set the Players turn order
+     */
     public void setOrder(){
-        //Collections.shuffle(players);
         for(Player player : players){
             if(players.indexOf(player)== 0) {
                 player.getPlayerBoard().setInkwell(true);
@@ -53,11 +59,18 @@ public class Game {
             player.setStartingTurn(players.indexOf(player));
         }
     }
+
+    /**Return a LeaderCard quartet
+     * @return
+     */
     public ArrayList<LeaderCard> sendQuartet(){
         return table.sendQuartet();
     }
 
-    //===========UTILITIES
+    /**Checks if a list of DevelopmentCards is present in Player's CardSlots
+     * @param requirements a DevelopmentCard ArrayList
+     * @return true if @requirements is present, false if at least one is not present
+     */
     private boolean checkDevCards(ArrayList<DevelopmentCard> requirements){
         for(DevelopmentCard card : requirements){
             if(!currentPlayer.getPlayerBoard().getCardSlots().isPresent(card))
@@ -65,9 +78,11 @@ public class Game {
         }
         return true;
     }
-    /*checkResources: checks if @cost is present in this.warehouseDepot,
-    this.strongbox, or both
-    @remove flag sets if remove @cost after the check from player's resources or not
+
+    /**Checks if a list of Resources is present in Player's WarehouseDepot or Strongbox
+     * @param cost a Resource ArrayList
+     * @param remove true if remove @cost after a successful check, false if not
+     * @return true if @cost is present, false if not
      */
     private boolean checkResources(ArrayList<Resource> cost, boolean remove){
 
@@ -84,6 +99,9 @@ public class Game {
         return true;
     }
 
+    /**Removes Resources from Player's WarehouseDepot or Strongbox or both
+     * @param cost a Resource ArrayList
+     */
     private void removeResource(ArrayList<Resource> cost){
         for(Resource r: cost){
             try{
@@ -98,10 +116,19 @@ public class Game {
         }
 
     }
+
+    /**Check if LeaderCard's ability can be used (it's enabled and not null)
+     * @param card a LeaderCard instance
+     * @return true if it's usable, false if not
+     */
     private boolean cardIsUsable(LeaderCard card){
         return card != null && card.isEnabled();
     }
 
+    /**Return the LeaderCard instance in Player's LeaderSlot
+     * @param card a LeaderCard instance
+     * @return the exactly instance of the LeaderCard copy of @card in Player's LeaderSlot, or null
+     */
     private LeaderCard getLeaderCard(LeaderCard card){
         LeaderCard cardFromSlot = null;
         if(card!=null) {
@@ -112,8 +139,17 @@ public class Game {
         return cardFromSlot;
     }
 
-
-    //--------------------BUY DEV CARDS--------------------
+    /**Purchase a DevelopmentCard from the DevelopmentBoard to Player's CardSlots
+     * @param numDeck the number of deck in the DevelopmentBoard where pop the DevelopmentCard from
+     * @param slotPosition the number of CardSlots slot in the PlayerBoard where add the DevelopmentCard
+     * @param cardFromClient the LeaderCard instances that can be optionally added to benefit of its leader ability. null if Player won't use a LeaderCard in the action
+     * @throws FullCardSlotException if the CardSlots slots can't contain new DevelopmentCard instances
+     * @throws NonCorrectLevelCardException if the DevelopmentCard don't respect the Level requirements to be added
+     * @throws InsufficientResourcesException if Player's Strongbox nor WarehouseDepot contain the entire Resource list to purchase the card
+     * @throws UnusableCardException if the LeaderCard can't be used (non-active Card or insufficient requirements to benefit of its leader ability)
+     * @throws EmptyDeckException if the deck number is referred to an empty in the DevelopmentBoard
+     * @throws InvalidActionException if the Player has already did an action in the current turn
+     */
     public void buyDevCard(int numDeck, int slotPosition, LeaderCard cardFromClient) throws FullCardSlotException,
             NonCorrectLevelCardException,
             InsufficientResourcesException,
@@ -152,7 +188,13 @@ public class Game {
         }
     }
 
-    //--------------------MARKET--------------------
+    /**Get a Resource ArrayList from the MarketBoard into Player's WarehouseDepot
+     * @param line true if Player has chosen Resources from a MarketBoard line, false if has chosen it from a MarketBoard column
+     * @param num the number of MarketBoard line/column where get the Resources from
+     * @param cardFromClient the LeaderCard instances that can be optionally added to benefit of its leader ability. null if Player won't use a LeaderCard in the action
+     * @throws UnusableCardException if the LeaderCard can't be used (non-active Card or insufficient requirements to benefit of its leader ability)
+     * @throws InvalidActionException if the Player has already did an action in the current turn
+     */
     public void buyResources(boolean line, int num, LeaderCard cardFromClient) throws UnusableCardException,
             InvalidActionException {
         if(!currentPlayer.canBuyResources())
@@ -184,12 +226,17 @@ public class Game {
         currentPlayer.didAction();
     }
 
-    //--------------------PRODUCTION--------------------
-    /*devCadProduction: activates production of the last card popped from @slot
-    @chosenOutput is set by @Controller and it's the optional resource produced by @card
+    /**Activates from a Player's CardSlots last added DevelopmentCard the production of Resources. If succeed, Resources are added to Player's Strongbox
+     * @param slot the number of slot in CardSlots where pop the DevelopmentCard from
+     * @param chosenOutput the Resource that can be produced if the @cardFromClient is an ExtraDepot instance. null if Player won't use a LeaderCard in the action
+     * @param cardFromClient the LeaderCard instances that can be optionally added to benefit of its leader ability. null if Player won't use a LeaderCard in the action
+     * @throws InsufficientResourcesException if Player's Strongbox nor WarehouseDepot contain the entire Resource list to activate the production
+     * @throws UnusableCardException if the LeaderCard can't be used (non-active Card or insufficient requirements to benefit of its leader ability)
+     * @throws InvalidActionException if the Player has already did an action in the current turn
+     * @throws EmptySlotException if the slot number is referred to an empty in Player's CardSlots
      */
     public void devCardProduction(int slot, Resource chosenOutput, LeaderCard cardFromClient) throws
-            InsufficientResourcesException, UnusableCardException, InvalidActionException, EmptyDeckException {
+            InsufficientResourcesException, UnusableCardException, InvalidActionException, EmptySlotException {
 
         if(!currentPlayer.canDoProduction())
             throw new InvalidActionException("you already did an action in this turn!\n");
@@ -218,12 +265,19 @@ public class Game {
                 throw new InsufficientResourcesException("Can`t do this production: insufficient resources!");
             }
         }catch (NullPointerException e){
-            throw new EmptyDeckException("slot is empty!");
+            throw new EmptySlotException("slot is empty!");
         }
     }
 
-    /*defaultProduction: activates production from the developmentBoard
-    @input and @output are set by @Controller
+
+    /**Activate from the Player's PlayerBoard the production of Resources. If succeed, Resources are added to Player's Strongbox
+     * @param input the Resource ArrayList used to make the production
+     * @param output the Resource produced
+     * @param cardFromClient the Resource that can be produced if the @cardFromClient is an ExtraDepot instance. null if Player won't use a LeaderCard in the action
+     * @param chosenOutput the LeaderCard instances that can be optionally added to benefit of its leader ability. null if Player won't use a LeaderCard in the action
+     * @throws InsufficientResourcesException if Player's Strongbox nor WarehouseDepot contain the entire Resource list to activate the production
+     * @throws UnusableCardException if the LeaderCard can't be used (non-active Card or insufficient requirements to benefit of its leader ability)
+     * @throws InvalidActionException if the Player has already did an action in the current turn
      */
     public void defaultProduction(ArrayList<Resource> input, Resource output, LeaderCard cardFromClient, Resource chosenOutput) throws InsufficientResourcesException, UnusableCardException, InvalidActionException {
         if(!currentPlayer.canDoProduction())
@@ -255,13 +309,16 @@ public class Game {
         }
     }
 
+    /**Check is an ExtraDepot card is usable
+     * @param card a LeaderCard instance
+     * @return true if @card is ExtraDepot and it's enabled, false if not
+     */
     private boolean checkExtraProd(LeaderCard card){
         if(cardIsUsable(card) && card.isExtraProd())
            return true;
         return false;
     }
 
-    //--------------------FAITH TRACK--------------------
     /**Advances the player's pawn position in the Faith Track, calling faithAdvance in FaithTrack
      * @param advance how many position the player gets
      */
@@ -279,6 +336,9 @@ public class Game {
         }
     }
 
+    /**Check if the currentPlayer's FaithBox is in the "report in Vatican" section and if it is, adds the Victory Points to currentPlayer and, eventually, to the other Players
+     * @param flags the boolean flag from the currentPlayer's current FaithBox
+     */
     public void checkPopeFlags(boolean[] flags){
         //todo qualcosa per notificare
         if (flags[0]){
@@ -303,8 +363,15 @@ public class Game {
             }
         }
     }
-    //--------------------LEADER CARDS--------------------
 
+    /**Activate the LeaderCard ability until the end of the game
+     * @param cardFromClient the LeaderCard copy of instance that will be activated in the Player's PlayerBoard
+     * @throws InsufficientResourcesException  if Player's Strongbox nor WarehouseDepot contain the entire Resource list to activate the LeaderCard
+     * @throws InsufficientRequirementsException if Player's CardSlots doesn't contains the DevelopmentCards required
+     * @throws InputMismatchException if Game can't find the LeaderCard instance copy in the Player's LeaderSlot
+     * //@throws UnusableCardException this will never been throw
+     * @throws InvalidActionException if the Player has already did an action in the current turn
+     */
     public void activateLeaderCard(LeaderCard cardFromClient) throws InsufficientResourcesException,
             InsufficientRequirementsException, InputMismatchException, UnusableCardException, InvalidActionException {
         if(!currentPlayer.canDoLeader())
@@ -336,6 +403,10 @@ public class Game {
         }
     }
 
+    /**Throws a LeaderCard from the Player's CardSlots, who earns a FaithPoint
+     * @param card the LeaderCard copy of instance that will be activated in the Player's PlayerBoard
+     * @throws InvalidActionException if the Player has already did an action in the current turn
+     */
     public void throwLeaderCard(LeaderCard card) throws InvalidActionException {
         if(!currentPlayer.canDoLeader())
             throw new InvalidActionException("you already did a leader action!");
@@ -344,22 +415,36 @@ public class Game {
         faithAdvance(1);
     }
 
-    //END TURN
+    /**Updates the Player's Strongbox and rehabilitates the production from CardSlots' cards.
+     * Updates Player's actions for the next time he will be the currentPlayer again.
+     * Ends the turn updating the new currentPlayer with the next Player in players ArrayList
+     */
     public void updateTurn(){
         updateStrongbox();
         updateCardSlots();
         currentPlayer.updateActions();
         changeTurn();
     }
+
+    /**Updates the DevelopmentCard used in the production to be usable again the next time Player will be currentPlayer
+     *
+     */
     private void updateCardSlots(){
         for(int i = 0; i<3; i++)
             if(currentPlayer.getPlayerBoard().getCardSlots().getCard(i)!=null)
                 currentPlayer.getPlayerBoard().getCardSlots().getCard(i).backUsable();
     }
+
+    /**Adds the Resources produced in this turn to the Player's Strongbox
+     *
+     */
     public void updateStrongbox(){
         currentPlayer.getPlayerBoard().getStrongbox().updateStrongbox();
     }
-    //change turn
+
+    /**If Game is singlePlayer: runs the Lorenzo's pick. If Game is over, set the victory and get the Lorenzo's last action
+     * If Game is multi player: update the currentPlayer with the next Player in players ArrayList.
+     */
     private void changeTurn(){
         if(singlePlayer) {
             cpu.pick();
@@ -383,7 +468,9 @@ public class Game {
     }
 
 
-    //============ENDGAME=======
+    /**Returns a String with the final ranking in multi player Game
+     * @return a String
+     */
     public String getRanking()  {
         ArrayList<Integer> scores = new ArrayList<>();
         String finalScore = "";
@@ -405,14 +492,19 @@ public class Game {
         return finalScore;
     }
 
+    /**Returns a flag if Game is over
+     * @return a boolean
+     */
     public boolean isOver(){
         return this.isOver;
     }
 
+    /**
+     *
+     */
     private void startLastTurn(){
         this.isOver = true;
         if(!isSinglePlayer()){
-            System.out.println("riga 436 "+players);
             ArrayList<Player> newTurns = new ArrayList<>();
             int start = players.indexOf(currentPlayer);
             for(int i = start; i<players.size(); i++)
@@ -420,7 +512,6 @@ public class Game {
             for(int i = 0; i<start; i++)
                 newTurns.add(players.get(i));
             players = newTurns;
-            System.out.println("riga 444 "+players);
         }
     }
 
@@ -459,12 +550,6 @@ public class Game {
     public boolean isSinglePlayer() {
         return singlePlayer;
     }
-   /* public ArrayList<String> getPlayerTurns(){
-        ArrayList<String> turns = new ArrayList<>();
-        for(Player p : players)
-            turns.add(p.getNickname());
-        return turns;
-    }*/
     public Lorenzo getLorenzo(){
         return this.cpu;
     }
@@ -491,4 +576,5 @@ public class Game {
     public void cheat2(){
         faithAdvance(20);
     }
+
 }
