@@ -96,7 +96,7 @@ public class CLI implements View{
     }
 
     @Override
-    public void showWaitingRoom(){
+    public void showWaitingRoom(ArrayList<String> usernames){
         showSuccess("You joined the room");
         System.out.println(LightColour.BLUE+"Waiting for creator of the room starts the game..."+LightColour.WHITE);
     }

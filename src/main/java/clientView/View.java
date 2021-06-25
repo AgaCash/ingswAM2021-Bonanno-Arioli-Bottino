@@ -28,7 +28,7 @@ public interface View {
     //  Waiting room for creator
     void showCreatorWaitingRoom();
     //  Waiting room for plebei
-    void showWaitingRoom();
+    void showWaitingRoom(ArrayList<String> usernames);
     //when user reconnect show a message
     void showReconnectionToGame();
     //show message wait for turn

@@ -1,9 +1,6 @@
 package GUI;
 
-import GUI.scenes.CreateAndStartScene;
-import GUI.scenes.JoinAndWaitScene;
-import GUI.scenes.ServerSetupScene;
-import GUI.scenes.UsernameScene;
+import GUI.scenes.*;
 import clientController.LightController;
 import clientModel.cards.LightLeaderCard;
 import clientModel.resources.LightResource;
@@ -63,30 +60,34 @@ public class GUI implements View {
 
     @Override
     public void askServerInfo() {
-        Parent root = null;
-        try {
-            fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/serverSetup.fxml"));
-            root = fxmlLoader.load();
-            //fxmlLoader.getController();
-            primaryStage.setScene(new Scene(root));
-            primaryStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Platform.runLater(()->{
+            Parent root = null;
+            try {
+                fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/serverSetup.fxml"));
+                root = fxmlLoader.load();
+                //fxmlLoader.getController();
+                primaryStage.setScene(new Scene(root));
+                primaryStage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override
     public void askUsername() {
-        Parent root = null;
-        try {
-            fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/login.fxml"));
-            root = fxmlLoader.load();
-            //fxmlLoader.getController();
-            primaryStage.setScene(new Scene(root));
-            primaryStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Platform.runLater(()->{
+            Parent root = null;
+            try {
+                fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/login.fxml"));
+                root = fxmlLoader.load();
+                //fxmlLoader.getController();
+                primaryStage.setScene(new Scene(root));
+                primaryStage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override
@@ -96,16 +97,18 @@ public class GUI implements View {
 
     @Override
     public void askMenu() {
-        Parent root = null;
-        try {
-            fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/menuSelection.fxml"));
-            root = fxmlLoader.load();
-            //fxmlLoader.getController();
-            primaryStage.setScene(new Scene(root));
-            primaryStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Platform.runLater(()->{
+            Parent root = null;
+            try {
+                fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/menuSelection.fxml"));
+                root = fxmlLoader.load();
+                //fxmlLoader.getController();
+                primaryStage.setScene(new Scene(root));
+                primaryStage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override
@@ -159,13 +162,13 @@ public class GUI implements View {
     }
 
     @Override
-    public void showWaitingRoom() {
+    public void showWaitingRoom(ArrayList<String> usernames) {
         Platform.runLater(()->{
             Parent root = null;
             try {
                 fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/waitingRoom.fxml"));
                 root = fxmlLoader.load();
-                //fxmlLoader.getController();
+                ((WaitingRoomScene)fxmlLoader.getController()).addPlayers(usernames);
                 primaryStage.setScene(new Scene(root));
                 primaryStage.show();
             } catch (IOException e) {

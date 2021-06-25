@@ -2,6 +2,7 @@ package GUI.scenes;
 
 import GUI.GUI;
 import clientView.View;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -30,8 +31,14 @@ public class ServerSetupScene {
             portS = "1234";
         else
             portS = portTXT.getText();
-        port = Integer.parseInt(portS);
-        GUI.getInstance().getController().connectToServer(server, port);
+        try {
+            port = Integer.parseInt(portS);
+            serverBTN.setDisable(true);
+            GUI.getInstance().getController().connectToServer(server, port);
+        }catch(NumberFormatException n){
+            GUI.getInstance().getController().showError(n.getMessage());
+        }
+        serverBTN.setDisable(false);
     }
 
     public String getServer(){

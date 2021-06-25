@@ -45,7 +45,7 @@ public class Lobby {
         //player.setStartingTurn(players.size()+1);
         players.add(player);
         views.add(virtualClient);
-        LoginMultiPlayerResponse response = new LoginMultiPlayerResponse(player.getNickname());
+        LoginMultiPlayerResponse response = new LoginMultiPlayerResponse(player.getNickname(), getUsernameList());
         views.forEach((view)-> view.getVirtualView().sendLobbyResponse(response));
         /*
         if(!singlePlayerMode){

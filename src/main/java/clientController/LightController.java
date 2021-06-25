@@ -100,14 +100,16 @@ public class LightController {
 
 
     public void connectToServer(String address, int port){
-        try{
-            client = new Client(address, port, this);
-            client.connect();
-            view.askUsername();
-        }catch (IOException e){
-            view.showError(e.getMessage());
-            view.askServerInfo();
-        }
+        new Thread(()->{
+            try{
+                client = new Client(address, port, this);
+                client.connect();
+                view.askUsername();
+            }catch (IOException e){
+                view.showError(e.getMessage());
+                view.askServerInfo();
+            }
+        }).start();
     }
 
     public void setUsername(String username) {
@@ -208,10 +210,10 @@ public class LightController {
         view.notifyPlayerJoined(username);
     }
 
-    public void joinLobbyWaiting(){
+    public void joinLobbyWaiting(ArrayList<String> usernameList){
         //mostra che è entrato nella lobby
         //notifica attesa che il gioco inizi
-        view.showWaitingRoom();
+        view.showWaitingRoom(usernameList);
         new Thread(()-> {
             boolean gameStarted = false;
             try {
@@ -227,7 +229,7 @@ public class LightController {
             } catch (IOException e) {
                 view.showError(e.getMessage());
             }
-        });
+        }).start();
 
     }
 
@@ -411,6 +413,10 @@ public class LightController {
 
     public void showError(String username, String message) {
         if(getUsername().equals(username))
+            view.showError(message);
+    }
+
+    public void showError(String message) {
             view.showError(message);
     }
 
