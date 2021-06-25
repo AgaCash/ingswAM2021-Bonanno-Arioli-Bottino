@@ -29,7 +29,12 @@ public class GetLobbyResponse extends LobbyMessage{
 
     @Override
     public void executeCommand(LightController lightController) {
-        lightController.askLobbyId(lobbies);
+        if(!lobbies.isEmpty()){
+            lightController.askLobbyId(lobbies);
+        }else{
+            lightController.showError("No lobby found");
+            lightController.askLobbyMenu();
+        }
     }
 
 

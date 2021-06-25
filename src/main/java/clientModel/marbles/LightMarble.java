@@ -1,12 +1,24 @@
 package clientModel.marbles;
 
+import model.marbles.Marble;
+
 public enum LightMarble {
-    BLUE,
-    GREY,
-    PURPLE,
-    RED,
-    WHITE,
-    YELLOW;
+    BLUE("BLUE"),
+    GREY("GREY"),
+    PURPLE("PURPLE"),
+    RED("RED"),
+    WHITE("WHITE"),
+    YELLOW("YELLOW");
+
+    private transient String fileName;
+
+    private LightMarble(String col){
+        fileName = col+".png";
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
 
     @Override
     public String toString(){

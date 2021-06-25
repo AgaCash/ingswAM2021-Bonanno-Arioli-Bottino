@@ -20,7 +20,7 @@
                   <Insets left="150.0" right="150.0" />
                </VBox.margin>
             </TextField>
-            <Button fx:id="serverBTN" mnemonicParsing="false" onAction="#sendServer" prefWidth="75.0" text="SEND" />
+            <Button fx:id="serverBTN" defaultButton="true" mnemonicParsing="false" onAction="#sendServer" prefWidth="75.0" text="SEND" />
             <ProgressIndicator fx:id="progressIndicator" visible="false" />
          </children>
       </VBox>

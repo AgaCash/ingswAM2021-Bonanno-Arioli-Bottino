@@ -164,6 +164,7 @@ public class GUI implements View {
     @Override
     public void showWaitingRoom(ArrayList<String> usernames) {
         Platform.runLater(()->{
+
             Parent root = null;
             try {
                 fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/waitingRoom.fxml"));
@@ -174,6 +175,7 @@ public class GUI implements View {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
         });
     }
 

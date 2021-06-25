@@ -13,6 +13,7 @@ public class LightDevelopmentCard {
     private ArrayList<LightResource> cost;
     private ArrayList<LightResource> prodInput;
     private ArrayList<LightResource> prodOutput;
+    private transient String fileName;
 
     public LightDevelopmentCard(int id, LightColour colour, int level, int points, ArrayList<LightResource> cost, ArrayList<LightResource> prodInput, ArrayList<LightResource> prodOutput) {
         this.id = id;
@@ -22,6 +23,7 @@ public class LightDevelopmentCard {
         this.cost = cost;
         this.prodInput = prodInput;
         this.prodOutput = prodOutput;
+        fileName = "devCard-"+id+".png";
     }
 
     public LightDevelopmentCard(LightColour colour, int level) {
