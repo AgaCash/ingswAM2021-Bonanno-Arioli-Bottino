@@ -14,19 +14,10 @@ public class FaithTrack {
      * loads the faith boxes from a json file
      */
     public FaithTrack() {
-        box = new JsonParser("src/main/resources/faithBox.json").getFaithBoxes();
+        box = new JsonParser("faithBox.json").getFaithBoxes();
         actualBox = box.get(0);
     }
 
-    /*public FaithBox faithAdvance (FaithBox playerBox, FaithTrack playerTrack, int advance){
-        FaithBox nextBox;
-        int pos;
-        pos = playerBox.getPosition();
-        nextBox = playerTrack.box.get(pos+advance);
-        return nextBox;
-    }
-
-*/
     public FaithBox getFaithBox(){
         return this.actualBox;
     }

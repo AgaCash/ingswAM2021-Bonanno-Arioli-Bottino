@@ -28,7 +28,7 @@ public class Lorenzo {
      * @param developmentBoard connects Lorenzo with the development board
      */
     public Lorenzo(DevelopmentBoard developmentBoard){
-        tokens = new JsonParser("src/main/resources/tokensList.json").getTokens();
+        tokens = new JsonParser("tokensList.json").getTokens();
         this.shuffle();
         this.developmentBoard = developmentBoard;
         this.cards = new ArrayList<>();

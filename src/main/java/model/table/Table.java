@@ -38,10 +38,10 @@ public class Table {
     }
 
     private void initializeLeaderCards(){
-        this.cards.addAll(new JsonParser("src/main/resources/discount.json").getDiscountCards());
-        this.cards.addAll(new JsonParser("src/main/resources/extraDepot.json").getExtraDepotCards());
-        this.cards.addAll(new JsonParser("src/main/resources/whiteConverter.json").getWhiteConverterCard());
-        this.cards.addAll(new JsonParser("src/main/resources/extraProd.json").getExtraProdCards());
+        this.cards.addAll(new JsonParser("discount.json").getDiscountCards());
+        this.cards.addAll(new JsonParser("extraDepot.json").getExtraDepotCards());
+        this.cards.addAll(new JsonParser("whiteConverter.json").getWhiteConverterCard());
+        this.cards.addAll(new JsonParser("extraProd.json").getExtraProdCards());
         //System.out.println(this.cards);
         Collections.shuffle(this.cards);
     }

@@ -25,7 +25,7 @@ public final class DevelopmentBoard {
 
     private void initializeBoard(){
         ArrayList<DevelopmentCard> tmpCards =
-                new JsonParser("src/main/resources/developmentCards.json").getDevelopmentCards();
+                new JsonParser("developmentCards.json").getDevelopmentCards();
         ArrayList<DevelopmentCard> tmpDeck = new ArrayList<>();
         int i = 1;
         for (DevelopmentCard card:tmpCards) {

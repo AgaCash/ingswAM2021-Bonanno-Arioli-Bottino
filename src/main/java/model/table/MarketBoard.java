@@ -47,7 +47,7 @@ public class MarketBoard {
      * method called at the start of the game that initializes the marble grid
      */
     public void initializeMarbleGrid() {
-        ArrayList<Marble> marbles =  new JsonParser("src/main/resources/marketBoard.json").getMarbles();
+        ArrayList<Marble> marbles =  new JsonParser("marketBoard.json").getMarbles();
         for (int n = 0; n < 3; n++)
             marbleGrid.add(new ArrayList(4));
         Collections.shuffle(marbles);
