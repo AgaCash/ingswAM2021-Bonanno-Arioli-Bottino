@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 
 public class ServerSetupScene {
@@ -16,6 +17,8 @@ public class ServerSetupScene {
     TextField serverTXT;
     @FXML
     TextField portTXT;
+    @FXML
+    ProgressIndicator progressIndicator;
 
     String server;
     int port;
@@ -34,11 +37,11 @@ public class ServerSetupScene {
         try {
             port = Integer.parseInt(portS);
             serverBTN.setDisable(true);
+            progressIndicator.setVisible(true);
             GUI.getInstance().getController().connectToServer(server, port);
         }catch(NumberFormatException n){
             GUI.getInstance().getController().showError(n.getMessage());
         }
-        serverBTN.setDisable(false);
     }
 
     public String getServer(){
