@@ -1,22 +1,19 @@
 package network.messages.gameMessages;
 
 import clientController.LightController;
-import clientModel.strongbox.LightStrongbox;
-import clientModel.warehouse.LightWarehouseDepot;
+import clientModel.player.LightPlayer;
 import network.messages.MessageType;
 
+import java.util.ArrayList;
+
 public class DevCardProductionResponse extends GameMessage{
-    private LightWarehouseDepot newWarehouse;
-    private LightStrongbox newStrongbox;
-    private int position;
+    private ArrayList<LightPlayer> players;
     private String message;
     private boolean success;
 
-    public DevCardProductionResponse(String username, LightWarehouseDepot newWarehouse, LightStrongbox newStrongbox, int position) {
+    public DevCardProductionResponse(String username, ArrayList<LightPlayer> players) {
         super(username, MessageType.DEVCARDPRODUCTIONUPDATE);
-        this.newWarehouse = newWarehouse;
-        this.newStrongbox = newStrongbox;
-        this.position = position;
+        this.players = players;
         this.success = true;
     }
 
@@ -28,21 +25,13 @@ public class DevCardProductionResponse extends GameMessage{
     @Override
     public void executeCommand(LightController controller){
         if(this.success) {
-            controller.updateWarehouse(getUsername(), newWarehouse);
-            controller.updateStrongbox(getUsername(), newStrongbox);
-            controller.getPlayerBoard().getFaithTrack().setCurrentPos(position);
-            showUpdates(controller);
+            controller.updateProduction(getUsername(), players);
             controller.showSuccess(getUsername(), "successful production!");
         }
         else{
             controller.showError(getUsername(), message);
         }
 
-    }
-
-    private void showUpdates(LightController controller){
-        controller.showOthersActions(getUsername(), " has produced from a card");
-        controller.showOthersActions(getUsername(), " strongbox after production: "+newStrongbox.toString());
     }
 
 }

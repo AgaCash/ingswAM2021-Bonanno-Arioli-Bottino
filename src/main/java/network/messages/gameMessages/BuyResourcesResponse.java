@@ -4,50 +4,28 @@ import clientController.LightController;
 import clientModel.player.LightPlayer;
 import clientModel.resources.LightResource;
 import clientModel.table.LightMarketBoard;
-import clientModel.warehouse.LightWarehouseDepot;
 import network.messages.MessageType;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class BuyResourcesResponse extends GameMessage{
-    private LightWarehouseDepot newWarehouse;
     private LightMarketBoard newMarketBoard;
-    private ArrayList<LightResource> threwResource;
     private ArrayList<LightPlayer> players;
-    private int position;
+    private ArrayList<LightResource> threwResource;
     private boolean success;
     private String message;
-    private boolean isSinglePlayer;
+    //private boolean isSinglePlayer;
 
-    public BuyResourcesResponse(String username, LightWarehouseDepot newWarehouse, LightMarketBoard newMarketBoard,
-                                int position,
-                                ArrayList<LightResource> threwResource){
+    public BuyResourcesResponse(String username, ArrayList<LightPlayer> players,
+                                ArrayList<LightResource> threwResource, LightMarketBoard market){
         super(username, MessageType.MARKETUPDATE);
-        this.newWarehouse = newWarehouse;
-        this.newMarketBoard = newMarketBoard;
-        this.position = position;
-        if(threwResource==null)
-            this.threwResource=new ArrayList<>();
-        else
-            this.threwResource = threwResource;
-        this.success = true;
-        this.isSinglePlayer = true;
-    }
-
-    public BuyResourcesResponse(String username, LightWarehouseDepot newWarehouse, LightMarketBoard newMarketBoard,
-                                ArrayList<LightResource> threwResource,
-                                ArrayList<LightPlayer> players){
-        super(username, MessageType.MARKETUPDATE);
-        this.newWarehouse = newWarehouse;
-        this.newMarketBoard = newMarketBoard;
-        if(threwResource==null)
-            this.threwResource=new ArrayList<>();
-        else
-            this.threwResource = threwResource;
-        this.success = true;
+        this.newMarketBoard = market;
         this.players = players;
-        this.isSinglePlayer = false;
+        this.threwResource = Objects.requireNonNullElseGet(threwResource, ArrayList::new);
+        this.success = true;
     }
+
 
     public BuyResourcesResponse(String username, String message){
         super(username, MessageType.MARKETUPDATE);
@@ -58,32 +36,15 @@ public class BuyResourcesResponse extends GameMessage{
     @Override
     public void executeCommand(LightController controller){
         if(this.success) {
+            controller.updateBuyResources(getUsername(), players);
             controller.updateMarketBoard(newMarketBoard);
-            controller.updateWarehouse(getUsername(), newWarehouse);
-            if (!this.isSinglePlayer) {
-                showUpdates(controller);
-                for (LightPlayer p : players) {
-                    if (!controller.getUsername().equals(getUsername()))
-                        if (!threwResource.isEmpty())
-                            controller.showSuccess(p.getNickname(), "+++ you earned " + threwResource.size() + " faith points!");
-                    controller.updateFaithTrack(p.getNickname(), p.getPlayerBoard().getFaithTrack());
-                }
-
-            }else{
-                controller.getPlayerBoard().getFaithTrack().setCurrentPos(position);
-            }
             controller.showThrewResources(getUsername(), threwResource);
-            controller.showSuccess(getUsername(),"successful purchase!");
+            controller.showSuccess(getUsername(), "successful purchase!");
         }
         else
             controller.showError(getUsername(), message);
     }
 
-    private void showUpdates(LightController controller){
-        controller.showOthersActions(getUsername(), " has bought resources from the market");
-        //controller.showOthersActions(getUsername(), " resources after purchase: "+c);
-        controller.showOthersActions(getUsername(), " resources after purchase: "+newWarehouse.toString());
-    }
 
 
 

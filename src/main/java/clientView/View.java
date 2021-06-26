@@ -1,7 +1,11 @@
 package clientView;
 
+import clientModel.cards.LightCardSlots;
 import clientModel.cards.LightLeaderCard;
 import clientModel.resources.LightResource;
+import clientModel.strongbox.LightStrongbox;
+import clientModel.table.LightFaithTrack;
+import clientModel.warehouse.LightWarehouseDepot;
 import network.server.Lobby;
 
 import java.util.ArrayList;
@@ -65,4 +69,10 @@ public interface View {
     void endGame();
     void showOthersActions(String message);
     void showLorenzoActions(String message);
+
+    void updateCardSlots(String username, LightCardSlots cardSlots);
+    void updateWarehouseDepot(String username, LightWarehouseDepot warehouseDepot);
+    void updateStrongbox(String username, LightStrongbox strongbox);
+    void updateFaithTrack(String username, LightFaithTrack faithTrack);
+    void updateLeaderSlot(String username, ArrayList<LightLeaderCard> leaderSlot);
 }

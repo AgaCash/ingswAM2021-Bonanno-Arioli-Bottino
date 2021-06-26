@@ -31,7 +31,7 @@ public class LightGame {
 
     public void updateCardSlots(String username, ArrayList<LightDevelopmentCard> cardSlots) throws NoSuchUsernameException {
         LightPlayer player = getPlayer(username);
-        player.getPlayerBoard().setCardSlots(cardSlots);
+        player.getPlayerBoard().getCardSlots().setCards(cardSlots);
     }
     public void updateLeaderSlot(String username, ArrayList<LightLeaderCard> leaderSlot) throws NoSuchUsernameException {
         LightPlayer player = getPlayer(username);
@@ -57,7 +57,7 @@ public class LightGame {
         player.getPlayerBoard().setFaithTrack(faithTrack);
 
     }
-    private LightPlayer getPlayer(String username) throws NoSuchUsernameException {
+    public LightPlayer getPlayer(String username) throws NoSuchUsernameException {
         if(player.getNickname().equals(username))
             return player;
         for(LightPlayer player:otherPlayers)
@@ -96,6 +96,7 @@ public class LightGame {
     public LightPlayer getPlayer(){
         return this.player;
     }
+
 
 
 }

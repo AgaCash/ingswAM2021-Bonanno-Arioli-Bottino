@@ -1,29 +1,22 @@
 package network.messages.gameMessages;
 
 import clientController.LightController;
-import clientModel.cards.LightDevelopmentCard;
-import clientModel.strongbox.LightStrongbox;
+import clientModel.player.LightPlayer;
 import clientModel.table.LightDevelopmentBoard;
-import clientModel.warehouse.LightWarehouseDepot;
 import network.messages.MessageType;
 
 import java.util.ArrayList;
 
 public class BuyDevCardResponse extends GameMessage{
-    private ArrayList<LightDevelopmentCard> newCardSlot;
-    private LightDevelopmentBoard newDevBoard;
-    private LightWarehouseDepot newWarehouse;
-    private LightStrongbox newStrongbox;
+    private ArrayList<LightPlayer> players = new ArrayList<>();
+    private LightDevelopmentBoard board;
     private boolean success;
     private String message;
 
-    public BuyDevCardResponse(String username, ArrayList<LightDevelopmentCard> newCardSlot, LightDevelopmentBoard newDevBoard,
-                                LightWarehouseDepot newWarehouse, LightStrongbox newStrongbox) {
+    public BuyDevCardResponse(String username, ArrayList<LightPlayer> players, LightDevelopmentBoard board) {
         super(username, MessageType.BUYDEVCARDSUPDATE);
-        this.newCardSlot = newCardSlot;
-        this.newDevBoard = newDevBoard;
-        this.newWarehouse = newWarehouse;
-        this.newStrongbox = newStrongbox;
+        this.players = players;
+        this.board = board;
         this.success= true;
     }
 
@@ -35,20 +28,12 @@ public class BuyDevCardResponse extends GameMessage{
     @Override
     public void executeCommand(LightController controller){
         if(this.success) {
-            controller.updateCardSlots(getUsername(), newCardSlot);
-            controller.updateDevBoard(newDevBoard);
-            controller.updateStrongbox(getUsername(), newStrongbox);
-            controller.updateWarehouse(getUsername(), newWarehouse);
-            showUpdates(controller);
+            controller.updateBuyDevCard(getUsername(), players);
+            controller.updateDevBoard(board);
             controller.showSuccess(getUsername(), "successful purchase!");
         }else{
             controller.showError(getUsername(), message);
         }
-    }
-
-    private void showUpdates(LightController controller){
-        controller.showOthersActions(getUsername(), " has bought a development card");
-        controller.showOthersActions(getUsername(), " card slots after purchase: "+newCardSlot.toString());
     }
 
 

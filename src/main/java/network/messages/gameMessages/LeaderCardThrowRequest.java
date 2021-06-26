@@ -34,8 +34,7 @@ public class LeaderCardThrowRequest extends GameMessage{
         controller.getCurrentPlayer().getPlayerBoard().getLeaders().forEach(e-> newLeaderSlot.add(e.convert()));
 
         LeaderCardThrowResponse response = new LeaderCardThrowResponse(getUsername(),
-                controller.getCurrentPlayer().getPlayerBoard().getFaithTrack().getFaithBox().getPosition(),
-                newLeaderSlot);
-        controller.getViews().forEach((element)-> { element.getVirtualView().updateLeaderCardThrow(response);});
+                controller.getLightPlayers());
+        controller.getViews().forEach((element)->element.getVirtualView().updateLeaderCardThrow(response));
     };
 }

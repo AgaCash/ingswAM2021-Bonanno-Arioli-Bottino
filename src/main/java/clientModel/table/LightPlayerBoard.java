@@ -2,7 +2,6 @@ package clientModel.table;
 
 
 import clientModel.cards.LightCardSlots;
-import clientModel.cards.LightDevelopmentCard;
 import clientModel.cards.LightLeaderCard;
 import clientModel.strongbox.LightStrongbox;
 import clientModel.warehouse.LightWarehouseDepot;
@@ -31,7 +30,7 @@ public class LightPlayerBoard {
     public void setStrongbox(LightStrongbox strongbox){ this.strongbox = strongbox;}
 
     public LightCardSlots getCardSlots(){ return cardSlots; }
-    public void setCardSlots(ArrayList<LightDevelopmentCard> cardSlots){ this.cardSlots.setCards(cardSlots);}
+    public void setCardSlots(LightCardSlots cardSlots){ this.cardSlots = cardSlots;}
 
     public LightWarehouseDepot getWarehouseDepot(){return warehouseDepot;}
     public void setWarehouse(LightWarehouseDepot warehouseDepot){ this.warehouseDepot = warehouseDepot;}

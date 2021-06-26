@@ -1,13 +1,10 @@
 package network.messages.gameMessages;
 
-import clientModel.cards.LightDevelopmentCard;
 import clientModel.cards.LightLeaderCard;
 import controller.Controller;
 import exceptions.*;
 import network.messages.MessageType;
 import view.VirtualClient;
-
-import java.util.ArrayList;
 
 public class BuyDevCardRequest extends GameMessage{
     private int deck;
@@ -35,12 +32,9 @@ public class BuyDevCardRequest extends GameMessage{
     }
 
     private void update(Controller controller){
-        ArrayList<LightDevelopmentCard> slots = controller.getCurrentPlayer().getPlayerBoard().getCardSlots().convert();
         BuyDevCardResponse response = new BuyDevCardResponse(getUsername(),
-                                                            slots,
-                                                            controller.getDevBoard().convert(),
-                                                            controller.getCurrentPlayer().getPlayerBoard().getWarehouseDepot().convert(),
-                                                            controller.getCurrentPlayer().getPlayerBoard().getStrongbox().convert());
+                                                            controller.getLightPlayers(),
+                                                            controller.getDevBoard().convert());
         controller.getViews().forEach((element)-> { element.getVirtualView().updateBuyDevCard(response);});
     }
 }

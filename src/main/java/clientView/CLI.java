@@ -1,9 +1,13 @@
 package clientView;
 
 import clientController.LightController;
+import clientModel.cards.LightCardSlots;
 import clientModel.cards.LightLeaderCard;
 import clientModel.colour.LightColour;
 import clientModel.resources.LightResource;
+import clientModel.strongbox.LightStrongbox;
+import clientModel.table.LightFaithTrack;
+import clientModel.warehouse.LightWarehouseDepot;
 import network.server.Lobby;
 
 import java.io.PrintStream;
@@ -486,5 +490,30 @@ public class CLI implements View{
     @Override
     public void showLorenzoActions(String message){
         System.out.println(message);
+    }
+
+    @Override
+    public void updateCardSlots(String username, LightCardSlots cardSlots) {
+
+    }
+
+    @Override
+    public void updateWarehouseDepot(String username, LightWarehouseDepot warehouseDepot) {
+
+    }
+
+    @Override
+    public void updateStrongbox(String username, LightStrongbox strongbox) {
+
+    }
+
+    @Override
+    public void updateFaithTrack(String username, LightFaithTrack faithTrack) {
+
+    }
+
+    @Override
+    public void updateLeaderSlot(String username, ArrayList<LightLeaderCard> leaderSlot) {
+
     }
 }

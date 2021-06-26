@@ -1,29 +1,21 @@
 package network.messages.gameMessages;
 
 import clientController.LightController;
-import clientModel.cards.LightLeaderCard;
-import clientModel.strongbox.LightStrongbox;
-import clientModel.warehouse.LightWarehouseDepot;
+import clientModel.player.LightPlayer;
 import network.messages.MessageType;
 
 import java.util.ArrayList;
 
 public class LeaderCardActivationResponse extends GameMessage{
+    private ArrayList<LightPlayer> players;
     private boolean success;
     private String message;
-    private ArrayList<LightLeaderCard> newSlot;
-    private LightWarehouseDepot warehouse;
-    private LightStrongbox strongbox;
 
     public LeaderCardActivationResponse(String username,
-                                        ArrayList<LightLeaderCard> newSlot,
-                                        LightWarehouseDepot warehouse,
-                                        LightStrongbox strongbox) {
+                                        ArrayList<LightPlayer> players) {
         super(username, MessageType.LEADERCARDUPDATE);
         this.success = true;
-        this.newSlot = newSlot;
-        this.warehouse = warehouse;
-        this.strongbox = strongbox;
+        this.players = players;
     }
 
     public LeaderCardActivationResponse(String username, String message){
@@ -36,21 +28,11 @@ public class LeaderCardActivationResponse extends GameMessage{
     @Override
     public void executeCommand(LightController controller){
         if(this.success){
-            controller.updateLeaderSlot(getUsername(), this.newSlot);
-            controller.updateStrongbox(getUsername(), this.strongbox);
-            controller.updateWarehouse(getUsername(), this.warehouse);
-            showUpdates(controller);
+            controller.updateLeaderCardActivation(getUsername(), players);
             controller.showSuccess(getUsername(), "successful activation!");
         }
         else{
             controller.showError(getUsername(), message);
         }
     }
-
-    private void showUpdates(LightController controller){
-        controller.showOthersActions(getUsername(), " has activated from the board");
-        controller.showOthersActions(getUsername(), " leader slots after activation: "+newSlot.toString());
-    }
-
-
 }

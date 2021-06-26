@@ -1,20 +1,18 @@
 package network.messages.gameMessages;
 
 import clientController.LightController;
-import clientModel.cards.LightDevelopmentCard;
+import clientModel.cards.LightCardSlots;
 import clientModel.singleplayer.LightLorenzo;
 import clientModel.strongbox.LightStrongbox;
 import clientModel.table.LightDevelopmentBoard;
 import clientModel.table.LightFaithTrack;
 import network.messages.MessageType;
 
-import java.util.ArrayList;
-
 public class EndTurnResponse extends GameMessage{
     private String newPlayerName ;
     private LightDevelopmentBoard board;
     private LightFaithTrack track;
-    private ArrayList<LightDevelopmentCard> slots;
+    private LightCardSlots slots;
     private LightStrongbox strongbox;
     private String message;
     private boolean isSinglePlayer;
@@ -30,7 +28,7 @@ public class EndTurnResponse extends GameMessage{
     }
 
     public EndTurnResponse(String username, LightDevelopmentBoard board, LightFaithTrack track,
-                           ArrayList<LightDevelopmentCard> newSlots, LightStrongbox newStrongbox,
+                           LightCardSlots newSlots, LightStrongbox newStrongbox,
                            LightLorenzo lorenzo){
         super(username, MessageType.ENDTURNUPDATE);
         this.board = board;

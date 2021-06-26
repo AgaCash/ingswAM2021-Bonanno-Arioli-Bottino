@@ -345,6 +345,15 @@ public class Controller {
         return game.getPlayers();
     }
 
+    /**Returns all the Players instances converted in LightPlayer version
+     * @return a LightPlayer ArrayList
+     */
+    public ArrayList<LightPlayer> getLightPlayers(){
+        ArrayList<LightPlayer> players = new ArrayList<>();
+        game.getPlayers().forEach(e-> players.add(e.convert()));
+        return players;
+    }
+
     /**Returns all the VirtualClient instances
      * @return a VirtualClient ArrayList
      */

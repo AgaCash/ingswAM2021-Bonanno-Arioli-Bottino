@@ -2,7 +2,6 @@ package network.messages.gameMessages;
 
 import clientModel.cards.LightLeaderCard;
 import clientModel.resources.LightResource;
-import com.google.gson.Gson;
 import controller.Controller;
 import exceptions.EmptySlotException;
 import exceptions.InsufficientResourcesException;
@@ -25,7 +24,6 @@ public class DevCardProductionRequest extends GameMessage{
 
     @Override
     public void executeCommand(Controller controller, VirtualClient client){
-        Gson gson = new Gson();
         try {
             controller.devCardProduction(slot, chosenResource, card);
             update(controller);
@@ -38,9 +36,7 @@ public class DevCardProductionRequest extends GameMessage{
 
     private void update(Controller controller){
         DevCardProductionResponse response = new DevCardProductionResponse(getUsername(),
-                controller.getCurrentPlayer().getPlayerBoard().getWarehouseDepot().convert(),
-                controller.getCurrentPlayer().getPlayerBoard().getStrongbox().convert(),
-                controller.getCurrentPlayer().getPlayerBoard().getFaithTrack().getFaithBox().getPosition());
-        controller.getViews().forEach((element)-> { element.getVirtualView().updateDevCardProduction(response);});
+                controller.getLightPlayers());
+        controller.getViews().forEach((element)-> element.getVirtualView().updateDevCardProduction(response));
     }
 }

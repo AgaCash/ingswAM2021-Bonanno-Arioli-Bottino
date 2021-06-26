@@ -13,6 +13,10 @@ public class LightCardSlots {
         return slots.get(num);
     }
 
+    public ArrayList<LightDevelopmentCard> getCards(){
+        return this.slots;
+    }
+
     public void setCards(ArrayList<LightDevelopmentCard> cards){
         this.slots = cards;
     }

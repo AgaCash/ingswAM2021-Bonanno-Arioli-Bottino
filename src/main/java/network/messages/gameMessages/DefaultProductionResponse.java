@@ -1,20 +1,19 @@
 package network.messages.gameMessages;
 
 import clientController.LightController;
-import clientModel.strongbox.LightStrongbox;
-import clientModel.warehouse.LightWarehouseDepot;
+import clientModel.player.LightPlayer;
 import network.messages.MessageType;
 
+import java.util.ArrayList;
+
 public class DefaultProductionResponse extends GameMessage {
-    private LightWarehouseDepot newWarehouse;
-    private LightStrongbox newStrongbox;
+    private ArrayList<LightPlayer> players = new ArrayList<>();
     private boolean success;
     private String message;
 
-    public DefaultProductionResponse(String username, LightWarehouseDepot newWarehouse, LightStrongbox newStrongbox) {
+    public DefaultProductionResponse(String username, ArrayList<LightPlayer> players) {
         super(username, MessageType.DEFPRODUCTIONUPDATE);
-        this.newWarehouse = newWarehouse;
-        this.newStrongbox = newStrongbox;
+        this.players = players;
         this.success = true;
     }
 
@@ -26,9 +25,7 @@ public class DefaultProductionResponse extends GameMessage {
     @Override
     public void executeCommand(LightController controller){
         if(this.success) {
-            controller.updateWarehouse(getUsername(), newWarehouse);
-            controller.updateStrongbox(getUsername(), newStrongbox);
-            showUpdates(controller);
+            controller.updateProduction(getUsername(), players);
             controller.showSuccess(getUsername(), "successful production!");
         }
         else{
@@ -36,8 +33,4 @@ public class DefaultProductionResponse extends GameMessage {
         }
     }
 
-    private void showUpdates(LightController controller){
-        controller.showOthersActions(getUsername(), " has produced from the board");
-        controller.showOthersActions(getUsername(), " strongbox after production: "+newStrongbox.toString());
-    }
 }

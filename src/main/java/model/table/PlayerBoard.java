@@ -18,6 +18,7 @@ public class PlayerBoard {
     private ArrayList<LeaderCard> leaderSlots = new ArrayList<>();
     private boolean hasInkwell = false;
     private int faithPoints = 0;
+    private boolean usedInThisTurn = false;
 
     public void setInkwell(boolean value){
         this.hasInkwell=value;
@@ -72,6 +73,14 @@ public class PlayerBoard {
         newPlayerBoard.setLeaderSlot(lightLeaderCards);
 
         return newPlayerBoard;
+    }
+
+    public void didProduction(){
+        this.usedInThisTurn = true;
+    }
+
+    public boolean canDoDefProduction(){
+        return !usedInThisTurn;
     }
 
 }

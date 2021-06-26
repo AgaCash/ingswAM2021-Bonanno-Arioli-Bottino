@@ -1,12 +1,17 @@
 package GUI;
 
-import GUI.scenes.*;
+import GUI.scenes.CreateAndStartScene;
+import GUI.scenes.JoinAndWaitScene;
+import GUI.scenes.WaitingRoomScene;
 import clientController.LightController;
+import clientModel.cards.LightCardSlots;
 import clientModel.cards.LightLeaderCard;
 import clientModel.resources.LightResource;
+import clientModel.strongbox.LightStrongbox;
+import clientModel.table.LightFaithTrack;
+import clientModel.warehouse.LightWarehouseDepot;
 import clientView.View;
 import javafx.application.Platform;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -310,6 +315,31 @@ public class GUI implements View {
 
     @Override
     public void showLorenzoActions(String message) {
+
+    }
+
+    @Override
+    public void updateCardSlots(String username, LightCardSlots cardSlots) {
+
+    }
+
+    @Override
+    public void updateWarehouseDepot(String username, LightWarehouseDepot warehouseDepot) {
+
+    }
+
+    @Override
+    public void updateStrongbox(String username, LightStrongbox strongbox) {
+
+    }
+
+    @Override
+    public void updateFaithTrack(String username, LightFaithTrack faithTrack) {
+
+    }
+
+    @Override
+    public void updateLeaderSlot(String username, ArrayList<LightLeaderCard> leaderSlot) {
 
     }
 }

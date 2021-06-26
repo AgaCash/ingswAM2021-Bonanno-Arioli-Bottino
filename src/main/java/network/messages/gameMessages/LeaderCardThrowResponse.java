@@ -1,22 +1,20 @@
 package network.messages.gameMessages;
 
 import clientController.LightController;
-import clientModel.cards.LightLeaderCard;
+import clientModel.player.LightPlayer;
 import network.messages.MessageType;
 
 import java.util.ArrayList;
 
 public class LeaderCardThrowResponse extends GameMessage{
+    private ArrayList<LightPlayer> players;
     private boolean success;
     private String message;
-    private int position;
-    private ArrayList<LightLeaderCard> newSlot;
 
-    public LeaderCardThrowResponse(String username, int position, ArrayList<LightLeaderCard> newSlot) {
+    public LeaderCardThrowResponse(String username, ArrayList<LightPlayer> players) {
         super(username, MessageType.LEADERCARDTHROWUPDATE);
         this.success = true;
-        this.position = position;
-        this.newSlot = newSlot;
+        this.players = players;
     }
 
     public LeaderCardThrowResponse(String username, String message){
@@ -28,22 +26,11 @@ public class LeaderCardThrowResponse extends GameMessage{
     @Override
     public void executeCommand(LightController controller){
         if(this.success){
-            controller.updateLeaderSlot(getUsername(), this.newSlot);
-            if(controller.getUsername().equals(getUsername())) {
-                controller.getPlayerBoard().getFaithTrack().setCurrentPos(position);
-                controller.showSuccess(getUsername(), "successful throwing!\n+++ you earned a faith point!");
-            }
-            else
-                showUpdates(controller);
-
+            controller.updateLeaderCardThrow(getUsername(), players);
+            controller.showSuccess(getUsername(), "successfully throwing!");
         }
         else{
             controller.showError(getUsername(), message);
         }
-    }
-
-    private void showUpdates(LightController controller){
-        controller.showOthersActions(getUsername(), " has threw a leader card");
-        controller.showOthersActions(getUsername(), " leader slots after throwing: "+newSlot.toString());
     }
 }

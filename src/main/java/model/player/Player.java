@@ -13,7 +13,6 @@ public class Player {
     private int points = 0;
     private PlayerBoard playerboard;
     private boolean victory;
-
     private boolean didAction;
     private boolean didProduction;
     private int didLeader;
@@ -123,7 +122,7 @@ public class Player {
     }
 
     public boolean canDoProduction(){
-        if(didAction || didLeader == 2)
+        if(didAction || didLeader == 2 || this.playerboard.canDoDefProduction())
             return false;
         return true;
     }
@@ -147,5 +146,7 @@ public class Player {
         this.didProduction = false;
         this.didLeader = 0;
     }
+
+    //TODO SISTEMARE I TURNI TEOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO DAI DAI CHE CE LA FAI
 
 }

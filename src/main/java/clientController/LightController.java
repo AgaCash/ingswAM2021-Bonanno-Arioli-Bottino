@@ -1,7 +1,7 @@
 package clientController;
 
 import clientModel.LightGame;
-import clientModel.cards.LightDevelopmentCard;
+import clientModel.cards.LightCardSlots;
 import clientModel.cards.LightLeaderCard;
 import clientModel.player.LightPlayer;
 import clientModel.resources.LightResource;
@@ -11,7 +11,6 @@ import clientModel.table.LightDevelopmentBoard;
 import clientModel.table.LightFaithTrack;
 import clientModel.table.LightMarketBoard;
 import clientModel.table.LightPlayerBoard;
-import clientModel.warehouse.LightWarehouseDepot;
 import clientView.View;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -381,25 +380,17 @@ public class LightController {
         }
     }
 
-    public void updateCardSlots(String username, ArrayList<LightDevelopmentCard> cardSlots){
+    public void updateCardSlots(String username, LightCardSlots cardSlots){
         try {
-            game.updateCardSlots(username, cardSlots);
+            game.updateCardSlots(username, cardSlots.getCards());
         }catch (NoSuchUsernameException e){
             view.showError(e.getMessage());
         }
     }
 
-    public void updateDevBoard(LightDevelopmentBoard board){
+    public void updateDevBoard(LightDevelopmentBoard board) {
         game.updateDevBoard(board);
 
-    }
-
-    public void updateWarehouse(String username, LightWarehouseDepot warehouseDepot){
-        try {
-            game.updateWarehouse(username, warehouseDepot);
-        } catch(NoSuchUsernameException e){
-            view.showError(e.getMessage());
-        }
     }
 
     public void updateMarketBoard(LightMarketBoard market){
@@ -564,6 +555,90 @@ public class LightController {
     public void updateLorenzo(LightLorenzo lorenzo){
         view.showLorenzoActions(lorenzo.actions(game.getPlayerBoard().getFaithTrack()));
     }
+
+    public void updateBuyDevCard(String username, ArrayList<LightPlayer> players) {
+        for (LightPlayer p : players) {
+            if (p.getNickname().equals(username)) {
+                String name = p.getNickname();
+                try {
+                    game.getPlayer(name).getPlayerBoard().setCardSlots(p.getPlayerBoard().getCardSlots());
+                    game.getPlayer(name).getPlayerBoard().setWarehouse(p.getPlayerBoard().getWarehouseDepot());
+                    game.getPlayer(name).getPlayerBoard().setStrongbox(p.getPlayerBoard().getStrongbox());
+                } catch (NoSuchUsernameException e) {
+                    view.showError("SÉ SPACCATO TUTTO");
+                }
+                view.updateCardSlots(p.getNickname(), p.getPlayerBoard().getCardSlots());
+                view.updateWarehouseDepot(p.getNickname(), p.getPlayerBoard().getWarehouseDepot());
+                view.updateStrongbox(p.getNickname(), p.getPlayerBoard().getStrongbox());
+            }
+        }
+    }
+
+    public void updateBuyResources(String username, ArrayList<LightPlayer> players){
+        for(LightPlayer p: players){
+            String name = p.getNickname();
+            try {
+                if(p.getNickname().equals(username))
+                        game.getPlayer(name).getPlayerBoard().setWarehouse(p.getPlayerBoard().getWarehouseDepot());
+                game.getPlayer(name).getPlayerBoard().setFaithTrack(p.getPlayerBoard().getFaithTrack());
+            }catch (NoSuchUsernameException e) {
+                view.showError("SÉ SPACCATO TUTTO");
+            }
+            view.updateWarehouseDepot(p.getNickname(), p.getPlayerBoard().getWarehouseDepot());
+            view.updateFaithTrack(p.getNickname(), p.getPlayerBoard().getFaithTrack());
+        }
+    }
+
+    public void updateProduction(String username, ArrayList<LightPlayer> players){
+        for(LightPlayer p: players){
+            String name = p.getNickname();
+            try {
+                if(p.getNickname().equals(username)) {
+                    game.getPlayer(name).getPlayerBoard().setWarehouse(p.getPlayerBoard().getWarehouseDepot());
+                    game.getPlayer(name).getPlayerBoard().setStrongbox(p.getPlayerBoard().getStrongbox());
+                    game.getPlayer(name).getPlayerBoard().setFaithTrack(p.getPlayerBoard().getFaithTrack());
+                }
+            }catch (NoSuchUsernameException e) {
+                    view.showError("SÉ SPACCATO TUTTO");
+            }
+            view.updateWarehouseDepot(p.getNickname(), p.getPlayerBoard().getWarehouseDepot());
+            view.updateStrongbox(p.getNickname(), p.getPlayerBoard().getStrongbox());
+            view.updateFaithTrack(p.getNickname(), p.getPlayerBoard().getFaithTrack());
+        }
+    }
+
+    public void updateLeaderCardActivation(String username, ArrayList<LightPlayer> players){
+        for(LightPlayer p: players){
+            String name = p.getNickname();
+            try {
+                if(p.getNickname().equals(username)) {
+                    game.updateLeaderSlot(p.getNickname(), p.getPlayerBoard().getLeaderSlot());
+                }
+            }catch (NoSuchUsernameException e) {
+                view.showError("SÉ SPACCATO TUTTO");
+            }
+            view.updateLeaderSlot(p.getNickname(), p.getPlayerBoard().getLeaderSlot());
+        }
+
+    }
+
+    public void updateLeaderCardThrow(String username, ArrayList<LightPlayer> players){
+        for(LightPlayer p: players){
+            String name = p.getNickname();
+            try {
+                if(p.getNickname().equals(username)) {
+                    game.updateLeaderSlot(p.getNickname(), p.getPlayerBoard().getLeaderSlot());
+                    game.updateFaithTrack(p.getNickname(), p.getPlayerBoard().getFaithTrack());
+                }
+            }catch (NoSuchUsernameException e) {
+                view.showError("SÉ SPACCATO TUTTO");
+            }
+            view.updateLeaderSlot(p.getNickname(), p.getPlayerBoard().getLeaderSlot());
+            view.updateFaithTrack(p.getNickname(), p.getPlayerBoard().getFaithTrack());
+        }
+    }
+
+
 
 
 }

@@ -340,7 +340,6 @@ public class Game {
      * @param flags the boolean flag from the currentPlayer's current FaithBox
      */
     public void checkPopeFlags(boolean[] flags){
-        //todo qualcosa per notificare
         if (flags[0]){
             for(Player p : players){
                 if(p.getPlayerBoard().getFaithBox().getPosition()>=5)

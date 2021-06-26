@@ -1,5 +1,6 @@
 package model.cards;
 
+import clientModel.cards.LightCardSlots;
 import clientModel.cards.LightDevelopmentCard;
 import exceptions.FullCardSlotException;
 import exceptions.NonCorrectLevelCardException;
@@ -93,7 +94,8 @@ public class CardSlots {
     /**Convert CardSlots in a LightCardSlots instance that could be send to a Client
      * @return a new LightCardSlots instance with the same parameters as the CardSlots instance
      */
-    public ArrayList<LightDevelopmentCard> convert(){
+    public LightCardSlots convert(){
+        LightCardSlots converted = new LightCardSlots();
         ArrayList<LightDevelopmentCard> slots = new ArrayList<>();
         DevelopmentCard card;
         for(int i=0; i<3; i++){
@@ -103,7 +105,8 @@ public class CardSlots {
                 else
                     slots.add(new LightDevelopmentCard());
         }
-        return slots;
+        converted.setCards(slots);
+        return converted;
     }
 
     /**Flag if game is over

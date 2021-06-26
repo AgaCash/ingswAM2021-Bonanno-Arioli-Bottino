@@ -135,14 +135,7 @@ public class WarehouseDepot {
 
     public ArrayList<LightResource> getThrewResources(){
         ArrayList<LightResource> cloned = new ArrayList<>();
-        System.out.println(this.threwResources+ "threwRes riga 116");
         this.threwResources.forEach(e-> cloned.add(LightResource.valueOf(e.toString())));
-        /*for(Resource res: threwResources)
-            for(Player player: players)
-                if(player!=currentPlayer)
-                    player.getPlayerBoard().getFaithTrack().faithAdvance(player.getPlayerBoard().getFaithBox(), player.getPlayerBoard().getFaithTrack());
-
-             */
         threwResources.clear();
         return cloned;
     }

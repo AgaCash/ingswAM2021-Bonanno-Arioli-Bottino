@@ -2,7 +2,6 @@ package network.messages.gameMessages;
 
 import clientModel.cards.LightLeaderCard;
 import clientModel.resources.LightResource;
-import com.google.gson.Gson;
 import controller.Controller;
 import exceptions.InsufficientResourcesException;
 import exceptions.InvalidActionException;
@@ -29,9 +28,7 @@ public class DefaultProductionRequest extends GameMessage{
 
     @Override
     public void executeCommand(Controller controller, VirtualClient client){
-        Gson gson = new Gson();
         try{
-            System.out.println("defaultProdRequest riga 33");
             controller.defaultProduction(input, output, card, chosenOutput);
             update(controller);
         } catch (InsufficientResourcesException | UnusableCardException | InvalidActionException e) {
@@ -42,8 +39,7 @@ public class DefaultProductionRequest extends GameMessage{
 
     private void update(Controller controller){
         DefaultProductionResponse response = new DefaultProductionResponse(getUsername(),
-                                                                            controller.getCurrentPlayer().getPlayerBoard().getWarehouseDepot().convert(),
-                                                                            controller.getCurrentPlayer().getPlayerBoard().getStrongbox().convert());
-        controller.getViews().forEach((element)-> {element.getVirtualView().updateDefaultProduction(response);});
+                                                                           controller.getLightPlayers());
+        controller.getViews().forEach((element)-> element.getVirtualView().updateDefaultProduction(response));
     }
 }
