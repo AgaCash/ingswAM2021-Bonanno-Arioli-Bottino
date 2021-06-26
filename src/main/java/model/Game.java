@@ -280,7 +280,7 @@ public class Game {
      * @throws InvalidActionException if the Player has already did an action in the current turn
      */
     public void defaultProduction(ArrayList<Resource> input, Resource output, LeaderCard cardFromClient, Resource chosenOutput) throws InsufficientResourcesException, UnusableCardException, InvalidActionException {
-        if(!currentPlayer.canDoProduction())
+        if(!currentPlayer.canDoDefProduction())
             throw new InvalidActionException("you already did an action in this turn!");
         ArrayList<Resource> prodResources = new ArrayList<>();
         ArrayList<Resource> cost = new ArrayList<>();
@@ -301,7 +301,7 @@ public class Game {
                     faithAdvance(1);
                 else currentPlayer.getPlayerBoard().getStrongbox().addResource(res);
             }
-            currentPlayer.didProduction();
+            currentPlayer.didDefProduction();
         }
         else{
             throw new InsufficientResourcesException("Can't do this production: insufficient resources!");
@@ -373,7 +373,7 @@ public class Game {
      */
     public void activateLeaderCard(LeaderCard cardFromClient) throws InsufficientResourcesException,
             InsufficientRequirementsException, InputMismatchException, UnusableCardException, InvalidActionException {
-        if(!currentPlayer.canDoLeader())
+        if(currentPlayer.cantDoLeader())
             throw new InvalidActionException("you already did a leader action!");
         System.out.println("before activation:"+currentPlayer.getPlayerBoard().getWarehouseDepot().status()+currentPlayer.getPlayerBoard().getStrongbox().status());
         LeaderCard card = getLeaderCard(cardFromClient);
@@ -407,7 +407,7 @@ public class Game {
      * @throws InvalidActionException if the Player has already did an action in the current turn
      */
     public void throwLeaderCard(LeaderCard card) throws InvalidActionException {
-        if(!currentPlayer.canDoLeader())
+        if(currentPlayer.cantDoLeader())
             throw new InvalidActionException("you already did a leader action!");
         currentPlayer.getPlayerBoard().removeLeaderCard(card.getId());
         currentPlayer.didLeader();

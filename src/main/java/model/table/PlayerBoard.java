@@ -79,6 +79,10 @@ public class PlayerBoard {
         this.usedInThisTurn = true;
     }
 
+    public void backUsable(){
+        this.usedInThisTurn = false;
+    }
+
     public boolean canDoDefProduction(){
         return !usedInThisTurn;
     }
