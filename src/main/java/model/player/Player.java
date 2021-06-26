@@ -106,35 +106,35 @@ public class Player {
     }
 
     public boolean canBuyResources(){
-        if(didAction || didProduction || didLeader==2)
-            return false;
-        return true;
+        return !didAction && !didProduction && didLeader != 2;
+    }
+
+    public boolean canBuyDevCards(){
+        return !didAction && !didProduction && didLeader != 2;
+    }
+
+    public boolean canDoProduction(){
+        return !didAction && didLeader != 2;
+    }
+
+    public boolean canDoDefProduction(){
+        return this.playerboard.canDoDefProduction();
     }
 
     public void didAction(){
         this.didAction = true;
     }
 
-    public boolean canBuyDevCards(){
-        if(didAction || didProduction || didLeader==2)
-            return  false;
-        return true;
-    }
-
-    public boolean canDoProduction(){
-        if(didAction || didLeader == 2 || this.playerboard.canDoDefProduction())
-            return false;
-        return true;
+    public void didDefProduction(){
+        this.playerboard.didProduction();
     }
 
     public void didProduction(){
         this.didProduction = true;
     }
 
-    public boolean canDoLeader(){
-        if(this.didLeader==0 || (didAction || didProduction))
-            return true;
-        return false;
+    public boolean cantDoLeader(){
+        return this.didLeader != 0 && (!didAction && !didProduction);
     }
 
     public void didLeader(){
@@ -142,11 +142,10 @@ public class Player {
     }
 
     public void updateActions(){
+        this.playerboard.backUsable();
         this.didAction = false;
         this.didProduction = false;
         this.didLeader = 0;
     }
-
-    //TODO SISTEMARE I TURNI TEOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO DAI DAI CHE CE LA FAI
 
 }
