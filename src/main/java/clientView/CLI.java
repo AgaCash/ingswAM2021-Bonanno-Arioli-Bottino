@@ -120,17 +120,13 @@ public class CLI implements View{
         System.out.println(LightColour.BLUE+" > Others are playing, waiting for your turn starts"+LightColour.WHITE);
     }
 
+
     @Override
     public void askLobbyID(ArrayList<Lobby> lobbies) {
-        if(!lobbies.isEmpty()) {
-            System.out.println("\tID\tPlayers");
-            lobbies.forEach((lobby -> System.out.println("\t" + lobby.getId() + "\t" + lobby.getUsernameList())));
-            int numLobby = askInt("Choose the lobby you want to join by ID:");
-            controller.joinLobbyById(numLobby);
-        }else{
-            showError("No lobby found");
-            controller.askLobbyMenu();
-        }
+        System.out.println("\tID\tPlayers");
+        lobbies.forEach((lobby -> System.out.println("\t" + lobby.getId() + "\t" + lobby.getUsernameList())));
+        int numLobby = askInt("Choose the lobby you want to join by ID:");
+        controller.joinLobbyById(numLobby);
     }
 
     @Override

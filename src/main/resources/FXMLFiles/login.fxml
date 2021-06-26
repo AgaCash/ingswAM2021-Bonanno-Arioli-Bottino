@@ -17,7 +17,7 @@
             <VBox.margin>
                 <Insets left="150.0" right="150.0" />
             </VBox.margin></TextField>
-        <Button fx:id="sendUserBTN" alignment="CENTER" mnemonicParsing="false" onAction="#sendUser" prefHeight="75.0" prefWidth="200.0" text="SEND" VBox.vgrow="ALWAYS">
+        <Button fx:id="sendUserBTN" alignment="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#sendUser" prefHeight="75.0" prefWidth="200.0" text="SEND" VBox.vgrow="ALWAYS">
             <VBox.margin>
                 <Insets />
             </VBox.margin>
