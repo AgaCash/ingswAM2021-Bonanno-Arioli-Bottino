@@ -7,7 +7,7 @@
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#getClick" prefHeight="445.0" prefWidth="622.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.scenes.PlayerBoardScene">
    <children>
       <Canvas height="445.0" width="622.0" />
-      <ImageView fx:id="pane" fitHeight="445.0" fitWidth="622.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="445.0" fitWidth="622.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/playerboard.jpg" />
          </image></ImageView>
