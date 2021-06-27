@@ -9,10 +9,10 @@
       <VBox alignment="CENTER" prefHeight="600.0" prefWidth="300.0" spacing="25.0" AnchorPane.leftAnchor="270.0">
          <children>
             <ListView fx:id="playersList" prefHeight="200.0" prefWidth="200.0" />
-            <Button mnemonicParsing="false" onAction="#sendStartSignal" prefHeight="60.0" prefWidth="100.0" text="START" />
+            <Button fx:id="startButton" mnemonicParsing="false" onAction="#sendStartSignal" prefHeight="60.0" prefWidth="100.0" text="START" />
          </children>
       </VBox>
-      <Label layoutX="252.0" layoutY="80.0" prefHeight="36.0" prefWidth="335.0" text="Press start when you're ready">
+      <Label fx:id="titleLabel" layoutX="252.0" layoutY="80.0" prefHeight="36.0" prefWidth="335.0" text="Press start when you're ready">
          <font>
             <Font size="25.0" />
          </font>

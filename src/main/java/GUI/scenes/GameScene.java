@@ -1,15 +1,15 @@
 package GUI.scenes;
 
-import GUI.FXMLLoader;
+import GUI.FXMLLoaderCustom;
+import clientModel.cards.LightLeaderCard;
+import clientModel.resources.LightResource;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.canvas.Canvas;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+
+import java.util.ArrayList;
 
 public class GameScene implements GenericScene{
 
@@ -32,48 +32,52 @@ public class GameScene implements GenericScene{
    @FXML
    BorderPane gamePane;
 
-
-   @FXML
+    @FXML
    private void goToMarket(ActionEvent event){
-       FXMLLoader object = new FXMLLoader();
+       FXMLLoaderCustom object = new FXMLLoaderCustom();
        Pane view = object.getPage("market");
        gamePane.setCenter(view);
    }
    @FXML
    private void goToDevBoard(ActionEvent event){
-       FXMLLoader object = new FXMLLoader();
+       FXMLLoaderCustom object = new FXMLLoaderCustom();
        Pane view = object.getPage("developmentBoard");
        gamePane.setCenter(view);
    }
    @FXML
    private void goToLeader(ActionEvent event){
-       FXMLLoader object = new FXMLLoader();
+       FXMLLoaderCustom object = new FXMLLoaderCustom();
        Pane view = object.getPage("leader");
        gamePane.setCenter(view);
    }
    @FXML
    private void goToPlayer1(ActionEvent event){
-       FXMLLoader object = new FXMLLoader();
+       FXMLLoaderCustom object = new FXMLLoaderCustom();
        Pane view = object.getPage("playerboard");
+       view.setMaxSize(gamePane.getWidth(), gamePane.getHeight());
        gamePane.setCenter(view);
    }
     @FXML
     private void goToPlayer2(ActionEvent event){
-        FXMLLoader object = new FXMLLoader();
+        FXMLLoaderCustom object = new FXMLLoaderCustom();
         Pane view = object.getPage("playerboard2");
+        view.setMaxSize(gamePane.getWidth(), gamePane.getHeight());
         gamePane.setCenter(view);
     }
     @FXML
     private void goToPlayer3(ActionEvent event){
-        FXMLLoader object = new FXMLLoader();
+        FXMLLoaderCustom object = new FXMLLoaderCustom();
         Pane view = object.getPage("playerboard3");
         gamePane.setCenter(view);
     }
     @FXML
     private void goToPlayer4(ActionEvent event){
-        FXMLLoader object = new FXMLLoader();
+        FXMLLoaderCustom object = new FXMLLoaderCustom();
         Pane view = object.getPage("playerboard4");
         gamePane.setCenter(view);
+    }
+
+    public void endTurn(ActionEvent actionEvent) {
     }
 
 

@@ -1,28 +1,29 @@
 package GUI;
 
+import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 
-public class FXMLLoader {
+public class FXMLLoaderCustom {
     private Pane view;
+    private javafx.fxml.FXMLLoader fxmlLoader;
 
     public Pane getPage(String fileName){
         try {
-            URL fileURL = GuiStart.class.getResource("/FXMLFiles/" + fileName + ".fxml");
-            if (fileURL == null) {
-                throw new java.io.FileNotFoundException("FXML file can't be found");
-            }
-            view = new javafx.fxml.FXMLLoader().load(fileURL);
-        }
-        catch (FileNotFoundException e) {
-            e.printStackTrace();
+            //URL fileURL = GuiStart.class.getResource("/FXMLFiles/" + fileName + ".fxml");
+            fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/" + fileName + ".fxml"));
+            view = fxmlLoader.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
         return view;
+    }
+
+    public javafx.fxml.FXMLLoader getFxmlLoader(){
+        return fxmlLoader;
     }
 }
 
@@ -127,8 +128,8 @@ public class FXMLLoader {
         player1Canvas = new Canvas(600,400);
         //Canvas drawings experiments
         gc1 = leaderCanvas.getGraphicsContext2D();
-        gc1.drawImage(IMGLoader.getImage("/LEADERS/LeaderD1.png"), -100,30,500, 375);
-        gc1.drawImage(IMGLoader.getImage("/LEADERS/LeaderD1.png"), 165,30,500, 375);
+        gc1.drawImage(IMGLoader.getImage("/LEADERS/Leader1.png"), -100,30,500, 375);
+        gc1.drawImage(IMGLoader.getImage("/LEADERS/Leader1.png"), 165,30,500, 375);
         gc2 = devCanvas.getGraphicsContext2D();
         gc2.drawImage(IMGLoader.getImage("/DEVBOARD/Blue5.png"),0,-17,245,185);
         gc2.drawImage(IMGLoader.getImage("/DEVBOARD/Blue5.png"),0,130,245,185);

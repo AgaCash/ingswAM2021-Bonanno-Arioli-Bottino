@@ -1,5 +1,6 @@
 package utilities;
 
+import clientModel.cards.LightLeaderCard;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import model.cards.*;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 
 public class JsonParser {
     private final Gson gson;
-    private final String path;
+    private String path;
     BufferedReader fileReader = null;
 
     public JsonParser(String path) {
@@ -72,6 +73,29 @@ public class JsonParser {
         Type arrayListType = new TypeToken<ArrayList<FaithBox>>(){}.getType();
         fileReader = new BufferedReader(new InputStreamReader(ClassLoader.getSystemClassLoader().getResourceAsStream(path)));
         return gson.fromJson(fileReader, arrayListType);
+    }
+
+    public LightLeaderCard getLightLeaderCardFromId(int id){
+        ArrayList<LeaderCard> cards = null;
+        int tmpId = id;
+        if(id >= 1 && id <= 4){
+            path += "discount.json";
+            cards = this.getDiscountCards();
+        }else if(id >=5 && id <= 8){
+            path += "extraDepot.json";
+            cards = this.getExtraDepotCards();
+        }else if(id >= 9 && id <= 12){
+            path += "whiteConverter.json";
+            cards = this.getWhiteConverterCard();
+        }else if(id >= 13 && id <= 16){
+            path += "extraProd.json";
+            cards = this.getExtraProdCards();
+        }
+        assert cards != null;
+        while(tmpId>4){
+            tmpId-=4;
+        }
+        return cards.get(tmpId-1).convert();
     }
 
 }

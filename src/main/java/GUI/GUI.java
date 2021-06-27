@@ -1,8 +1,6 @@
 package GUI;
 
-import GUI.scenes.CreateAndStartScene;
-import GUI.scenes.JoinAndWaitScene;
-import GUI.scenes.WaitingRoomScene;
+import GUI.scenes.*;
 import clientController.LightController;
 import clientModel.cards.LightCardSlots;
 import clientModel.cards.LightLeaderCard;
@@ -172,9 +170,12 @@ public class GUI implements View {
 
             Parent root = null;
             try {
-                fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/waitingRoom.fxml"));
+                fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/createAndStart.fxml"));
                 root = fxmlLoader.load();
-                ((WaitingRoomScene)fxmlLoader.getController()).addPlayers(usernames);
+                CreateAndStartScene sceneCtrl = fxmlLoader.getController();
+                sceneCtrl.addPlayers(usernames);
+                sceneCtrl.setTitleLabel("Waiting for the Lobby Creator to Start the Game...");
+                sceneCtrl.setButtonVisibility(false);
                 primaryStage.setScene(new Scene(root));
                 primaryStage.show();
             } catch (IOException e) {
@@ -227,15 +228,27 @@ public class GUI implements View {
 
     @Override
     public void askStartItems(ArrayList<LightLeaderCard> quartet, int numResources, boolean faithPoints) {
-        //todo:
-        //      mostrare la pagina del game
-        //      mostrare la scelta delle leader + risorse
-        System.out.println("SINGLEPLAYER INIZIATO");
+        Platform.runLater(()->{
+            Parent root = null;
+            try {
+                fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/chooseStartingThings.fxml"));
+                root = fxmlLoader.load();
+                ChooseStartingThingsScene j = fxmlLoader.getController();
+                j.setMainTitleLabel("Choose 2 leader cards to keep");
+                j.loadLeaderCards(quartet);
+                j.showBonusFaithPoints(faithPoints);
+                j.loadResources(numResources);
+                primaryStage.setScene(new Scene(root));
+                primaryStage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override
     public void askTurn() {
-
+        System.out.println("CI SIAMOOOOOOOOOOOOOOOOOOOO DIOCANEEEEEEEEEEEEEEEEEEEEEEEEEEEee");
     }
 
     @Override
