@@ -4,26 +4,33 @@ import GUI.scenes.*;
 import clientController.LightController;
 import clientModel.cards.LightCardSlots;
 import clientModel.cards.LightLeaderCard;
+import clientModel.colour.LightColour;
 import clientModel.resources.LightResource;
 import clientModel.strongbox.LightStrongbox;
 import clientModel.table.LightFaithTrack;
 import clientModel.warehouse.LightWarehouseDepot;
 import clientView.View;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import network.server.Lobby;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class GUI implements View {
-    LightController controller;
-    Stage primaryStage;
-    FXMLLoader fxmlLoader;
+    private LightController controller;
+    private Stage primaryStage;
+    private FXMLLoader fxmlLoader;
+    private boolean isGameBeenInitialized;
+    private GameScene gameGuiController;
+    private Parent gameRoot;
 
     private static GUI instance = null;
 
@@ -34,6 +41,7 @@ public class GUI implements View {
     }
 
     private GUI(){
+        isGameBeenInitialized = false;
         this.controller = new LightController(this);
     }
 
@@ -95,7 +103,14 @@ public class GUI implements View {
 
     @Override
     public void serverLostConnection() {
-
+        Platform.runLater(()->{
+            primaryStage.setScene(null);
+            showError("LOST SERVER CONNECTION \nClosing the application in 5 seconds");
+            Timeline timer = new Timeline(
+                    new KeyFrame(Duration.seconds(5), (event)->controller.instantQuittingApplication())
+            );
+            timer.play();
+        });
     }
 
     @Override
@@ -148,6 +163,9 @@ public class GUI implements View {
 
     }
 
+    private void initGame(){
+
+    }
     @Override
     public void showCreatorWaitingRoom() {
         Platform.runLater(()-> {
@@ -187,11 +205,6 @@ public class GUI implements View {
 
     @Override
     public void showReconnectionToGame() {
-
-    }
-
-    @Override
-    public void waitingForMyTurn() {
 
     }
 
@@ -240,6 +253,11 @@ public class GUI implements View {
                 j.loadResources(numResources);
                 primaryStage.setScene(new Scene(root));
                 primaryStage.show();
+                //in più carico la main page per inizializzarla
+                fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/game.fxml"));
+                gameRoot = fxmlLoader.load();
+                gameGuiController = fxmlLoader.getController();
+                gameGuiController.init(controller.getNumOfPlayerInLobby());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -248,7 +266,29 @@ public class GUI implements View {
 
     @Override
     public void askTurn() {
-        System.out.println("CI SIAMOOOOOOOOOOOOOOOOOOOO DIOCANEEEEEEEEEEEEEEEEEEEEEEEEEEEee");
+        Platform.runLater(()->{
+            gameGuiController.enableTurn();
+            primaryStage.setScene(new Scene(gameRoot));
+            primaryStage.show();
+        });
+    }
+
+    @Override
+    public void waitingForMyTurn() {
+        Platform.runLater(()->{
+            Parent root = null;
+            try {
+                fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/game.fxml"));
+                root = fxmlLoader.load();
+                GameScene gameCtrl = fxmlLoader.getController();
+                gameCtrl.disableTurn();
+                primaryStage.setScene(new Scene(root));
+                primaryStage.show();
+                showSuccess("Others are playing, waiting for your turn starts");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override
@@ -325,12 +365,12 @@ public class GUI implements View {
 
     @Override
     public void showOthersActions(String message) {
-
+        showSuccess(message);
     }
 
     @Override
     public void showLorenzoActions(String message) {
-
+        showSuccess(message);
     }
 
     @Override

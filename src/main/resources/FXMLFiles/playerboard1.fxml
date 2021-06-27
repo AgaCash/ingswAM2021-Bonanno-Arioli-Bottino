@@ -9,7 +9,7 @@
       <Canvas height="445.0" width="622.0" />
       <ImageView fitHeight="445.0" fitWidth="622.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/playerboard.jpg" />
+            <Image url="@../images/playerboard1.jpg" />
          </image></ImageView>
    </children>
 </Pane>

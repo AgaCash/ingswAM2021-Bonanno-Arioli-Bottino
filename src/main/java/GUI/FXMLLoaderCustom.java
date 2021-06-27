@@ -9,22 +9,18 @@ import java.net.URL;
 
 public class FXMLLoaderCustom {
     private Pane view;
-    private javafx.fxml.FXMLLoader fxmlLoader;
 
     public Pane getPage(String fileName){
         try {
             //URL fileURL = GuiStart.class.getResource("/FXMLFiles/" + fileName + ".fxml");
-            fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/" + fileName + ".fxml"));
-            view = fxmlLoader.load();
+            //FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/" + fileName + ".fxml"));
+            view = FXMLLoader.load(getClass().getResource("/FXMLFiles/" + fileName + ".fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
         return view;
     }
 
-    public javafx.fxml.FXMLLoader getFxmlLoader(){
-        return fxmlLoader;
-    }
 }
 
 
@@ -33,7 +29,7 @@ public class FXMLLoaderCustom {
         //Loading images
         Image image1 = new Image("background.jpg");
         Image image2 = new Image("market.png");
-        Image image3 = new Image("playerboard.jpg");
+        Image image3 = new Image("playerboard1.jpg");
         Image image4 = new Image("marketIcon.jpg");
         //Images-->ImageViews
         ImageView backgroundIMG = new ImageView(image1);

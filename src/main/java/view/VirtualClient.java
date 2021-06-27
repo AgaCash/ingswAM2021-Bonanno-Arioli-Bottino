@@ -31,7 +31,7 @@ public class VirtualClient extends Thread{
             outStream = new PrintWriter(new BufferedWriter(
                     new OutputStreamWriter(clientSocket.getOutputStream())),true);
             virtualView = new VirtualView(outStream);
-            serverPingHandler = new ServerPingHandler(5000, this);
+            serverPingHandler = new ServerPingHandler(1000, this);
             new Thread(serverPingHandler).start();
         }catch (IOException e){
             e.printStackTrace();

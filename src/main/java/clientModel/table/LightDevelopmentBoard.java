@@ -12,6 +12,10 @@ public class LightDevelopmentBoard {
             decks.add(cards.get(i));
     }
 
+    public int getDecksSize(){
+        return decks.size();
+    }
+
     @Override
     public String toString(){
         String[] s = new String[5];

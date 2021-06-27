@@ -34,11 +34,23 @@ public class LightController {
     private LightGame game;
     private String username;
     private Gson gson;
+    private int numOfPlayerInLobby;
 
     public LightController(View view){
         this.view = view;
         this.game = new LightGame();
         gson = new GsonBuilder().registerTypeAdapter(LightLeaderCard.class, new LightLeaderCardDeserializer()).create();
+        numOfPlayerInLobby = -1;
+    }
+
+    //helper for gui
+
+    public void setNumOfPlayerInLobby(int numOfPlayerInLobby) {
+        this.numOfPlayerInLobby = numOfPlayerInLobby;
+    }
+
+    public int getNumOfPlayerInLobby() {
+        return numOfPlayerInLobby;
     }
 
     //quitting app
@@ -50,6 +62,10 @@ public class LightController {
         } catch (InterruptedException e) {
             view.showError(e.getMessage());
         }
+        System.exit(0);
+    }
+
+    public void instantQuittingApplication(){
         System.exit(0);
     }
 
@@ -504,20 +520,22 @@ public class LightController {
 
     public void waitForMyTurn(){
         view.waitingForMyTurn();
-        boolean myTurn = false;
-        do{
-            try {
-                String responseS = client.recv();
-                MessageType msgType = MessageType.valueOf(
-                        gson.fromJson(responseS, JsonObject.class).get("messageType").getAsString());
-                if(msgType == MessageType.ENDTURNUPDATE && (gson.fromJson(responseS, EndTurnResponse.class).getNewPlayerName()).equals(username)){
-                    myTurn = true;
+        new Thread(()->{
+            boolean myTurn = false;
+            do{
+                try {
+                    String responseS = client.recv();
+                    MessageType msgType = MessageType.valueOf(
+                            gson.fromJson(responseS, JsonObject.class).get("messageType").getAsString());
+                    if(msgType == MessageType.ENDTURNUPDATE && (gson.fromJson(responseS, EndTurnResponse.class).getNewPlayerName()).equals(username)){
+                        myTurn = true;
+                    }
+                    ((GameMessage) gson.fromJson(responseS, msgType.getClassType())).executeCommand(this);
+                } catch (IOException e) {
+                    view.showError(e.getMessage());
                 }
-                ((GameMessage) gson.fromJson(responseS, msgType.getClassType())).executeCommand(this);
-            } catch (IOException e) {
-                view.showError(e.getMessage());
-            }
-        }while(!myTurn);
+            }while(!myTurn);
+        }).start();
     }
 
     public void startTurn(){

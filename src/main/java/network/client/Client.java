@@ -31,7 +31,7 @@ public class Client {
         this.port = port;
         this.lightController = lightController;
         messageBuffer = new ArrayList<>();
-        clientPingReciverTimer = new ClientPingReceiverTimer(10000, lightController);
+        clientPingReciverTimer = new ClientPingReceiverTimer(2000, lightController);
     }
 
     public void connect() throws IOException {

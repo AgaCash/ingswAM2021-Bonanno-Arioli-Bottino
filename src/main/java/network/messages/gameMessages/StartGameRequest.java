@@ -18,24 +18,25 @@ public class StartGameRequest extends GameMessage{
     @Override
     public void executeCommand(Controller controller, VirtualClient view) {
         try {
+            int numPlayers = controller.getPlayers().size();
             controller.setOrder();
             System.out.println("USERNAME REQUEST: "+controller.getPlayer(getUsername()));
             switch (controller.getPlayer(getUsername()).getStartingTurn()) {
                 case 0: {
                     ArrayList<LightLeaderCard> quartet = getQuartet(controller);
-                    view.getVirtualView().updateStartGame(new StartGameResponse(getUsername(), quartet, 0, false));
+                    view.getVirtualView().updateStartGame(new StartGameResponse(getUsername(), quartet, 0, false, numPlayers));
                     break;}
                 case 1: {
                     ArrayList<LightLeaderCard> quartet = getQuartet(controller);
-                    view.getVirtualView().updateStartGame(new StartGameResponse(getUsername(), quartet, 1, false));
+                    view.getVirtualView().updateStartGame(new StartGameResponse(getUsername(), quartet, 1, false, numPlayers));
                     break;}
                 case 2: {
                     ArrayList<LightLeaderCard> quartet = getQuartet(controller);
-                    view.getVirtualView().updateStartGame(new StartGameResponse(getUsername(), quartet, 1, true));
+                    view.getVirtualView().updateStartGame(new StartGameResponse(getUsername(), quartet, 1, true, numPlayers));
                     break;}
                 case 3: {
                     ArrayList<LightLeaderCard> quartet = getQuartet(controller);
-                    view.getVirtualView().updateStartGame(new StartGameResponse(getUsername(), quartet, 2, true));
+                    view.getVirtualView().updateStartGame(new StartGameResponse(getUsername(), quartet, 2, true, numPlayers));
                     break;}
                 default: System.out.println("bordello fratm "); break;
             }

@@ -44,10 +44,4 @@ public class ServerSetupScene {
         }
     }
 
-    public String getServer(){
-        return server;
-    }
-    public int getPort(){
-        return port;
-    }
 }

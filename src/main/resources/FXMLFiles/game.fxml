@@ -14,7 +14,7 @@
       </ImageView>
       <BorderPane fx:id="gamePane" prefHeight="600.0" prefWidth="839.0">
          <top>
-            <HBox prefHeight="52.0" prefWidth="839.0" spacing="150.0" BorderPane.alignment="CENTER">
+            <HBox fx:id="playerBoardsHBox" prefHeight="52.0" prefWidth="839.0" spacing="150.0" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets top="15.0" />
                </BorderPane.margin>
