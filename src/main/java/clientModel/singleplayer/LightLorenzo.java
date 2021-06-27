@@ -35,7 +35,7 @@ public class LightLorenzo {
         String s = new String();
         if(!this.cards.isEmpty())
             for(LightDevelopmentCard card: cards)
-                s+=LightColour.BLUE+" > Lorenzo has removed the card: "+LightColour.WHITE+card.toString()+LightColour.WHITE;
+                s+=LightColour.BLUE+" > Lorenzo has removed the card:\n"+LightColour.WHITE+card.toString()+LightColour.WHITE;
 
         if(this.shuffles!=0)
             for(int i = 0; i<shuffles; i++)

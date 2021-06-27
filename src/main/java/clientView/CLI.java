@@ -94,21 +94,24 @@ public class CLI implements View{
     @Override
     public void waitStartGameString(){
         String s = "";
-        do s = askString("Write " + LightColour.BLUE+ "\"start\"" +LightColour.WHITE+" to begin the game").toLowerCase();
-        while (!s.equals("start"));
+        while (!s.equals("start"))
+            s = askString("Write " + LightColour.BLUE+ "\"start\"" +LightColour.WHITE+" to begin the game").toLowerCase();
         controller.sendSignalMultiPlayerGame();
     }
 
     @Override
     public void showWaitingRoom(ArrayList<String> usernames){
-        showSuccess("You joined the room");
+        showSuccess("#You joined the room!");
+        System.out.println(LightColour.YELLOW+"MEMBERS:");
+        for(String name: usernames)
+            if(!controller.getUsername().equals(name))
+                System.out.println(" > "+name);
         System.out.println(LightColour.BLUE+"Waiting for creator of the room starts the game..."+LightColour.WHITE);
     }
 
     @Override
     public void showCreatorWaitingRoom(){
         showSuccess("You created the room");
-        //System.out.println(LightColour.BLUE+"Waiting for creator of the room starts the game..."+LightColour.WHITE);
     }
 
     @Override
@@ -166,6 +169,7 @@ public class CLI implements View{
         ArrayList<LightResource> chosenResources = new ArrayList<>();
         for(int i=0; i<numResources; i++)
             chosenResources.add(askResource());
+        System.out.println(LightColour.BLUE+"waiting for other players actions, game will start soon...");
         controller.sendStartItems(couple, chosenResources, faithPoints);
     }
 
@@ -480,44 +484,43 @@ public class CLI implements View{
 
     @Override
     public void showOthersActions(String message){
-        System.out.println(LightColour.BLUE+" > "+message+LightColour.WHITE);
+        System.out.println((LightColour.BLUE+" > "+message+LightColour.WHITE).indent(3));
     }
 
     @Override
     public void showLorenzoActions(String message){
-        System.out.println(message);
+        System.out.println(message.indent(3));
     }
 
     @Override
     public void updateCardSlots(String username, LightCardSlots cardSlots) {
         if(!controller.getUsername().equals(username))
-            showOthersActions(username+"'s new CardSlots: "+cardSlots.toString());
+            showOthersActions(username+"'s new CardSlots: "+cardSlots.toString().indent(3));
     }
 
     @Override
     public void updateWarehouseDepot(String username, LightWarehouseDepot warehouseDepot) {
         if(!controller.getUsername().equals(username))
-            showOthersActions(username+"'s new Warehouse: "+warehouseDepot.toString());
+            showOthersActions(username+"'s new Warehouse: "+warehouseDepot.toString().indent(3));
     }
 
     @Override
     public void updateStrongbox(String username, LightStrongbox strongbox) {
         if(!controller.getUsername().equals(username))
-            showOthersActions(username+"'s new Strongbox: "+strongbox.toString());
+            showOthersActions(username+"'s new Strongbox: "+strongbox.toString().indent(3));
 
     }
 
     @Override
     public void updateFaithTrack(String username, LightFaithTrack faithTrack) {
         if(!controller.getUsername().equals(username))
-            showOthersActions(username+"'s new FaithTrack: "+faithTrack.toString());
-
+            showOthersActions(username+"'s new FaithTrack: "+faithTrack.toString().indent(3));
     }
 
     @Override
     public void updateLeaderSlot(String username, ArrayList<LightLeaderCard> leaderSlot) {
         if(!controller.getUsername().equals(username))
-            showOthersActions(username+"'s new LeaderSlot: "+leaderSlot.toString());
+            showOthersActions(username+"'s new LeaderSlot: "+leaderSlot.toString().indent(3));
 
     }
 }

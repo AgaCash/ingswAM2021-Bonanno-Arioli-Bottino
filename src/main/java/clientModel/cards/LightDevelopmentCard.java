@@ -53,7 +53,7 @@ public class LightDevelopmentCard {
 
     @Override
     public String toString(){
-        String s= new String();
+        String s= "";
         if(isUsable()){
             s+=formatLevel()+"\n";
             s+=formatVictoryPoints()+"\n";
@@ -64,12 +64,18 @@ public class LightDevelopmentCard {
         else{
             if(this.level!=-1)
                 s+=this.colour.toString()+"LV: "+this.level;
+            else
+                s="                            \n" +
+                        "                            \n" +
+                        "                            \n" +
+                        "                            \n" +
+                        "                            \n";
         }
         return s+LightColour.WHITE;
     }
 
     private String formatLevel(){
-        return this.colour.toString()+"LV: "+String.valueOf(this.level);
+        return this.colour.toString()+"LV: "+this.level+"                       ";
     }
 
     private String formatVictoryPoints(){
@@ -77,7 +83,7 @@ public class LightDevelopmentCard {
         if(this.victoryPoints<10)
             s+="0";
         s+=this.victoryPoints;
-        return s;
+        return s+"                      ";
     }
 
     private String formatCost(){
@@ -93,7 +99,7 @@ public class LightDevelopmentCard {
         String s=this.colour+"IP: ";
         for(LightResource r: this.prodInput)
             s+= r.toColoredString()+" ";
-        for(int i=this.prodInput.size(); i<2; i++)
+        for(int i=this.prodInput.size(); i<8; i++)
             s+="   ";
         return s;
     }
@@ -102,91 +108,8 @@ public class LightDevelopmentCard {
         String s=this.colour+"OP: ";
         for(LightResource r: this.prodOutput)
             s+= r.toColoredString()+" ";
-        for(int i=this.prodOutput.size(); i<4; i++)
+        for(int i=this.prodOutput.size(); i<8; i++)
             s+="   ";
         return s;
     }
-//CLI
-   /* @Override
-    public String toString(){
-        String s = new String();
-        if(isUsable()){
-            s +="\n__________________________________\n";
-            s +=toStringLevel()+insertTabs(24)+"\n";
-            s +=toStringPoints()+ insertTabs(15-getPoints()/10)+"\n";
-            s +=toStringCost()+ insertTabs(32-6-3*getCost().size())+"\n";
-            s += toStringProdInput()+ insertTabs(32 - 11 - 3*getProdInput().size())+"\n";
-            s += toStringProdOutput()+ insertTabs(32 -12  -3*getProdOutput().size())+"\n";
-            s += LightColour.WHITE+"__________________________________\n";
-        }
-        else if(!isNull()){
-            s += colour.toString()+"|DevCard Lvl: "+level+LightColour.WHITE;
-        }
-        return s;
-    }
-
-    public String toStringLevel(){
-        if(isNull())
-            return "                                ";
-        return colour.toString()+"Level: "+level;
-    }
-
-    public String toStringPoints(){
-        if(isNull())
-            return "                                ";
-        return colour.toString()+"Victory Points: "+victoryPoints;
-    }
-
-    public String toStringCost(){
-        if(isNull())
-            return "                                ";
-        String s =colour.toString()+"Cost: ";
-        for(LightResource resource : cost)
-            s += resource.toColoredString()+" ";
-        return s;
-    }
-
-    public String toStringProdInput(){
-        if(isNull())
-            return "                                ";
-        String s = colour.toString()+"ProdInput: ";
-        for(LightResource resource : prodInput)
-            s += resource.toColoredString()+ " ";
-        return s;
-    }
-
-    public String toStringProdOutput(){
-        if(isNull())
-            return "                                ";
-        String s = colour.toString()+"ProdOutput: ";
-        for (LightResource resource : prodOutput)
-            s += resource.toColoredString()+" ";
-        return s;
-    }
-
-
-    private String insertTabs(int num){
-        String s = new String();
-        for(int i=0; i<num; i++)
-            s+=" ";
-        return s;
-    }
-    public ArrayList<LightResource> getCost(){
-        if(isUsable() && this.victoryPoints!=-1)
-            return this.cost;
-        return new ArrayList<>();
-    }
-
-    public ArrayList<LightResource> getProdOutput(){
-        if(isUsable() && this.victoryPoints!=-1)
-            return this.prodOutput;
-        return new ArrayList<>();
-    }
-      public ArrayList<LightResource> getProdInput(){
-        if(isUsable() && this.victoryPoints!=-1)
-            return this.prodInput;
-        return new ArrayList<>();
-    }
-
-    */
 }

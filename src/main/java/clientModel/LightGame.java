@@ -21,10 +21,6 @@ public class LightGame {
         this.table = new LightTable();
     }
 
-    public LightDevelopmentCard getDeck(int slot){
-        return table.getDevBoard().getDeck(slot);
-    }
-
     public String getUsername(){
         return player.getNickname();
     }

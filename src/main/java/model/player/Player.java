@@ -27,6 +27,12 @@ public class Player {
         points += pts;
     }
 
+    public int getNewPoints(){
+        //todo da scrivere
+        //capiamo
+        return 69;
+    }
+
     public int getPoints() {
         return points;
     }
