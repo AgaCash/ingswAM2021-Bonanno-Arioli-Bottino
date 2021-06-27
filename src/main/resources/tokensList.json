@@ -26,16 +26,6 @@
   },
   {
     "tokenID": 5,
-    "blackCrossFaithPoints": 2,
-    "isAboutLorenzo" : true
-  },
-  {
-    "tokenID": 6,
-    "blackCrossFaithPoints": 2,
-    "isAboutLorenzo" : true
-  },
-  {
-    "tokenID": 7,
     "blackCrossFaithPoints": 1,
     "isAboutLorenzo" : true,
     "shuffle" : true
