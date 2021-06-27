@@ -39,26 +39,8 @@ public class LightDevelopmentCard {
         return level;
     }
 
-    public ArrayList<LightResource> getProdInput(){
-        if(isUsable() && this.victoryPoints!=-1)
-            return this.prodInput;
-        return new ArrayList<>();
-    }
-
     public LightColour getColour(){
         return colour;
-    }
-
-    public ArrayList<LightResource> getCost(){
-        if(isUsable() && this.victoryPoints!=-1)
-            return this.cost;
-        return new ArrayList<>();
-    }
-
-    public ArrayList<LightResource> getProdOutput(){
-        if(isUsable() && this.victoryPoints!=-1)
-            return this.prodOutput;
-        return new ArrayList<>();
     }
 
     public int getPoints(){
@@ -66,16 +48,66 @@ public class LightDevelopmentCard {
     }
 
     private boolean isUsable(){
-        return this.cost != null && this.prodInput != null && this.prodOutput != null;
+        return this.level!=-1 && this.cost != null && this.prodInput != null && this.prodOutput != null;
     }
 
-    private boolean isNull(){
-        if(this.level !=-1)
-            return false;
-        return true;
+    @Override
+    public String toString(){
+        String s= new String();
+        if(isUsable()){
+            s+=formatLevel()+"\n";
+            s+=formatVictoryPoints()+"\n";
+            s+=formatCost()+"\n";
+            s+=formatInput()+"\n";
+            s+=formatOutput()+"\n";
+        }
+        else{
+            if(this.level!=-1)
+                s+=this.colour.toString()+"LV: "+this.level;
+        }
+        return s+LightColour.WHITE;
+    }
+
+    private String formatLevel(){
+        return this.colour.toString()+"LV: "+String.valueOf(this.level);
+    }
+
+    private String formatVictoryPoints(){
+        String s =this.colour.toString()+"VP: ";
+        if(this.victoryPoints<10)
+            s+="0";
+        s+=this.victoryPoints;
+        return s;
+    }
+
+    private String formatCost(){
+        String s=this.colour+"$$: ";
+        for(LightResource r: this.cost)
+            s+= r.toColoredString()+" ";
+        for(int i=this.cost.size(); i<8; i++)
+            s+="   ";
+        return s;
+    }
+
+    private String formatInput(){
+        String s=this.colour+"IP: ";
+        for(LightResource r: this.prodInput)
+            s+= r.toColoredString()+" ";
+        for(int i=this.prodInput.size(); i<2; i++)
+            s+="   ";
+        return s;
+    }
+
+    private String formatOutput(){
+        String s=this.colour+"OP: ";
+        for(LightResource r: this.prodOutput)
+            s+= r.toColoredString()+" ";
+        for(int i=this.prodOutput.size(); i<4; i++)
+            s+="   ";
+        return s;
     }
 //CLI
-    @Override
+   /* @Override
     public String toString(){
         String s = new String();
         if(isUsable()){
@@ -139,4 +171,22 @@ public class LightDevelopmentCard {
             s+=" ";
         return s;
     }
+    public ArrayList<LightResource> getCost(){
+        if(isUsable() && this.victoryPoints!=-1)
+            return this.cost;
+        return new ArrayList<>();
+    }
+
+    public ArrayList<LightResource> getProdOutput(){
+        if(isUsable() && this.victoryPoints!=-1)
+            return this.prodOutput;
+        return new ArrayList<>();
+    }
+      public ArrayList<LightResource> getProdInput(){
+        if(isUsable() && this.victoryPoints!=-1)
+            return this.prodInput;
+        return new ArrayList<>();
+    }
+
+    */
 }

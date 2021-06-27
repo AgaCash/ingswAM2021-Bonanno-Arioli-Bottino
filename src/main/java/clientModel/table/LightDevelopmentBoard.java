@@ -3,6 +3,7 @@ package clientModel.table;
 import clientModel.cards.LightDevelopmentCard;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class LightDevelopmentBoard {
     private final ArrayList<LightDevelopmentCard> decks = new ArrayList<>(); //12 top cards
@@ -11,12 +12,21 @@ public class LightDevelopmentBoard {
         for (int i=0; i<12; i++)
             decks.add(cards.get(i));
     }
-
-
     public LightDevelopmentCard getDeck(int deckNumber){
         return decks.get(deckNumber);
     }
 
+    @Override
+    public String toString(){
+        String[] s = new String[5];
+        for(int i=0; i<decks.size(); i++) {
+            String card = decks.get(i).toString();
+            String[] levels = card.split("\n");
+            System.out.println(i+Arrays.toString(levels));
+        }
+        return new String();
+    }
+/*
     @Override
     public String toString(){
         String s = "DEVELOPMENT BOARD:\n";
@@ -57,4 +67,6 @@ public class LightDevelopmentBoard {
             s+=" ";
         return s;
     }
+
+ */
 }
