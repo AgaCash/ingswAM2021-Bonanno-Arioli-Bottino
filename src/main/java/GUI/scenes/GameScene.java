@@ -102,12 +102,11 @@ public class GameScene implements GenericScene{
        for (int i = 0, j = 0; i < developmentBoard.getDecksSize() ; i++, j++){
            LightDevelopmentCard c = developmentBoard.getTopCardFromDeck(i);
            String fileName = c.getColour().name().substring(0, 1).toUpperCase()+c.getColour().name().substring(1).toLowerCase();
-           System.out.println(fileName+c.getId());
            ImageView im = new ImageView("/images/DEVBOARD/"+fileName+c.getId()+".png");
            im.setPreserveRatio(true);
            im.fitWidthProperty().bind(pane.widthProperty().divide(4));
            im.fitHeightProperty().bind(pane.heightProperty().divide(3).subtract(10));
-           im.setId(Integer.toString(c.getId()));
+           im.setId(Integer.toString(i));
            im.relocate(x, y);
            im.setOnMouseClicked(this::devCardClick);
            x += 150;
@@ -125,6 +124,8 @@ public class GameScene implements GenericScene{
        int slot;
        boolean leaderUse;
        ImageView currImage = (ImageView) mouseEvent.getTarget();
+       int deck = Integer.parseInt(currImage.getId());
+
        if(currImage.getEffect() == null){
            //compra la devCard
            //ALERT_BOXES  ||
@@ -146,7 +147,8 @@ public class GameScene implements GenericScene{
            } else if (result.get() == buttonTypeThree) {
                slot = 3;
            } else {
-               slot = -1;
+               GUI.getInstance().getController().showError("Card not bought");
+               return;
            }
 
            alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -189,20 +191,20 @@ public class GameScene implements GenericScene{
                alert.setY(120);
                result = alert.showAndWait();
                if (result.get() == buttonTypeOne){
-                   // ... user chose "One"
+                   GUI.getInstance().getController().sendBuyDevCardRequest(deck, slot-1, cards.get(0));
                } else if (result.get() == buttonTypeTwo) {
-                   // ... user chose "Two"
-               } else {
-                   // ... user chose CANCEL or closed the dialog
+                   GUI.getInstance().getController().sendBuyDevCardRequest(deck, slot-1, cards.get(1));
+               }else{
+                   GUI.getInstance().getController().showError("Card not bought");
+                   return;
                }
+           }else{
+               GUI.getInstance().getController().sendBuyDevCardRequest(deck, slot-1, null);
            }
 
            //ALERT_BOXES  /\   (askSlot & askLeader)
            //             ||
            //-----------------------------
-           //                  ||
-           //                  \/
-
 
        }
    }
@@ -233,10 +235,10 @@ public class GameScene implements GenericScene{
     }
 
     public void enableTurn(){
-
+       //ENABLE ALL THE THINGS THAT USER CAN INTERACT WITH
     }
 
     public void disableTurn(){
-
+       //DISABLE ALL THE THINGS THAT USER CAN INTERACT WITH
     }
 }
