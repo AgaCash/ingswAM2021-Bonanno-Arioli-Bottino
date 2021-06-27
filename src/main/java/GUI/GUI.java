@@ -4,7 +4,6 @@ import GUI.scenes.*;
 import clientController.LightController;
 import clientModel.cards.LightCardSlots;
 import clientModel.cards.LightLeaderCard;
-import clientModel.colour.LightColour;
 import clientModel.resources.LightResource;
 import clientModel.strongbox.LightStrongbox;
 import clientModel.table.LightFaithTrack;
@@ -17,12 +16,23 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import network.server.Lobby;
 
 import java.io.IOException;
+import java.lang.invoke.SerializedLambda;
+import java.lang.reflect.Executable;
 import java.util.ArrayList;
+import java.util.Optional;
+import java.util.concurrent.Callable;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class GUI implements View {
     private LightController controller;
@@ -253,11 +263,6 @@ public class GUI implements View {
                 j.loadResources(numResources);
                 primaryStage.setScene(new Scene(root));
                 primaryStage.show();
-                //in più carico la main page per inizializzarla
-                fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/game.fxml"));
-                gameRoot = fxmlLoader.load();
-                gameGuiController = fxmlLoader.getController();
-                gameGuiController.init(controller.getNumOfPlayerInLobby());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -267,23 +272,38 @@ public class GUI implements View {
     @Override
     public void askTurn() {
         Platform.runLater(()->{
-            gameGuiController.enableTurn();
-            primaryStage.setScene(new Scene(gameRoot));
-            primaryStage.show();
+            //in più carico la main page per inizializzarla
+            try {
+                if(!isGameBeenInitialized){
+                    fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/game.fxml"));
+                    gameRoot = fxmlLoader.load();
+                    gameGuiController = fxmlLoader.getController();
+                    gameGuiController.init(controller.getNumOfPlayerInLobby());
+                    primaryStage.setScene(new Scene(gameRoot));
+                    primaryStage.show();
+                    isGameBeenInitialized=true;
+                }
+                gameGuiController.enableTurn();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
     }
 
     @Override
     public void waitingForMyTurn() {
         Platform.runLater(()->{
-            Parent root = null;
             try {
-                fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/game.fxml"));
-                root = fxmlLoader.load();
-                GameScene gameCtrl = fxmlLoader.getController();
-                gameCtrl.disableTurn();
-                primaryStage.setScene(new Scene(root));
-                primaryStage.show();
+                if(!isGameBeenInitialized){
+                    fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/game.fxml"));
+                    gameRoot = fxmlLoader.load();
+                    gameGuiController = fxmlLoader.getController();
+                    gameGuiController.init(controller.getNumOfPlayerInLobby());
+                    isGameBeenInitialized=true;
+                    primaryStage.setScene(new Scene(gameRoot));
+                    primaryStage.show();
+                }
+                gameGuiController.disableTurn();
                 showSuccess("Others are playing, waiting for your turn starts");
             } catch (IOException e) {
                 e.printStackTrace();

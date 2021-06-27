@@ -2,14 +2,23 @@ package GUI.scenes;
 
 import GUI.FXMLLoaderCustom;
 import GUI.GUI;
+import clientModel.cards.LightDevelopmentCard;
+import clientModel.cards.LightLeaderCard;
+import clientModel.colour.LightColour;
 import clientModel.table.LightDevelopmentBoard;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class GameScene implements GenericScene{
 
@@ -71,24 +80,8 @@ public class GameScene implements GenericScene{
            p = customFL.getPage("playerboard"+ (i + 1));
            System.out.println(p);
        }//todo NON VAAAAAAAAAAAAAAAAAAAAAA
-           /*
-       switch (numOfPlayers){
-           case 4:
-               player4Pane = customFL.getPage("playerboard4");
-           case 3:
-               player3Pane = customFL.getPage("playerboard3");
-           case 2:
-               player2Pane = customFL.getPage("playerboard2");
-           case 1:
-               player1Pane = customFL.getPage("playerboard1");
-       }
-       if(!isMultiGame){
-           player2BTN.setVisible(false);
-           player3BTN.setVisible(false);
-           player4BTN.setVisible(false);
-       }
 
-            */
+       loadDevCards(devBoardPane);
    }
 
    @FXML
@@ -104,14 +97,114 @@ public class GameScene implements GenericScene{
    private void loadDevCards(Pane pane){
        LightDevelopmentBoard developmentBoard = GUI.getInstance().getController().getDevBoard();
        ArrayList<ImageView> ims = new ArrayList<>();
-       for (int i = 0; i < developmentBoard.getDecksSize() ; i++){
-           ImageView im = new ImageView("/images/DEVBOARD/Blue5.png");
+       double x = 30;
+       double y = 0;
+       for (int i = 0, j = 0; i < developmentBoard.getDecksSize() ; i++, j++){
+           LightDevelopmentCard c = developmentBoard.getTopCardFromDeck(i);
+           String fileName = c.getColour().name().substring(0, 1).toUpperCase()+c.getColour().name().substring(1).toLowerCase();
+           System.out.println(fileName+c.getId());
+           ImageView im = new ImageView("/images/DEVBOARD/"+fileName+c.getId()+".png");
+           im.setPreserveRatio(true);
            im.fitWidthProperty().bind(pane.widthProperty().divide(4));
-           im.fitHeightProperty().bind(pane.heightProperty().divide(4));
-           //im.setId();
+           im.fitHeightProperty().bind(pane.heightProperty().divide(3).subtract(10));
+           im.setId(Integer.toString(c.getId()));
+           im.relocate(x, y);
+           im.setOnMouseClicked(this::devCardClick);
+           x += 150;
+           if(j == 3){
+               j = -1;
+               x = 30;
+               y += 150;
+           }
            ims.add(im);
        }
        pane.getChildren().addAll(ims);
+   }
+
+   private void devCardClick(MouseEvent mouseEvent){
+       int slot;
+       boolean leaderUse;
+       ImageView currImage = (ImageView) mouseEvent.getTarget();
+       if(currImage.getEffect() == null){
+           //compra la devCard
+           //ALERT_BOXES  ||
+           //             \/
+           Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+           alert.setTitle("Asking for slot");
+           alert.setHeaderText("In which slot do you want to add the card?");
+           alert.setContentText("Choose your slot.");
+           ButtonType buttonTypeOne = new ButtonType("One");
+           ButtonType buttonTypeTwo = new ButtonType("Two");
+           ButtonType buttonTypeThree = new ButtonType("Three");
+           ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+           alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo, buttonTypeThree, buttonTypeCancel);
+           Optional<ButtonType> result = alert.showAndWait();
+           if (result.get() == buttonTypeOne){
+               slot = 1;
+           } else if (result.get() == buttonTypeTwo) {
+               slot = 2;
+           } else if (result.get() == buttonTypeThree) {
+               slot = 3;
+           } else {
+               slot = -1;
+           }
+
+           alert = new Alert(Alert.AlertType.CONFIRMATION);
+           alert.setTitle("LeaderCard Activation");
+           alert.setHeaderText("Do you want to use a leader card?");
+           alert.setContentText("");
+
+           result = alert.showAndWait();
+           if (result.get() == ButtonType.OK){
+               leaderUse = true;
+           } else {
+               leaderUse = false;
+           }
+
+           if(leaderUse){
+               ArrayList<LightLeaderCard> cards = GUI.getInstance().getController().getPlayerBoard().getLeaderSlot();
+               alert = new Alert(Alert.AlertType.CONFIRMATION);
+               alert.setTitle("LeaderCards choosing");
+               alert.setHeaderText("Choose a leader card");
+               alert.setContentText("(one left, two right)");
+               Pane p = new Pane();
+
+               ImageView im1 = new ImageView("/images/LEADERS/Leader"+cards.get(0).getId()+".png");
+               ImageView im2 = new ImageView("/images/LEADERS/Leader"+cards.get(1).getId()+".png");
+               im1.fitHeightProperty().bind(alert.heightProperty().divide(4));
+               im2.fitHeightProperty().bind(alert.heightProperty().divide(4));
+               im2.relocate(200, 0);
+               im1.setPreserveRatio(true);
+               im2.setPreserveRatio(true);
+               p.getChildren().add(im1);
+               p.getChildren().add(im2);
+               alert.setGraphic(p);
+
+               buttonTypeOne = new ButtonType("One");
+               buttonTypeTwo = new ButtonType("Two");
+               buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+               alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo, buttonTypeCancel);
+               alert.setX(150);
+               alert.setY(120);
+               result = alert.showAndWait();
+               if (result.get() == buttonTypeOne){
+                   // ... user chose "One"
+               } else if (result.get() == buttonTypeTwo) {
+                   // ... user chose "Two"
+               } else {
+                   // ... user chose CANCEL or closed the dialog
+               }
+           }
+
+           //ALERT_BOXES  /\   (askSlot & askLeader)
+           //             ||
+           //-----------------------------
+           //                  ||
+           //                  \/
+
+
+       }
    }
 
    @FXML

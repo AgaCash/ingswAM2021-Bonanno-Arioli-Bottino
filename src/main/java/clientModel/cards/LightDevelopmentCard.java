@@ -26,6 +26,10 @@ public class LightDevelopmentCard {
         fileName = "devCard-"+id+".png";
     }
 
+    public int getId() {
+        return id;
+    }
+
     public LightDevelopmentCard(LightColour colour, int level) {
         this.colour = colour;
         this.level = level;

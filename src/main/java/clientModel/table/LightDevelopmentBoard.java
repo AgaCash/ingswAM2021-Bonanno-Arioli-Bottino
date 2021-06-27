@@ -16,6 +16,10 @@ public class LightDevelopmentBoard {
         return decks.size();
     }
 
+    public LightDevelopmentCard getTopCardFromDeck(int deckId){
+        return decks.get(deckId);
+    }
+
     @Override
     public String toString(){
         String[] s = new String[5];
