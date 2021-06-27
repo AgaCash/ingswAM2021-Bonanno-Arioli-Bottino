@@ -42,7 +42,7 @@
             </VBox>
          </left>
          <bottom>
-            <HBox alignment="CENTER_RIGHT" prefHeight="90.0" prefWidth="839.0" BorderPane.alignment="CENTER">
+            <HBox fx:id="cheatHbox" alignment="CENTER_RIGHT" onMouseClicked="#cheatActivation" prefHeight="90.0" prefWidth="839.0" BorderPane.alignment="CENTER">
                <children>
                   <Button fx:id="endTurnBTN" mnemonicParsing="false" onAction="#endTurn" prefHeight="50.0" prefWidth="75.0" />
                </children>
@@ -55,5 +55,6 @@
             </HBox>
          </bottom>
       </BorderPane>
+      <Pane prefHeight="200.0" prefWidth="200.0" />
    </children>
 </AnchorPane>
