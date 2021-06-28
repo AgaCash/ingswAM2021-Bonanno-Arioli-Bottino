@@ -5,7 +5,9 @@ import GUI.GUI;
 import clientModel.cards.LightDevelopmentCard;
 import clientModel.cards.LightLeaderCard;
 import clientModel.colour.LightColour;
+import clientModel.marbles.LightMarble;
 import clientModel.table.LightDevelopmentBoard;
+import clientModel.table.LightMarketBoard;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -84,6 +86,7 @@ public class GameScene implements GenericScene{
         }//todo NON VAAAAAAAAAAAAAAAAAAAAAA
 
         loadDevCards(devBoardPane);
+        loadMarbles(marketPane);
         loadLeaderPane(leaderPane);
    }
 
@@ -117,6 +120,7 @@ public class GameScene implements GenericScene{
     private void goToPlayer4(ActionEvent event){
         gamePane.setCenter(playerBoardsPanes.get(3));
     }
+
     public void endTurn(ActionEvent actionEvent) {
         //per attivare i cheat (da togliere)
         clickCount = 0;
@@ -291,6 +295,38 @@ public class GameScene implements GenericScene{
 
         }
     }
+
+    private void loadMarbles(Pane pane) {
+        LightMarketBoard marketBoard = GUI.getInstance().getController().getMarketBoard();
+        ArrayList<ImageView> ims = new ArrayList<>();
+        double x = 80;
+        double y = 85;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                LightMarble m = marketBoard.getMarble(i, j);
+                String fileName = m.getFileName();
+                ImageView im = new ImageView("/images/MARBLES/" + fileName);
+                im.setPreserveRatio(true);
+                im.fitHeightProperty().bind(pane.heightProperty().divide(4));
+                int id = j + (i*4);
+                im.setId(Integer.toString(id));
+                im.relocate(x, y);
+                x += 65;
+                ims.add(im);
+            }
+            x = 80;
+            y += 65;
+        }
+        LightMarble freeM = marketBoard.getFreeMarble();
+        String freeName = freeM.getFileName();
+        ImageView im = new ImageView("/images/MARBLES/" + freeName);
+        im.setPreserveRatio(true);
+        im.fitHeightProperty().bind(pane.heightProperty().divide(5));
+        im.relocate(260,42);
+        ims.add(im);
+        pane.getChildren().addAll(ims);
+    }
+
 
     private void loadLeaderPane(Pane pane){
        // 2 leaderCard con sotto 4 bottoni (2 a testa: attiva e scarta)

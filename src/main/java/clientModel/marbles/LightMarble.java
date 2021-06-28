@@ -3,16 +3,16 @@ package clientModel.marbles;
 import model.marbles.Marble;
 
 public enum LightMarble {
-    BLUE("BLUE"),
-    GREY("GREY"),
-    PURPLE("PURPLE"),
-    RED("RED"),
-    WHITE("WHITE"),
-    YELLOW("YELLOW");
+    BLUE("blue"),
+    GREY("grey"),
+    PURPLE("purple"),
+    RED("red"),
+    WHITE("white"),
+    YELLOW("yellow");
 
     private transient String fileName;
 
-    private LightMarble(String col){
+    LightMarble(String col){
         fileName = col+".png";
     }
 

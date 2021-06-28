@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.canvas.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="445.0" prefWidth="622.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.scenes.MarketScene">
+<Pane fx:id="baseMarketPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="445.0" prefWidth="622.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.scenes.MarketScene">
    <children>
-      <Canvas height="445.0" width="622.0" />
       <ImageView fitHeight="445.0" fitWidth="622.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/market.png" />
          </image></ImageView>
+      <Pane fx:id="marblePane" layoutX="102.0" layoutY="111.0" prefHeight="190.0" prefWidth="265.0" />
    </children>
 </Pane>

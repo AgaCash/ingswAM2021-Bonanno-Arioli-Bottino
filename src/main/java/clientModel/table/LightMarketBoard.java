@@ -21,6 +21,10 @@ public class LightMarketBoard {
             }
         freeMarble = marbles.get(k);
     }
+
+    public LightMarble getFreeMarble (){
+        return freeMarble;
+    }
 /*
     public void addMarketLine (int line, LeaderCard card){
         int i;

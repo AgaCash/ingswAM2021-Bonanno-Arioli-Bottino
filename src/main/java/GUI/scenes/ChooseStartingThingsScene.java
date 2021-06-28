@@ -97,7 +97,7 @@ public class ChooseStartingThingsScene {
             });
             im.setPreserveRatio(true);
             im.relocate(x, 0);
-            x+=170;
+            x+=200;
             images.add(im);
         }
 
