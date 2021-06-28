@@ -141,6 +141,11 @@ public class GameScene implements GenericScene{
                 thing.setDisable(false);
             }
         });
+        marketPane.getChildren().forEach((marbleImage)->{
+            if(marbleImage instanceof ImageView){
+                enableImage((ImageView) marbleImage);
+            }
+        });
     }
 
     public void disableTurn(){
@@ -155,6 +160,11 @@ public class GameScene implements GenericScene{
                 disableImage((ImageView) thing);
             }else{
                 thing.setDisable(true);
+            }
+        });
+        marketPane.getChildren().forEach((marbleImage)->{
+            if(marbleImage instanceof ImageView){
+                disableImage((ImageView) marbleImage);
             }
         });
     }
