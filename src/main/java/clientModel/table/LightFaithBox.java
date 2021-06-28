@@ -14,7 +14,9 @@ public class LightFaithBox {
     public void setPoints(int points) {
         this.points = points;
     }
-
+    public boolean getActualPos(){
+        return actualPos;
+    }
     public void setPos(boolean pos){ this.actualPos = pos;}
 
     public void setLorenzoPos(boolean pos){this.lorenzoPos = pos;}

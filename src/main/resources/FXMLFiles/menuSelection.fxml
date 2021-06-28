@@ -9,7 +9,7 @@
          <children>
             <Button fx:id="createMultiBTN" mnemonicParsing="false" onAction="#createMultiLobby" prefHeight="75.0" prefWidth="200.0" text="Create Multi Player Lobby" />
             <Button fx:id="joinMultiBTN" mnemonicParsing="false" onAction="#joinMultiLobby" prefHeight="75.0" prefWidth="200.0" text="Join Multi Player Lobby" />
-            <Button fx:id="singleBTN" mnemonicParsing="false" onAction="#singlePlayerGame" prefHeight="75.0" prefWidth="200.0" text="Singler Player" />
+            <Button fx:id="singleBTN" mnemonicParsing="false" onAction="#singlePlayerGame" prefHeight="75.0" prefWidth="200.0" text="Single Player" />
          </children>
       </VBox>
    </children>

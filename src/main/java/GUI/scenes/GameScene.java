@@ -7,11 +7,14 @@ import clientModel.cards.LightLeaderCard;
 import clientModel.colour.LightColour;
 import clientModel.marbles.LightMarble;
 import clientModel.table.LightDevelopmentBoard;
+import clientModel.table.LightFaithBox;
+import clientModel.table.LightFaithTrack;
 import clientModel.table.LightMarketBoard;
 import javafx.beans.binding.ObjectBinding;
 import javafx.css.Style;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
@@ -114,6 +117,7 @@ public class GameScene implements GenericScene{
         playerBoardsPanes.forEach((pbPane)->{
             Pane faithPane = new Pane();
             faithPane.resize(622, 135);
+            faithPane.setId("faith");
             Pane depotPane = new Pane();
             depotPane.resize(111, 116);
             depotPane.setLayoutX(26);
@@ -132,6 +136,7 @@ public class GameScene implements GenericScene{
             pbPane.getChildren().add(strongboxPane);
             pbPane.getChildren().add(productionPane);
         });
+        loadFaith(playerBoardsPanes.get(myPlayerIndex));
         //aggiungere le varie croci nelle posizioni corrette (player 3 ha 1 faithPoint bonus)
         //
         //todo quando finito questo fare gli update
@@ -225,6 +230,25 @@ public class GameScene implements GenericScene{
     }
     private void enableImage(ImageView imageView){
         imageView.setEffect(null);
+    }
+
+    private void loadFaith(Pane pane){
+        LightFaithTrack ft = GUI.getInstance().getController().getPlayer().getPlayerBoard().getFaithTrack();
+        Pane faithPane = (Pane) pane.lookup("#faith");
+        ImageView im = new ImageView("/images/RESOURCES/redCross.png");
+        im.setPreserveRatio(true);
+        im.fitHeightProperty().bind(pane.heightProperty().divide(8.5));
+        int x = -35;
+        boolean isStart = true;
+        for(LightFaithBox fb : ft.getBox()){
+            if(fb.getActualPos()&& isStart)
+                im.relocate(-10,80);
+            else if (fb.getActualPos())
+                im.relocate(x,45);
+            x += 25;
+            isStart = false;
+        }
+        faithPane.getChildren().add(im);
     }
 
     private void loadDevCards(Pane pane){
