@@ -43,16 +43,12 @@ public class GameScene implements GenericScene{
     Pane leaderPane;
     @FXML
     Button player1BTN;
-    //Pane player1Pane;
     @FXML
     Button player2BTN;
-    //Pane player2Pane;
     @FXML
     Button player3BTN;
-    //Pane player3Pane;
     @FXML
     Button player4BTN;
-    //Pane player4Pane;
     @FXML
     Button endTurnBTN;
     @FXML
@@ -117,18 +113,27 @@ public class GameScene implements GenericScene{
         //dividere il playerboard in 4 pane (faith, depot, strongB, prod)
         playerBoardsPanes.forEach((pbPane)->{
             Pane faithPane = new Pane();
-            faithPane.resize(300, 150);
-            ImageView bo = new ImageView("images/DEVBOARD/Blue5.png");
-            bo.setPreserveRatio(false);
-            bo.fitWidthProperty().bind(faithPane.widthProperty());
-            bo.fitHeightProperty().bind(faithPane.heightProperty());
-            faithPane.getChildren().add(bo);
+            faithPane.resize(622, 135);
             Pane depotPane = new Pane();
+            depotPane.resize(111, 116);
+            depotPane.setLayoutX(26);
+            depotPane.setLayoutY(187);
             Pane strongboxPane = new Pane();
+            strongboxPane.resize(111, 80);
+            strongboxPane.setLayoutX(20);
+            strongboxPane.setLayoutY(334);
             Pane productionPane = new Pane();
+            productionPane.resize(441, 236);
+            productionPane.setLayoutX(152);
+            productionPane.setLayoutY(169);
 
             pbPane.getChildren().add(faithPane);
+            pbPane.getChildren().add(depotPane);
+            pbPane.getChildren().add(strongboxPane);
+            pbPane.getChildren().add(productionPane);
         });
+        //aggiungere le varie croci nelle posizioni corrette (player 3 ha 1 faithPoint bonus)
+        //
         //todo quando finito questo fare gli update
     }
 

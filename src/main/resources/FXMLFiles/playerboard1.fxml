@@ -11,5 +11,6 @@
          <image>
             <Image url="@../images/playerboard1.png" />
          </image></ImageView>
+      <Pane layoutX="152.0" layoutY="169.0" prefHeight="236.0" prefWidth="441.0" />
    </children>
 </Pane>
