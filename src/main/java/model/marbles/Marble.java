@@ -2,6 +2,9 @@ package model.marbles;
 
 import model.resources.Resource;
 
+/**Enum representing marbles in Game. It has 6 values
+ * BLUE, GREY, PURPLE, RED, WHITE, YELLOW
+ */
 public enum Marble{
 	BLUE,
 	GREY,
@@ -10,6 +13,10 @@ public enum Marble{
 	WHITE,
 	YELLOW;
 
+	/**Converts the Marble in its corresponding Resource
+	 * @param convertWhiteMarble the WhiteMarble corresponding Resource. It it's null, WhiteMarble will be converted in nothing
+	 * @returna a Resource instance
+	 */
 	public Resource convertMarble(Resource convertWhiteMarble){
 		switch(this){
 			case BLUE: return Resource.SHIELD;

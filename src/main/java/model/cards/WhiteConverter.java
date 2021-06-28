@@ -8,11 +8,20 @@ import model.resources.Resource;
 
 import java.util.ArrayList;
 
+/**
+ *WhiteConverter represents a LeaderCard type whose ability is converting the white Marble in a specific Resource type
+ */
 public class WhiteConverter extends LeaderCard{
 	private Resource resource;
 	private ArrayList<DevelopmentCard> requires;
 	private static int victoryPoints = 5;
 
+	/**Constructor
+	 * @param id the unique ID
+	 * @param en true if it's enabled, false if not
+	 * @param req the DevelopmentCard ArrayList required to enable
+	 * @param res the Resource in which white Marble will be converted
+	 */
 	public WhiteConverter(int id, boolean en, ArrayList<DevelopmentCard> req, Resource res){
 		this.id = id;
 		this.resource = res;

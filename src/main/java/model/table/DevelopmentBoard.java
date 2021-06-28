@@ -71,6 +71,9 @@ public final class DevelopmentBoard {
         return this.getDeck(colour).popCard();
     }
 
+    /**Converts the current DevelopmentBoard state in a LightDevelopmentBoard instance for LightModel
+     * @return a LightDevelopmentBoard instance
+     */
     public LightDevelopmentBoard convert(){
         LightDevelopmentBoard board = new LightDevelopmentBoard();
         ArrayList<LightDevelopmentCard> cards = new ArrayList<>();

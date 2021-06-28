@@ -23,7 +23,8 @@ public class LightDevelopmentBoard {
     @Override
     public String toString(){
         String[] s = new String[5];
-        String ans = "DEVELOPMENT BOARD:\n----------------------------------------------------------------------------------------------------------------\n";
+        String ans = "DEVELOPMENT BOARD:\n".indent(50) +
+                "----------------------------------------------------------------------------------------------------------------\n";
         for(int i=0; i<decks.size(); i++) {
             String[] levels = decks.get(i).toString().split("\n");
             for(int j = 0; j<5; j++) {

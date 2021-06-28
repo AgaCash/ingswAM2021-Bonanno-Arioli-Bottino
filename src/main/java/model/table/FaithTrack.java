@@ -39,6 +39,9 @@ public class FaithTrack {
         return this.actualBox;
     }
 
+    /**Converts the current FaithTrack state in a LightFaithTrack instance
+     * @return a LightFaithTrack instance
+     */
     public LightFaithTrack convert(){
         ArrayList<LightFaithBox> newTrack = new ArrayList<>();
         for(FaithBox box : this.box){

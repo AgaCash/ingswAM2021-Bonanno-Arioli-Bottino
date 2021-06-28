@@ -9,6 +9,9 @@ import model.resources.Resource;
 
 import java.util.ArrayList;
 
+/**
+ *ExtraProd represents the LeaderCard whose ability is adding an extra production to DevelopmentCard production and Default Production
+ */
 public class ExtraProd extends LeaderCard{
     private ArrayList<DevelopmentCard> requires;
     private static int victoryPoints = 4;
@@ -16,6 +19,12 @@ public class ExtraProd extends LeaderCard{
     private Resource output = Resource.FAITH;
     private Resource chosenOutput;
 
+    /**Constructor
+     * @param id the unique ID
+     * @param en true if it's enabled, false if not
+     * @param req the DevelopmentCard ArrayList required to activate
+     * @param input the production input Resource
+     */
     public ExtraProd(int id, boolean en, ArrayList<DevelopmentCard> req, Resource input){
         this.id=id;
         this.isEnabled=en;

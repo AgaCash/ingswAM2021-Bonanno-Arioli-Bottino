@@ -69,11 +69,17 @@ public class Strongbox {
         tmpStrongbox.clear();
     }
 
+    /**Returns the current Strongbox state as an ArrayList
+     * @return a Resource ArrayList
+     */
     //only 4 tests
     public ArrayList<Resource> status(){
         return this.strongbox;
     }
 
+    /**Converts the current Strongbox state in a LightStrongbox instance for LightModel
+     * @return a LightStrongbox instance
+     */
     public LightStrongbox convert(){
         LightStrongbox strongbox = new LightStrongbox();
         ArrayList<LightResource> newStrongbox = new ArrayList<>();

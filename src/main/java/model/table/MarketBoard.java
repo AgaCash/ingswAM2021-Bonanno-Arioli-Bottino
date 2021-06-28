@@ -13,31 +13,12 @@ import java.util.Collections;
 
 
 /**
- * class that contains and manages the market's model.marbles
+ * class that contains and manages the market's marbles
  */
-public class MarketBoard {
+public final class MarketBoard {
     private ArrayList<ArrayList<Marble>> marbleGrid = new ArrayList<>(3);
     private Marble freeMarble;
-    //private static MarketBoard instance = null;
 
-    /*private MarketBoard(){
-       initializeMarbleGrid();
-       }
-
-    public static MarketBoard getMarketInstance(){
-        if (instance == null)
-            //synchronized(MarketBoard.class){
-            //    if(instance ==null)
-            //        instance = new MarketBoard();
-            //    }   double-checked locking
-            //marketBoard è solo sul server no?
-            instance = new MarketBoard();
-        return instance;
-    }
-
-    public void deleteInstance(){
-        instance = null;
-    }*/
 
     public MarketBoard(){
         initializeMarbleGrid();
@@ -86,6 +67,9 @@ public class MarketBoard {
         return resLine;
     }
 
+    /**Updates the MarketBoard line inserting the FreeMarble
+     * @param line the line that was purchased by Player
+     */
     public void changeLine(int line){
         Marble changed1, changed2;
         Marble tmp = freeMarble;
@@ -122,6 +106,9 @@ public class MarketBoard {
         return resColumn;
     }
 
+    /**Updates the MarketBoard column inserting the FreeMarble
+     * @param col the column that was purchased by Player
+     */
     public void changeColumn(int col){
         Marble changed;
         Marble tmp = freeMarble;
@@ -143,6 +130,9 @@ public class MarketBoard {
         return mar;
     }
 
+    /**Converts the current MarketBoard state in a LightMarketBoard instance for LightModel
+     * @return a LightMarketBoard instance
+     */
     public LightMarketBoard convert(){
         LightMarketBoard market = new LightMarketBoard();
         ArrayList<LightMarble> marketCopy = new ArrayList<>();

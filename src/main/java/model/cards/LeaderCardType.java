@@ -1,5 +1,8 @@
 package model.cards;
 
+/**
+ * todo ho bisogno di aga
+ */
 public enum LeaderCardType {
     DISCOUNT(Discount.class),
     EXTRADEPOT(ExtraDepot.class),
