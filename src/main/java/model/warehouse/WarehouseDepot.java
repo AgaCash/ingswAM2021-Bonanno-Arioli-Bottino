@@ -12,13 +12,22 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**WarehouseDepot is the class representing the Warehouse, the tool in the Game where added the new purchased Resources from the MarketBoard
+ * It's structure is a three levels Resource container, where for each level:
+ *  - cannot be the same Resources for more than one level at same time
+ *  - first level can contain one Resource instance, second two, third three.
+ *  It can be expanded by an ExtraDepot LeaderCard (see ExtraDepot documentation)
+ */
 public class WarehouseDepot {
     private TreeMap<Resource, Integer> warehouse = new TreeMap<>();
     private ArrayList<ExtraDepot> cards = new ArrayList<>();
-    //just 4 tests
     private ArrayList<Resource> threwResources = new ArrayList<>();
 
 
+    /**Adds a new ExtraDepot active card to Warehouse
+     * @param card the ExtraDepot instance
+     * @throws UnusableCardException  if the ExtraDepot can't be used (non-active Card or insufficient requirements to benefit of its leader ability)
+     */
     public void addNewExtraDepot(ExtraDepot card) throws UnusableCardException {
         if(card.isEnabled() && card.isExtraDepot())
             cards.add(card);
@@ -26,6 +35,10 @@ public class WarehouseDepot {
             throw new UnusableCardException();
     }
 
+    /**Adds a new Resource instance to Warehouse
+     * @param tmp the new Resource that will be added (if possible)
+     * @throws FullWarehouseException if WarehouseDepot can't contain @tmp because of a violation in the levels rule
+     */
     public void addResource(Resource tmp) throws FullWarehouseException {
         boolean added = false;
         for (ExtraDepot card : cards) {
@@ -65,12 +78,20 @@ public class WarehouseDepot {
 
     }
 
+    /**Implements the addResource method Exception throwing
+     * @param tmp the Resource instance can't be added
+     * @throws FullWarehouseException always in this method
+     */
     private void threw(Resource tmp) throws FullWarehouseException {
         threwResources.add(tmp);
         throw new FullWarehouseException("Resource" + tmp + "can't be added to Warehouse: full warehouse");
 
     }
 
+    /**Removes a Resource instance of @tmp type
+     * @param tmp the Resource type will be removed
+     * @throws ResourceNotFoundException if there's not a same tmp Resource instance in WarehouseDepot
+     */
     public void removeResource(Resource tmp) throws ResourceNotFoundException {
         for(ExtraDepot card : cards)
             if(card.removeResource(tmp)) {
@@ -90,6 +111,11 @@ public class WarehouseDepot {
 
     }
 
+
+    /**Checks if a Resource ArrayList is present in the Warehouse
+     * @param res a Resource ArrayList
+     * @return true if all @res members are present, false if at least one is not present
+     */
     public boolean isPresent(ArrayList<Resource> res){
         TreeMap<Resource, Integer> clonedWarehouse = (TreeMap<Resource, Integer>) warehouse.clone();
 
@@ -117,6 +143,9 @@ public class WarehouseDepot {
         return true;
     }
 
+    /**Converts WarehouseDepot state in a new LightWarehouseDepot instance for LightModel
+     * @return a LightWarehouseDepot instance
+     */
     public LightWarehouseDepot convert(){
         ArrayList<LightResource> image = new ArrayList<>();
         ArrayList<LightResource> extraImage = new ArrayList<>();
@@ -133,6 +162,9 @@ public class WarehouseDepot {
         return warehouseDepot;
     }
 
+    /**Returns the Resource list that were not added to the WarehouseDepot after a MarketBoard purchase
+     * @return a Resource ArrayList
+     */
     public ArrayList<LightResource> getThrewResources(){
         ArrayList<LightResource> cloned = new ArrayList<>();
         this.threwResources.forEach(e-> cloned.add(LightResource.valueOf(e.toString())));
@@ -140,6 +172,9 @@ public class WarehouseDepot {
         return cloned;
     }
 
+    /**Returns a Resource list of WarehouseDepot containment
+     * @return a Resource ArrayList
+     */
     public ArrayList<Resource> status(){
         ArrayList<Resource> image = toArray();
         for(ExtraDepot card: cards){
@@ -149,6 +184,9 @@ public class WarehouseDepot {
         return image;
     }
 
+    /**Implements the WarehouseDepot's TreeMap to ArrayList conversion
+     * @return
+     */
     private ArrayList<Resource> toArray(){
         ArrayList<Resource> image = new ArrayList<>();
         ArrayList<Map.Entry<Resource, Integer>> orderedWarehouse = new ArrayList<>(warehouse.entrySet());

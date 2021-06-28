@@ -73,7 +73,7 @@ public class DevelopmentCard extends Card {
 
         ArrayList<Resource> outputResources = (ArrayList<Resource>) prodOutput.clone();
         if(!isUsable())
-            throw new UnusableCardException();//non dovrebbe succedere mai
+            throw new UnusableCardException();//this will never happen
 
         this.usedInThisTurn = true;
         return outputResources;
@@ -93,23 +93,37 @@ public class DevelopmentCard extends Card {
         return (ArrayList<Resource>) this.prodInput.clone();
     }
 
+    /**Returns the Card's Colour
+     * @return a Colour instance
+     */
     public Colour getColour(){
         return colour;
     }
 
+    /**Returns a purchase cost copy
+     * @return a Resource ArrayList
+     */
     public ArrayList<Resource> getCost(){
         return (ArrayList<Resource>) this.cost.clone();
     }
 
+    /**Returns the Card's victory points
+     * @return an int
+     */
     public int getVictoryPoints(){
         return this.victoryPoints;
     }
 
-
+    /**Turns back the Card usable for production at the end of turn
+     *
+     */
     public void backUsable(){
         this.usedInThisTurn = false;
     }
 
+    /**Converts the DevelopmentCard instance in a LightDevelopmentCard for LightModel
+     * @return a LightDevelopmentCard instance
+     */
     public LightDevelopmentCard convert(){
         ArrayList<LightResource> cost = new ArrayList<>();
         ArrayList<LightResource> prodInput = new ArrayList<>();
@@ -157,11 +171,6 @@ public class DevelopmentCard extends Card {
         }
         return s.toString();
     }
-
-
-
-
-
 }
 
 

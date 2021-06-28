@@ -14,5 +14,6 @@ public class PlayerBoardScene {
     private void getClick(MouseEvent event){
         double x = event.getX();
         double y = event.getY();
+        System.out.println(x + ", "+ y);
     }
 }

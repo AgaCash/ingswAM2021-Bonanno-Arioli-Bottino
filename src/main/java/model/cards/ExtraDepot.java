@@ -7,12 +7,21 @@ import model.resources.Resource;
 
 import java.util.ArrayList;
 
+/**
+ * ExtraDepot represents a LeaderCard whose ability is adding an extra Depot to Warehouse for a couple of specific Resource type
+ */
 public class ExtraDepot extends LeaderCard{
     private ArrayList<Resource> requiredResource;
     private static int victoryPoints = 3;
     private ArrayList<Resource> extraDepotResource;
     private transient ArrayList<Resource> extraWarehouseDepot;
 
+    /**Constructor
+     * @param id the unique ID
+     * @param en true if it's enabled, false if not
+     * @param req the Resource ArrayList required to activate the Card
+     * @param extra the Extra Resource ArrayList that could be added to the depot
+     */
     public ExtraDepot(int id, boolean en, ArrayList<Resource> req, ArrayList<Resource> extra){
         this.id = id;
         this.isEnabled = en;
@@ -56,6 +65,7 @@ public class ExtraDepot extends LeaderCard{
         return (ArrayList<Resource>) this.requiredResource.clone();
     }
 
+    @Override
     public ArrayList<Resource> getExtraWarehouse(){
         return (ArrayList<Resource>) this.extraWarehouseDepot.clone();
     }

@@ -11,7 +11,7 @@ import java.util.InputMismatchException;
 
 public class Deck {
     /**
-     * The Deck is a class that represents one of the little stacks of model.cards forming the Development Board
+     * The Deck is a class that represents one of the little stacks of cards forming the Development Board
      */
     private ArrayList<DevelopmentCard> cards; //4 model.cards
     private Colour colourDeck;
@@ -30,7 +30,7 @@ public class Deck {
             if(card.getLevel() != levelDeck || card.getColour() != colourDeck)
                 throw new InputMismatchException();
         });
-        //shuffleDeck();
+        shuffleDeck();
     }
 
     /**
@@ -54,6 +54,10 @@ public class Deck {
         }
     }
 
+    /**Pop the Card in the top of Deck (and removes it)
+     * @return a DevelopmentCard instance
+     * @throws EmptyDeckException if Deck is empty
+     */
     public DevelopmentCard popCard() throws EmptyDeckException {
         DevelopmentCard tmpCard;
         int lastIndex = cards.size()-1;
@@ -64,18 +68,30 @@ public class Deck {
         return tmpCard;
     }
 
+    /**Returns the Deck's colour
+     * @return a Colour instance
+     */
     public Colour getColourDeck() {
         return colourDeck;
     }
 
+    /**Returns the Deck's level
+     * @return a Colour instance
+     */
     public int getLevelDeck() {
         return levelDeck;
     }
 
+    /**Returns a boolean flag about Deck
+     * @return true if Deck is empty, false if not
+     */
     public boolean isEmpty(){
         return cards.isEmpty();
     }
 
+    /**Returns the card on the top of Deck without removing it
+     * @return
+     */
     //only 4 tests
     public DevelopmentCard getCard(){
         if(isEmpty())

@@ -26,7 +26,6 @@ class GameTest {
     @Test
     void setOrder() {
         Game game = new Game(true);
-        game.initializeGame();
         game.addPlayer(new Player("teodoro"));
         game.setOrder();
     }

@@ -7,10 +7,6 @@ public class FaithBox {
     private boolean[] popeFlag = new boolean[3];
     private int points;
 
-    public void setPosition (int position){
-        this.position = position;
-    }
-
     public int getPosition() {
         return position;
     }

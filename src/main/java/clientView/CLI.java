@@ -179,13 +179,13 @@ public class CLI implements View{
         int ans ;
         do {
             printMenu();
-            ans = askInt("CHOOSE YOUR ACTION\n\b" +
+            ans = askInt(("CHOOSE YOUR ACTION\n\b" +
                     "1 to do a leader action\n\b" +
                     "2 to activate a production\n\b" +
                     "3 to buy resources at the market\n\b" +
                     "4 to buy a development card\n\b" +
                     "5 to show the game status\n\b" +
-                    "6 to end your turn\n");
+                    "6 to end your turn\n"));
         } while ((ans < 1 || ans > 6) && ans!=53550 );
         switch (ans) {
             case 1 -> askLeader();
@@ -199,12 +199,12 @@ public class CLI implements View{
     }
 
     private void printMenu(){
-        System.out.println(LightColour.YELLOW+"##################################################################################################################################"+LightColour.WHITE);
+        System.out.println(LightColour.YELLOW+"###############################################################################################################################"+LightColour.WHITE);
         System.out.println(controller.getPlayerBoard().getFaithTrack().toString());
         System.out.println(controller.getPlayerBoard().getWarehouseDepot().toString());
         System.out.println(controller.getPlayerBoard().getStrongbox().toString());
-        System.out.println(controller.getPlayerBoard().getCardSlots().toString());
-        System.out.println(LightColour.YELLOW+"##################################################################################################################################"+LightColour.WHITE);
+        System.out.println(controller.getPlayerBoard().getCardSlots().toString().indent(10));
+        System.out.println(LightColour.YELLOW+"###############################################################################################################################"+LightColour.WHITE);
     }
 
     private void askShow(){
@@ -278,7 +278,7 @@ public class CLI implements View{
 
     @Override
     public void askBuyResources() {
-        System.out.println(controller.getMarketBoard().toString());
+        System.out.println(controller.getMarketBoard().toString().indent(50));
         int choice;
         do choice = askInt("1 to choose column\n2 to choose row\n3 to abort\n");
         while(choice!= 1 && choice != 2 && choice!=3);
@@ -305,7 +305,7 @@ public class CLI implements View{
 
     @Override
     public void askBuyDevCards() {
-        System.out.println(controller.getDevBoard().toString());
+        System.out.println(controller.getDevBoard().toString().indent(5));
         System.out.println(controller.getPlayerBoard().getCardSlots().toString());
         int deck;
         do deck=askInt("digit a deck number\nor 0 to turn back to the main menu");
@@ -494,33 +494,33 @@ public class CLI implements View{
 
     @Override
     public void updateCardSlots(String username, LightCardSlots cardSlots) {
-        if(!controller.getUsername().equals(username))
-            showOthersActions(username+"'s new CardSlots: "+cardSlots.toString().indent(3));
+        //if(!controller.getUsername().equals(username))
+          //  showOthersActions(username+"'s new CardSlots: "+cardSlots.toString().indent(3));
     }
 
     @Override
     public void updateWarehouseDepot(String username, LightWarehouseDepot warehouseDepot) {
-        if(!controller.getUsername().equals(username))
-            showOthersActions(username+"'s new Warehouse: "+warehouseDepot.toString().indent(3));
+        //if(!controller.getUsername().equals(username))
+          //  showOthersActions(username+"'s new Warehouse: "+warehouseDepot.toString().indent(3));
     }
 
     @Override
     public void updateStrongbox(String username, LightStrongbox strongbox) {
-        if(!controller.getUsername().equals(username))
-            showOthersActions(username+"'s new Strongbox: "+strongbox.toString().indent(3));
+        //if(!controller.getUsername().equals(username))
+          //  showOthersActions(username+"'s new Strongbox: "+strongbox.toString().indent(3));
 
     }
 
     @Override
     public void updateFaithTrack(String username, LightFaithTrack faithTrack) {
-        if(!controller.getUsername().equals(username))
-            showOthersActions(username+"'s new FaithTrack: "+faithTrack.toString().indent(3));
+        //if(!controller.getUsername().equals(username))
+          //  showOthersActions(username+"'s new FaithTrack: "+faithTrack.toString().indent(3));
     }
 
     @Override
     public void updateLeaderSlot(String username, ArrayList<LightLeaderCard> leaderSlot) {
-        if(!controller.getUsername().equals(username))
-            showOthersActions(username+"'s new LeaderSlot: "+leaderSlot.toString().indent(3));
+       // if(!controller.getUsername().equals(username))
+         //   showOthersActions(username+"'s new LeaderSlot: "+leaderSlot.toString().indent(3));
 
     }
 }

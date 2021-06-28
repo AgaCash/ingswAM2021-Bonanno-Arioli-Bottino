@@ -9,11 +9,20 @@ import model.resources.Resource;
 
 import java.util.ArrayList;
 
+/**
+ * Discount represents a LeaderCard whose ability is obtaining a Resource discount in DevelopmentCard purchase
+ */
 public class Discount extends LeaderCard{
     public ArrayList<DevelopmentCard> requires;
     public Resource discount;
     public static int victoryPoints = 2;
 
+    /**Discount constructor
+     * @param id the unique ID
+     * @param en true if it's enabled, false if not
+     * @param req a DevelopmentCard ArrayList required to activate the Card
+     * @param dis the Resource discount
+     */
     public Discount(int id, boolean en, ArrayList<DevelopmentCard> req, Resource dis){
         this.id = id;
         this.requires = req;

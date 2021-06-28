@@ -9,6 +9,10 @@ public class LightFaithTrack {
     private LightFaithBox actualPos;
     private LightFaithBox lorenzoPos;
 
+    public ArrayList<LightFaithBox> getBox() {
+        return box;
+    }
+
     public void setTrack(ArrayList<LightFaithBox> box){
         this.box = box;
         actualPos = this.box.get(0);

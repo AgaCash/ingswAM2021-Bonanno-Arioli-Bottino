@@ -10,6 +10,10 @@ import model.warehouse.WarehouseDepot;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 
+/**Class representing the Player Board in the Game. It contains all the Player tools during the Game (WarehouseDepot, Strongbox, FaithTrack, CardSlots and LeaderSlot)
+ * and all the infos regarding them
+ *
+ */
 public class PlayerBoard {
     private CardSlots cardSlots = new CardSlots();
     private WarehouseDepot warehouseDepot = new WarehouseDepot();
@@ -20,15 +24,24 @@ public class PlayerBoard {
     private int faithPoints = 0;
     private boolean usedInThisTurn = false;
 
+    /**Sets the Player's inkwell value (if true it's player turn)
+     * @param value a boolean
+     * todo ma server ancora sta cosa?
+     */
     public void setInkwell(boolean value){
         this.hasInkwell=value;
     }
-    public boolean hasInkwell(){return this.hasInkwell;}
 
+    /**Adds the LeaderCard couple chosen by the Client (LightPlayer) to the PlayerBoard
+     * @param couple
+     */
     public void addLeaderCards(ArrayList<LeaderCard> couple){
         leaderSlots = couple;
     }
 
+    /**Removes a LeaderCard from the Player LeaderSlots
+     * @param cardId an int representing the LeaderCard ID
+     */
     public void removeLeaderCard(int cardId){
         LeaderCard toRemove = null;
         for(LeaderCard card: leaderSlots)
@@ -40,25 +53,48 @@ public class PlayerBoard {
     }
 
 
+    /**Returns Player's Strongbox
+     * @return a Strongbox instance
+     */
     public Strongbox getStrongbox(){
         return strongbox;
     }
 
+    /**Returns Player's CardSlots
+     * @return a CardSlots instance
+     */
     public CardSlots getCardSlots(){ return cardSlots; }
 
+    /**Returns Player's Warehouse
+     * @return a WarehouseDepot instance
+     */
     public WarehouseDepot getWarehouseDepot(){return warehouseDepot;}
 
+    /**Returns the current FaithBox where Player's is positioned on the FaithTrack
+     * @return a FaithBox instance
+     */
     public FaithBox getFaithBox(){ return this.faithTrack.getFaithBox(); }
 
+    /**Returns Player's FaithTrack
+     * @return a FaithTrack instance
+     */
     public FaithTrack getFaithTrack(){ return faithTrack;}
 
+    /**Returns LeaderCard slot
+     * @return a LeaderCard ArrayList
+     */
     public ArrayList<LeaderCard> getLeaders (){
         return leaderSlots;
     }
 
-    public void addPoint(int point){ this.faithPoints +=point;}
+    /**Returns Player's current FaithPoints
+     * @return an int
+     */
     public int getPoints(){ return this.faithPoints; }
 
+    /**Convert current PlayerBoard state in a new LightPlayerBoard instance for LightModel
+     * @return
+     */
     public LightPlayerBoard convert(){
         LightPlayerBoard newPlayerBoard = new LightPlayerBoard();
 
@@ -75,14 +111,23 @@ public class PlayerBoard {
         return newPlayerBoard;
     }
 
+    /**Sets the Default Production flag to true (Player did Default Production: so can't do another one)
+     *
+     */
     public void didProduction(){
         this.usedInThisTurn = true;
     }
 
+    /**Method called by Game, turn back usable after turn is ended
+     *
+     */
     public void backUsable(){
         this.usedInThisTurn = false;
     }
 
+    /**A boolean flag that permit (or not) the Player to do a Default Production in the current turn
+     * @return true if Player can do a Default Production
+     */
     public boolean canDoDefProduction(){
         return !usedInThisTurn;
     }

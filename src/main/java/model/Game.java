@@ -25,11 +25,17 @@ public class Game {
     private boolean lastTurnIsEnded;
     private String finalMessage;
 
+    /**todo da scrivere
+     * @param singlePlayer
+     */
     public Game(boolean singlePlayer){
         this.singlePlayer = singlePlayer;
         initializeGame();
     }
-    public void initializeGame(){
+
+    /**Initialize Game setting the Table, boolean flags for the end game actions, and the Lorenzo instance if Game is in single player mode
+     */
+    private void initializeGame(){
         this.isOver = false;
         this.lastTurnIsEnded = false;
         table = new Table();
@@ -498,7 +504,7 @@ public class Game {
         return this.isOver;
     }
 
-    /**
+    /**Starts the last Turn with the new Players order (first the Winner's successor)
      *
      */
     private void startLastTurn(){
@@ -514,45 +520,76 @@ public class Game {
         }
     }
 
+    /**Returns if las turn is over
+     * @return a boolean
+     */
     public boolean lastTurnIsOver(){ return this.lastTurnIsEnded; }
 
+    /**Ends single player mode Game
+     * @return a String with the message (if Player wins or not)
+     */
     public String endingSinglePlayerGame(){
         return this.finalMessage;
     }
 
 
-    //GETTERS
+    /**Returns Player instance by username
+     * @param username the searched Player's username
+     * @return a Player instance
+     * @throws NoSuchUsernameException if there's not a Player with such username
+     */
     public Player getPlayer(String username) throws NoSuchUsernameException {
         for(Player player: players)
             if(player.getNickname().equals(username))
                 return player;
         throw new NoSuchUsernameException("username not found");
     }
+
+    /**Returns the current Player who's gaming the turn
+     * @return
+     */
     public Player getCurrentPlayer(){
         return currentPlayer;
     }
+
+    /**Returns current state Development Board
+     * @return the DevelopmentBoard instance
+     */
     public DevelopmentBoard getDevBoard(){
         return table.getDevBoard();
     }
+
+    /**Returns the current state Market Board
+     * @return  the MarketBoard instance
+     */
     public MarketBoard getMarketBoard(){
         return table.getMarketBoard();
     }
-    public ArrayList<FaithTrack> getFaithTracks(){
-        ArrayList<FaithTrack> tracks = new ArrayList<>();
-        for(Player player : players)
-            tracks.add(player.getPlayerBoard().getFaithTrack());
-        return tracks;
-    }
+
+    /**Returns the entire list of Players
+     * @return a Player ArrayList
+     */
     public ArrayList<Player> getPlayers(){
         return players;
     }
+
+    /**Returns true if Game is in single player mode
+     * @return a boolean
+     */
     public boolean isSinglePlayer() {
         return singlePlayer;
     }
+
+    /**Returns the Lorenzo instance
+     * @return a Lorenzo instance
+     */
     public Lorenzo getLorenzo(){
         return this.cpu;
     }
 
+    /**Called in multi player mode Game only, returns the Player who won
+     * @return winner Player's nickname
+     */
     public String getWinner(){
         for(Player p: players)
             if(p.isTheWinner())
