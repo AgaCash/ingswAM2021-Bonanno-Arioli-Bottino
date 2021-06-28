@@ -157,7 +157,7 @@ public class VirtualClient extends Thread{
             //setup change state of pinger
             serverPingHandler.setGameState(true);
             //robe initialize
-            while (true) { // TODO: esce se gioco finisce
+            while (true) {
                 do{
                     if(s == "")
                         s = inStream.readLine();

@@ -2,6 +2,7 @@ package GUI.scenes;
 
 import GUI.FXMLLoaderCustom;
 import GUI.GUI;
+import clientModel.cards.LightCardSlots;
 import clientModel.cards.LightDevelopmentCard;
 import clientModel.cards.LightLeaderCard;
 import clientModel.colour.LightColour;
@@ -114,25 +115,51 @@ public class GameScene implements GenericScene{
         playerBoardsPanes.forEach((pbPane)->{
             Pane faithPane = new Pane();
             faithPane.resize(622, 135);
+            faithPane.setId("faithPane");
             Pane depotPane = new Pane();
             depotPane.resize(111, 116);
             depotPane.setLayoutX(26);
             depotPane.setLayoutY(187);
+            depotPane.setId("depotPane");
             Pane strongboxPane = new Pane();
             strongboxPane.resize(111, 80);
             strongboxPane.setLayoutX(20);
             strongboxPane.setLayoutY(334);
+            strongboxPane.setId("strongboxPane");
             Pane productionPane = new Pane();
             productionPane.resize(441, 236);
             productionPane.setLayoutX(152);
             productionPane.setLayoutY(169);
+            productionPane.setId("productionPane");
 
             pbPane.getChildren().add(faithPane);
             pbPane.getChildren().add(depotPane);
             pbPane.getChildren().add(strongboxPane);
+            productionPane.setPickOnBounds(true);
+            productionPane.setOnMouseClicked((a) -> {
+                System.out.println(a);
+            });
             pbPane.getChildren().add(productionPane);
         });
         //aggiungere le varie croci nelle posizioni corrette (player 3 ha 1 faithPoint bonus)
+        //
+        //productions
+        //          !!ALWAYS EMPTY AT START!!
+        //          -> when slot is clicked
+        //              if (card && !Effect) -> production
+
+        playerBoardsPanes.forEach((pbPanes)->{
+            //LightCardSlots cardSlots = GUI.getInstance().getController().getPlayerBoard().getCardSlots();
+            //ArrayList<LightDevelopmentCard> cards = cardSlots.getCards();
+            Pane prodPane = (Pane) pbPanes.lookup("#productionPane");
+            prodPane.setPickOnBounds(true);
+            ImageView im = new ImageView();
+            im.fitHeightProperty().bind(prodPane.heightProperty());
+            im.fitWidthProperty().bind(prodPane.widthProperty());
+            //System.out.println(prodPane);
+
+
+        });
         //
         //todo quando finito questo fare gli update
     }
