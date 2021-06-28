@@ -7,6 +7,7 @@ import clientModel.cards.LightDevelopmentCard;
 import clientModel.cards.LightLeaderCard;
 import clientModel.colour.LightColour;
 import clientModel.marbles.LightMarble;
+import clientModel.resources.LightResource;
 import clientModel.table.LightDevelopmentBoard;
 import clientModel.table.LightFaithBox;
 import clientModel.table.LightFaithTrack;
@@ -65,6 +66,7 @@ public class GameScene implements GenericScene{
     private int numOfPlayers;
     private ArrayList<String> playersList;
     private int myPlayerIndex;
+    private boolean isMyTurn;
 
     //todo togliere num of players: ricavabile da playersList
     public void init(int numOfPlayers){
@@ -138,14 +140,10 @@ public class GameScene implements GenericScene{
             pbPane.getChildren().add(faithPane);
             pbPane.getChildren().add(depotPane);
             pbPane.getChildren().add(strongboxPane);
-            productionPane.setPickOnBounds(true);
-            productionPane.setOnMouseClicked((a) -> {
-                System.out.println(a);
-            });
             pbPane.getChildren().add(productionPane);
         });
-        loadFaith(playerBoardsPanes.get(myPlayerIndex));
         //aggiungere le varie croci nelle posizioni corrette (player 3 ha 1 faithPoint bonus)
+        loadFaith(playerBoardsPanes.get(myPlayerIndex));
         //
         //productions
         //          !!ALWAYS EMPTY AT START!!
@@ -153,14 +151,15 @@ public class GameScene implements GenericScene{
         //              if (card && !Effect) -> production
 
         playerBoardsPanes.forEach((pbPanes)->{
-            //LightCardSlots cardSlots = GUI.getInstance().getController().getPlayerBoard().getCardSlots();
-            //ArrayList<LightDevelopmentCard> cards = cardSlots.getCards();
             Pane prodPane = (Pane) pbPanes.lookup("#productionPane");
-            prodPane.setPickOnBounds(true);
-            ImageView im = new ImageView();
+            ImageView im = new ImageView("images/DEVBOARD/Blue5.png");
             im.fitHeightProperty().bind(prodPane.heightProperty());
             im.fitWidthProperty().bind(prodPane.widthProperty());
-            //System.out.println(prodPane);
+            prodPane.getChildren().add(im);
+
+            im.setOnMouseClicked((mouseEvent) -> {
+                System.out.println(mouseEvent.getX() + " "+mouseEvent.getY());
+            });
 
 
         });
@@ -206,6 +205,7 @@ public class GameScene implements GenericScene{
     }
 
     public void enableTurn(){
+        this.isMyTurn = true;
         //ENABLE ALL THE THINGS THAT USER CAN INTERACT WITH
             // development board
         devBoardPane.getChildren().forEach((imageView)->{
@@ -227,6 +227,7 @@ public class GameScene implements GenericScene{
     }
 
     public void disableTurn(){
+        this.isMyTurn = false;
         //DISABLE ALL THE THINGS THAT USER CAN INTERACT WITH
             // development board
         devBoardPane.getChildren().forEach((imageView)->{
@@ -248,6 +249,12 @@ public class GameScene implements GenericScene{
     }
 
     //helper
+    //
+    //
+    //
+    //
+    //
+    //
 
     private void disableImage(ImageView imageView){
         ColorAdjust monochrome = new ColorAdjust();
@@ -603,6 +610,97 @@ public class GameScene implements GenericScene{
         pane.getChildren().addAll(im);
         pane.getChildren().addAll(activateButtons);
         pane.getChildren().addAll(dropButtons);
+    }
+
+    private LightResource askResources(){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog with Custom Actions");
+        alert.setHeaderText("Look, a Confirmation Dialog with Custom Actions");
+        alert.setContentText("Choose your option.");
+
+        ButtonType buttonTypeOne = new ButtonType("COIN");
+        ButtonType buttonTypeTwo = new ButtonType("SERVANT");
+        ButtonType buttonTypeThree = new ButtonType("SHIELD");
+        ButtonType buttonTypeFour = new ButtonType("STONE");
+
+        alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo, buttonTypeThree, buttonTypeFour);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == buttonTypeOne){
+            return LightResource.COIN;
+        } else if (result.get() == buttonTypeTwo) {
+            return LightResource.SERVANT;
+        } else if (result.get() == buttonTypeThree) {
+            return LightResource.SHIELD;
+        } else if (result.get() == buttonTypeFour) {
+            return LightResource.STONE;
+        }else {
+            return null;
+        }
+    }
+
+    private LightLeaderCard askLeaderCard(){
+        //compra la devCard
+        //ALERT_BOXES  ||
+        //             \/
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("LeaderCard Activation");
+        alert.setHeaderText("Do you want to use a leader card?");
+        alert.setContentText("");
+
+        ButtonType buttonTypeYes = new ButtonType("Yes");
+        ButtonType buttonTypeNOOOO = new ButtonType("No");
+
+        alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNOOOO);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() != buttonTypeYes)
+            return null;
+
+        if(GUI.getInstance().getController().getPlayerBoard().getLeaderSlot().size() == 0){
+            GUI.getInstance().getController().showError("You don't have any Leader Card");
+            return null;
+        }
+
+        ArrayList<LightLeaderCard> cards = GUI.getInstance().getController().getPlayerBoard().getLeaderSlot();
+        alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("LeaderCards choosing");
+        alert.setHeaderText("Choose a leader card");
+        alert.setContentText("(one left, two right)");
+        Pane p = new Pane();
+
+        ButtonType buttonTypeOne = new ButtonType("One");
+        ButtonType buttonTypeTwo = new ButtonType("Two");
+        ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        ImageView im1 = new ImageView("/images/LEADERS/Leader"+cards.get(0).getId()+".png");
+        im1.fitHeightProperty().bind(alert.heightProperty().divide(4));
+        im1.setPreserveRatio(true);
+        p.getChildren().add(im1);
+
+        if(cards.size() != 1) {
+            ImageView im2 = new ImageView("/images/LEADERS/Leader" + cards.get(1).getId() + ".png");
+            im2.fitHeightProperty().bind(alert.heightProperty().divide(4));
+            im2.relocate(200, 0);
+            im2.setPreserveRatio(true);
+            p.getChildren().add(im2);
+            alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo, buttonTypeCancel);
+        }else{
+            alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
+        }
+
+        alert.setGraphic(p);
+
+        alert.setX(150);
+        alert.setY(120);
+        result = alert.showAndWait();
+        if (result.get() == buttonTypeOne){
+            return cards.get(0);
+        } else if (result.get() == buttonTypeTwo) {
+            return cards.get(1);
+        }else{
+            return null;
+        }
     }
 
 
