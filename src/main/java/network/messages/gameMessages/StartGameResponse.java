@@ -13,14 +13,17 @@ public class StartGameResponse extends GameMessage {
     private boolean success;
     private String message;
     private int numPlayers;
+    private ArrayList<String> usernamesList;
 
-    public StartGameResponse(String username, ArrayList<LightLeaderCard> quartet, int numResources, boolean faithPoint, int numPlayers){
+    public StartGameResponse(String username, ArrayList<LightLeaderCard> quartet, int numResources, boolean faithPoint,
+                             int numPlayers, ArrayList<String> usernamesList){
         super(username, MessageType.STARTGAMERESPONSE);
         this.quartet = quartet;
         this.numResources = numResources;
         this.faithPoint = faithPoint;
         this.success = true;
         this.numPlayers = numPlayers;
+        this.usernamesList = usernamesList;
     }
 
     public StartGameResponse(String username, String message){
@@ -35,6 +38,7 @@ public class StartGameResponse extends GameMessage {
             controller.showSuccess("starting game ...");
             controller.chooseStartItems(this.quartet, this.numResources, this.faithPoint);
             controller.setNumOfPlayerInLobby(numPlayers);
+            controller.setUsernamesList(usernamesList);
         }
         else{
             controller.showError(getUsername(), message);

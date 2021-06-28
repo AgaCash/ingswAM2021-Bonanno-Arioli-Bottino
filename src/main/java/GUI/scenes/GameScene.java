@@ -8,6 +8,8 @@ import clientModel.colour.LightColour;
 import clientModel.marbles.LightMarble;
 import clientModel.table.LightDevelopmentBoard;
 import clientModel.table.LightMarketBoard;
+import javafx.beans.binding.ObjectBinding;
+import javafx.css.Style;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -15,19 +17,20 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Optional;
 
 public class GameScene implements GenericScene{
 
 
-    ArrayList<Button> playerBoardsButtons;
-    ArrayList<Pane> playerBoardsPanes;
+
 
     @FXML
     Button marketBTN;
@@ -40,56 +43,94 @@ public class GameScene implements GenericScene{
     Pane leaderPane;
     @FXML
     Button player1BTN;
-    Pane player1Pane;
+    //Pane player1Pane;
     @FXML
     Button player2BTN;
-    Pane player2Pane;
+    //Pane player2Pane;
     @FXML
     Button player3BTN;
-    Pane player3Pane;
+    //Pane player3Pane;
     @FXML
     Button player4BTN;
-    Pane player4Pane;
+    //Pane player4Pane;
     @FXML
     Button endTurnBTN;
     @FXML
     BorderPane gamePane;
+    @FXML
+    ArrayList<Button> playerBoardsButtons;
+    @FXML
+    ArrayList<Pane> playerBoardsPanes;
 
     private int numOfPlayers;
+    private ArrayList<String> playersList;
+    private int myPlayerIndex;
 
+    //todo togliere num of players: ricavabile da playersList
     public void init(int numOfPlayers){
         this.numOfPlayers = numOfPlayers;
-        playerBoardsButtons = new ArrayList<>();
-        playerBoardsPanes = new ArrayList<>();
-        playerBoardsButtons.add(player1BTN);
-        playerBoardsButtons.add(player2BTN);
-        playerBoardsButtons.add(player3BTN);
-        playerBoardsButtons.add(player4BTN);
-        playerBoardsPanes.add(player1Pane);
-        playerBoardsPanes.add(player2Pane);
-        playerBoardsPanes.add(player3Pane);
-        playerBoardsPanes.add(player4Pane);
+        this.playersList = GUI.getInstance().getController().getUsernamesList();
+        for(int i = 0; i < playersList.size(); i++){
+            if(playersList.get(i).equals(GUI.getInstance().getController().getUsername())) {
+                myPlayerIndex = i;
+                break;
+            }
+        }
+        //commonParts
         FXMLLoaderCustom customFL = new FXMLLoaderCustom();
         marketPane = customFL.getPage("market");
         devBoardPane = customFL.getPage("developmentBoard");
         leaderPane = customFL.getPage("leader");
-        for(int i = 4; i > numOfPlayers; i--){
-            playerBoardsButtons.get(i-1).setVisible(false);
-        }
-        System.out.println(playerBoardsPanes);
-        for(int i = 0; i < numOfPlayers; i++){
-            Pane p = playerBoardsPanes.get(i);
-            System.out.println(player1Pane);
-            System.out.println(p);
-            p = customFL.getPage("playerboard"+ (i + 1));
-            System.out.println(p);
-        }//todo NON VAAAAAAAAAAAAAAAAAAAAAA
-
         loadDevCards(devBoardPane);
         loadMarbles(marketPane);
         loadMarbleSelections(marketPane);
         loadLeaderPane(leaderPane);
-   }
+
+        //playerBoards
+        playerBoardsButtons = new ArrayList<>();
+        player1BTN.setId("0");
+        player2BTN.setId("1");
+        player3BTN.setId("2");
+        player4BTN.setId("3");
+        playerBoardsButtons.add(player1BTN);
+        playerBoardsButtons.add(player2BTN);
+        playerBoardsButtons.add(player3BTN);
+        playerBoardsButtons.add(player4BTN);
+        playerBoardsPanes = new ArrayList<>();
+        for(int i = 4; i > numOfPlayers; i--){
+            playerBoardsButtons.get(i-1).setVisible(false);
+            playerBoardsButtons.remove(i-1);
+        }
+        for(int i = 0; i < numOfPlayers; i++){
+            Pane plPane = customFL.getPage("playerboard"+(i+1));
+            plPane.setId(i+"");
+            playerBoardsPanes.add(plPane);
+        }
+        //mettere i nomi dei player sui bottoni in alto ("ME" se è la propria playerboard)
+        playerBoardsButtons.forEach((btn)->{
+            int btnId = Integer.parseInt(btn.getId());
+            btn.setText(playersList.get(btnId));
+            if(btnId == myPlayerIndex){
+                btn.setText("ME");
+            }
+        });
+        //dividere il playerboard in 4 pane (faith, depot, strongB, prod)
+        playerBoardsPanes.forEach((pbPane)->{
+            Pane faithPane = new Pane();
+            faithPane.resize(300, 150);
+            ImageView bo = new ImageView("images/DEVBOARD/Blue5.png");
+            bo.setPreserveRatio(false);
+            bo.fitWidthProperty().bind(faithPane.widthProperty());
+            bo.fitHeightProperty().bind(faithPane.heightProperty());
+            faithPane.getChildren().add(bo);
+            Pane depotPane = new Pane();
+            Pane strongboxPane = new Pane();
+            Pane productionPane = new Pane();
+
+            pbPane.getChildren().add(faithPane);
+        });
+        //todo quando finito questo fare gli update
+    }
 
     @FXML
     private void goToMarket(ActionEvent event){
@@ -142,11 +183,6 @@ public class GameScene implements GenericScene{
                 thing.setDisable(false);
             }
         });
-        marketPane.getChildren().forEach((thing)->{
-            if(thing instanceof ImageView)
-                enableImage((ImageView) thing);
-
-        });
         marketPane.getChildren().forEach((marbleImage)->{
             if(marbleImage instanceof ImageView){
                 enableImage((ImageView) marbleImage);
@@ -167,11 +203,6 @@ public class GameScene implements GenericScene{
             }else{
                 thing.setDisable(true);
             }
-        });
-        marketPane.getChildren().forEach((thing)->{
-            if(thing instanceof ImageView)
-                disableImage((ImageView) thing);
-
         });
         marketPane.getChildren().forEach((marbleImage)->{
             if(marbleImage instanceof ImageView){
@@ -316,6 +347,7 @@ public class GameScene implements GenericScene{
 
         }
     }
+
     private void loadMarbles(Pane pane) {
         LightMarketBoard marketBoard = GUI.getInstance().getController().getMarketBoard();
         ArrayList<ImageView> ims = new ArrayList<>();
@@ -448,10 +480,11 @@ public class GameScene implements GenericScene{
             }else{
                 GUI.getInstance().getController().sendBuyResourceRequest(line, whichOne, null);
             }
-            loadMarbles(marketPane);
+            //loadMarbles(marketPane);
         }
     }
 
+    //todo fixare i possibili scenari
     private void loadLeaderPane(Pane pane){
        // 2 leaderCard con sotto 4 bottoni (2 a testa: attiva e scarta)
         String basePath = "/images/LEADERS/Leader";

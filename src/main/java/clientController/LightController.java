@@ -35,12 +35,14 @@ public class LightController {
     private String username;
     private Gson gson;
     private int numOfPlayerInLobby;
+    private ArrayList<String> usernamesList;
 
     public LightController(View view){
         this.view = view;
         this.game = new LightGame();
         gson = new GsonBuilder().registerTypeAdapter(LightLeaderCard.class, new LightLeaderCardDeserializer()).create();
         numOfPlayerInLobby = -1;
+        usernamesList = new ArrayList<>();
     }
 
     //helper for gui
@@ -51,6 +53,14 @@ public class LightController {
 
     public int getNumOfPlayerInLobby() {
         return numOfPlayerInLobby;
+    }
+
+    public void setUsernamesList(ArrayList<String> usernamesList) {
+        this.usernamesList = usernamesList;
+    }
+
+    public ArrayList<String> getUsernamesList() {
+        return usernamesList;
     }
 
     //quitting app

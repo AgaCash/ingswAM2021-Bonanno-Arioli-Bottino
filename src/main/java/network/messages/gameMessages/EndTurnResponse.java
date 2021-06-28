@@ -74,6 +74,7 @@ public class EndTurnResponse extends GameMessage{
                 controller.endMultiPlayerGame(newPlayerName, message);
             }
             else {
+                //todo lasciare solo has started the turn?
                 controller.showOthersActions(getUsername() , " has ended the turn");
 
                 if (controller.getUsername().equals(this.newPlayerName)) {

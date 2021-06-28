@@ -4,10 +4,12 @@ import clientModel.cards.LightLeaderCard;
 import controller.Controller;
 import exceptions.NoSuchUsernameException;
 import model.cards.LeaderCard;
+import model.player.Player;
 import network.messages.MessageType;
 import view.VirtualClient;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class StartGameRequest extends GameMessage{
 
@@ -19,24 +21,31 @@ public class StartGameRequest extends GameMessage{
     public void executeCommand(Controller controller, VirtualClient view) {
         try {
             int numPlayers = controller.getPlayers().size();
+            ArrayList<String> usersList = controller.getPlayers().stream().map(Player::getNickname)
+                    .collect(Collectors.toCollection(ArrayList::new));
+            System.out.println(usersList);
             controller.setOrder();
             System.out.println("USERNAME REQUEST: "+controller.getPlayer(getUsername()));
             switch (controller.getPlayer(getUsername()).getStartingTurn()) {
                 case 0: {
                     ArrayList<LightLeaderCard> quartet = getQuartet(controller);
-                    view.getVirtualView().updateStartGame(new StartGameResponse(getUsername(), quartet, 0, false, numPlayers));
+                    view.getVirtualView().updateStartGame(new StartGameResponse(getUsername(), quartet,
+                            0, false, numPlayers, usersList));
                     break;}
                 case 1: {
                     ArrayList<LightLeaderCard> quartet = getQuartet(controller);
-                    view.getVirtualView().updateStartGame(new StartGameResponse(getUsername(), quartet, 1, false, numPlayers));
+                    view.getVirtualView().updateStartGame(new StartGameResponse(getUsername(), quartet,
+                            1, false, numPlayers, usersList));
                     break;}
                 case 2: {
                     ArrayList<LightLeaderCard> quartet = getQuartet(controller);
-                    view.getVirtualView().updateStartGame(new StartGameResponse(getUsername(), quartet, 1, true, numPlayers));
+                    view.getVirtualView().updateStartGame(new StartGameResponse(getUsername(), quartet,
+                            1, true, numPlayers, usersList));
                     break;}
                 case 3: {
                     ArrayList<LightLeaderCard> quartet = getQuartet(controller);
-                    view.getVirtualView().updateStartGame(new StartGameResponse(getUsername(), quartet, 2, true, numPlayers));
+                    view.getVirtualView().updateStartGame(new StartGameResponse(getUsername(), quartet,
+                            2, true, numPlayers, usersList));
                     break;}
                 default: System.out.println("bordello fratm "); break;
             }
