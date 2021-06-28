@@ -12,6 +12,8 @@ public class LightTable {
     public LightMarketBoard getMarketBoard(){
         return this.marketBoard;
     }
-    public void setMarketBoard(LightMarketBoard market){ this.marketBoard = market;}
+    public void setMarketBoard(LightMarketBoard market){
+        this.marketBoard = market;
+    }
 
 }

@@ -87,6 +87,7 @@ public class GameScene implements GenericScene{
 
         loadDevCards(devBoardPane);
         loadMarbles(marketPane);
+        loadMarbleSelections(marketPane);
         loadLeaderPane(leaderPane);
    }
 
@@ -141,6 +142,11 @@ public class GameScene implements GenericScene{
                 thing.setDisable(false);
             }
         });
+        marketPane.getChildren().forEach((thing)->{
+            if(thing instanceof ImageView)
+                enableImage((ImageView) thing);
+
+        });
         marketPane.getChildren().forEach((marbleImage)->{
             if(marbleImage instanceof ImageView){
                 enableImage((ImageView) marbleImage);
@@ -161,6 +167,11 @@ public class GameScene implements GenericScene{
             }else{
                 thing.setDisable(true);
             }
+        });
+        marketPane.getChildren().forEach((thing)->{
+            if(thing instanceof ImageView)
+                disableImage((ImageView) thing);
+
         });
         marketPane.getChildren().forEach((marbleImage)->{
             if(marbleImage instanceof ImageView){
@@ -305,7 +316,6 @@ public class GameScene implements GenericScene{
 
         }
     }
-
     private void loadMarbles(Pane pane) {
         LightMarketBoard marketBoard = GUI.getInstance().getController().getMarketBoard();
         ArrayList<ImageView> ims = new ArrayList<>();
@@ -337,6 +347,110 @@ public class GameScene implements GenericScene{
         pane.getChildren().addAll(ims);
     }
 
+    private void loadMarbleSelections(Pane pane){
+        ArrayList<ImageView> ims = new ArrayList<>();
+        double x = 80;
+        double y = 300;
+        for(int i=0; i<4; i++){
+            ImageView im = new ImageView("/images/TOKENS/blueToken.png");
+            im.fitHeightProperty().bind(pane.heightProperty().divide(5));
+            im.setPreserveRatio(true);
+            im.relocate(x,y);
+            im.setId(Integer.toString(i +3));
+            x += 65;
+            im.setOnMouseClicked(this::marketClick);
+            ims.add(im);
+        }
+        x = 400;
+        y = 85;
+        for(int i=0;i<3;i++){
+            ImageView im = new ImageView("/images/TOKENS/blueToken.png");
+            im.fitHeightProperty().bind(pane.heightProperty().divide(5));
+            im.setPreserveRatio(true);
+            im.relocate(x,y);
+            im.setId(Integer.toString(i));
+            y += 65;
+            im.setOnMouseClicked(this::marketClick);
+            ims.add(im);
+        }
+        pane.getChildren().addAll(ims);
+    }
+
+    private void marketClick(MouseEvent mouseEvent) {
+        boolean leaderUse;
+        ImageView currImage = (ImageView) mouseEvent.getTarget();
+        boolean line;
+        int whichOne;
+        if (currImage.getEffect() == null) {
+            if (Integer.parseInt(currImage.getId()) < 4) {
+                line = true;
+                whichOne = Integer.parseInt(currImage.getId());
+            } else {
+                line = false;
+                whichOne = Integer.parseInt(currImage.getId()) - 3;
+            }
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("LeaderCard Activation");
+            alert.setHeaderText("Do you want to use a leader card?");
+            alert.setContentText("");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
+                leaderUse = true;
+            } else {
+                leaderUse = false;
+            }
+            if (leaderUse && GUI.getInstance().getController().getPlayerBoard().getLeaderSlot().size() == 0) {
+                GUI.getInstance().getController().showError("You don't have any Leader Card");
+                return;
+            }
+            if (leaderUse) {
+                ArrayList<LightLeaderCard> cards = GUI.getInstance().getController().getPlayerBoard().getLeaderSlot();
+                alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("LeaderCards choosing");
+                alert.setHeaderText("Choose a leader card");
+                alert.setContentText("(one left, two right)");
+                Pane p = new Pane();
+
+                ButtonType buttonTypeOne = new ButtonType("One");
+                ButtonType buttonTypeTwo = new ButtonType("Two");
+                ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+                ImageView im1 = new ImageView("/images/LEADERS/Leader" + cards.get(0).getId() + ".png");
+                im1.fitHeightProperty().bind(alert.heightProperty().divide(4));
+                im1.setPreserveRatio(true);
+                p.getChildren().add(im1);
+
+                if (cards.size() != 1) {
+                    ImageView im2 = new ImageView("/images/LEADERS/Leader" + cards.get(1).getId() + ".png");
+                    im2.fitHeightProperty().bind(alert.heightProperty().divide(4));
+                    im2.relocate(200, 0);
+                    im2.setPreserveRatio(true);
+                    p.getChildren().add(im2);
+                    alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo, buttonTypeCancel);
+                } else {
+                    alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
+                }
+
+                alert.setGraphic(p);
+
+                alert.setX(150);
+                alert.setY(120);
+                result = alert.showAndWait();
+                if (result.get() == buttonTypeOne){
+                    GUI.getInstance().getController().sendBuyResourceRequest(line, whichOne, cards.get(0));
+                } else if (result.get() == buttonTypeTwo) {
+                    GUI.getInstance().getController().sendBuyResourceRequest(line, whichOne, cards.get(1));
+                }else{
+                    GUI.getInstance().getController().showError("Resources not bought");
+                    return;
+                }
+            }else{
+                GUI.getInstance().getController().sendBuyResourceRequest(line, whichOne, null);
+            }
+            loadMarbles(marketPane);
+        }
+    }
 
     private void loadLeaderPane(Pane pane){
        // 2 leaderCard con sotto 4 bottoni (2 a testa: attiva e scarta)
