@@ -137,6 +137,7 @@ public class GameScene implements GenericScene{
             productionPane.setLayoutY(169);
             productionPane.setId("productionPane");
 
+
             pbPane.getChildren().add(faithPane);
             pbPane.getChildren().add(depotPane);
             pbPane.getChildren().add(strongboxPane);
@@ -151,20 +152,94 @@ public class GameScene implements GenericScene{
         //              if (card && !Effect) -> production
 
         playerBoardsPanes.forEach((pbPanes)->{
+            //System.out.println(pbPanes.getChildren());
             Pane prodPane = (Pane) pbPanes.lookup("#productionPane");
-            ImageView im = new ImageView("images/DEVBOARD/Blue5.png");
+            System.out.println(prodPane.getChildren());
+            ImageView im = new ImageView();
             im.fitHeightProperty().bind(prodPane.heightProperty());
             im.fitWidthProperty().bind(prodPane.widthProperty());
             prodPane.getChildren().add(im);
-
-            im.setOnMouseClicked((mouseEvent) -> {
-                System.out.println(mouseEvent.getX() + " "+mouseEvent.getY());
-            });
+            //pbPanes.setPickOnBounds(true);
+            //prodPane.setPickOnBounds(true);
+            prodPane.setOnMouseClicked(this::productionClick);
 
 
         });
         //
         //todo quando finito questo fare gli update
+    }
+
+    private void productionClick(MouseEvent mouseEvent){
+        if(!isMyTurn)
+            return;
+
+        //0     - 82.0
+        //82.1  - 202.0
+        //202.1 - 323.0
+        //323.1 - EOF
+        double x = mouseEvent.getX();
+        if(x > 0 && x < 82.0){
+            //default prod
+            defaultProd();
+        }else if(x > 82.1 && x < 202.0){
+            cardProd(0);
+        }else if (x > 202.1 && x < 323.0){
+            cardProd(1);
+        }else if (x > 323.1){
+            cardProd(2);
+        }
+
+    }
+
+    private void defaultProd(){
+        ArrayList<LightResource> input = new ArrayList<>();
+        GUI.getInstance().showSuccess("Choose 2 resources for input and 1 for output");
+        input.add(askResources());
+        input.add(askResources());
+        if(input.contains(null)) {
+            GUI.getInstance().showError("Production aborted");
+            return;
+        }
+        LightResource output = askResources();
+        if(output == null){
+            GUI.getInstance().showError("Production aborted");
+            return;
+        }
+        LightLeaderCard leader = askLeaderCard();
+        if(leader == null){
+            GUI.getInstance().getController().sendDefaultProductionRequest(input, output, null, null);
+        }else{
+            LightResource lastRes = askResources();
+            if(lastRes==null){
+                GUI.getInstance().showError("Production aborted");
+                return;
+            }
+            GUI.getInstance().getController().sendDefaultProductionRequest(input, output, leader, lastRes);
+
+        }
+
+    }
+
+    //slot 0->2 compresi
+    private void cardProd(int slot){
+        int numSlots = GUI.getInstance().getController().getPlayerBoard().getCardSlots().getSize();
+        if(numSlots == 0) {
+            GUI.getInstance().showError("no slot available");
+            return;
+        }
+        if (GUI.getInstance().getController().getPlayerBoard().getCardSlots().getCard(slot) != null){
+            LightLeaderCard leader = askLeaderCard();
+            if(leader== null){
+                GUI.getInstance().getController().sendDevCardProductionRequest(slot, null, null);
+            }else{
+                LightResource lastRes = askResources();
+                if(lastRes==null){
+                    GUI.getInstance().showError("Production aborted");
+                    return;
+                }
+                GUI.getInstance().getController().sendDevCardProductionRequest(slot, lastRes, leader);
+            }
+        }
     }
 
     @FXML
