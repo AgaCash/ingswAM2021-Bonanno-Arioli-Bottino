@@ -409,6 +409,7 @@ public class LightController {
     public void updateCardSlots(String username, LightCardSlots cardSlots){
         try {
             game.updateCardSlots(username, cardSlots.getCards());
+            //view.updateCardSlots(username, );
         }catch (NoSuchUsernameException e){
             view.showError(e.getMessage());
         }
@@ -416,11 +417,12 @@ public class LightController {
 
     public void updateDevBoard(LightDevelopmentBoard board) {
         game.updateDevBoard(board);
-
+        view.updateDevBoard(board);
     }
 
     public void updateMarketBoard(LightMarketBoard market){
         game.updateMarketBoard(market);
+        view.updateMarketBoard(market);
     }
 
     public void showThrewResources(String username, ArrayList<LightResource> threwResources){

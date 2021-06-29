@@ -28,6 +28,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import model.cards.DevelopmentCard;
+import model.table.DevelopmentBoard;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -84,7 +86,7 @@ public class GameScene implements GenericScene{
         marketPane = customFL.getPage("market");
         devBoardPane = customFL.getPage("developmentBoard");
         leaderPane = customFL.getPage("leader");
-        loadDevCards(devBoardPane);
+        loadDevCards(devBoardPane, GUI.getInstance().getController().getDevBoard());
         loadMarbles(marketPane);
         loadMarbleSelections(marketPane);
         loadLeaderPane(leaderPane);
@@ -146,92 +148,19 @@ public class GameScene implements GenericScene{
         });
         //aggiungere le varie croci nelle posizioni corrette (player 3 ha 1 faithPoint bonus)
         loadFaith(playerBoardsPanes.get(myPlayerIndex));
-        //
+
+
         //productions
         //          !!ALWAYS EMPTY AT START!!
         //          -> when slot is clicked
         //              if (card && !Effect) -> production
-
         playerBoardsPanes.forEach((pbPanes)->{
             Pane prodPane = (Pane) pbPanes.lookup("#productionPane");
-            recreateProdBaseImageview(prodPane);
+            recreateProdBaseImageview(prodPane, Integer.parseInt(pbPanes.getId()));
         });
     }
 
 
-
-    private void productionClick(MouseEvent mouseEvent){
-        if(!isMyTurn)
-            return;
-
-        //0     - 82.0
-        //82.1  - 202.0
-        //202.1 - 323.0
-        //323.1 - EOF
-        double x = mouseEvent.getX();
-        if(x > 0 && x < 82.0){
-            //default prod
-            defaultProd();
-        }else if(x > 82.1 && x < 202.0){
-            cardProd(0);
-        }else if (x > 202.1 && x < 323.0){
-            cardProd(1);
-        }else if (x > 323.1){
-            cardProd(2);
-        }
-
-    }
-
-    private void defaultProd(){
-        ArrayList<LightResource> input = new ArrayList<>();
-        GUI.getInstance().showSuccess("Choose 2 resources for input and 1 for output");
-        input.add(askResources());
-        input.add(askResources());
-        if(input.contains(null)) {
-            GUI.getInstance().showError("Production aborted");
-            return;
-        }
-        LightResource output = askResources();
-        if(output == null){
-            GUI.getInstance().showError("Production aborted");
-            return;
-        }
-        LightLeaderCard leader = askLeaderCard();
-        if(leader == null){
-            GUI.getInstance().getController().sendDefaultProductionRequest(input, output, null, null);
-        }else{
-            LightResource lastRes = askResources();
-            if(lastRes==null){
-                GUI.getInstance().showError("Production aborted");
-                return;
-            }
-            GUI.getInstance().getController().sendDefaultProductionRequest(input, output, leader, lastRes);
-
-        }
-
-    }
-
-    //slot 0->2 compresi
-    private void cardProd(int slot){
-        int numSlots = GUI.getInstance().getController().getPlayerBoard().getCardSlots().getSize();
-        if(numSlots == 0) {
-            GUI.getInstance().showError("no slot available");
-            return;
-        }
-        if (GUI.getInstance().getController().getPlayerBoard().getCardSlots().getCard(slot) != null){
-            LightLeaderCard leader = askLeaderCard();
-            if(leader== null){
-                GUI.getInstance().getController().sendDevCardProductionRequest(slot, null, null);
-            }else{
-                LightResource lastRes = askResources();
-                if(lastRes==null){
-                    GUI.getInstance().showError("Production aborted");
-                    return;
-                }
-                GUI.getInstance().getController().sendDevCardProductionRequest(slot, lastRes, leader);
-            }
-        }
-    }
 
     @FXML
     private void goToMarket(ActionEvent event){
@@ -323,6 +252,29 @@ public class GameScene implements GenericScene{
     //|  UPDATES |
     //|----------|
 
+    public void updateFaithTrack(String username, LightFaithTrack faithTrack) {
+        playerBoardsPanes.forEach((pBoardPane)->{
+            if(playersList.get(Integer.parseInt(pBoardPane.getId())).equals(username)){
+                Pane faithPane = (Pane) pBoardPane.lookup("#faith");
+                faithPane.getChildren().clear();
+                ImageView imageView = new ImageView("/images/RESOURCES/redCross.png");
+                imageView.setPreserveRatio(true);
+                imageView.fitHeightProperty().bind(pBoardPane.heightProperty().divide(8.5));
+                double offsetX = -35;
+                boolean isStart = true;
+                for(LightFaithBox fb : faithTrack.getBox()){
+                    if(fb.getActualPos()&& isStart)
+                        imageView.relocate(-10,80);
+                    else if (fb.getActualPos())
+                        imageView.relocate(offsetX,45);
+                    offsetX += 25;
+                    isStart = false;
+                    }
+                    faithPane.getChildren().add(imageView);
+                }
+        });
+    }
+
     public void updateStrongBox(String username, LightStrongbox strongbox){
         playerBoardsPanes.forEach((pBoardPane)->{
             if(playersList.get(Integer.parseInt(pBoardPane.getId())).equals(username)){
@@ -349,13 +301,12 @@ public class GameScene implements GenericScene{
         });
     }
 
-    //todo error
     public void updateCardSlots(String username, ArrayList<LightDevelopmentCard> cardSlots){
         playerBoardsPanes.forEach((pBoardPane)->{
             if(playersList.get(Integer.parseInt(pBoardPane.getId())).equals(username)){
                 Pane developmentPane = (Pane) pBoardPane.lookup("#productionPane");
                 developmentPane.getChildren().clear();
-                recreateProdBaseImageview(developmentPane);
+                recreateProdBaseImageview(developmentPane, Integer.parseInt(pBoardPane.getId()));
                 double offsetX;
                 int count = -1;
                 for(LightDevelopmentCard c: cardSlots){
@@ -373,6 +324,11 @@ public class GameScene implements GenericScene{
             }
         });
     }
+
+    public void updateDevBoard(LightDevelopmentBoard board){
+        loadDevCards(devBoardPane, board);
+    }
+
     //helper
     //
     //
@@ -386,12 +342,13 @@ public class GameScene implements GenericScene{
         monochrome.setSaturation(-0.8);
         imageView.setEffect(monochrome);
     }
+
     private void enableImage(ImageView imageView){
         imageView.setEffect(null);
     }
 
     private void loadFaith(Pane pane){
-        LightFaithTrack ft = GUI.getInstance().getController().getPlayer().getPlayerBoard().getFaithTrack();
+        /*LightFaithTrack ft = GUI.getInstance().getController().getPlayer().getPlayerBoard().getFaithTrack();
         Pane faithPane = (Pane) pane.lookup("#faith");
         ImageView im = new ImageView("/images/RESOURCES/redCross.png");
         im.setPreserveRatio(true);
@@ -407,17 +364,24 @@ public class GameScene implements GenericScene{
             isStart = false;
         }
         faithPane.getChildren().add(im);
+
+         */
     }
 
-    private void loadDevCards(Pane pane){
-        LightDevelopmentBoard developmentBoard = GUI.getInstance().getController().getDevBoard();
+
+    private void loadDevCards(Pane pane, LightDevelopmentBoard developmentBoard){
         ArrayList<ImageView> ims = new ArrayList<>();
         double x = 30;
         double y = 0;
         for (int i = 0, j = 0; i < developmentBoard.getDecksSize() ; i++, j++){
             LightDevelopmentCard c = developmentBoard.getTopCardFromDeck(i);
-            String fileName = c.getColour().name().substring(0, 1).toUpperCase()+c.getColour().name().substring(1).toLowerCase();
-            ImageView im = new ImageView("/images/DEVBOARD/"+fileName+c.getId()+".png");
+            ImageView im;
+            if(c.getColour() != null){
+                String fileName = c.getColour().name().substring(0, 1).toUpperCase()+c.getColour().name().substring(1).toLowerCase();
+                im = new ImageView("/images/DEVBOARD/"+fileName+c.getId()+".png");
+            }else{
+                im = new ImageView();
+            }
             im.setPreserveRatio(true);
             im.fitWidthProperty().bind(pane.widthProperty().divide(4));
             im.fitHeightProperty().bind(pane.heightProperty().divide(3).subtract(10));
@@ -430,12 +394,18 @@ public class GameScene implements GenericScene{
                 x = 30;
                 y += 150;
             }
+            if(!isMyTurn)
+                disableImage(im);
             ims.add(im);
         }
         pane.getChildren().addAll(ims);
     }
 
     private void devCardClick(MouseEvent mouseEvent){
+        if(!isMyTurn)
+            return;
+        if(!askConfirmation("Buy this development card?"))
+            return;
         int slot;
         boolean leaderUse;
         ImageView currImage = (ImageView) mouseEvent.getTarget();
@@ -738,6 +708,83 @@ public class GameScene implements GenericScene{
         pane.getChildren().addAll(dropButtons);
     }
 
+    private void productionClick(MouseEvent mouseEvent, int playerIndex){
+        if(playerIndex!= myPlayerIndex)
+            return;
+        if(!askConfirmation("Activate this production?"))
+            return;
+        if(!isMyTurn)
+            return;
+
+        //0     - 82.0
+        //82.1  - 202.0
+        //202.1 - 323.0
+        //323.1 - EOF
+        double x = mouseEvent.getX();
+        if(x > 0 && x < 82.0){
+            //default prod
+            defaultProd();
+        }else if(x > 82.1 && x < 202.0){
+            cardProd(0);
+        }else if (x > 202.1 && x < 323.0){
+            cardProd(1);
+        }else if (x > 323.1){
+            cardProd(2);
+        }
+
+    }
+
+    private void defaultProd(){
+        ArrayList<LightResource> input = new ArrayList<>();
+        GUI.getInstance().showSuccess("Choose 2 resources for input and 1 for output");
+        input.add(askResources());
+        input.add(askResources());
+        if(input.contains(null)) {
+            GUI.getInstance().showError("Production aborted");
+            return;
+        }
+        LightResource output = askResources();
+        if(output == null){
+            GUI.getInstance().showError("Production aborted");
+            return;
+        }
+        LightLeaderCard leader = askLeaderCard();
+        if(leader == null){
+            GUI.getInstance().getController().sendDefaultProductionRequest(input, output, null, null);
+        }else{
+            LightResource lastRes = askResources();
+            if(lastRes==null){
+                GUI.getInstance().showError("Production aborted");
+                return;
+            }
+            GUI.getInstance().getController().sendDefaultProductionRequest(input, output, leader, lastRes);
+
+        }
+
+    }
+
+    //slot 0->2 compresi
+    private void cardProd(int slot){
+        int numSlots = GUI.getInstance().getController().getPlayerBoard().getCardSlots().getSize();
+        if(numSlots == 0) {
+            GUI.getInstance().showError("no slot available");
+            return;
+        }
+        if (GUI.getInstance().getController().getPlayerBoard().getCardSlots().getCard(slot) != null){
+            LightLeaderCard leader = askLeaderCard();
+            if(leader== null){
+                GUI.getInstance().getController().sendDevCardProductionRequest(slot, null, null);
+            }else{
+                LightResource lastRes = askResources();
+                if(lastRes==null){
+                    GUI.getInstance().showError("Production aborted");
+                    return;
+                }
+                GUI.getInstance().getController().sendDevCardProductionRequest(slot, lastRes, leader);
+            }
+        }
+    }
+
     private LightResource askResources(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Asking for resources...");
@@ -829,14 +876,34 @@ public class GameScene implements GenericScene{
         }
     }
 
-    private void recreateProdBaseImageview(Pane prodPane){
+    private boolean askConfirmation(String message){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Asking for confirmation");
+        alert.setHeaderText(message);
+        alert.setContentText("");
+
+        ButtonType btnYes = new ButtonType("Yes");
+        ButtonType btnNo = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        alert.getButtonTypes().setAll(btnYes, btnNo);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == btnYes){
+            return true;
+        } else{
+            return false;
+        }
+    }
+
+    private void recreateProdBaseImageview(Pane prodPane, int playerIndex){
         ImageView im = new ImageView();
         im.fitHeightProperty().bind(prodPane.heightProperty());
         im.fitWidthProperty().bind(prodPane.widthProperty());
         prodPane.getChildren().add(im);
-        prodPane.setOnMouseClicked(this::productionClick);
+        prodPane.setOnMouseClicked((mouseEvent) ->{
+            productionClick(mouseEvent, playerIndex);
+        });
     }
-
 
     //CHEATS (da togliere)
     @FXML
