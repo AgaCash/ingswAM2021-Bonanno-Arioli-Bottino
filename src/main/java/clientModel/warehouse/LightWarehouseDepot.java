@@ -19,6 +19,10 @@ public class LightWarehouseDepot {
         this.extraWarehouse = image;
     }
 
+    public ArrayList<LightResource> getWarehouse() {
+        return warehouse;
+    }
+
     @Override
     public String toString(){
         String s = "\nWAREHOUSE: \n";

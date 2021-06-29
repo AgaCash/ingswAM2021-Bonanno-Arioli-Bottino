@@ -421,7 +421,9 @@ public class GUI implements View {
 
     @Override
     public void updateWarehouseDepot(String username, LightWarehouseDepot warehouseDepot) {
-
+        Platform.runLater(()-> {
+            gameGuiController.updateWarehouseDepot(username, warehouseDepot);
+        });
     }
 
     @Override

@@ -13,6 +13,7 @@ import clientModel.table.LightDevelopmentBoard;
 import clientModel.table.LightFaithBox;
 import clientModel.table.LightFaithTrack;
 import clientModel.table.LightMarketBoard;
+import clientModel.warehouse.LightWarehouseDepot;
 import javafx.beans.binding.ObjectBinding;
 import javafx.css.Style;
 import javafx.event.ActionEvent;
@@ -304,6 +305,31 @@ public class GameScene implements GenericScene{
 
     public void updateDevBoard(LightDevelopmentBoard board){
         loadDevCards(devBoardPane, board);
+    }
+
+    //todo fix dimensions
+    public void updateWarehouseDepot(String username, LightWarehouseDepot warehouseDepot){
+        playerBoardsPanes.forEach((pbPane)->{
+            Pane depotPane = (Pane) pbPane.lookup("#depotPane");
+            if(playersList.get(myPlayerIndex).equals(username)){
+                depotPane.getChildren().clear();
+                ArrayList<LightResource> resS = warehouseDepot.getWarehouse();
+                int offsetX =20;
+                int offsetY =0;
+                for(int i=0; i<resS.size(); i++) {
+                    LightResource r = resS.get(i);
+                    ImageView im = new ImageView("/images/RESOURCES/"+r.name()+".png");
+                    im.setPreserveRatio(true);
+                    im.fitWidthProperty().bind(depotPane.widthProperty().divide(2));
+                    im.relocate(offsetX, offsetY);
+                    depotPane.getChildren().add(im);
+                    if (i<resS.size()-1 && !resS.get(i+1).equals(resS.get(i))) {
+                        offsetX -= 6.9;
+                        offsetY += 30;
+                    }
+                }
+            }
+        });
     }
 
     //helper
