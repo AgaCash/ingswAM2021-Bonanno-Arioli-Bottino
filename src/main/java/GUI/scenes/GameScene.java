@@ -28,6 +28,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import model.cards.DevelopmentCard;
+import model.table.DevelopmentBoard;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -84,7 +86,7 @@ public class GameScene implements GenericScene{
         marketPane = customFL.getPage("market");
         devBoardPane = customFL.getPage("developmentBoard");
         leaderPane = customFL.getPage("leader");
-        loadDevCards(devBoardPane);
+        loadDevCards(devBoardPane, GUI.getInstance().getController().getDevBoard());
         loadMarbles(marketPane);
         loadMarbleSelections(marketPane);
         loadLeaderPane(leaderPane);
@@ -276,7 +278,6 @@ public class GameScene implements GenericScene{
         });
     }
 
-    //todo error
     public void updateCardSlots(String username, ArrayList<LightDevelopmentCard> cardSlots){
         playerBoardsPanes.forEach((pBoardPane)->{
             if(playersList.get(Integer.parseInt(pBoardPane.getId())).equals(username)){
@@ -300,6 +301,11 @@ public class GameScene implements GenericScene{
             }
         });
     }
+
+    public void updateDevBoard(LightDevelopmentBoard board){
+        loadDevCards(devBoardPane, board);
+    }
+
     //helper
     //
     //
@@ -337,15 +343,19 @@ public class GameScene implements GenericScene{
         faithPane.getChildren().add(im);
     }
 
-    private void loadDevCards(Pane pane){
-        LightDevelopmentBoard developmentBoard = GUI.getInstance().getController().getDevBoard();
+    private void loadDevCards(Pane pane, LightDevelopmentBoard developmentBoard){
         ArrayList<ImageView> ims = new ArrayList<>();
         double x = 30;
         double y = 0;
         for (int i = 0, j = 0; i < developmentBoard.getDecksSize() ; i++, j++){
             LightDevelopmentCard c = developmentBoard.getTopCardFromDeck(i);
-            String fileName = c.getColour().name().substring(0, 1).toUpperCase()+c.getColour().name().substring(1).toLowerCase();
-            ImageView im = new ImageView("/images/DEVBOARD/"+fileName+c.getId()+".png");
+            ImageView im;
+            if(c.getColour() != null){
+                String fileName = c.getColour().name().substring(0, 1).toUpperCase()+c.getColour().name().substring(1).toLowerCase();
+                im = new ImageView("/images/DEVBOARD/"+fileName+c.getId()+".png");
+            }else{
+                im = new ImageView();
+            }
             im.setPreserveRatio(true);
             im.fitWidthProperty().bind(pane.widthProperty().divide(4));
             im.fitHeightProperty().bind(pane.heightProperty().divide(3).subtract(10));
@@ -358,12 +368,16 @@ public class GameScene implements GenericScene{
                 x = 30;
                 y += 150;
             }
+            if(!isMyTurn)
+                disableImage(im);
             ims.add(im);
         }
         pane.getChildren().addAll(ims);
     }
 
     private void devCardClick(MouseEvent mouseEvent){
+        if(!isMyTurn)
+            return;
         if(!askConfirmation("Buy this development card?"))
             return;
         int slot;

@@ -4,7 +4,9 @@ import clientModel.cards.LightCardSlots;
 import clientModel.cards.LightLeaderCard;
 import clientModel.resources.LightResource;
 import clientModel.strongbox.LightStrongbox;
+import clientModel.table.LightDevelopmentBoard;
 import clientModel.table.LightFaithTrack;
+import clientModel.table.LightMarketBoard;
 import clientModel.warehouse.LightWarehouseDepot;
 import network.server.Lobby;
 
@@ -71,4 +73,6 @@ public interface View {
     void updateStrongbox(String username, LightStrongbox strongbox);
     void updateFaithTrack(String username, LightFaithTrack faithTrack);
     void updateLeaderSlot(String username, ArrayList<LightLeaderCard> leaderSlot);
+    void updateDevBoard(LightDevelopmentBoard board);
+    void updateMarketBoard(LightMarketBoard market);
 }

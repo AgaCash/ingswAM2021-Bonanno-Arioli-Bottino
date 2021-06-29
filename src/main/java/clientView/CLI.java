@@ -6,7 +6,9 @@ import clientModel.cards.LightLeaderCard;
 import clientModel.colour.LightColour;
 import clientModel.resources.LightResource;
 import clientModel.strongbox.LightStrongbox;
+import clientModel.table.LightDevelopmentBoard;
 import clientModel.table.LightFaithTrack;
+import clientModel.table.LightMarketBoard;
 import clientModel.warehouse.LightWarehouseDepot;
 import network.server.Lobby;
 
@@ -518,6 +520,16 @@ public class CLI implements View{
     public void updateLeaderSlot(String username, ArrayList<LightLeaderCard> leaderSlot) {
        // if(!controller.getUsername().equals(username))
          //   showOthersActions(username+"'s new LeaderSlot: "+leaderSlot.toString().indent(3));
+
+    }
+
+    @Override
+    public void updateDevBoard(LightDevelopmentBoard board) {
+
+    }
+
+    @Override
+    public void updateMarketBoard(LightMarketBoard market) {
 
     }
 }
