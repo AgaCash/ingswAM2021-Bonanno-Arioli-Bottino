@@ -5,6 +5,9 @@ import clientModel.resources.LightResource;
 
 import java.util.ArrayList;
 
+/**
+ * LightModel copy of Model's WhiteConverter
+ */
 public class LightWhiteConverter extends LightLeaderCard {
     private LightResource resource;
     private ArrayList<LightDevelopmentCard> requires;
@@ -17,22 +20,7 @@ public class LightWhiteConverter extends LightLeaderCard {
         this.requires = req;
         super.type = LightLeaderCardType.WHITECONVERTER;
     }
-/*
-    @Override
-    public LightResource whichResource() throws UnusableCardException {
-        if(isEnabled())
-            throw new UnusableCardException();
-        return this.resource;
-    }
 
-
-
-    @Override
-    public ArrayList<LightDevelopmentCard> getRequiredCards(){
-        return this.requires;
-    }
-
- */
 @Override
 public boolean isWhiteConverter(){
     return true;
