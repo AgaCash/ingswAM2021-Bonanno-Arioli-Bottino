@@ -1,5 +1,6 @@
-/*package model.table;
+package model.table;
 
+import exceptions.EmptyDeckException;
 import model.cards.DevelopmentCard;
 import model.colour.Colour;
 import utilities.JsonParser;
@@ -14,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class deckTest {
     @Test
     void createDeckTest(){
-        JsonParser jsonParser = new JsonParser("src/main/resources/developmentCards.json");
+        JsonParser jsonParser = new JsonParser("developmentCards.json");
         ArrayList<DevelopmentCard> cards = jsonParser.getDevelopmentCards();
         ArrayList<DevelopmentCard> fourCard = new ArrayList<>();
         int i = 0;
@@ -33,7 +34,7 @@ public class deckTest {
 
     @Test
     void getterTests(){
-        JsonParser jsonParser = new JsonParser("src/main/resources/developmentCards.json");
+        JsonParser jsonParser = new JsonParser("developmentCards.json");
         ArrayList<DevelopmentCard> cards = jsonParser.getDevelopmentCards();
         ArrayList<DevelopmentCard> fourCard = new ArrayList<>();
         int i = 0;
@@ -45,15 +46,22 @@ public class deckTest {
             i++;
         }
         Deck deck = new Deck(fourCard);
-        assertFalse( deck.isEmpty() );
-        assertEquals( deck.getColourDeck(), Colour.GREEN );
-        deck.shuffleDeck();
-        assertEquals(deck.getLevelDeck(), 1);
-        assertEquals( deck.getCost(), deck.popCard().getCost());
-        assertNotNull(deck.popCard());
-        assertNotNull(deck.popCard());
-        assertNotNull(deck.popCard());
-        assertNull(deck.popCard());
-        assertTrue(deck.isEmpty());
+        try {
+            assertFalse(deck.isEmpty());
+            assertEquals(deck.getColourDeck(), Colour.GREEN);
+            deck.shuffleDeck();
+            assertEquals(deck.getLevelDeck(), 1);
+            assertEquals(deck.getCost(), deck.popCard().getCost());
+            assertNotNull(deck.popCard());
+            assertNotNull(deck.popCard());
+            assertNotNull(deck.popCard());
+        } catch (EmptyDeckException e) {
+            e.printStackTrace();
+        }
+        try{
+            deck.popCard();
+        } catch (EmptyDeckException e) {
+            assertTrue(true);
+        }
     }
-}*/
+}

@@ -40,8 +40,7 @@ public class ExtraDepot extends LeaderCard{
     public boolean addResource(Resource tmp){
         if(isEnabled())
             if(tmp.equals(this.extraDepotResource.get(0)))
-                 if(this.extraWarehouseDepot.size()<this.extraDepotResource.size() ||
-                            this.extraWarehouseDepot.isEmpty()) {
+                 if(this.extraWarehouseDepot.size()<this.extraDepotResource.size()) {
                     extraWarehouseDepot.add(tmp);
                     return true;
                 }

@@ -1,5 +1,6 @@
-/*package model.cards;
+package model.cards;
 
+import exceptions.UnusableCardException;
 import org.junit.jupiter.api.Test;
 import model.resources.Resource;
 
@@ -13,11 +14,19 @@ class ExtraProdTest {
     @Test
     void getExtraProdInput() {
         ExtraProd card = new ExtraProd(0, true,null, Resource.COIN);
-        assertEquals(card.getExtraProdInput(), Resource.COIN);
-        assertNotEquals(card.getExtraProdInput(), Resource.FAITH);
+        try {
+            assertEquals(card.getExtraProdInput(), Resource.COIN);
+            assertNotEquals(card.getExtraProdInput(), Resource.FAITH);
+        }catch (UnusableCardException e) {
+            e.printStackTrace();
+        }
 
         card = new ExtraProd(0, false, null, Resource.COIN);
-        assertNotEquals(card.getExtraProdInput(), Resource.COIN);
+        try {
+            card.getExtraProdInput();
+        } catch (UnusableCardException e) {
+            assertTrue(true);
+        }
     }
 
     @Test
@@ -59,4 +68,4 @@ class ExtraProdTest {
         s+= "\nVictory Points: "+victoryPoints;
         s+= "\nIs Enabled: "+ isEnabled;
     }
-}*/
+}

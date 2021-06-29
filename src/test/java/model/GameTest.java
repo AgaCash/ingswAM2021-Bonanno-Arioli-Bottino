@@ -121,6 +121,7 @@ class GameTest {
 
     @Test
     void devCardProduction() {
+        //test implemented before Shuffle in DevelopmentBoard
         Game game = new Game(true);
         Player player = new Player("teodoro");
         game.addPlayer(player);

@@ -1,57 +1,45 @@
-/*package model.table;
+package model.table;
 
+import exceptions.EmptyDeckException;
 import org.junit.jupiter.api.Test;
 
+import java.util.InputMismatchException;
 import java.util.Objects;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class developmentBoardTest {
     DevelopmentBoard d;
     @Test
     void createDevBoardTest(){
-        d = DevelopmentBoard.getDevBoardInstance();
+        d = new DevelopmentBoard();
         assertNotNull(d);
-        d.deleteInstance();
     }
 
     @Test
     void getDeckTest(){
-        d = DevelopmentBoard.getDevBoardInstance();
-        assertNull(d.getDeck(-1));
+        d = new DevelopmentBoard();
+        try {
+            d.getDeck(-1);
+        }catch(InputMismatchException e){
+            assertTrue(true);
+        }
         assertNotNull(d.getDeck(1));
         assertNotNull(d.getDeck(2));
         assertNotNull(d.getDeck(5));
         assertNotNull(d.getDeck(11));
-        assertNull(d.getDeck(12));
-        assertNotNull(Objects.requireNonNull(d.getDeck(11)).popCard());
-        d.deleteInstance();
-    }
-
-    @Test
-    void popCardFromDeckTest(){
-        d = DevelopmentBoard.getDevBoardInstance();
-        assertNotNull( d.popCardFromDeck(1) );
-        assertNotNull( d.popCardFromDeck(1) );
-        assertNotNull( d.popCardFromDeck(1) );
-        assertNotNull( d.popCardFromDeck(1) );
-        assertNull( d.popCardFromDeck(1) );
-        d.deleteInstance();
-
-    }
-
-    @Test
-    void countTotalCards(){
-        d = DevelopmentBoard.getDevBoardInstance();
-        int nDeck = 0;
-        for(int i = 0; i < 12; i++, nDeck++){
-            for(int j = 0; j < 4 ; j++)
-                assertNotNull(d.popCardFromDeck(nDeck));
-
+        try {
+            d.getDeck(12);
+        }catch(InputMismatchException e){
+            assertTrue(true);
         }
-        assertNull(d.popCardFromDeck(nDeck));
-        d.deleteInstance();
+        try {
+            assertNotNull(Objects.requireNonNull(d.getDeck(11)).popCard());
+        } catch (EmptyDeckException e) {
+            e.printStackTrace();
+        }
+
     }
 
-}*/
+
+}
