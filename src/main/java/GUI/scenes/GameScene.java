@@ -512,10 +512,10 @@ public class GameScene implements GenericScene{
 
     private void loadMarbleSelections(Pane pane){
         ArrayList<ImageView> ims = new ArrayList<>();
-        double x = 80;
-        double y = 300;
+        double x = 120;
+        double y = 310;
         for(int i=0; i<4; i++){
-            ImageView im = new ImageView("/images/TOKENS/blueToken.png");
+            ImageView im = new ImageView("/images/arrow.png");
             im.fitHeightProperty().bind(pane.heightProperty().divide(5));
             im.setPreserveRatio(true);
             im.relocate(x,y);
@@ -525,10 +525,11 @@ public class GameScene implements GenericScene{
             ims.add(im);
         }
         x = 400;
-        y = 85;
+        y = 95;
         for(int i=0;i<3;i++){
-            ImageView im = new ImageView("/images/TOKENS/blueToken.png");
+            ImageView im = new ImageView("/images/arrow.png");
             im.fitHeightProperty().bind(pane.heightProperty().divide(5));
+            im.setRotate(270);
             im.setPreserveRatio(true);
             im.relocate(x,y);
             im.setId(Integer.toString(i));

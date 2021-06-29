@@ -7,11 +7,20 @@ import exceptions.UnusableCardException;
 import network.messages.MessageType;
 import view.VirtualClient;
 
+/**
+ * Message class that implements a Resource purchase at MarketBoard request.
+ */
 public class BuyResourcesRequest extends GameMessage{
     private boolean line;
     private int num;
     private LightLeaderCard card;
 
+    /**Request constructor
+     * @param username the Sender username
+     * @param line true if it's a MarketBoard line purchase, false if it's a column purchase
+     * @param num the number of line/column
+     * @param card a LightLeaderCard copy of the LeaderCard that Player want to add to the action, null if Player asked for simple action
+     */
     public BuyResourcesRequest(String username, boolean line, int num, LightLeaderCard card){
         super(username, MessageType.MARKET);
         this.line = line;
@@ -30,6 +39,9 @@ public class BuyResourcesRequest extends GameMessage{
         }
     }
 
+    /**Creates the Response instance if action was successful (executeCommand didn't threw Exceptions)
+     * @param controller the Controller in the Server
+     */
     public void update(Controller controller){
         BuyResourcesResponse response = new BuyResourcesResponse(getUsername(),
                 controller.getLightPlayers(),

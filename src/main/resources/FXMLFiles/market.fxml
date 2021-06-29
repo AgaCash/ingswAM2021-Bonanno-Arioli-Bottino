@@ -7,7 +7,7 @@
    <children>
       <ImageView fitHeight="445.0" fitWidth="622.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/market.png" />
+            <Image url="@../images/marketboard.png" />
          </image></ImageView>
       <Pane fx:id="marblePane" layoutX="102.0" layoutY="111.0" prefHeight="190.0" prefWidth="265.0" />
    </children>
