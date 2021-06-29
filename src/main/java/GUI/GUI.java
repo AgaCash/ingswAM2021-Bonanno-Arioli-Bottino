@@ -416,7 +416,9 @@ public class GUI implements View {
 
     @Override
     public void updateMarketBoard(LightMarketBoard market){
-
+        Platform.runLater(()-> {
+            gameGuiController.updateMarketBoard(market);
+        });
     }
 
     @Override
