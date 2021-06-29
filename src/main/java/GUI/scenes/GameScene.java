@@ -154,18 +154,11 @@ public class GameScene implements GenericScene{
 
         playerBoardsPanes.forEach((pbPanes)->{
             Pane prodPane = (Pane) pbPanes.lookup("#productionPane");
-            ImageView im = new ImageView();
-            im.fitHeightProperty().bind(prodPane.heightProperty());
-            im.fitWidthProperty().bind(prodPane.widthProperty());
-            prodPane.getChildren().add(im);
-            System.out.println(prodPane.getChildren());
-            //pbPanes.setPickOnBounds(true);
-            //prodPane.setPickOnBounds(true);
-            prodPane.setOnMouseClicked(this::productionClick);
+            recreateProdBaseImageview(prodPane);
         });
-        //
-        //todo quando finito questo fare gli update
     }
+
+
 
     private void productionClick(MouseEvent mouseEvent){
         if(!isMyTurn)
@@ -297,6 +290,8 @@ public class GameScene implements GenericScene{
                 enableImage((ImageView) marbleImage);
             }
         });
+            //end turn button
+        gamePane.lookup("#endTurnBTN").setDisable(false);
     }
 
     public void disableTurn(){
@@ -314,18 +309,20 @@ public class GameScene implements GenericScene{
                 thing.setDisable(true);
             }
         });
+            // market board
         marketPane.getChildren().forEach((marbleImage)->{
             if(marbleImage instanceof ImageView){
                 disableImage((ImageView) marbleImage);
             }
         });
+            //end turn button
+        gamePane.lookup("#endTurnBTN").setDisable(true);
     }
 
     //|----------|
     //|  UPDATES |
     //|----------|
 
-    //todo non va, fatto un po a caso
     public void updateStrongBox(String username, LightStrongbox strongbox){
         playerBoardsPanes.forEach((pBoardPane)->{
             if(playersList.get(Integer.parseInt(pBoardPane.getId())).equals(username)){
@@ -352,6 +349,26 @@ public class GameScene implements GenericScene{
         });
     }
 
+    //todo error
+    public void updateCardSlots(String username, ArrayList<LightDevelopmentCard> cardSlots){
+        playerBoardsPanes.forEach((pBoardPane)->{
+            if(playersList.get(Integer.parseInt(pBoardPane.getId())).equals(username)){
+                Pane developmentPane = (Pane) gamePane.lookup("#productionPane");
+                developmentPane.getChildren().clear();
+                recreateProdBaseImageview(developmentPane);
+                double offsetX = 82;
+                for(LightDevelopmentCard c: cardSlots){
+                    String fileName = c.getColour().name().substring(0, 1).toUpperCase()+c.getColour().name().substring(1).toLowerCase();
+                    ImageView imageView = new ImageView("/images/DEVBOARD/"+fileName+c.getId()+".png");
+                    imageView.setPreserveRatio(true);
+                    imageView.fitWidthProperty().bind(developmentPane.widthProperty().divide(3.7));
+                    imageView.relocate(offsetX, 120);
+                    offsetX+=120;
+                    developmentPane.getChildren().add(imageView);
+                }
+            }
+        });
+    }
     //helper
     //
     //
@@ -805,6 +822,15 @@ public class GameScene implements GenericScene{
         }else{
             return null;
         }
+    }
+
+    private void recreateProdBaseImageview(Pane prodPane){
+        ImageView im = new ImageView();
+        im.fitHeightProperty().bind(prodPane.heightProperty());
+        im.fitWidthProperty().bind(prodPane.widthProperty());
+        prodPane.getChildren().add(im);
+        prodPane.setOnMouseClicked(this::productionClick);
+        Pane realPane = new Pane();
     }
 
 

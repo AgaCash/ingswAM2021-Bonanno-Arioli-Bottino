@@ -391,7 +391,9 @@ public class GUI implements View {
 
     @Override
     public void updateCardSlots(String username, LightCardSlots cardSlots) {
-
+        Platform.runLater(()->{
+            gameGuiController.updateCardSlots(username, cardSlots.getCards());
+        });
     }
 
     @Override

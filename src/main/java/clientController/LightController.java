@@ -467,6 +467,7 @@ public class LightController {
     public void updateLeaderSlot(String username, ArrayList<LightLeaderCard> cards){
         try{
             game.updateLeaderSlot(username, cards);
+            view.updateLeaderSlot(username, cards);
         }catch(NoSuchUsernameException e){
             view.showError(e.getMessage());
         }
