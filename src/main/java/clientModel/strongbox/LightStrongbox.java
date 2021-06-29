@@ -24,6 +24,10 @@ public class LightStrongbox {
         return res;
     }
 
+    public ArrayList<LightResource> getStrongbox() {
+        return strongbox;
+    }
+
     @Override
     public String toString(){
         String s = "\nSTRONGBOX: \n";

@@ -66,17 +66,14 @@ public class CLI implements View{
             }
     }
 
-    @Override
     public void handleSinglePlayer(){
         controller.createSinglePlayerLobby();
     }
 
-    @Override
     public void handleMultiJoin(){
         controller.getLobbyList();
     }
 
-    @Override
     public void handleMultiCreate(){
         controller.createMultiLobby();
     }

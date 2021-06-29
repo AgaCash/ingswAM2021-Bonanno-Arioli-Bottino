@@ -401,7 +401,7 @@ public class GUI implements View {
 
     @Override
     public void updateStrongbox(String username, LightStrongbox strongbox) {
-
+        gameGuiController.updateStrongBox(username, strongbox);
     }
 
     @Override

@@ -8,6 +8,7 @@ import clientModel.cards.LightLeaderCard;
 import clientModel.colour.LightColour;
 import clientModel.marbles.LightMarble;
 import clientModel.resources.LightResource;
+import clientModel.strongbox.LightStrongbox;
 import clientModel.table.LightDevelopmentBoard;
 import clientModel.table.LightFaithBox;
 import clientModel.table.LightFaithTrack;
@@ -317,6 +318,30 @@ public class GameScene implements GenericScene{
         marketPane.getChildren().forEach((marbleImage)->{
             if(marbleImage instanceof ImageView){
                 disableImage((ImageView) marbleImage);
+            }
+        });
+    }
+
+    //|----------|
+    //|  UPDATES |
+    //|----------|
+
+    //todo non va, fatto un po a caso
+    public void updateStrongBox(String username, LightStrongbox strongbox){
+        playerBoardsPanes.forEach((pBoardPane)->{
+            if(playersList.get(Integer.parseInt(pBoardPane.getId())).equals(username)){
+                Pane strongboxPane = (Pane) pBoardPane.lookup("#strongboxPane");
+                strongboxPane.getChildren().clear();
+                double offsetX = 0;
+                double offsetY = 0;
+                for(LightResource r:strongbox.getStrongbox()){
+                    ImageView imageView = new ImageView("/images/RESOURCES/"+r.name().toLowerCase()+".png");
+                    imageView.setPreserveRatio(true);
+                    imageView.fitWidthProperty().bind(strongboxPane.widthProperty().divide(4));
+                    imageView.relocate(offsetX, offsetY);
+                    offsetX+=30;
+                    strongboxPane.getChildren().add(imageView);
+                }
             }
         });
     }
