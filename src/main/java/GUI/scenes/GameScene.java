@@ -162,8 +162,6 @@ public class GameScene implements GenericScene{
             //pbPanes.setPickOnBounds(true);
             //prodPane.setPickOnBounds(true);
             prodPane.setOnMouseClicked(this::productionClick);
-
-
         });
         //
         //todo quando finito questo fare gli update
@@ -689,9 +687,9 @@ public class GameScene implements GenericScene{
 
     private LightResource askResources(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation Dialog with Custom Actions");
-        alert.setHeaderText("Look, a Confirmation Dialog with Custom Actions");
-        alert.setContentText("Choose your option.");
+        alert.setTitle("Asking for resources...");
+        alert.setHeaderText("Choose a resource");
+        alert.setContentText("");
 
         ButtonType buttonTypeOne = new ButtonType("COIN");
         ButtonType buttonTypeTwo = new ButtonType("SERVANT");

@@ -139,20 +139,6 @@ public class GUI implements View {
         });
     }
 
-    @Override
-    public void handleSinglePlayer() {
-
-    }
-
-    @Override
-    public void handleMultiJoin() {
-
-    }
-
-    @Override
-    public void handleMultiCreate() {
-
-    }
 
     @Override
     public void notifyPlayerJoined(String username) {
@@ -165,17 +151,16 @@ public class GUI implements View {
 
     @Override
     public void askStartGame() {
-
+        //non serve in Gui
+        //si può togliere da view
     }
 
     @Override
     public void waitStartGameString() {
-
+        //non serve in Gui
+        //si può togliere da view
     }
 
-    private void initGame(){
-
-    }
     @Override
     public void showCreatorWaitingRoom() {
         Platform.runLater(()-> {
@@ -215,7 +200,7 @@ public class GUI implements View {
 
     @Override
     public void showReconnectionToGame() {
-
+        //ricarica la pagina del gioco
     }
 
     @Override
@@ -236,12 +221,12 @@ public class GUI implements View {
 
     @Override
     public void notifyPlayerDisconnected(String username) {
-
+        showSuccess(username+" disconnected :(");
     }
 
     @Override
     public void notifyPlayerReconnected(String username) {
-
+        showSuccess(username+" reconnected :)");
     }
 
     @Override
@@ -313,42 +298,53 @@ public class GUI implements View {
 
     @Override
     public void askLeaderCardActivation() {
-
+        //non serve in Gui
+        //si può togliere da view
     }
 
     @Override
     public void askLeaderCardThrowing() {
-
+        //non serve in Gui
+        //si può togliere da view
     }
 
     @Override
     public void askBuyResources() {
-
+        //non serve in Gui
+        //si può togliere da view
     }
 
     @Override
     public void askBuyDevCards() {
-
+        //non serve in Gui
+        //si può togliere da view
     }
 
     @Override
     public void askDevCardProduction() {
-
+        //non serve in Gui
+        //si può togliere da view
     }
 
     @Override
     public void askDefaultProduction() {
-
+        //non serve in Gui
+        //si può togliere da view
     }
 
     @Override
     public void askEndTurn() {
-
+        //non serve in Gui
+        //si può togliere da view
     }
 
     @Override
     public void showThrewResources(ArrayList<LightResource> threwResources) {
-
+        String s = "";
+        for(LightResource r: threwResources){
+            s+= r.name()+" ";
+        }
+        showError("Thrown resources: \n"+s);
     }
 
     @Override

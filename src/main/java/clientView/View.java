@@ -19,10 +19,6 @@ public interface View {
     void askUsername();
     //lobbyMenu
     void askMenu();
-    //show user that he has to wait for boss to starts the game
-    void handleSinglePlayer();
-    void handleMultiJoin();
-    void handleMultiCreate();
     //every time
     void notifyPlayerJoined(String username);
     //write/press start to begin
