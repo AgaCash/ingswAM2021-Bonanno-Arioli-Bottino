@@ -6,17 +6,28 @@ import network.messages.MessageType;
 
 import java.util.ArrayList;
 
+/**
+ * Message that implements a Default Production Response
+ */
 public class DefaultProductionResponse extends GameMessage {
     private ArrayList<LightPlayer> players = new ArrayList<>();
     private boolean success;
     private String message;
 
+    /**Constructor called if the action was successful
+     * @param username the Player username who called the action
+     * @param players the entire Players List converted in LightPlayer instances
+     */
     public DefaultProductionResponse(String username, ArrayList<LightPlayer> players) {
         super(username, MessageType.DEFPRODUCTIONUPDATE);
         this.players = players;
         this.success = true;
     }
 
+    /**Constructor called if the action was not successful
+     * @param username the Player username who called the action
+     * @param message the String containing the Model error message
+     */
     public DefaultProductionResponse(String username, String message){
         super(username, MessageType.DEFPRODUCTIONUPDATE);
         this.success = false;

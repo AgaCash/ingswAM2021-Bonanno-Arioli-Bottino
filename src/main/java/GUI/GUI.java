@@ -4,9 +4,13 @@ import GUI.scenes.*;
 import clientController.LightController;
 import clientModel.cards.LightCardSlots;
 import clientModel.cards.LightLeaderCard;
+import clientModel.player.LightPlayer;
 import clientModel.resources.LightResource;
+import clientModel.singleplayer.LightLorenzo;
 import clientModel.strongbox.LightStrongbox;
+import clientModel.table.LightDevelopmentBoard;
 import clientModel.table.LightFaithTrack;
+import clientModel.table.LightMarketBoard;
 import clientModel.warehouse.LightWarehouseDepot;
 import clientView.View;
 import javafx.animation.KeyFrame;
@@ -370,16 +374,6 @@ public class GUI implements View {
     }
 
     @Override
-    public void showRanking(String winner, String rank) {
-
-    }
-
-    @Override
-    public void endGame() {
-
-    }
-
-    @Override
     public void showOthersActions(String message) {
         showSuccess(message);
     }
@@ -390,6 +384,16 @@ public class GUI implements View {
     }
 
     @Override
+    public void showRanking(String winner, String rank) {
+
+    }
+
+    @Override
+    public void endGame() {
+
+    }
+
+    @Override
     public void updateCardSlots(String username, LightCardSlots cardSlots) {
         Platform.runLater(()->{
             gameGuiController.updateCardSlots(username, cardSlots.getCards());
@@ -397,15 +401,27 @@ public class GUI implements View {
     }
 
     @Override
-    public void updateWarehouseDepot(String username, LightWarehouseDepot warehouseDepot) {
-
-    }
-
-    @Override
     public void updateStrongbox(String username, LightStrongbox strongbox) {
         Platform.runLater(()->{
             gameGuiController.updateStrongBox(username, strongbox);
         });
+    }
+
+    @Override
+    public void updateDevBoard(LightDevelopmentBoard board) {
+        Platform.runLater(()-> {
+            gameGuiController.updateDevBoard(board);
+        });
+    }
+
+    @Override
+    public void updateMarketBoard(LightMarketBoard market){
+
+    }
+
+    @Override
+    public void updateWarehouseDepot(String username, LightWarehouseDepot warehouseDepot) {
+
     }
 
     @Override

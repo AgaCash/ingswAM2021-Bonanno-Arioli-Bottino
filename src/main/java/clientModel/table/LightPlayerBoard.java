@@ -43,6 +43,7 @@ public class LightPlayerBoard {
     public ArrayList<LightLeaderCard> getLeaderSlot(){
         return leaderSlot;
     }
-    public void setLeaderSlot(ArrayList<LightLeaderCard> cards){ this.leaderSlot = cards;
+    public void setLeaderSlot(ArrayList<LightLeaderCard> cards){
+        this.leaderSlot = cards;
     }
 }

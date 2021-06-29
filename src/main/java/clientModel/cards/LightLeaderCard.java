@@ -1,10 +1,18 @@
 package clientModel.cards;
 
-abstract public class LightLeaderCard{
+public class LightLeaderCard{
     protected int id;
     protected boolean isEnabled;
     protected int victoryPoints;
     protected LightLeaderCardType type;
+
+    public LightLeaderCard(){
+        this.type = null;
+    }
+
+    public boolean isDiscarded(){
+        return this.type == null;
+    }
     //universal methods
     //public void activate(){this.isEnabled = true;};
     public int getId(){ return id; }
@@ -34,5 +42,9 @@ abstract public class LightLeaderCard{
     //public LightResource getExtraProdInput() throws UnusableCardException { return null;}
     //public ArrayList<LightResource> production(){return null;}
     //public void setChosenOutput(LightResource chosenOutput){}
+    @Override
+    public String toString(){
+        return "";
+    }
 
 }

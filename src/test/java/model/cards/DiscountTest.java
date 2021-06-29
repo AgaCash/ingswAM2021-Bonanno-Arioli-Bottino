@@ -1,5 +1,6 @@
-/* package model.cards;
+package model.cards;
 
+import exceptions.UnusableCardException;
 import org.junit.jupiter.api.Test;
 import model.resources.Resource;
 
@@ -7,16 +8,20 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DiscountTest {*/
-/*
+class DiscountTest {
+
     @Test
     void whichDiscount() {
         //testing working
         Discount card = new Discount(0, true, new ArrayList<DevelopmentCard>(), Resource.COIN);
-        assertEquals(card.whichDiscount(), Resource.COIN);
-        assertNotEquals(card.whichDiscount(), Resource.SERVANT);
-        card = new Discount(0, false, new ArrayList<DevelopmentCard>(), Resource.COIN);
-        assertNotEquals(card.whichDiscount(), Resource.COIN);
+        try {
+            assertEquals(card.whichDiscount(), Resource.COIN);
+            assertNotEquals(card.whichDiscount(), Resource.SERVANT);
+            card = new Discount(0, false, new ArrayList<DevelopmentCard>(), Resource.COIN);
+            assertNotEquals(card.whichDiscount(), Resource.COIN);
+        }catch (UnusableCardException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -50,4 +55,4 @@ class DiscountTest {*/
         s+= "\nIs Enabled: "+ isEnabled;
         assertEquals(card.toString(), s);
     }
-}*/
+}

@@ -1,7 +1,7 @@
 
 package network.messages;
 
-        import network.messages.gameMessages.*;
+import network.messages.gameMessages.*;
         import network.messages.lobbyMessages.*;
         import network.messages.pingMessages.PingGameMessage;
         import network.messages.pingMessages.PingLobbyMessage;

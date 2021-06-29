@@ -8,8 +8,8 @@ import java.util.Scanner;
 
 public class ClientApp {
     public static void main(String[] args){
-        Application.launch(GuiStart.class);
-        /*
+        //Application.launch(GuiStart.class);
+
         View view = null;
 
         Scanner s = new Scanner(System.in);
@@ -24,6 +24,6 @@ public class ClientApp {
                 break;
             default:
                 System.out.println("invalid number!");
-        }*/
+        }
     }
 }
