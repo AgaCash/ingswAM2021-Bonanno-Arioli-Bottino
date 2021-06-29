@@ -450,6 +450,7 @@ public class LightController {
     public void updateStrongbox(String username, LightStrongbox strongbox){
         try {
             game.updateStrongbox(username, strongbox);
+            view.updateStrongbox(username, strongbox);
         } catch(NoSuchUsernameException e){
             view.showError(e.getMessage());
         }

@@ -129,8 +129,8 @@ public class GameScene implements GenericScene{
             depotPane.setId("depotPane");
             Pane strongboxPane = new Pane();
             strongboxPane.resize(111, 80);
-            strongboxPane.setLayoutX(20);
-            strongboxPane.setLayoutY(334);
+            strongboxPane.setLayoutX(8);
+            strongboxPane.setLayoutY(310);
             strongboxPane.setId("strongboxPane");
             Pane productionPane = new Pane();
             productionPane.resize(441, 236);
@@ -153,13 +153,12 @@ public class GameScene implements GenericScene{
         //              if (card && !Effect) -> production
 
         playerBoardsPanes.forEach((pbPanes)->{
-            //System.out.println(pbPanes.getChildren());
             Pane prodPane = (Pane) pbPanes.lookup("#productionPane");
-            System.out.println(prodPane.getChildren());
             ImageView im = new ImageView();
             im.fitHeightProperty().bind(prodPane.heightProperty());
             im.fitWidthProperty().bind(prodPane.widthProperty());
             prodPane.getChildren().add(im);
+            System.out.println(prodPane.getChildren());
             //pbPanes.setPickOnBounds(true);
             //prodPane.setPickOnBounds(true);
             prodPane.setOnMouseClicked(this::productionClick);
@@ -334,12 +333,19 @@ public class GameScene implements GenericScene{
                 strongboxPane.getChildren().clear();
                 double offsetX = 0;
                 double offsetY = 0;
+                int count = 0;
                 for(LightResource r:strongbox.getStrongbox()){
-                    ImageView imageView = new ImageView("/images/RESOURCES/"+r.name().toLowerCase()+".png");
+                    ImageView imageView = new ImageView("/images/RESOURCES/"+r.name().toLowerCase()+"-min.png");
                     imageView.setPreserveRatio(true);
-                    imageView.fitWidthProperty().bind(strongboxPane.widthProperty().divide(4));
+                    //imageView.fitWidthProperty().bind(strongboxPane.widthProperty().divide(4));
                     imageView.relocate(offsetX, offsetY);
-                    offsetX+=30;
+                    offsetX+=10;
+                    count++;
+                    if(count == 10){
+                        count = 0;
+                        offsetX = 0;
+                        offsetY += 25;
+                    }
                     strongboxPane.getChildren().add(imageView);
                 }
             }
