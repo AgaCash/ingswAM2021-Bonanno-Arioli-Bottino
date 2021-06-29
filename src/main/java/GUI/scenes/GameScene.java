@@ -253,6 +253,29 @@ public class GameScene implements GenericScene{
     //|  UPDATES |
     //|----------|
 
+    public void updateFaithTrack(String username, LightFaithTrack faithTrack) {
+        playerBoardsPanes.forEach((pBoardPane)->{
+            if(playersList.get(Integer.parseInt(pBoardPane.getId())).equals(username)){
+                Pane faithPane = (Pane) pBoardPane.lookup("#faith");
+                faithPane.getChildren().clear();
+                ImageView imageView = new ImageView("/images/RESOURCES/redCross.png");
+                imageView.setPreserveRatio(true);
+                imageView.fitHeightProperty().bind(pBoardPane.heightProperty().divide(8.5));
+                double offsetX = -35;
+                boolean isStart = true;
+                for(LightFaithBox fb : faithTrack.getBox()){
+                    if(fb.getActualPos()&& isStart)
+                        imageView.relocate(-10,80);
+                    else if (fb.getActualPos())
+                        imageView.relocate(offsetX,45);
+                    offsetX += 25;
+                    isStart = false;
+                    }
+                    faithPane.getChildren().add(imageView);
+                }
+        });
+    }
+
     public void updateStrongBox(String username, LightStrongbox strongbox){
         playerBoardsPanes.forEach((pBoardPane)->{
             if(playersList.get(Integer.parseInt(pBoardPane.getId())).equals(username)){
@@ -351,7 +374,7 @@ public class GameScene implements GenericScene{
     }
 
     private void loadFaith(Pane pane){
-        LightFaithTrack ft = GUI.getInstance().getController().getPlayer().getPlayerBoard().getFaithTrack();
+        /*LightFaithTrack ft = GUI.getInstance().getController().getPlayer().getPlayerBoard().getFaithTrack();
         Pane faithPane = (Pane) pane.lookup("#faith");
         ImageView im = new ImageView("/images/RESOURCES/redCross.png");
         im.setPreserveRatio(true);
@@ -367,7 +390,10 @@ public class GameScene implements GenericScene{
             isStart = false;
         }
         faithPane.getChildren().add(im);
+
+         */
     }
+
 
     private void loadDevCards(Pane pane, LightDevelopmentBoard developmentBoard){
         ArrayList<ImageView> ims = new ArrayList<>();

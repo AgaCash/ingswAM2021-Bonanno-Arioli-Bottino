@@ -1,5 +1,6 @@
-/*package model.singleplayer;
+package model.singleplayer;
 
+import exceptions.EmptyDeckException;
 import model.colour.Colour;
 import org.junit.jupiter.api.Test;
 import model.table.Deck;
@@ -23,9 +24,14 @@ public class TokenTest {
 
     @Test
     public void cardActionTest(){
-        DevelopmentBoard devBoard = DevelopmentBoard.getDevBoardInstance();
+        DevelopmentBoard devBoard = new DevelopmentBoard();
         Token token = new Token(1, Colour.BLUE, 4);
-        Deck deck = devBoard.getDeck(Colour.BLUE);
+        Deck deck = null;
+        try {
+            deck = devBoard.getDeck(Colour.BLUE);
+        } catch (EmptyDeckException e) {
+            e.printStackTrace();
+        }
         boolean isEmpty = deck.isEmpty();
         assertFalse(isEmpty);
         for(int i=0; i<token.getRemoveQuantity();i++)
@@ -36,4 +42,4 @@ public class TokenTest {
         //    token.cardAction(devBoard);
         //commented section brings to a game over message successfully
     }
-}*/
+}

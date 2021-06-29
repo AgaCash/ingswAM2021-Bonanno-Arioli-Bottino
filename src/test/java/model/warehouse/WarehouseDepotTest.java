@@ -24,6 +24,7 @@ class WarehouseDepotTest {
         ArrayList<Resource> resources = new ArrayList<>();
         resources.add(Resource.SERVANT); resources.add(Resource.SERVANT); //SE SE
         ExtraDepot card1 = new ExtraDepot(0, true, null, resources);
+        card1.activate();
         //add card to warehouse
         try {
             w.addNewExtraDepot(card1);
@@ -66,6 +67,7 @@ class WarehouseDepotTest {
         ArrayList<Resource> resources2 = new ArrayList<>();
         resources2.add(Resource.COIN); resources2.add(Resource.COIN);
         ExtraDepot card2 = new ExtraDepot(0, true, null, resources2);
+        card2.activate();
         try {
             w.addNewExtraDepot(card2);
         }

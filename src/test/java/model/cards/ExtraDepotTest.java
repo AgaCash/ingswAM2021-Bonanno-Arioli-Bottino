@@ -15,6 +15,7 @@ class ExtraDepotTest {
         extra.add(Resource.COIN);
         extra.add(Resource.COIN);
         ExtraDepot card = new ExtraDepot(0, true, new ArrayList<Resource>(), extra);
+        card.activate();
         assertTrue(card.addResource(Resource.COIN));
         assertTrue(card.addResource(Resource.COIN));
         assertFalse(card.addResource(Resource.COIN));
@@ -32,6 +33,7 @@ class ExtraDepotTest {
         extra.add(Resource.COIN);
         extra.add(Resource.COIN);
         ExtraDepot card = new ExtraDepot(0, true, new ArrayList<Resource>(), extra);
+        card.activate();
         card.addResource(Resource.COIN);
         card.addResource(Resource.COIN);
         assertTrue(card.removeResource(Resource.COIN));
@@ -39,6 +41,7 @@ class ExtraDepotTest {
         assertFalse(card.removeResource(Resource.COIN));
 
         card = new ExtraDepot(0, true, new ArrayList<Resource>(), extra);
+        card.activate();
         assertFalse(card.removeResource(Resource.COIN));
 
         card.addResource(Resource.COIN);

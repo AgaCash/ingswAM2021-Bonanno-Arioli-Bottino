@@ -1,5 +1,6 @@
-/*package model.cards;
+package model.cards;
 
+import exceptions.UnusableCardException;
 import org.junit.jupiter.api.Test;
 import model.resources.Resource;
 
@@ -8,16 +9,24 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-class WhiteConverterTest {*/
+class WhiteConverterTest {
 
-/*    @Test
+    @Test
     void whichResource(){
         WhiteConverter card = new WhiteConverter(0, true, new ArrayList<DevelopmentCard>(), Resource.COIN);
-        assertEquals(card.whichResource(), Resource.COIN);
-        assertNotEquals(card.whichResource(), Resource.STONE);
+        try {
+            assertEquals(card.whichResource(), Resource.COIN);
+            assertNotEquals(card.whichResource(), Resource.STONE);
+        } catch (UnusableCardException e) {
+            e.printStackTrace();
+        }
 
-        card = new WhiteConverter(0, false, new ArrayList<DevelopmentCard>(), Resource.COIN);
-        assertNotEquals(card.whichResource(), Resource.COIN);
+        try {
+            card = new WhiteConverter(0, false, new ArrayList<DevelopmentCard>(), Resource.COIN);
+            card.whichResource();
+        } catch (UnusableCardException e) {
+            assertTrue(true);
+        }
     }
 
     @Test
@@ -51,4 +60,4 @@ class WhiteConverterTest {*/
         s+= "\nIs Enabled: "+ isEnabled;
         assertEquals(card.toString(), s);
     }
-}*/
+}

@@ -18,9 +18,9 @@ class DiscountTest {
             assertEquals(card.whichDiscount(), Resource.COIN);
             assertNotEquals(card.whichDiscount(), Resource.SERVANT);
             card = new Discount(0, false, new ArrayList<DevelopmentCard>(), Resource.COIN);
-            assertNotEquals(card.whichDiscount(), Resource.COIN);
+            card.whichDiscount();
         }catch (UnusableCardException e) {
-            e.printStackTrace();
+            assertTrue(true);
         }
     }
 
