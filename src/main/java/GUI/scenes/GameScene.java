@@ -353,18 +353,22 @@ public class GameScene implements GenericScene{
     public void updateCardSlots(String username, ArrayList<LightDevelopmentCard> cardSlots){
         playerBoardsPanes.forEach((pBoardPane)->{
             if(playersList.get(Integer.parseInt(pBoardPane.getId())).equals(username)){
-                Pane developmentPane = (Pane) gamePane.lookup("#productionPane");
+                Pane developmentPane = (Pane) pBoardPane.lookup("#productionPane");
                 developmentPane.getChildren().clear();
                 recreateProdBaseImageview(developmentPane);
-                double offsetX = 82;
+                double offsetX;
+                int count = -1;
                 for(LightDevelopmentCard c: cardSlots){
-                    String fileName = c.getColour().name().substring(0, 1).toUpperCase()+c.getColour().name().substring(1).toLowerCase();
-                    ImageView imageView = new ImageView("/images/DEVBOARD/"+fileName+c.getId()+".png");
-                    imageView.setPreserveRatio(true);
-                    imageView.fitWidthProperty().bind(developmentPane.widthProperty().divide(3.7));
-                    imageView.relocate(offsetX, 120);
-                    offsetX+=120;
-                    developmentPane.getChildren().add(imageView);
+                    count++;
+                    if(c.getColour()!=null){
+                        String fileName = c.getColour().name().substring(0, 1).toUpperCase()+c.getColour().name().substring(1).toLowerCase();
+                        ImageView imageView = new ImageView("/images/DEVBOARD/"+fileName+c.getId()+".png");
+                        imageView.setPreserveRatio(true);
+                        imageView.fitWidthProperty().bind(developmentPane.widthProperty().divide(3.7));
+                        offsetX= 82 +120*count;
+                        imageView.relocate(offsetX, 40);
+                        developmentPane.getChildren().add(imageView);
+                    }
                 }
             }
         });
@@ -830,7 +834,6 @@ public class GameScene implements GenericScene{
         im.fitWidthProperty().bind(prodPane.widthProperty());
         prodPane.getChildren().add(im);
         prodPane.setOnMouseClicked(this::productionClick);
-        Pane realPane = new Pane();
     }
 
 
