@@ -410,7 +410,9 @@ public class GUI implements View {
 
     @Override
     public void updateFaithTrack(String username, LightFaithTrack faithTrack) {
-
+        Platform.runLater(()->{
+            gameGuiController.updateFaithTrack(username, faithTrack);
+        });
     }
 
     @Override
