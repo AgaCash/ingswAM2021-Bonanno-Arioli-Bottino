@@ -1,5 +1,7 @@
-/*package model.cards;
+package model.cards;
 
+import exceptions.FullCardSlotException;
+import exceptions.NonCorrectLevelCardException;
 import model.colour.Colour;
 import org.junit.jupiter.api.Test;
 import model.resources.Resource;
@@ -21,8 +23,10 @@ class CardSlotsTest {
             slots.addCard(0, card);
             slots.addCard(1, card);
             slots.addCard(2, card);
-        }catch(OperationNotSupportedException e){
-            //notify to controller
+        } catch (FullCardSlotException e) {
+            e.printStackTrace();
+        } catch (NonCorrectLevelCardException e) {
+            e.printStackTrace();
         }
         assertEquals(slots.getCard(0), card);
         assertEquals(slots.getCard(1), card);
@@ -33,14 +37,14 @@ class CardSlotsTest {
         try {
             slots.addCard(0, card);
             slots.addCard(2, card);
-        }catch(OperationNotSupportedException e){}
+        }catch(FullCardSlotException | NonCorrectLevelCardException e){}
         assertEquals(slots.getCard(0), card);
         assertEquals(slots.getCard(2), card);
         //doesn't add level 3 card on level 2 card
         card = new DevelopmentCard(Colour.BLUE, 3);
         try {
             slots.addCard(1, card);
-        }catch(OperationNotSupportedException e){ }
+        }catch(FullCardSlotException | NonCorrectLevelCardException e){ }
         assertFalse(card.equals(slots.getCard(1)));
         //doesn't add level 2 model.cards as first level
         slots = new CardSlots();
@@ -74,12 +78,17 @@ class CardSlotsTest {
                 new ArrayList<Resource>(),
                 new ArrayList<Resource>(),
                 new ArrayList<Resource>());
-
-        slots.addCard(0, card1);
-        slots.addCard(1, card2);
-        slots.addCard(2, card3);
-        slots.addCard(1, card4);
-        slots.addCard(1, card5);
+        try {
+            slots.addCard(0, card1);
+            slots.addCard(1, card2);
+            slots.addCard(2, card3);
+            slots.addCard(1, card4);
+            slots.addCard(1, card5);
+        } catch (FullCardSlotException e) {
+            e.printStackTrace();
+        } catch (NonCorrectLevelCardException e) {
+            e.printStackTrace();
+        }
 
         assertTrue(slots.isPresent(card1));
         assertTrue(slots.isPresent(card2));
@@ -91,4 +100,4 @@ class CardSlotsTest {
 
     }
 
-}*/
+}

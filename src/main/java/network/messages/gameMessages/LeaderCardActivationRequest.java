@@ -12,9 +12,16 @@ import view.VirtualClient;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 
+/**
+ * Message that implements a LeaderCard activation Request
+ */
 public class LeaderCardActivationRequest extends GameMessage{
     private LightLeaderCard card;
 
+    /**Request constructor
+     * @param username Sender's username
+     * @param card the LightLeaderCard copy of the LeaderCard in model will be activated
+     */
     public LeaderCardActivationRequest(String username, LightLeaderCard card){
         super(username, MessageType.LEADERCARD);
         this.card = card;
@@ -33,6 +40,9 @@ public class LeaderCardActivationRequest extends GameMessage{
 
     }
 
+    /**Creates the Response instance if action was successful (executeCommand didn't threw Exceptions)
+     * @param controller the Controller in the Server
+     */
     public void update(Controller controller){
         ArrayList<LightLeaderCard> newLeaderSlot = new ArrayList<>();
         controller.getCurrentPlayer().getPlayerBoard().getLeaders().forEach(e-> newLeaderSlot.add(e.convert()));

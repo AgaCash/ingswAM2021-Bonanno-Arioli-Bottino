@@ -10,11 +10,20 @@ import exceptions.UnusableCardException;
 import network.messages.MessageType;
 import view.VirtualClient;
 
+/**
+ * Message that implements a Production from DevelopmentCard Request
+ */
 public class DevCardProductionRequest extends GameMessage{
     private int slot;
     private LightResource chosenResource;
     private LightLeaderCard card;
 
+    /**Request constructor
+     * @param username Sender's username
+     * @param slot the CardSlot number where DevelopmentCard is on the top of
+     * @param chosenResource the free choice Resource will be produced if LeaderCard will be successfully added to production
+     * @param card a LightLeaderCard copy of the LeaderCard that Player want to add to the action, null if Player asked for simple action
+     */
     public DevCardProductionRequest(String username, int slot, LightResource chosenResource, LightLeaderCard card){
         super(username, MessageType.DEVCARDPRODUCTION);
         this.slot = slot;
@@ -34,6 +43,9 @@ public class DevCardProductionRequest extends GameMessage{
         }
     }
 
+    /**Creates the Response instance if action was successful (executeCommand didn't threw Exceptions)
+     * @param controller the Controller in the Server
+     */
     private void update(Controller controller){
         DevCardProductionResponse response = new DevCardProductionResponse(getUsername(),
                 controller.getLightPlayers());
