@@ -387,12 +387,16 @@ public class GUI implements View {
 
     @Override
     public void showRanking(String winner, String rank) {
-
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("ENDGAME");
+        alert.setHeaderText("FINAL RANK:\n");
+        alert.setContentText(rank +"\n" + "THE WINNER IS: " + winner);
+        alert.showAndWait();
     }
 
     @Override
     public void endGame() {
-
+        controller.quittingApplication();
     }
 
     @Override
