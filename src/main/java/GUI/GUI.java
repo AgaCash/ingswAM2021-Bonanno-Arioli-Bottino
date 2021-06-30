@@ -415,7 +415,9 @@ public class GUI implements View {
 
     @Override
     public void endGame() {
-        controller.quittingApplication();
+        Platform.runLater(()-> {
+            controller.quittingApplication();
+        });
     }
 
     @Override

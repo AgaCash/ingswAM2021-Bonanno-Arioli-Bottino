@@ -149,7 +149,7 @@ public class GameScene implements GenericScene{
             pbPane.getChildren().addAll(faithPane, depotPane, strongboxPane, productionPane);
         });
         //aggiungere le varie croci nelle posizioni corrette (player 3 ha 1 faithPoint bonus)
-        loadFaith(playerBoardsPanes.get(myPlayerIndex));
+        //loadFaith(playerBoardsPanes.get(myPlayerIndex));
         //productions
         //          !!ALWAYS EMPTY AT START!!
         //          -> when slot is clicked
@@ -281,28 +281,27 @@ public class GameScene implements GenericScene{
                 ImageView imageView2 = new ImageView("/images/lorenzo.png");
                 imageView2.setPreserveRatio(true);
                 imageView2.fitHeightProperty().bind(pBoardPane.heightProperty().divide(12));
-                double offsetX = -35;
+                double offsetXME = -35;
+                double offsetXLOR = -30;
                 boolean isStartME = true;
                 boolean isStartLOR = true;
                 boolean single = false;
                 for(LightFaithBox fb : faithTrack.getBox()) {
                     if (fb.getActualPos() && isStartME)
                         imageView.relocate(-10, 80);
-                    else if (fb.getActualPos())
-                        imageView.relocate(offsetX, 45);
-                    offsetX += 25;
+                    if (fb.getActualPos() && !isStartME)
+                        imageView.relocate(offsetXME, 45);
+                    offsetXME += 27;
                     isStartME = false;
-                }
-                for(LightFaithBox fb : faithTrack.getBox()){
                     if(fb.getLorenzoPos()&& isStartLOR) {
                         imageView2.relocate(-10, 80);
                         single = true;
                     }
-                    else if (fb.getLorenzoPos()) {
-                        imageView2.relocate(offsetX, 45);
+                    if (fb.getLorenzoPos() && !isStartLOR) {
+                        imageView2.relocate(offsetXLOR, 45);
                         single = true;
                     }
-                    offsetX += 25;
+                    offsetXLOR += 27;
                     isStartLOR = false;
                     }
                 if(single)

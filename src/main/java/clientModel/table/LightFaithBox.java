@@ -20,7 +20,9 @@ public class LightFaithBox {
     public void setPos(boolean pos){ this.actualPos = pos;}
 
     public void setLorenzoPos(boolean pos){this.lorenzoPos = pos;}
-    public boolean getLorenzoPos(){return lorenzoPos;}
+    public boolean getLorenzoPos(){
+        return lorenzoPos;
+    }
 
     public boolean[] getPopeFlag() {
         return popeFlag;
