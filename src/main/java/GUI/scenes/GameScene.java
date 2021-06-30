@@ -765,12 +765,13 @@ public class GameScene implements GenericScene{
     }
 
     private void productionClick(MouseEvent mouseEvent, int playerIndex){
+        if(!isMyTurn)
+            return;
         if(playerIndex!= myPlayerIndex)
             return;
         if(!askConfirmation("Activate this production?"))
             return;
-        if(!isMyTurn)
-            return;
+
 
         //0     - 82.0
         //82.1  - 202.0
