@@ -329,15 +329,17 @@ public class GameScene implements GenericScene{
                 int count = -1;
                 for(LightDevelopmentCard c: cardSlots){
                     count++;
+                    String fileName = "null";
                     if(c.getColour()!=null){
-                        String fileName = c.getColour().name().substring(0, 1).toUpperCase()+c.getColour().name().substring(1).toLowerCase();
-                        ImageView imageView = new ImageView("/images/DEVBOARD/"+fileName+c.getId()+".png");
-                        imageView.setPreserveRatio(true);
-                        imageView.fitWidthProperty().bind(developmentPane.widthProperty().divide(3.7));
-                        offsetX= 82 +120*count;
-                        imageView.relocate(offsetX, 40);
-                        developmentPane.getChildren().add(imageView);
+                        fileName = c.getColour().name().substring(0, 1).toUpperCase()+c.getColour().name().substring(1).toLowerCase();
                     }
+                    //System.out.println(fileName+c.getId());
+                    ImageView imageView = new ImageView("/images/DEVBOARD/"+fileName+c.getId()+".png");
+                    imageView.setPreserveRatio(true);
+                    imageView.fitWidthProperty().bind(developmentPane.widthProperty().divide(3.7));
+                    offsetX= 82 +120*count;
+                    imageView.relocate(offsetX, 40);
+                    developmentPane.getChildren().add(imageView);
                 }
             }
         });
@@ -421,18 +423,17 @@ public class GameScene implements GenericScene{
 
 
     private void loadDevCards(Pane pane, LightDevelopmentBoard developmentBoard){
+        pane.getChildren().clear();
         ArrayList<ImageView> ims = new ArrayList<>();
         double x = 30;
         double y = 0;
         for (int i = 0, j = 0; i < developmentBoard.getDecksSize() ; i++, j++){
             LightDevelopmentCard c = developmentBoard.getTopCardFromDeck(i);
-            ImageView im;
-            if(c.getColour() != null){
-                String fileName = c.getColour().name().substring(0, 1).toUpperCase()+c.getColour().name().substring(1).toLowerCase();
-                im = new ImageView("/images/DEVBOARD/"+fileName+c.getId()+".png");
-            }else{
-                im = new ImageView();
+            String fileName = "null";
+            if(c.getColour()!=null){
+                fileName = c.getColour().name().substring(0, 1).toUpperCase()+c.getColour().name().substring(1).toLowerCase();
             }
+            ImageView im = new ImageView("/images/DEVBOARD/"+fileName+c.getId()+".png");;
             im.setPreserveRatio(true);
             im.fitWidthProperty().bind(pane.widthProperty().divide(4));
             im.fitHeightProperty().bind(pane.heightProperty().divide(3).subtract(10));
