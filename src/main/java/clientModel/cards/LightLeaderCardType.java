@@ -1,5 +1,8 @@
 package clientModel.cards;
 
+/**
+ * todo mi serve aga
+ */
 public enum LightLeaderCardType {
         DISCOUNT(LightDiscount.class),
         EXTRADEPOT(LightExtraDepot.class),

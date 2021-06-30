@@ -138,7 +138,6 @@ public class Player {
         LightPlayer player = new LightPlayer();
 
         player.setNickname(getNickname());
-        player.setStartingTurn(getStartingTurn());
         player.setPoints(this.points);
         player.setPlayerBoard(this.playerboard.convert());
 
