@@ -283,17 +283,19 @@ public class GUI implements View {
     public void waitingForMyTurn() {
         Platform.runLater(()->{
             try {
-                if(!isGameBeenInitialized){
+                if (!isGameBeenInitialized) {
                     fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/game.fxml"));
                     gameRoot = fxmlLoader.load();
                     gameGuiController = fxmlLoader.getController();
                     gameGuiController.init(controller.getNumOfPlayerInLobby());
-                    isGameBeenInitialized=true;
+                    isGameBeenInitialized = true;
                     primaryStage.setScene(new Scene(gameRoot));
                     primaryStage.show();
                 }
-                gameGuiController.disableTurn();
-                showSuccess("Others are playing, waiting for your turn starts");
+                if (controller.getNumOfPlayerInLobby() != 1){
+                    gameGuiController.disableTurn();
+                    showSuccess("Others are playing, waiting for your turn starts");
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
