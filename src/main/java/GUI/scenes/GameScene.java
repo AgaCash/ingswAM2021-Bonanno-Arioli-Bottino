@@ -347,8 +347,9 @@ public class GameScene implements GenericScene{
     //todo fix dimensions
     public void updateWarehouseDepot(String username, LightWarehouseDepot warehouseDepot){
         playerBoardsPanes.forEach((pbPane)->{
-            Pane depotPane = (Pane) pbPane.lookup("#depotPane");
-            if(playersList.get(myPlayerIndex).equals(username)){
+            if(playersList.get(Integer.parseInt(pbPane.getId())).equals(username)){
+                Pane depotPane = (Pane) pbPane.lookup("#depotPane");
+                System.out.println(playersList.get(myPlayerIndex));
                 depotPane.getChildren().clear();
                 ArrayList<LightResource> resS = warehouseDepot.getWarehouse();
                 double offsetX = 20;
