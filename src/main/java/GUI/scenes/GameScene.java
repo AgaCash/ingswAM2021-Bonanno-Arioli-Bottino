@@ -149,7 +149,7 @@ public class GameScene implements GenericScene{
             pbPane.getChildren().addAll(faithPane, depotPane, strongboxPane, productionPane);
         });
         //aggiungere le varie croci nelle posizioni corrette (player 3 ha 1 faithPoint bonus)
-        //loadFaith(playerBoardsPanes.get(myPlayerIndex));
+        loadFaith(playerBoardsPanes.get(myPlayerIndex));
         //productions
         //          !!ALWAYS EMPTY AT START!!
         //          -> when slot is clicked
@@ -158,6 +158,16 @@ public class GameScene implements GenericScene{
             Pane prodPane = (Pane) pbPanes.lookup("#productionPane");
             recreateProdBaseImageview(prodPane, Integer.parseInt(pbPanes.getId()));
         });
+
+        playerBoardsPanes.forEach((pbPane)->{
+            int playerId = Integer.parseInt(pbPane.getId());
+            String username = playersList.get(playerId);
+            updateStrongBox(username, GUI.getInstance().getController().getPlayerFull(username).getPlayerBoard().getStrongbox());
+            updateFaithTrack(username, GUI.getInstance().getController().getPlayerFull(username).getPlayerBoard().getFaithTrack());
+            updateCardSlots(username, GUI.getInstance().getController().getPlayerFull(username).getPlayerBoard().getCardSlots().getCards());
+            updateWarehouseDepot(username,GUI.getInstance().getController().getPlayerFull(username).getPlayerBoard().getWarehouseDepot());
+        });
+
     }
 
 
@@ -349,7 +359,6 @@ public class GameScene implements GenericScene{
         playerBoardsPanes.forEach((pbPane)->{
             if(playersList.get(Integer.parseInt(pbPane.getId())).equals(username)){
                 Pane depotPane = (Pane) pbPane.lookup("#depotPane");
-                System.out.println(playersList.get(myPlayerIndex));
                 depotPane.getChildren().clear();
                 ArrayList<LightResource> resS = warehouseDepot.getWarehouse();
                 double offsetX = 20;
@@ -756,12 +765,13 @@ public class GameScene implements GenericScene{
     }
 
     private void productionClick(MouseEvent mouseEvent, int playerIndex){
+        if(!isMyTurn)
+            return;
         if(playerIndex!= myPlayerIndex)
             return;
         if(!askConfirmation("Activate this production?"))
             return;
-        if(!isMyTurn)
-            return;
+
 
         //0     - 82.0
         //82.1  - 202.0

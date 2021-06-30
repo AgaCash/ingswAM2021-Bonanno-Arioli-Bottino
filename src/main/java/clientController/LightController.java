@@ -494,19 +494,32 @@ public class LightController {
 
     }
 
+    /*
+    //RENDUNDANT?
     public void start(){
         view.askTurn();
+    }*/
+
+    public LightPlayer getPlayerFull(String username){
+        try {
+            return game.getPlayer(username);
+        } catch (NoSuchUsernameException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public LightPlayerBoard getPlayerBoard(){ return game.getPlayerBoard(); }
 
     public void setMarketBoard(LightMarketBoard market){
         this.game.setMarketBoard(market);
+        //view.updateMarketBoard(market);
     }
     public LightMarketBoard getMarketBoard(){ return this.game.getMarketBoard(); }
 
     public void setDevBoard(LightDevelopmentBoard board){
         this.game.setDevBoard(board);
+        //view.updateDevBoard(board);
     }
     public LightDevelopmentBoard getDevBoard(){ return this.game.getDevBoard();}
 
