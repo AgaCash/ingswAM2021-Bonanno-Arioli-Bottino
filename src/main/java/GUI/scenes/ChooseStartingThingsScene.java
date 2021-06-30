@@ -3,11 +3,13 @@ package GUI.scenes;
 import GUI.GUI;
 import clientModel.cards.LightLeaderCard;
 import clientModel.resources.LightResource;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -17,6 +19,10 @@ import java.util.ArrayList;
 
 public class ChooseStartingThingsScene {
 
+    @FXML
+    Label waitingLabel;
+    @FXML
+    ProgressIndicator loadingIndicator;
     @FXML
     Pane cardsPane;
     @FXML
@@ -47,6 +53,7 @@ public class ChooseStartingThingsScene {
 
     @FXML
     public void sendStartingThings(ActionEvent actionEvent) {
+        setLoadingSituation(true);
         ArrayList<LightLeaderCard> chosenLeaderCards = new ArrayList<>();
         ArrayList<LightResource> chosenResources = new ArrayList<>();
         for (Node n:selectionCardPane.getChildren()) {
@@ -73,13 +80,32 @@ public class ChooseStartingThingsScene {
                 chosenResources.add(resource);
             }
         }
-        //CONTROLLI
-        if(chosenLeaderCards.size()==2 && (chosenResources.size() == deservedResources))
-            GUI.getInstance().getController().sendStartItems(chosenLeaderCards, chosenResources, faithPoints);
-        else if(chosenLeaderCards.size() != 2)
-            GUI.getInstance().getController().showError("You can only choose 2 leader cards");
-        else
-            GUI.getInstance().getController().showError("You have to choose the resources you deserve");
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                //CONTROLLI
+                if(chosenLeaderCards.size()==2 && (chosenResources.size() == deservedResources))
+                    GUI.getInstance().getController().sendStartItems(chosenLeaderCards, chosenResources, faithPoints);
+                else if(chosenLeaderCards.size() != 2) {
+                    setLoadingSituation(false);
+                    GUI.getInstance().getController().showError("You can only choose 2 leader cards");
+                }else{
+                    setLoadingSituation(false);
+                    GUI.getInstance().getController().showError("You have to choose the resources you deserve");
+                }
+                return null;
+            }
+        };
+
+        new Thread(task).start();
+
+
+    }
+
+    private void setLoadingSituation(boolean bool){
+        sendStartingThingsBtn.setVisible(!bool);
+        loadingIndicator.setVisible(bool);
+        waitingLabel.setVisible(bool);
     }
 
     public void loadLeaderCards(ArrayList<LightLeaderCard> leaderCards){

@@ -41,5 +41,7 @@
          </children>
       </Pane>
       <Line endX="19.0" endY="82.0" layoutX="402.0" layoutY="414.0" startX="19.0" startY="-23.0" />
+      <ProgressIndicator fx:id="loadingIndicator" layoutX="396.0" layoutY="533.0" visible="false" />
+      <Label fx:id="waitingLabel" layoutX="79.0" layoutY="556.0" text="Waiting for other players to get what they deserve" visible="false" />
    </children>
 </AnchorPane>

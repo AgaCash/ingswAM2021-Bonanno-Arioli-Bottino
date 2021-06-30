@@ -296,6 +296,8 @@ public class GUI implements View {
 
     @Override
     public void waitingForMyTurn() {
+        //System.out.println("\n\n\n\n\n\n\n\n\nFUORI "+this+"\n\n\n\n\n\n\n\n\n");
+
         Platform.runLater(()->{
             try {
                 if (!isGameBeenInitialized) {
