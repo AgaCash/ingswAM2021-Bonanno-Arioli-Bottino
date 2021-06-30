@@ -207,9 +207,6 @@ public class GameScene implements GenericScene{
         //per attivare i cheat (da togliere)
         clickCount = 0;
         GUI.getInstance().getController().sendEndTurnRequest();
-        if(playersList.size()==1){
-
-        }
     }
 
     public void enableTurn(){

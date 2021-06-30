@@ -47,6 +47,10 @@ public class LightController {
 
     //helper for gui
 
+    public boolean isSinglePlayer(){
+        return usernamesList.size()==1;
+    }
+
     public void setNumOfPlayerInLobby(int numOfPlayerInLobby) {
         this.numOfPlayerInLobby = numOfPlayerInLobby;
     }
@@ -400,7 +404,9 @@ public class LightController {
             String responseS = client.recv();
             EndTurnResponse response = gson.fromJson(responseS, EndTurnResponse.class);
             response.executeCommand(this);
-            waitForMyTurn();
+            if(!this.isSinglePlayer()){
+                waitForMyTurn();
+            }
         }catch (IOException e){
             view.showError(e.getMessage());
         }
