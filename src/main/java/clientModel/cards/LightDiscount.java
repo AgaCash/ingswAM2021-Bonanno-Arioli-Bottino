@@ -5,6 +5,9 @@ import clientModel.resources.LightResource;
 
 import java.util.ArrayList;
 
+/**
+ * LightModel copy of Model's Discount
+ */
 public class LightDiscount extends LightLeaderCard {
     public ArrayList<LightDevelopmentCard> requires;
     public LightResource discount;
@@ -17,24 +20,12 @@ public class LightDiscount extends LightLeaderCard {
         this.isEnabled = en;
         super.type = LightLeaderCardType.DISCOUNT;
     }
-/*
-    @Override
-    public LightResource whichDiscount() throws UnusableCardException {
-        if(!isEnabled())
-            throw new UnusableCardException();
-        return this.discount;
-    }*/
 
     @Override
     public boolean isDiscount(){
         return true;
     }
-/*
-    @Override
-    public ArrayList<LightDevelopmentCard> getRequiredCards(){
-        return this.requires;
-    }
- */
+
     @Override
     public String toString(){
         String s = new String();

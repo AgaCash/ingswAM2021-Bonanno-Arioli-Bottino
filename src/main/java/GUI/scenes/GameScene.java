@@ -278,16 +278,36 @@ public class GameScene implements GenericScene{
                 ImageView imageView = new ImageView("/images/RESOURCES/redCross.png");
                 imageView.setPreserveRatio(true);
                 imageView.fitHeightProperty().bind(pBoardPane.heightProperty().divide(8.5));
+                ImageView imageView2 = new ImageView("/images/lorenzo.png");
+                imageView2.setPreserveRatio(true);
+                imageView2.fitHeightProperty().bind(pBoardPane.heightProperty().divide(12));
                 double offsetX = -35;
-                boolean isStart = true;
-                for(LightFaithBox fb : faithTrack.getBox()){
-                    if(fb.getActualPos()&& isStart)
-                        imageView.relocate(-10,80);
+                boolean isStartME = true;
+                boolean isStartLOR = true;
+                boolean single = false;
+                for(LightFaithBox fb : faithTrack.getBox()) {
+                    if (fb.getActualPos() && isStartME)
+                        imageView.relocate(-10, 80);
                     else if (fb.getActualPos())
-                        imageView.relocate(offsetX,45);
+                        imageView.relocate(offsetX, 45);
                     offsetX += 25;
-                    isStart = false;
+                    isStartME = false;
+                }
+                for(LightFaithBox fb : faithTrack.getBox()){
+                    if(fb.getLorenzoPos()&& isStartLOR) {
+                        imageView2.relocate(-10, 80);
+                        single = true;
                     }
+                    else if (fb.getLorenzoPos()) {
+                        imageView2.relocate(offsetX, 45);
+                        single = true;
+                    }
+                    offsetX += 25;
+                    isStartLOR = false;
+                    }
+                if(single)
+                    faithPane.getChildren().addAll(imageView, imageView2);
+                else
                     faithPane.getChildren().add(imageView);
                 }
         });

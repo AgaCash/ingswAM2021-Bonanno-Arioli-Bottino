@@ -3,6 +3,9 @@ package clientModel.player;
 
 import clientModel.table.LightPlayerBoard;
 
+/**
+ * LightModel copy of Model's Player
+ */
 public class LightPlayer {
     private String nickname;
     private int startingTurn;
