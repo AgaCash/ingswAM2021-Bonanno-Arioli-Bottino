@@ -310,13 +310,19 @@ public class Controller {
                 }
             }
             else {
-                do {
+                response = new EndTurnResponse(username,
+                        game.getCurrentPlayer().getNickname(),
+                        lastPlayer.getPlayerBoard().getStrongbox().convert());
+                EndTurnResponse finalResponse1 = response;
+                getViews().forEach((element) -> element.getVirtualView().sendEndTurnNotify(finalResponse1));
+                while (disconnectedPlayer.contains(game.getCurrentPlayer().getNickname()) && !views.isEmpty()){
+                    game.updateTurn();
                     response = new EndTurnResponse(username,
                             game.getCurrentPlayer().getNickname(),
                             lastPlayer.getPlayerBoard().getStrongbox().convert());
-                    EndTurnResponse finalResponse1 = response;
-                    getViews().forEach((element) -> element.getVirtualView().sendEndTurnNotify(finalResponse1));
-                }while (disconnectedPlayer.contains(game.getCurrentPlayer().getNickname()) && !views.isEmpty());
+                    EndTurnResponse finalResponse2 = response;
+                    getViews().forEach((element) -> element.getVirtualView().sendEndTurnNotify(finalResponse2));
+                }
             }
             if(views.isEmpty() && currL != null){
                 LobbyHandler.getInstance().destroyLobby(currL);

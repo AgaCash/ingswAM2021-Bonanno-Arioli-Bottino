@@ -25,6 +25,7 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Glow;
+import javafx.scene.effect.Light;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -82,16 +83,20 @@ public class GameScene implements GenericScene{
                 break;
             }
         }
-        //commonParts
         FXMLLoaderCustom customFL = new FXMLLoaderCustom();
         marketPane = customFL.getPage("market");
         devBoardPane = customFL.getPage("developmentBoard");
         leaderPane = customFL.getPage("leader");
+        Pane marblePane = new Pane();
+        marblePane.setId("marblesPane");
+        marblePane.resize(265,220);
+        marblePane.setLayoutX(80);
+        marblePane.setLayoutY(40);
+        marketPane.getChildren().add(marblePane);
         loadDevCards(devBoardPane, GUI.getInstance().getController().getDevBoard());
-        loadMarbles(marketPane);
+        loadMarbles(marketPane, GUI.getInstance().getController().getMarketBoard());
         loadMarbleSelections(marketPane);
         loadLeaderPane(leaderPane);
-
         //playerBoards
         playerBoardsButtons = new ArrayList<>();
         player1BTN.setId("0");
@@ -124,11 +129,11 @@ public class GameScene implements GenericScene{
         playerBoardsPanes.forEach((pbPane)->{
             Pane faithPane = new Pane();
             faithPane.resize(622, 135);
-            faithPane.setId("faith");
+            faithPane.setId("faithPane");
             Pane depotPane = new Pane();
-            depotPane.resize(111, 116);
+            depotPane.resize(111, 146);
             depotPane.setLayoutX(26);
-            depotPane.setLayoutY(187);
+            depotPane.setLayoutY(170);
             depotPane.setId("depotPane");
             Pane strongboxPane = new Pane();
             strongboxPane.resize(111, 80);
@@ -141,16 +146,10 @@ public class GameScene implements GenericScene{
             productionPane.setLayoutY(169);
             productionPane.setId("productionPane");
 
-
-            pbPane.getChildren().add(faithPane);
-            pbPane.getChildren().add(depotPane);
-            pbPane.getChildren().add(strongboxPane);
-            pbPane.getChildren().add(productionPane);
+            pbPane.getChildren().addAll(faithPane, depotPane, strongboxPane, productionPane);
         });
         //aggiungere le varie croci nelle posizioni corrette (player 3 ha 1 faithPoint bonus)
         loadFaith(playerBoardsPanes.get(myPlayerIndex));
-
-
         //productions
         //          !!ALWAYS EMPTY AT START!!
         //          -> when slot is clicked
@@ -159,6 +158,16 @@ public class GameScene implements GenericScene{
             Pane prodPane = (Pane) pbPanes.lookup("#productionPane");
             recreateProdBaseImageview(prodPane, Integer.parseInt(pbPanes.getId()));
         });
+
+        playerBoardsPanes.forEach((pbPane)->{
+            int playerId = Integer.parseInt(pbPane.getId());
+            String username = playersList.get(playerId);
+            updateStrongBox(username, GUI.getInstance().getController().getPlayerFull(username).getPlayerBoard().getStrongbox());
+            updateFaithTrack(username, GUI.getInstance().getController().getPlayerFull(username).getPlayerBoard().getFaithTrack());
+            updateCardSlots(username, GUI.getInstance().getController().getPlayerFull(username).getPlayerBoard().getCardSlots().getCards());
+            updateWarehouseDepot(username,GUI.getInstance().getController().getPlayerFull(username).getPlayerBoard().getWarehouseDepot());
+        });
+
     }
 
 
@@ -198,6 +207,9 @@ public class GameScene implements GenericScene{
         //per attivare i cheat (da togliere)
         clickCount = 0;
         GUI.getInstance().getController().sendEndTurnRequest();
+        if(playersList.size()==1){
+
+        }
     }
 
     public void enableTurn(){
@@ -219,6 +231,10 @@ public class GameScene implements GenericScene{
             if(marbleImage instanceof ImageView){
                 enableImage((ImageView) marbleImage);
             }
+        });
+        Pane mp = (Pane) marketPane.lookup("#marblesPane");
+        mp.getChildren().forEach((imageView)->{
+            enableImage((ImageView) imageView);
         });
             //end turn button
         gamePane.lookup("#endTurnBTN").setDisable(false);
@@ -245,6 +261,10 @@ public class GameScene implements GenericScene{
                 disableImage((ImageView) marbleImage);
             }
         });
+        Pane mp = (Pane) marketPane.lookup("#marblesPane");
+        mp.getChildren().forEach((imageView)->{
+            disableImage((ImageView) imageView);
+        });
             //end turn button
         gamePane.lookup("#endTurnBTN").setDisable(true);
     }
@@ -256,7 +276,7 @@ public class GameScene implements GenericScene{
     public void updateFaithTrack(String username, LightFaithTrack faithTrack) {
         playerBoardsPanes.forEach((pBoardPane)->{
             if(playersList.get(Integer.parseInt(pBoardPane.getId())).equals(username)){
-                Pane faithPane = (Pane) pBoardPane.lookup("#faith");
+                Pane faithPane = (Pane) pBoardPane.lookup("#faithPane");
                 faithPane.getChildren().clear();
                 ImageView imageView = new ImageView("/images/RESOURCES/redCross.png");
                 imageView.setPreserveRatio(true);
@@ -330,25 +350,33 @@ public class GameScene implements GenericScene{
         loadDevCards(devBoardPane, board);
     }
 
+    public void updateMarketBoard(LightMarketBoard market){
+        loadMarbles(marketPane, market);
+    }
+
     //todo fix dimensions
     public void updateWarehouseDepot(String username, LightWarehouseDepot warehouseDepot){
         playerBoardsPanes.forEach((pbPane)->{
-            Pane depotPane = (Pane) pbPane.lookup("#depotPane");
-            if(playersList.get(myPlayerIndex).equals(username)){
+            if(playersList.get(Integer.parseInt(pbPane.getId())).equals(username)){
+                Pane depotPane = (Pane) pbPane.lookup("#depotPane");
                 depotPane.getChildren().clear();
                 ArrayList<LightResource> resS = warehouseDepot.getWarehouse();
-                int offsetX =20;
-                int offsetY =0;
+                double offsetX = 20;
+                double offsetY = 0;
                 for(int i=0; i<resS.size(); i++) {
                     LightResource r = resS.get(i);
                     ImageView im = new ImageView("/images/RESOURCES/"+r.name()+".png");
                     im.setPreserveRatio(true);
-                    im.fitWidthProperty().bind(depotPane.widthProperty().divide(2));
-                    im.relocate(offsetX, offsetY);
                     depotPane.getChildren().add(im);
+                    im.setX(offsetX);
+                    im.setY(offsetY);
+                    im.fitWidthProperty().bind(pbPane.widthProperty().divide(8.5));
+                    //im.relocate(offsetX, offsetY);
                     if (i<resS.size()-1 && !resS.get(i+1).equals(resS.get(i))) {
-                        offsetX -= 6.9;
-                        offsetY += 30;
+                        offsetX = offsetX - 25;
+                        offsetY = offsetY + 40;
+                    }else {
+                        offsetX = offsetX + 25;
                     }
                 }
             }
@@ -531,11 +559,13 @@ public class GameScene implements GenericScene{
         }
     }
 
-    private void loadMarbles(Pane pane) {
-        LightMarketBoard marketBoard = GUI.getInstance().getController().getMarketBoard();
+    public void loadMarbles(Pane pane, LightMarketBoard marketBoard) {
+        //LightMarketBoard marketBoard = GUI.getInstance().getController().getMarketBoard();
+        Pane marbles = (Pane) pane.lookup("#marblesPane");
+        marbles.getChildren().clear();
         ArrayList<ImageView> ims = new ArrayList<>();
-        double x = 80;
-        double y = 85;
+        double x = 0;
+        double y = 50;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 4; j++) {
                 LightMarble m = marketBoard.getMarble(i, j);
@@ -549,7 +579,7 @@ public class GameScene implements GenericScene{
                 x += 65;
                 ims.add(im);
             }
-            x = 80;
+            x = 0;
             y += 65;
         }
         LightMarble freeM = marketBoard.getFreeMarble();
@@ -557,9 +587,9 @@ public class GameScene implements GenericScene{
         ImageView im = new ImageView("/images/MARBLES/" + freeName);
         im.setPreserveRatio(true);
         im.fitHeightProperty().bind(pane.heightProperty().divide(5));
-        im.relocate(260,42);
+        im.relocate(180,0);
         ims.add(im);
-        pane.getChildren().addAll(ims);
+        marbles.getChildren().addAll(ims);
     }
 
     private void loadMarbleSelections(Pane pane){
@@ -598,7 +628,7 @@ public class GameScene implements GenericScene{
         boolean line;
         int whichOne;
         if (currImage.getEffect() == null) {
-            if (Integer.parseInt(currImage.getId()) < 4) {
+            if (Integer.parseInt(currImage.getId()) < 3) {
                 line = true;
                 whichOne = Integer.parseInt(currImage.getId());
             } else {
@@ -735,12 +765,13 @@ public class GameScene implements GenericScene{
     }
 
     private void productionClick(MouseEvent mouseEvent, int playerIndex){
+        if(!isMyTurn)
+            return;
         if(playerIndex!= myPlayerIndex)
             return;
         if(!askConfirmation("Activate this production?"))
             return;
-        if(!isMyTurn)
-            return;
+
 
         //0     - 82.0
         //82.1  - 202.0
@@ -930,6 +961,7 @@ public class GameScene implements GenericScene{
             productionClick(mouseEvent, playerIndex);
         });
     }
+
 
     //CHEATS (da togliere)
     @FXML

@@ -9,6 +9,5 @@
          <image>
             <Image url="@../images/marketboard.png" />
          </image></ImageView>
-      <Pane fx:id="marblePane" layoutX="102.0" layoutY="111.0" prefHeight="190.0" prefWidth="265.0" />
    </children>
 </Pane>
