@@ -1,5 +1,8 @@
 package clientModel.colour;
 
+/**
+ * LightModel copy of Model's Colour
+ */
 public enum LightColour {
     BLACK,
     BLUE,
@@ -9,6 +12,9 @@ public enum LightColour {
     WHITE,
     YELLOW;
 
+    /**Method to print in CLI
+     * @return a String
+     */
     @Override
     public String toString(){
         switch(this){

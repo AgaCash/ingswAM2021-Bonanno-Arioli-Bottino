@@ -6,6 +6,9 @@ import clientModel.resources.LightResource;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
+/**
+ * LightModel copy of Model's ExtraDepot
+ */
 public class LightExtraDepot extends LightLeaderCard {
     private ArrayList<LightResource> requiredResource;
     private static int victoryPoints = 3;
@@ -21,44 +24,12 @@ public class LightExtraDepot extends LightLeaderCard {
             extraWarehouseDepot.put(ptr, 0);
         super.type = LightLeaderCardType.EXTRADEPOT;
     }
-/*
-    @Override
-    public boolean addResource(LightResource tmp){
-        if(isEnabled())
-            if(extraWarehouseDepot.containsKey(tmp)) {
-                int dim = extraWarehouseDepot.get(tmp);
-                if (dim < extraDepotResource.size()) {
-                    extraWarehouseDepot.put(tmp, dim+1);
-                    return true;
-                }
-            }
-        return false;
-    }
 
-    @Override
-    public boolean removeResource(LightResource tmp){
-        if(isEnabled())
-            if(extraWarehouseDepot.containsKey(tmp)){
-                int dim = extraWarehouseDepot.get(tmp);
-                if(dim > 0){
-                    extraWarehouseDepot.put(tmp, dim-1);
-                    return true;
-                }
-            }
-        return false;
-    }
-
-
-*/
     @Override
     public boolean isExtraDepot(){
         return true;
     }
-/*
-    @Override
-    public ArrayList<LightResource> getRequiredResources(){
-        return this.requiredResource;
-    }*/
+
     @Override
     public String toString(){
         String s = new String();

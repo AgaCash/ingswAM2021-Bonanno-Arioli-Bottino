@@ -1,7 +1,8 @@
 package clientModel.marbles;
 
-import model.marbles.Marble;
-
+/**
+ * LightModel copy of Model's Marble
+ */
 public enum LightMarble {
     BLUE("blue"),
     GREY("grey"),
@@ -20,6 +21,9 @@ public enum LightMarble {
         return fileName;
     }
 
+    /**Method to print in CLI
+     * @return a String
+     */
     @Override
     public String toString(){
         switch(this){

@@ -1,11 +1,17 @@
 package clientModel.cards;
 
+/**
+ * LightModel copy of Model's LeaderCard
+ */
 public class LightLeaderCard{
     protected int id;
     protected boolean isEnabled;
     protected int victoryPoints;
     protected LightLeaderCardType type;
 
+    /**Constructor representing a "null" LeaderCard (an empty LeaderSlot)
+     *
+     */
     public LightLeaderCard(){
         this.type = null;
     }
@@ -13,35 +19,48 @@ public class LightLeaderCard{
     public boolean isDiscarded(){
         return this.type == null;
     }
-    //universal methods
-    //public void activate(){this.isEnabled = true;};
+
+    /**Returns card's ID
+     * @return an int
+     */
     public int getId(){ return id; }
-    //consult methods
-    //public boolean isEnabled(){ return isEnabled; }
-    //public ArrayList<LightDevelopmentCard> getRequiredCards(){return null;}
-    //public ArrayList<LightResource> getRequiredResources(){return null;}
-    //identification methods
+
+    /**Returns true if LeaderCard instance is a Discount, false if not
+     * @return a boolean
+     */
     public boolean isDiscount(){
         return false;
     }
+
+    /**Returns true if LeaderCard instance is a ExtraDepot, false if not
+     * @return a boolean
+     */
     public boolean isExtraDepot() {
         return false;
     }
+
+    /**Returns true if LeaderCard instance is a ExtraProd, false if not
+     * @return a boolean
+     */
     public boolean isExtraProd(){
         return false;
     }
+
+    /**Returns true if LeaderCard instance is a WhiteConverter, false if not
+     * @return a boolean
+     */
     public boolean isWhiteConverter(){
         return false;
     }
+
+    /**Returns true if Card is enabled
+     * @return a boolean
+     */
     public boolean isEnabled(){ return  isEnabled; }
-    //subclasses specific methods
-    //public LightResource whichResource() throws UnusableCardException { return null; }
-    //public LightResource whichDiscount() throws UnusableCardException { return null; }
-    //public boolean addResource(LightResource tmp){return false;}
-    //public boolean removeResource(LightResource tmp){return false;}
-    //public LightResource getExtraProdInput() throws UnusableCardException { return null;}
-    //public ArrayList<LightResource> production(){return null;}
-    //public void setChosenOutput(LightResource chosenOutput){}
+
+    /**Method to print LeaderCard in CLI
+     * @return
+     */
     @Override
     public String toString(){
         return "";

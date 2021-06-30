@@ -1,5 +1,8 @@
 package clientModel.resources;
 
+/**
+ * LightModel copy of Model's Resource
+ */
 public enum LightResource {
     COIN,
     FAITH,
@@ -7,6 +10,9 @@ public enum LightResource {
     SHIELD,
     STONE;
 
+    /**Method to print in CLI
+     * @return a String
+     */
     public String toColoredString(){
         switch(this){
             case COIN: return "\u001B[33m"+"CO"+"\u001B[0m";
