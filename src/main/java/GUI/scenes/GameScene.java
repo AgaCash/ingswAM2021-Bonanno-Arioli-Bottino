@@ -164,8 +164,7 @@ public class GameScene implements GenericScene{
             String username = playersList.get(playerId);
             updateStrongBox(username, GUI.getInstance().getController().getPlayerFull(username).getPlayerBoard().getStrongbox());
             updateFaithTrack(username, GUI.getInstance().getController().getPlayerFull(username).getPlayerBoard().getFaithTrack());
-            //creare la get devSlot
-            //updateCardSlots(username, GUI.getInstance().getController().getPlayerBoard());
+            updateCardSlots(username, GUI.getInstance().getController().getPlayerFull(username).getPlayerBoard().getCardSlots().getCards());
             updateWarehouseDepot(username,GUI.getInstance().getController().getPlayerFull(username).getPlayerBoard().getWarehouseDepot());
         });
 
