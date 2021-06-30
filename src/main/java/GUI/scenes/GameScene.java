@@ -133,7 +133,7 @@ public class GameScene implements GenericScene{
             Pane depotPane = new Pane();
             depotPane.resize(111, 146);
             depotPane.setLayoutX(26);
-            depotPane.setLayoutY(177);
+            depotPane.setLayoutY(170);
             depotPane.setId("depotPane");
             Pane strongboxPane = new Pane();
             strongboxPane.resize(111, 80);
@@ -371,7 +371,7 @@ public class GameScene implements GenericScene{
                     depotPane.getChildren().add(im);
                     im.setX(offsetX);
                     im.setY(offsetY);
-                    im.fitWidthProperty().bind(depotPane.widthProperty().divide(1.6));
+                    im.fitWidthProperty().bind(pbPane.widthProperty().divide(8.5));
                     //im.relocate(offsetX, offsetY);
                     if (i<resS.size()-1 && !resS.get(i+1).equals(resS.get(i))) {
                         offsetX = offsetX - 25;
