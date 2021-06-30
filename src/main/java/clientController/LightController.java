@@ -66,9 +66,9 @@ public class LightController {
     //quitting app
 
     public void quittingApplication(){
-        view.showSuccess("Quitting the game in 10 seconds");
+        view.showSuccess("Quitting the game in 5 seconds");
         try {
-            Thread.sleep(10000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             view.showError(e.getMessage());
         }
