@@ -204,7 +204,21 @@ public class GUI implements View {
 
     @Override
     public void showReconnectionToGame() {
-        //ricarica la pagina del gioco
+        Platform.runLater(()->{
+            //ricarica la pagina del gioco
+            try {
+                fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/game.fxml"));
+                gameRoot = fxmlLoader.load();
+                gameGuiController = fxmlLoader.getController();
+                gameGuiController.init(controller.getNumOfPlayerInLobby());
+                primaryStage.setScene(new Scene(gameRoot));
+                primaryStage.show();
+                isGameBeenInitialized=true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        showSuccess("Reconnected to game");
     }
 
     @Override
@@ -240,6 +254,7 @@ public class GUI implements View {
 
     @Override
     public void askStartItems(ArrayList<LightLeaderCard> quartet, int numResources, boolean faithPoints) {
+        //todo sostiturire con Task per evitare il blocco dell'app
         Platform.runLater(()->{
             Parent root = null;
             try {
@@ -261,7 +276,7 @@ public class GUI implements View {
     @Override
     public void askTurn() {
         Platform.runLater(()->{
-            //in più carico la main page per inizializzarla
+            //carico la main page e la inizializzo
             try {
                 if(!isGameBeenInitialized){
                     fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/game.fxml"));

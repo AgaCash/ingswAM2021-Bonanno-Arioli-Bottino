@@ -35,7 +35,7 @@ public class SetupResponse extends GameMessage {
 
         if(firstPlayer.equals(controller.getUsername())) {
             controller.showSuccess(firstPlayer, "IT'S YOUR TURN!");
-            controller.start();
+            controller.startTurn();
         }
         else
             controller.waitForMyTurn();

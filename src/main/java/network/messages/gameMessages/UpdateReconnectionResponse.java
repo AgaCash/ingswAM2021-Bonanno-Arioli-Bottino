@@ -8,6 +8,7 @@ import model.player.Player;
 import network.messages.MessageType;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class UpdateReconnectionResponse extends GameMessage{
     private LightMarketBoard market;
@@ -34,6 +35,8 @@ public class UpdateReconnectionResponse extends GameMessage{
         controller.setDevBoard(this.board);
         controller.setPlayers(this.players);
         controller.setPlayer(tmpPlayer);
+        controller.setUsernamesList(this.players.stream().map(LightPlayer::getNickname).collect(Collectors.toCollection(ArrayList::new)));
+        controller.setNumOfPlayerInLobby(this.players.size());
         if(isSinglePlayer)
             controller.reconnectSinglePlayer();
         else
