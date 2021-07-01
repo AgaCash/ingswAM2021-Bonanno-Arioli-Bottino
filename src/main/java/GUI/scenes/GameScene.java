@@ -309,7 +309,7 @@ public class GameScene implements GenericScene{
         }
         */
         playerBoardsPanes.forEach((pBoardPane)->{
-            if(playersList.get(myPlayerIndex).equals(username)){
+            if(playersList.get(Integer.parseInt(pBoardPane.getId())).equals(username)){
                 Pane strongboxPane = (Pane) pBoardPane.lookup("#strongboxPane");
                 strongboxPane.getChildren().clear();
                 double offsetX = 0;
