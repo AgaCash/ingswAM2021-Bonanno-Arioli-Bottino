@@ -137,9 +137,14 @@ public class GUI implements View {
 
     @Override
     public void notifyPlayerJoined(String username) {
-        CreateAndStartScene controller = fxmlLoader.getController();
         Platform.runLater(()->{
-            controller.addPlayer(username);
+            try{
+                CreateAndStartScene controller = fxmlLoader.getController();
+                controller.addPlayer(username);
+            }catch (Exception e){
+                e.printStackTrace();
+                controller.instantQuittingApplication();
+            }
         });
 
     }
@@ -245,7 +250,6 @@ public class GUI implements View {
 
     @Override
     public void askStartItems(ArrayList<LightLeaderCard> quartet, int numResources, boolean faithPoints) {
-        //todo sostiturire con Task per evitare il blocco dell'app
         Platform.runLater(()->{
             Parent root = null;
             try {
