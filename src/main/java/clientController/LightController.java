@@ -40,6 +40,9 @@ public class LightController {
     private int numOfPlayerInLobby;
     private ArrayList<String> usernamesList;
 
+    /**Constructor
+     * @param view a Class implementing View interface
+     */
     public LightController(View view){
         this.view = view;
         this.game = new LightGame();
@@ -49,7 +52,9 @@ public class LightController {
     }
 
     //helper for gui
-
+    /**Returns true if Game is in single player mode
+     * @return a boolean
+     */
     public boolean isSinglePlayer(){
         return usernamesList.size()==1;
     }
@@ -72,6 +77,9 @@ public class LightController {
 
     //quitting app
 
+    /**todo da scrivere
+     *
+     */
     public void quittingApplication(){
         view.showSuccess("Quitting the game in 5 seconds");
         try {
@@ -152,9 +160,7 @@ public class LightController {
         String responseS = null;
         try {
             responseS = client.recv();
-            //view.showSuccess(username+" sent");
         } catch (IOException e) {
-            // capiamo
             view.showError(e.getMessage());
         }
         RegisterUsernameResponse response = gson.fromJson(responseS, RegisterUsernameResponse.class);
@@ -468,10 +474,21 @@ public class LightController {
     }
 
 
+    /**
+     * @param quartet
+     * @param numResources
+     * @param faithPoints
+     */
     public void chooseStartItems(ArrayList<LightLeaderCard> quartet, int numResources, boolean faithPoints){
         view.askStartItems(quartet, numResources, faithPoints);
     }
 
+    /**Sends a SetupRequest containing the user chosen Resources and LightLeaderCards before the game's starting
+     * and runs the SetupResponse commands
+     * @param couple a length 2 LightLeaderCard ArrayList
+     * @param chosenResources a 0-to-2 length LightResource ArrayList
+     * @param faithPoint a boolean that notifies User if has gained a FaithPoint
+     */
     public void sendStartItems(ArrayList<LightLeaderCard> couple, ArrayList<LightResource> chosenResources, boolean faithPoint){
         Gson gson = new Gson();
         SetupRequest request = new SetupRequest(getUsername(), couple, chosenResources, faithPoint);
@@ -514,12 +531,6 @@ public class LightController {
         this.game.setPlayers(getUsername(), players);
     }
 
-    public void setPlayer(ArrayList<LightPlayer> players){
-        for(LightPlayer p: players)
-            if(p.getNickname().equals(this.username))
-                game.setPlayer(p);
-    }
-
     public void setPlayer(LightPlayer player){
         game.setPlayer(player);
     }
@@ -532,6 +543,9 @@ public class LightController {
         sendEndTurnRequest();
     }
 
+    /**todo
+     *
+     */
     public void waitForMyTurn(){
         view.waitingForMyTurn();
         new Thread(()->{
@@ -552,15 +566,25 @@ public class LightController {
         }).start();
     }
 
+    /**Calls the View method to print the potential turn's actions and make the User to choose them
+     *
+     */
     public void startTurn(){
         view.askTurn();
     }
 
+    /**Sends to View the final message in single player mode
+     * @param message a String containing the message if Player won or Lorenzo did
+     */
     public void endSinglePlayerGame(String message){
         view.endSinglePlayerGame(message);
         //view.endGame();
     }
 
+    /**Sends to View the final rank amd the winner Player's username
+     * @param winner the winner Player's username
+     * @param rank a String containing the final rank
+     */
     public void endMultiPlayerGame(String winner, String rank){
         view.showRanking(winner, rank);
         //view.endGame();
@@ -581,21 +605,26 @@ public class LightController {
 
     }
 
-    //game.getPlayerBoard().getFaithTrack())
+    /**Shows to View the actions that Lorenzo did in its turn
+     * @param lorenzo a LightLorenzo instance
+     */
     public void updateLorenzo(LightLorenzo lorenzo){
         view.showLorenzoActions(lorenzo);
     }
 
+    /**Updates LightModel and notifies View after a successful BuyDevCardRequest
+     * @param username the Player who purchased a DevelopmentCard
+     * @param players the entire list of Players
+     */
     public void updateBuyDevCard(String username, ArrayList<LightPlayer> players) {
         for (LightPlayer p : players) {
             if (p.getNickname().equals(username)) {
-                String name = p.getNickname();
                 try {
                     game.updateCardSlots(p.getNickname(), p.getPlayerBoard().getCardSlots());
                     game.updateWarehouse(p.getNickname(), p.getPlayerBoard().getWarehouseDepot());
                     game.updateStrongbox(p.getNickname(), p.getPlayerBoard().getStrongbox());
                 } catch (NoSuchUsernameException e) {
-                    view.showError("SÉ SPACCATO TUTTO");
+                    view.showError("INTERNAL ERROR");
                 }
             }
         }
@@ -604,7 +633,7 @@ public class LightController {
             view.updateStrongbox(username, game.getPlayer(username).getPlayerBoard().getStrongbox());
             view.updateCardSlots(username, game.getPlayer(username).getPlayerBoard().getCardSlots());
         } catch (NoSuchUsernameException e) {
-            view.showError("SÉ SPACCATO TUTTO");
+            view.showError("INTERNAL ERROR");
         }
     }
 
@@ -616,20 +645,23 @@ public class LightController {
                     game.updateWarehouse(p.getNickname(), p.getPlayerBoard().getWarehouseDepot());
                 game.updateFaithTrack(p.getNickname(), p.getPlayerBoard().getFaithTrack());
             }catch (NoSuchUsernameException e) {
-                view.showError("SÉ SPACCATO TUTTO");
+                view.showError("INTERNAL ERROR");
             }
         }
         try{
             view.updateFaithTrack(username, game.getPlayer(username).getPlayerBoard().getFaithTrack());
             view.updateWarehouseDepot(username, game.getPlayer(username).getPlayerBoard().getWarehouseDepot());
         } catch (NoSuchUsernameException e) {
-            view.showError("SÉ SPACCATO TUTTO");
+            view.showError("INTERNAL ERROR");
         }
     }
 
+    /**Updates LightModel and notifies View after a successful DevCardProductionRequest or a DefaultProductionRequest
+     * @param username the Player who activated a production
+     * @param players the entire list of Players
+     */
     public void updateProduction(String username, ArrayList<LightPlayer> players){
         for(LightPlayer p: players){
-            String name = p.getNickname();
             try {
                 if(p.getNickname().equals(username)) {
                     game.updateWarehouse(p.getNickname(), p.getPlayerBoard().getWarehouseDepot());
@@ -637,7 +669,7 @@ public class LightController {
                     game.updateFaithTrack(p.getNickname(), p.getPlayerBoard().getFaithTrack());
                 }
             }catch (NoSuchUsernameException e) {
-                    view.showError("SÉ SPACCATO TUTTO");
+                    view.showError("INTERNAL ERROR");
             }
         }
         try{
@@ -645,49 +677,61 @@ public class LightController {
             view.updateWarehouseDepot(username, game.getPlayer(username).getPlayerBoard().getWarehouseDepot());
             view.updateStrongbox(username, game.getPlayer(username).getPlayerBoard().getStrongbox());
         } catch (NoSuchUsernameException e) {
-            view.showError("SÉ SPACCATO TUTTO");
+            view.showError("INTERNAL ERROR");
         }
     }
 
+    /**Updates LightModel and notifies View after a successful LeaderCardActivationRequest
+     * @param username the Player who activated a LeaderCard username
+     * @param players the entire list of Players
+     */
     public void updateLeaderCardActivation(String username, ArrayList<LightPlayer> players){
         for(LightPlayer p: players){
-            String name = p.getNickname();
             try {
                 if(p.getNickname().equals(username)) {
                     game.updateLeaderSlot(p.getNickname(), p.getPlayerBoard().getLeaderSlot());
                 }
             }catch (NoSuchUsernameException e) {
-                view.showError("SÉ SPACCATO TUTTO");
+                view.showError("INTERNAL ERROR");
             }
         }
         try{
             view.updateLeaderSlot(username, game.getPlayer(username).getPlayerBoard().getLeaderSlot());
         } catch (NoSuchUsernameException e) {
-            view.showError("SÉ SPACCATO TUTTO");
+            view.showError("INTERNAL ERROR");
         }
 
     }
 
+    /**Updates LightModel and notifies View after a successful LeaderCardThrowRequest
+     * @param username the Player who thrown a LeaderCard username
+     * @param players the entire list of Players
+     */
     public void updateLeaderCardThrow(String username, ArrayList<LightPlayer> players){
         for(LightPlayer p: players){
-            String name = p.getNickname();
             try {
                 if(p.getNickname().equals(username)) {
                     game.updateLeaderSlot(p.getNickname(), p.getPlayerBoard().getLeaderSlot());
                     game.updateFaithTrack(p.getNickname(), p.getPlayerBoard().getFaithTrack());
                 }
             }catch (NoSuchUsernameException e) {
-                view.showError("SÉ SPACCATO TUTTO");
+                view.showError("INTERNAL ERROR");
             }
         }
         try{
             view.updateLeaderSlot(username, game.getPlayer(username).getPlayerBoard().getLeaderSlot());
             view.updateFaithTrack(username, game.getPlayer(username).getPlayerBoard().getFaithTrack());
         } catch (NoSuchUsernameException e) {
-            view.showError("SÉ SPACCATO TUTTO");
+            view.showError("INTERNAL ERROR");
         }
     }
 
+    /**Updates LightModel and notifies View after a successful EndTurnRequest
+     * @param username the Player's username
+     * @param cpu the LightLorenzo instance
+     * @param player the LightPlayer copy of Player
+     * @param board the new LightDevelopmentBoard
+     */
     public void updateSinglePlayerEndTurn(String username, LightLorenzo cpu, LightPlayer player, LightDevelopmentBoard board){
         try {
             game.updateStrongbox(username, player.getPlayerBoard().getStrongbox());
@@ -705,6 +749,11 @@ public class LightController {
         startTurn();
     }
 
+    /**Updates LightModel and notifies View after a successful EndTurnRequest
+     * @param username the Player who ended the turn username
+     * @param players the entire list of Players
+     * @param newPlayer the starting turn Player username
+     */
     public void updateMultiPlayerEndTurn(String username, ArrayList<LightPlayer> players, String newPlayer){
         for(LightPlayer p: players) {
             if (p.getNickname().equals(username))
@@ -723,9 +772,5 @@ public class LightController {
             view.showOthersActions(username+" has ended turn. "+newPlayer+" has started turn");
 
     }
-
-
-
-
 }
 
