@@ -306,9 +306,11 @@ public class GameScene implements GenericScene{
     }
 
     public void updateStrongBox(String username, LightStrongbox strongbox){
+        /*
         if(strongbox == null){
             return;
         }
+        */
         playerBoardsPanes.forEach((pBoardPane)->{
             if(playersList.get(Integer.parseInt(pBoardPane.getId())).equals(username)){
                 Pane strongboxPane = (Pane) pBoardPane.lookup("#strongboxPane");
