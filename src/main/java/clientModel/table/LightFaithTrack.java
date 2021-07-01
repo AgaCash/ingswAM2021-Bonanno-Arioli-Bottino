@@ -20,9 +20,9 @@ public class LightFaithTrack {
     }
 
     public void setLorenzoPos(int pos){
-        lorenzoPos.setLorenzoPos(false);
-        lorenzoPos = box.get(pos);
-        lorenzoPos.setLorenzoPos(true);
+        this.lorenzoPos.setLorenzoPos(false);
+        this.lorenzoPos = box.get(pos);
+        this.lorenzoPos.setLorenzoPos(true);
     }
 
     public void setCurrentPos(int position){
