@@ -35,9 +35,30 @@
                   <Insets top="5.0" />
                </BorderPane.margin>
                <children>
-                  <Button fx:id="marketBTN" mnemonicParsing="false" onAction="#goToMarket" prefHeight="150.0" prefWidth="150.0" text="MARKET" />
-                  <Button fx:id="devBoardBTN" mnemonicParsing="false" onAction="#goToDevBoard" prefHeight="150.0" prefWidth="150.0" text="DEVELOPMENT BOARD" />
-                  <Button fx:id="leaderBTN" mnemonicParsing="false" onAction="#goToLeader" prefHeight="100.0" prefWidth="150.0" text="LEADER SLOTS" />
+                  <Button fx:id="marketBTN" mnemonicParsing="false" onAction="#goToMarket" prefHeight="150.0" prefWidth="150.0">
+                     <graphic>
+                        <ImageView fitHeight="140.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/marketicon.jpg" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
+                  <Button fx:id="devBoardBTN" mnemonicParsing="false" onAction="#goToDevBoard" prefHeight="150.0" prefWidth="150.0">
+                     <graphic>
+                        <ImageView fitHeight="140.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/devicon.jpg" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
+                  <Button fx:id="leaderBTN" mnemonicParsing="false" onAction="#goToLeader" prefHeight="100.0" prefWidth="150.0">
+                     <graphic>
+                        <ImageView fitHeight="90.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/leadericon.jpg" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
                </children>
             </VBox>
          </left>
