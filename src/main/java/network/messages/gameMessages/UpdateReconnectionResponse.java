@@ -15,13 +15,15 @@ public class UpdateReconnectionResponse extends GameMessage{
     private LightDevelopmentBoard board;
     private ArrayList<LightPlayer> players;
     private boolean isSinglePlayer;
+    private int numPlayersInLobby;
 
-    public UpdateReconnectionResponse(String username, LightMarketBoard market, LightDevelopmentBoard board, ArrayList<LightPlayer> players, boolean isSinglePlayer) {
+    public UpdateReconnectionResponse(String username, LightMarketBoard market, LightDevelopmentBoard board, ArrayList<LightPlayer> players, boolean isSinglePlayer, int numPlayersInLobby) {
         super(username, MessageType.RECONNECTION_UPDATE_RESPONSE);
         this.market = market;
         this.board = board;
         this.players = players;
         this.isSinglePlayer = isSinglePlayer;
+        this.numPlayersInLobby = numPlayersInLobby;
     }
 
     @Override
@@ -31,12 +33,17 @@ public class UpdateReconnectionResponse extends GameMessage{
             if(player.getNickname().equals(getUsername())) {
                 tmpPlayer = player;
             }
+        controller.setNumOfPlayerInLobby(numPlayersInLobby);
         controller.setMarketBoard(this.market);
         controller.setDevBoard(this.board);
+        ArrayList<String> ul = new ArrayList<>();
+        for(LightPlayer p: players){
+            ul.add(p.getNickname());
+            System.out.println(p.getNickname());
+        }
+        controller.setUsernamesList(ul);
         controller.setPlayers(this.players);
         controller.setPlayer(tmpPlayer);
-        controller.setUsernamesList(this.players.stream().map(LightPlayer::getNickname).collect(Collectors.toCollection(ArrayList::new)));
-        controller.setNumOfPlayerInLobby(this.players.size());
         if(isSinglePlayer)
             controller.reconnectSinglePlayer();
         else

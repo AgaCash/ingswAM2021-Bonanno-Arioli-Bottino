@@ -97,7 +97,7 @@ public class VirtualClient extends Thread{
         if(messageType==null){
             throw new InvalidMessageException("Invalid message");
         }
-        System.out.println("sto per eseguire il game message ");
+        //System.out.println("sto per eseguire il game message ");
         ((GameMessage) gson.fromJson(s, messageType.getClassType()))
                 .executeCommand(controller, this);
 

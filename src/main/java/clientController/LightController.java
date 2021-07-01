@@ -54,19 +54,19 @@ public class LightController {
         return usernamesList.size()==1;
     }
 
-    public void setNumOfPlayerInLobby(int numOfPlayerInLobby) {
+    public synchronized void setNumOfPlayerInLobby(int numOfPlayerInLobby) {
         this.numOfPlayerInLobby = numOfPlayerInLobby;
     }
 
-    public int getNumOfPlayerInLobby() {
+    public synchronized int getNumOfPlayerInLobby() {
         return numOfPlayerInLobby;
     }
 
-    public void setUsernamesList(ArrayList<String> usernamesList) {
+    public synchronized void setUsernamesList(ArrayList<String> usernamesList) {
         this.usernamesList = usernamesList;
     }
 
-    public ArrayList<String> getUsernamesList() {
+    public synchronized ArrayList<String> getUsernamesList() {
         return usernamesList;
     }
 

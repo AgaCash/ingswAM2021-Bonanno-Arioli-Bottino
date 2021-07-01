@@ -39,9 +39,6 @@ import java.util.Optional;
 
 public class GameScene implements GenericScene{
 
-
-
-
     @FXML
     Button marketBTN;
     Pane marketPane;
@@ -77,7 +74,7 @@ public class GameScene implements GenericScene{
     public void init(int numOfPlayers){
         this.numOfPlayers = numOfPlayers;
         this.playersList = GUI.getInstance().getController().getUsernamesList();
-        for(int i = 0; i < playersList.size(); i++){
+        for(int i = 0; i < numOfPlayers; i++){
             if(playersList.get(i).equals(GUI.getInstance().getController().getUsername())) {
                 myPlayerIndex = i;
                 break;
@@ -108,9 +105,9 @@ public class GameScene implements GenericScene{
         playerBoardsButtons.add(player3BTN);
         playerBoardsButtons.add(player4BTN);
         playerBoardsPanes = new ArrayList<>();
-        for(int i = 4; i > numOfPlayers; i--){
-            playerBoardsButtons.get(i-1).setVisible(false);
-            playerBoardsButtons.remove(i-1);
+        for(int i = 3; i >= numOfPlayers; i--){
+            playerBoardsButtons.get(i).setVisible(false);
+            playerBoardsButtons.remove(i);
         }
         for(int i = 0; i < numOfPlayers; i++){
             Pane plPane = customFL.getPage("playerboard"+(i+1));
@@ -381,7 +378,7 @@ public class GameScene implements GenericScene{
                 double offsetY = 0;
                 for(int i=0; i<resS.size(); i++) {
                     LightResource r = resS.get(i);
-                    System.out.println(r.name());
+                    //System.out.println(r.name());
                     ImageView im = new ImageView("/images/RESOURCES/"+r.name().toLowerCase()+".png");
                     im.setPreserveRatio(true);
                     depotPane.getChildren().add(im);

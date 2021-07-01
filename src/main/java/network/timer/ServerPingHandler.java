@@ -77,7 +77,7 @@ public class ServerPingHandler extends Thread {
             //send ping
             pingSent=true;
             PingGameMessage p = new PingGameMessage(virtualClient.getVirtualView().getUsername());
-            System.out.println("PING SPARATOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOo");
+            //System.out.println("PING SPARATOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOo");
             virtualClient.getVirtualView().sendPing(p);
         } else {
             //non ha risposto

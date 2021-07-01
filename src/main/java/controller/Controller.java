@@ -357,6 +357,7 @@ public class Controller {
      * @return a Player ArrayList
      */
     public ArrayList<Player> getPlayers(){
+        System.out.println(" dovrebbe ritornare questo:" + game.getPlayers());
         return game.getPlayers();
     }
 
