@@ -399,6 +399,8 @@ public class GameScene implements GenericScene{
 
 
     public void updateLeaderCards(String username, ArrayList<LightLeaderCard> leaderCards){
+        if(!playersList.get(myPlayerIndex).equals(username))
+            return;
         leaderPane.getChildren().forEach((e)->{
             if(e instanceof ImageView)
                 disableImage((ImageView) e);
@@ -412,7 +414,7 @@ public class GameScene implements GenericScene{
                     if (Integer.parseInt(e.getId()) == lc.getId()) {
                         if (e instanceof ImageView)
                             enableImage((ImageView) e);
-                        else
+                        else if(e instanceof Button)
                             e.setDisable(false);
                     }
                 });
