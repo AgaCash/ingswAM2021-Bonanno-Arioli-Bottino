@@ -399,7 +399,10 @@ public class GUI implements View {
 
     @Override
     public void showLorenzoActions(String message) {
-        showSuccess(message);
+        Platform.runLater(()-> {
+            showSuccess(message);
+            gameGuiController.updateFaithTrack(getController().getUsername(), getController().getPlayerFull(getController().getUsername()).getPlayerBoard().getFaithTrack());
+        });
     }
 
     @Override

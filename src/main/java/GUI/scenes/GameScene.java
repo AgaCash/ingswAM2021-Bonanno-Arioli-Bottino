@@ -149,7 +149,6 @@ public class GameScene implements GenericScene{
             pbPane.getChildren().addAll(faithPane, depotPane, strongboxPane, productionPane);
         });
         //aggiungere le varie croci nelle posizioni corrette (player 3 ha 1 faithPoint bonus)
-        //loadFaith(playerBoardsPanes.get(myPlayerIndex));
         //productions
         //          !!ALWAYS EMPTY AT START!!
         //          -> when slot is clicked
@@ -272,7 +271,7 @@ public class GameScene implements GenericScene{
 
     public void updateFaithTrack(String username, LightFaithTrack faithTrack) {
         playerBoardsPanes.forEach((pBoardPane)->{
-            if(playersList.get(Integer.parseInt(pBoardPane.getId())).equals(username)){
+            if(playersList.get(Integer.parseInt(pBoardPane.getId())).equals(username)) {
                 Pane faithPane = (Pane) pBoardPane.lookup("#faithPane");
                 faithPane.getChildren().clear();
                 ImageView imageView = new ImageView("/images/RESOURCES/redCross.png");
@@ -280,35 +279,35 @@ public class GameScene implements GenericScene{
                 imageView.fitHeightProperty().bind(pBoardPane.heightProperty().divide(8.5));
                 ImageView imageView2 = new ImageView("/images/lorenzo.png");
                 imageView2.setPreserveRatio(true);
-                imageView2.fitHeightProperty().bind(pBoardPane.heightProperty().divide(12));
+                imageView2.fitHeightProperty().bind(pBoardPane.heightProperty().divide(14));
                 double offsetXME = -35;
                 double offsetXLOR = -30;
                 boolean isStartME = true;
                 boolean isStartLOR = true;
                 boolean single = false;
-                for(LightFaithBox fb : faithTrack.getBox()) {
+                for (LightFaithBox fb : faithTrack.getBox()) {
                     if (fb.getActualPos() && isStartME)
                         imageView.relocate(-10, 80);
                     if (fb.getActualPos() && !isStartME)
                         imageView.relocate(offsetXME, 45);
-                    offsetXME += 27;
+                    offsetXME += 26;
                     isStartME = false;
-                    if(fb.getLorenzoPos()&& isStartLOR) {
+                    if (fb.getLorenzoPos() && isStartLOR) {
                         imageView2.relocate(-10, 80);
                         single = true;
                     }
                     if (fb.getLorenzoPos() && !isStartLOR) {
-                        imageView2.relocate(offsetXLOR, 45);
+                        imageView2.relocate(offsetXLOR, 48);
                         single = true;
                     }
-                    offsetXLOR += 27;
+                    offsetXLOR += 26;
                     isStartLOR = false;
-                    }
-                if(single)
+                }
+                if (single)
                     faithPane.getChildren().addAll(imageView, imageView2);
                 else
                     faithPane.getChildren().add(imageView);
-                }
+            }
         });
     }
 
@@ -417,27 +416,6 @@ public class GameScene implements GenericScene{
 
     private void enableImage(ImageView imageView){
         imageView.setEffect(null);
-    }
-
-    private void loadFaith(Pane pane){
-        /*LightFaithTrack ft = GUI.getInstance().getController().getPlayer().getPlayerBoard().getFaithTrack();
-        Pane faithPane = (Pane) pane.lookup("#faith");
-        ImageView im = new ImageView("/images/RESOURCES/redCross.png");
-        im.setPreserveRatio(true);
-        im.fitHeightProperty().bind(pane.heightProperty().divide(8.5));
-        int x = -35;
-        boolean isStart = true;
-        for(LightFaithBox fb : ft.getBox()){
-            if(fb.getActualPos()&& isStart)
-                im.relocate(-10,80);
-            else if (fb.getActualPos())
-                im.relocate(x,45);
-            x += 25;
-            isStart = false;
-        }
-        faithPane.getChildren().add(im);
-
-         */
     }
 
 

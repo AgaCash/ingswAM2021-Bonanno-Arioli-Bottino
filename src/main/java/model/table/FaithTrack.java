@@ -51,14 +51,12 @@ public class FaithTrack {
     public LightFaithTrack convert(){
         ArrayList<LightFaithBox> newTrack = new ArrayList<>();
         for(FaithBox box : this.box){
-            LightFaithBox newBox = box.convert();
-            if(box.equals(this.actualBox))
-                newBox.setPos(true);
-            newTrack.add(newBox);
+            newTrack.add(box.convert());
         }
 
         LightFaithTrack newFTrack = new LightFaithTrack();
         newFTrack.setTrack(newTrack);
+        newFTrack.setCurrentPos(this.actualBox.getPosition());
         newFTrack.setLorenzoPos(this.lorenzoPos);
         return newFTrack;
     }
