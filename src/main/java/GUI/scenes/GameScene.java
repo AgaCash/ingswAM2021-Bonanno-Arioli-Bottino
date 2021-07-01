@@ -412,9 +412,8 @@ public class GameScene implements GenericScene{
                     if (Integer.parseInt(e.getId()) == lc.getId()) {
                         if (e instanceof ImageView)
                             enableImage((ImageView) e);
-                        if (!lc.isEnabled()) {
+                        else
                             e.setDisable(false);
-                        }
                     }
                 });
             }
@@ -795,10 +794,7 @@ public class GameScene implements GenericScene{
                 for(LightLeaderCard l: lc){
                     //scorre l'array per eseguire l'azione sulla carta corretta
                     if(l.getId() == btnId){
-                        if(!l.isEnabled())
-                            GUI.getInstance().getController().sendLeaderCardThrowRequest(l);
-                        else
-                            GUI.getInstance().getController().showError("You can't drop an active leader card");
+                        GUI.getInstance().getController().sendLeaderCardThrowRequest(l);
                         return;
                     }
                 }
