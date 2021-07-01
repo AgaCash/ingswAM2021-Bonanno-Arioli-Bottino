@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class LightFaithTrack {
     private ArrayList<LightFaithBox> box = new ArrayList<>(25);
-    private LightFaithBox actualPos;
+    private LightFaithBox actualPos = new LightFaithBox();
     private LightFaithBox lorenzoPos;
 
     /**Returns the entire LightFaithTrack
@@ -26,16 +26,16 @@ public class LightFaithTrack {
     public void setTrack(ArrayList<LightFaithBox> box){
         this.box = box;
         actualPos = this.box.get(0);
-        lorenzoPos = this.box.get(0);
+        lorenzoPos = new LightFaithBox();
     }
 
     /**Sets the Lorenzo's FaithTrack position in Model on the LightModel's LightFaithTrack
      * @param pos the current Lorenzo position on its FaithTrack in the Model
      */
     public void setLorenzoPos(int pos){
-        this.lorenzoPos.setLorenzoPos(false);
-        this.lorenzoPos = box.get(pos);
-        this.lorenzoPos.setLorenzoPos(true);
+            this.lorenzoPos.setLorenzoPos(false);
+            this.lorenzoPos = box.get(pos);
+            this.lorenzoPos.setLorenzoPos(true);
     }
 
     /**Sets the Player's FaithTrack position in Model on the LightModel's LightFaithTrack
@@ -46,6 +46,19 @@ public class LightFaithTrack {
         actualPos = box.get(position);
         actualPos.setPos(true);
     }
+/*
+    public void isSinglePlayer(boolean flag){
+        if(flag) {
+            this.lorenzoPos = box.get(0);
+        }
+        else {
+            this.lorenzoPos.setLorenzoPos(false);
+            this.lorenzoPos = null;
+        }
+
+    }
+
+ */
 
     /**Method to print LightFaithTrack in CLI
      * @return a String

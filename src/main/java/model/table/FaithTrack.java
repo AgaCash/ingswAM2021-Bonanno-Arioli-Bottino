@@ -57,7 +57,7 @@ public class FaithTrack {
         LightFaithTrack newFTrack = new LightFaithTrack();
         newFTrack.setTrack(newTrack);
         newFTrack.setCurrentPos(this.actualBox.getPosition());
-        newFTrack.setLorenzoPos(this.lorenzoPos);
+        //newFTrack.setLorenzoPos(this.lorenzoPos);
         return newFTrack;
     }
 

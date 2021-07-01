@@ -112,7 +112,7 @@ public class Lorenzo {
     }
 
     public LightLorenzo convert(){
-        LightLorenzo convertedLorenzo = new LightLorenzo();
+        LightLorenzo convertedLorenzo = new LightLorenzo(faithBox.getPosition());
         if(!cards.isEmpty())
             convertedLorenzo.hasPickedCards(cards);
         if(position!=0)

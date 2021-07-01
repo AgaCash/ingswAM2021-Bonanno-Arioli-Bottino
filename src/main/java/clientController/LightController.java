@@ -511,7 +511,7 @@ public class LightController {
     public LightDevelopmentBoard getDevBoard(){ return this.game.getDevBoard();}
 
     public void setPlayers(ArrayList<LightPlayer> players){
-        this.game.setPlayers(players);
+        this.game.setPlayers(getUsername(), players);
     }
 
     public void setPlayer(ArrayList<LightPlayer> players){
@@ -692,6 +692,7 @@ public class LightController {
             game.updateStrongbox(username, player.getPlayerBoard().getStrongbox());
             //game.updateCardSlots(username, player.getPlayerBoard().getCardSlots());
             game.updateFaithTrack(username, player.getPlayerBoard().getFaithTrack());
+            game.getPlayer().getPlayerBoard().getFaithTrack().setLorenzoPos(cpu.getPosition());
         }catch (NoSuchUsernameException e) {
             //IT NEVER HAPPENS !!!!!!!!!!!!!!!!!
             view.showError(e.getMessage());

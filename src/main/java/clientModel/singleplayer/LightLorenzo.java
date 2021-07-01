@@ -15,10 +15,11 @@ public class LightLorenzo {
     private int shuffles;
     private int advance;
 
-    public LightLorenzo(){
-       this.advance = 0;
-       this.shuffles = 0;
-       this.cards = new ArrayList<>();
+    public LightLorenzo(int pos){
+        this.lorenzoPos = pos;
+        this.advance = 0;
+        this.shuffles = 0;
+        this.cards = new ArrayList<>();
     }
 
     /**Sets the LightLorenzo's actions flags about the advancing of FaithTrack by Lorenzo instance in Model

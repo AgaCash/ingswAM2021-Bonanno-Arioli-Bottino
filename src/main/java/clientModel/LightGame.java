@@ -102,13 +102,18 @@ public class LightGame {
     }
     public LightDevelopmentBoard getDevBoard(){ return this.table.getDevBoard(); }
 
-    public void setPlayers(ArrayList<LightPlayer> players){
+    public void setPlayers(String username, ArrayList<LightPlayer> players){
         this.otherPlayers = players;
-        for(LightPlayer player : players)
-            if(player.getNickname().equals(this.player.getNickname())) {
+       // System.out.println(players);
+        for(LightPlayer player : players) {
+            if (player.getNickname().equals(username)) {
                 this.player = player;
+               // System.out.println(player.getNickname());
             }
+        }
         this.otherPlayers.remove(this.player);
+        //System.out.println(getPlayerBoard().getFaithTrack().getBox().size());
+        //System.out.println(getPlayerBoard().getFaithTrack().toString());
 
     }
 
