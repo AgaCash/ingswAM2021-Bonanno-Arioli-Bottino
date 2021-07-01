@@ -67,6 +67,27 @@ public class LightLorenzo {
         return s;
     }
 
+    /**todo te lo scrivi te stronzo!
+     * @param track
+     * @return
+     */
+    public String plainActions(LightFaithTrack track){
+        String s = new String();
+        if(!this.cards.isEmpty())
+            for(LightDevelopmentCard card: cards)
+                s+=" > Lorenzo has removed the a "+card.getColour()+" level "+card.getLevel()+" card\n";
+
+        if(this.shuffles!=0)
+            for(int i = 0; i<shuffles; i++)
+                s+=" > Lorenzo has shuffled tokens\n";
+
+        if(this.advance!=0) {
+            for (int i = 0; i < advance; i++)
+                s += " > Lorenzo has advanced on the track\n";
+            track.setLorenzoPos(lorenzoPos);
+        }
+        return s;
+    }
 
     /**Returns the current Lorenzo's position on LightFaithTrack
      * @return an int
