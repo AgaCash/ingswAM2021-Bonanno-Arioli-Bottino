@@ -80,7 +80,7 @@ public final class DevelopmentBoard {
         for(Deck deck : decks)
             try {
                 cards.add(deck.getCard().convert());
-            }catch(NullPointerException e){
+            }catch(EmptyDeckException e){
                 cards.add(new LightDevelopmentCard());
             }
         board.setDecks(cards);

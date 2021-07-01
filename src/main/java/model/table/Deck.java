@@ -93,9 +93,9 @@ public class Deck {
      * @return
      */
     //only 4 tests
-    public DevelopmentCard getCard(){
+    public DevelopmentCard getCard() throws EmptyDeckException {
         if(isEmpty())
-            return null;
+            throw new EmptyDeckException();
         return cards.get(cards.size()-1);
     }
 }
