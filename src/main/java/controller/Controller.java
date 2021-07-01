@@ -286,13 +286,12 @@ public class Controller {
     public synchronized void endTurn(String username) {
         EndTurnResponse response;
         Lobby currL = LobbyHandler.getInstance().getLobby(lobbyId);
-
+        game.updateTurn();
         ArrayList<LightPlayer> players = new ArrayList<>();
         for(Player p: game.getPlayers())
             players.add(p.convert());
 
         if (game.isSinglePlayer()) {
-            game.updateTurn();
             if(!game.isOver()) {
                 response = new EndTurnResponse(username,
                         game.getLorenzo().convert(),
@@ -310,7 +309,6 @@ public class Controller {
         }
         else{
             //multiplayer
-            game.updateTurn();
             if(game.lastTurnIsOver()){
                 response = new EndTurnResponse(username, game.getRanking(), game.getWinner());
                 EndTurnResponse finalResponse = response;

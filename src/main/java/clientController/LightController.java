@@ -691,7 +691,6 @@ public class LightController {
     public void updateSinglePlayerEndTurn(String username, LightLorenzo cpu, LightPlayer player, LightDevelopmentBoard board){
         try {
             game.updateStrongbox(username, player.getPlayerBoard().getStrongbox());
-            //game.updateCardSlots(username, player.getPlayerBoard().getCardSlots());
             game.updateFaithTrack(username, player.getPlayerBoard().getFaithTrack());
             game.getPlayer().getPlayerBoard().getFaithTrack().setLorenzoPos(cpu.getPosition());
         }catch (NoSuchUsernameException e) {
