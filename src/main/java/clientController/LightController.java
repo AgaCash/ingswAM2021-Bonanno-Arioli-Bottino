@@ -576,13 +576,13 @@ public class LightController {
     }
 
     public void endSinglePlayerGame(String message){
-        view.showSuccess(message);
-        view.endGame();
+        view.endSinglePlayerGame(message);
+        //view.endGame();
     }
 
     public void endMultiPlayerGame(String winner, String rank){
         view.showRanking(winner, rank);
-        view.endGame();
+        //view.endGame();
     }
 
     public void sendCheat(int ans){

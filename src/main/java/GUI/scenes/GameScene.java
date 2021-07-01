@@ -312,6 +312,9 @@ public class GameScene implements GenericScene{
     }
 
     public void updateStrongBox(String username, LightStrongbox strongbox){
+        if(strongbox == null){
+            return;
+        }
         playerBoardsPanes.forEach((pBoardPane)->{
             if(playersList.get(Integer.parseInt(pBoardPane.getId())).equals(username)){
                 Pane strongboxPane = (Pane) pBoardPane.lookup("#strongboxPane");
@@ -963,6 +966,8 @@ public class GameScene implements GenericScene{
     HBox cheatHbox;
     private int clickCount = 0;
     public void cheatActivation(MouseEvent mouseEvent) {
+        if(!isMyTurn)
+            return;
         clickCount++;
         System.out.println(clickCount);
         if(clickCount>5){

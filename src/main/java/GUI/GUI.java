@@ -413,6 +413,19 @@ public class GUI implements View {
             alert.setHeaderText("FINAL RANK:\n");
             alert.setContentText(rank + "\n" + "THE WINNER IS: " + winner);
             alert.showAndWait();
+            controller.instantQuittingApplication();
+        });
+    }
+
+    @Override
+    public void endSinglePlayerGame(String message){
+        Platform.runLater(()->{
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("ENDGAME");
+            alert.setHeaderText("Singleplayer has ended");
+            alert.setContentText(message);
+            alert.showAndWait();
+            controller.instantQuittingApplication();
         });
     }
 

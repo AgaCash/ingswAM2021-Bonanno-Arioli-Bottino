@@ -64,6 +64,7 @@ public interface View {
     void showError(String message);
     void showSuccess(String message);
     void showRanking(String winner, String rank);
+    void endSinglePlayerGame(String message);
     void endGame();
     void showOthersActions(String message);
     void showLorenzoActions(String message);

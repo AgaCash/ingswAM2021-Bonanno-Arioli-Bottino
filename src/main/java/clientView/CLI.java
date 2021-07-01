@@ -424,6 +424,13 @@ public class CLI implements View{
     }
 
     @Override
+    public void endSinglePlayerGame(String message) {
+        showSuccess(message);
+        System.out.println("see you space cowboy...\n");
+        controller.quittingApplication();
+    }
+
+    @Override
     public void endGame(){
         System.out.println("see you space cowboy...\n");
         controller.quittingApplication();
