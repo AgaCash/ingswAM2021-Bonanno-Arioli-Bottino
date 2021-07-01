@@ -759,6 +759,7 @@ public class LightController {
             if (p.getNickname().equals(username))
                 try {
                     game.updateStrongbox(username, p.getPlayerBoard().getStrongbox());
+                    view.updateStrongbox(username, game.getPlayer(username).getPlayerBoard().getStrongbox());
                 } catch (NoSuchUsernameException e) {
                     view.showError(e.getMessage());
                     //AAAAAAAAAAAAAA CORRI SCAPPA C'È IL NEMESIS
