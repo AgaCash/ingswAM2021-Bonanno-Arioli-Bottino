@@ -618,6 +618,10 @@ public class GameScene implements GenericScene{
     }
 
     private void marketClick(MouseEvent mouseEvent) {
+        if(!isMyTurn)
+            return;
+        if(!askConfirmation("Buy this resource at the Market?"))
+            return;
         boolean leaderUse;
         ImageView currImage = (ImageView) mouseEvent.getTarget();
         boolean line;
