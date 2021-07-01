@@ -1,7 +1,6 @@
 package clientController;
 
 import clientModel.LightGame;
-import clientModel.cards.LightCardSlots;
 import clientModel.cards.LightLeaderCard;
 import clientModel.player.LightPlayer;
 import clientModel.resources.LightResource;
@@ -416,17 +415,6 @@ public class LightController {
         }
     }
 
-    public void updateCardSlots(String username, LightCardSlots cardSlots){
-        /*try {
-            //game.updateCardSlots(username, cardSlots.getCards());
-            //view.updateCardSlots(username, );
-        }catch (NoSuchUsernameException e){
-            view.showError(e.getMessage());
-        }
-        todo SISTEMAREEEEEEEE
-         */
-    }
-
     public void updateDevBoard(LightDevelopmentBoard board) {
         game.updateDevBoard(board);
         view.updateDevBoard(board);
@@ -460,7 +448,7 @@ public class LightController {
         view.showSuccess(message);
     }
 
-
+    //todo da rimuovere
     public void updateStrongbox(String username, LightStrongbox strongbox){
         try {
             game.updateStrongbox(username, strongbox);
@@ -470,6 +458,7 @@ public class LightController {
         }
     }
 
+    //todo da rimuovere
     public void updateFaithTrack(String username, LightFaithTrack newFaithTrack){
         try{
             game.updateFaithTrack(username, newFaithTrack);
@@ -478,15 +467,6 @@ public class LightController {
         }
     }
 
-   /* public void updateLeaderSlot(String username, ArrayList<LightLeaderCard> cards){
-        try{
-            game.updateLeaderSlot(username, cards);
-            view.updateLeaderSlot(username, cards);
-        }catch(NoSuchUsernameException e){
-            view.showError(e.getMessage());
-        }
-    }
-    */
 
     public void chooseStartItems(ArrayList<LightLeaderCard> quartet, int numResources, boolean faithPoints){
         view.askStartItems(quartet, numResources, faithPoints);
@@ -506,12 +486,6 @@ public class LightController {
         }
 
     }
-
-    /*
-    //RENDUNDANT?
-    public void start(){
-        view.askTurn();
-    }*/
 
     public LightPlayer getPlayerFull(String username){
         try {
@@ -592,6 +566,7 @@ public class LightController {
         //view.endGame();
     }
 
+    //todo da rimuovere
     public void sendCheat(int ans){
         Gson gson = new Gson();
         CheatRequest request = new CheatRequest(getUsername(), ans);
@@ -606,10 +581,6 @@ public class LightController {
 
     }
 
-    public void showOthersActions(String username, String message){
-        if(!game.getUsername().equals(username))
-            view.showOthersActions(username+message);
-    }
     public void updateLorenzo(LightLorenzo lorenzo){
         view.showLorenzoActions(lorenzo.actions(game.getPlayerBoard().getFaithTrack()));
     }
@@ -625,10 +596,14 @@ public class LightController {
                 } catch (NoSuchUsernameException e) {
                     view.showError("SÉ SPACCATO TUTTO");
                 }
-                view.updateCardSlots(p.getNickname(), p.getPlayerBoard().getCardSlots());
-                view.updateWarehouseDepot(p.getNickname(), p.getPlayerBoard().getWarehouseDepot());
-                view.updateStrongbox(p.getNickname(), p.getPlayerBoard().getStrongbox());
             }
+        }
+        try{
+            view.updateCardSlots(username, game.getPlayer(username).getPlayerBoard().getCardSlots());
+            view.updateWarehouseDepot(username, game.getPlayer(username).getPlayerBoard().getWarehouseDepot());
+            view.updateStrongbox(username, game.getPlayer(username).getPlayerBoard().getStrongbox());
+        } catch (NoSuchUsernameException e) {
+            view.showError("SÉ SPACCATO TUTTO");
         }
     }
 
@@ -642,8 +617,12 @@ public class LightController {
             }catch (NoSuchUsernameException e) {
                 view.showError("SÉ SPACCATO TUTTO");
             }
-            view.updateWarehouseDepot(p.getNickname(), p.getPlayerBoard().getWarehouseDepot());
-            view.updateFaithTrack(p.getNickname(), p.getPlayerBoard().getFaithTrack());
+        }
+        try{
+            view.updateWarehouseDepot(username, game.getPlayer(username).getPlayerBoard().getWarehouseDepot());
+            view.updateFaithTrack(username, game.getPlayer(username).getPlayerBoard().getFaithTrack());
+        } catch (NoSuchUsernameException e) {
+            view.showError("SÉ SPACCATO TUTTO");
         }
     }
 
@@ -659,9 +638,13 @@ public class LightController {
             }catch (NoSuchUsernameException e) {
                     view.showError("SÉ SPACCATO TUTTO");
             }
-            view.updateWarehouseDepot(p.getNickname(), p.getPlayerBoard().getWarehouseDepot());
-            view.updateStrongbox(p.getNickname(), p.getPlayerBoard().getStrongbox());
-            view.updateFaithTrack(p.getNickname(), p.getPlayerBoard().getFaithTrack());
+        }
+        try{
+            view.updateWarehouseDepot(username, game.getPlayer(username).getPlayerBoard().getWarehouseDepot());
+            view.updateStrongbox(username, game.getPlayer(username).getPlayerBoard().getStrongbox());
+            view.updateFaithTrack(username, game.getPlayer(username).getPlayerBoard().getFaithTrack());
+        } catch (NoSuchUsernameException e) {
+            view.showError("SÉ SPACCATO TUTTO");
         }
     }
 
@@ -675,7 +658,11 @@ public class LightController {
             }catch (NoSuchUsernameException e) {
                 view.showError("SÉ SPACCATO TUTTO");
             }
-            view.updateLeaderSlot(p.getNickname(), p.getPlayerBoard().getLeaderSlot());
+        }
+        try{
+            view.updateLeaderSlot(username, game.getPlayer(username).getPlayerBoard().getLeaderSlot());
+        } catch (NoSuchUsernameException e) {
+            view.showError("SÉ SPACCATO TUTTO");
         }
 
     }
@@ -691,11 +678,15 @@ public class LightController {
             }catch (NoSuchUsernameException e) {
                 view.showError("SÉ SPACCATO TUTTO");
             }
-            view.updateLeaderSlot(p.getNickname(), p.getPlayerBoard().getLeaderSlot());
-            view.updateFaithTrack(p.getNickname(), p.getPlayerBoard().getFaithTrack());
+        }
+        try{
+            view.updateLeaderSlot(username, game.getPlayer(username).getPlayerBoard().getLeaderSlot());
+            view.updateFaithTrack(username, game.getPlayer(username).getPlayerBoard().getFaithTrack());
+        } catch (NoSuchUsernameException e) {
+            view.showError("SÉ SPACCATO TUTTO");
         }
     }
-    //todo p.getnickname(), game.getPlayer(p.getNickname).getPlayerbBoard().getmazzCazz()
+
     public void updateSinglePlayerEndTurn(String username, LightLorenzo cpu, LightPlayer player, LightDevelopmentBoard board){
         try {
             game.updateStrongbox(username, player.getPlayerBoard().getStrongbox());
