@@ -431,6 +431,7 @@ public class CLI implements View{
     public void showRanking(String winner, String rank){
         System.out.println(LightColour.YELLOW+"FINAL RANK:\n"+rank+LightColour.WHITE);
         System.out.println(LightColour.GREEN+"AND THE WINNER IS...\n\t"+winner+"!"+LightColour.WHITE);
+        controller.quittingApplication();
     }
 
     @Override
