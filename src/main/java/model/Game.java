@@ -453,7 +453,6 @@ public class Game {
     private void changeTurn(){
         if(singlePlayer) {
             cpu.pick();
-            currentPlayer.getFaithTrack().setLorenzoPos(cpu.getFaithBox().getPosition());
             if(cpu.gameIsOver()){
                 this.isOver = true;
                 this.currentPlayer.setVictory(false);

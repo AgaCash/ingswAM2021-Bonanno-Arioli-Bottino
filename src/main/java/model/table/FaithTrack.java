@@ -9,7 +9,6 @@ import java.util.ArrayList;
 public class FaithTrack {
     private ArrayList<FaithBox> box ;
     private FaithBox actualBox;
-    private int lorenzoPos;
 
     /**
      * loads the faith boxes from a json file
@@ -17,7 +16,6 @@ public class FaithTrack {
     public FaithTrack() {
         box = new JsonParser("faithBox.json").getFaithBoxes();
         actualBox = box.get(0);
-        this.lorenzoPos = 0;
     }
 
     public FaithBox getFaithBox(){
@@ -41,10 +39,6 @@ public class FaithTrack {
         return this.actualBox;
     }
 
-    public void setLorenzoPos(int newPos){
-        this.lorenzoPos = newPos;
-    }
-
     /**Converts the current FaithTrack state in a LightFaithTrack instance
      * @return a LightFaithTrack instance
      */
@@ -57,7 +51,6 @@ public class FaithTrack {
         LightFaithTrack newFTrack = new LightFaithTrack();
         newFTrack.setTrack(newTrack);
         newFTrack.setCurrentPos(this.actualBox.getPosition());
-        //newFTrack.setLorenzoPos(this.lorenzoPos);
         return newFTrack;
     }
 
