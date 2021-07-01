@@ -46,19 +46,6 @@ public class LightFaithTrack {
         actualPos = box.get(position);
         actualPos.setPos(true);
     }
-/*
-    public void isSinglePlayer(boolean flag){
-        if(flag) {
-            this.lorenzoPos = box.get(0);
-        }
-        else {
-            this.lorenzoPos.setLorenzoPos(false);
-            this.lorenzoPos = null;
-        }
-
-    }
-
- */
 
     /**Method to print LightFaithTrack in CLI
      * @return a String

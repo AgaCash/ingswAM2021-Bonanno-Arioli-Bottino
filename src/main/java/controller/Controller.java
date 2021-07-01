@@ -10,6 +10,7 @@ import model.Game;
 import model.cards.LeaderCard;
 import model.player.Player;
 import model.resources.Resource;
+import model.singleplayer.Lorenzo;
 import model.table.DevelopmentBoard;
 import model.table.MarketBoard;
 import network.messages.gameMessages.*;
@@ -367,6 +368,9 @@ public class Controller {
     public ArrayList<LightPlayer> getLightPlayers(){
         ArrayList<LightPlayer> players = new ArrayList<>();
         game.getPlayers().forEach(e-> players.add(e.convert()));
+        if(isSinglePlayer()){
+            players.get(0).getPlayerBoard().getFaithTrack().setLorenzoPos(game.getLorenzo().getFaithBox().getPosition());
+        }
         return players;
     }
 
@@ -403,6 +407,10 @@ public class Controller {
      */
     public DevelopmentBoard getDevBoard(){
         return game.getDevBoard();
+    }
+
+    public Lorenzo getLorenzo(){
+        return game.getLorenzo();
     }
 //todo da rimuovere
     public void cheat(){
