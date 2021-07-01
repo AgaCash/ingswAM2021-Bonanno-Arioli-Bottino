@@ -514,7 +514,6 @@ public class Game {
     }
 
     /**Starts the last Turn with the new Players order (first the Winner's successor)
-     *
      */
     private void startLastTurn(){
         if(!this.isOver) {
