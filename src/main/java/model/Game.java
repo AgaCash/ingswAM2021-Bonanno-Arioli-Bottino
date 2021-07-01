@@ -517,15 +517,17 @@ public class Game {
      *
      */
     private void startLastTurn(){
-        this.isOver = true;
-        if(!isSinglePlayer()){
-            ArrayList<Player> newTurns = new ArrayList<>();
-            int start = players.indexOf(currentPlayer);
-            for(int i = start; i<players.size(); i++)
-                newTurns.add(players.get(i));
-            for(int i = 0; i<start; i++)
-                newTurns.add(players.get(i));
-            players = newTurns;
+        if(!this.isOver) {
+            this.isOver = true;
+            if (!isSinglePlayer()) {
+                ArrayList<Player> newTurns = new ArrayList<>();
+                int start = players.indexOf(currentPlayer);
+                for (int i = start; i < players.size(); i++)
+                    newTurns.add(players.get(i));
+                for (int i = 0; i < start; i++)
+                    newTurns.add(players.get(i));
+                players = newTurns;
+            }
         }
     }
 
