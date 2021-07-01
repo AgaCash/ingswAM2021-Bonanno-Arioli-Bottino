@@ -508,13 +508,17 @@ public class GameScene implements GenericScene{
                 return;
             }
 
+
             alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("LeaderCard Activation");
             alert.setHeaderText("Do you want to use a leader card?");
             alert.setContentText("");
+            ButtonType yesBtn = new ButtonType("Yes");
+            ButtonType noBtn = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+            alert.getButtonTypes().setAll(yesBtn, noBtn);
 
             result = alert.showAndWait();
-            if (result.get() == ButtonType.OK){
+            if (result.get() == yesBtn){
                 leaderUse = true;
             } else {
                 leaderUse = false;
@@ -661,9 +665,12 @@ public class GameScene implements GenericScene{
             alert.setTitle("LeaderCard Activation");
             alert.setHeaderText("Do you want to use a leader card?");
             alert.setContentText("");
-            Optional<ButtonType> result = alert.showAndWait();
+            ButtonType yesBtn = new ButtonType("Yes");
+            ButtonType noBtn = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+            alert.getButtonTypes().setAll(yesBtn, noBtn);
 
-            if (result.get() == ButtonType.OK) {
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == yesBtn) {
                 leaderUse = true;
             } else {
                 leaderUse = false;
