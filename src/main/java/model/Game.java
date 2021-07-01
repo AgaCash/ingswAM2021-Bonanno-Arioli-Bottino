@@ -188,6 +188,15 @@ public class Game {
                 this.finalMessage = "\nVICTORY! YOU BOUGHT YOUR 7th DEVELOPMENT CARD!\n";
             }
             currentPlayer.didAction();
+            //ENDGAME CHECK
+            if(isSinglePlayer()){
+                try{
+                    table.getDevBoard().getDeck(numDeck).getCard();
+                }catch(EmptyDeckException e){
+                    isOver = true;
+                    this.finalMessage = "GAME OVER: YOU RUN OUT A COLUMN OF DEVELOPMENT CARDS!";
+                }
+            }
         }
         else{
             throw new InsufficientResourcesException("Can't buy this card: insufficient resources!");
@@ -529,6 +538,8 @@ public class Game {
      * @return a String with the message (if Player wins or not)
      */
     public String endingSinglePlayerGame(){
+        if(currentPlayer.isTheWinner())
+            this.finalMessage+="\n YOUR POINTS: "+currentPlayer.getPoints();
         return this.finalMessage;
     }
 
