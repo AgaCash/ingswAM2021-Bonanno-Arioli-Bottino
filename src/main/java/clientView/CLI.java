@@ -17,11 +17,18 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * View to play the Game via Command Line Interface.
+ * It's the first class that runs (if Main call it) and sets the LightController startup
+ */
 public class CLI implements View{
     private Scanner in;
     private final PrintStream out;
     LightController controller;
 
+    /**
+     * Constructor. Sets the Scanner, Stream and LightController
+     */
     public CLI(){
         this.in = new Scanner(System.in);
         this.out = System.out;
@@ -61,23 +68,10 @@ public class CLI implements View{
                     " \n3- Create Multiplayer Lobby");
         while(choice<1 || choice>4);
             switch (choice) {
-                case 1 -> handleSinglePlayer();
-                case 2 -> handleMultiJoin();
-                case 3 -> handleMultiCreate();
-                case 4 -> handleNculet();
+                case 1 -> controller.createSinglePlayerLobby();
+                case 2 -> controller.getLobbyList();
+                case 3 -> controller.createMultiLobby();
             }
-    }
-
-    public void handleSinglePlayer(){
-        controller.createSinglePlayerLobby();
-    }
-
-    public void handleMultiJoin(){
-        controller.getLobbyList();
-    }
-
-    public void handleMultiCreate(){
-        controller.createMultiLobby();
     }
 
     @Override
@@ -197,6 +191,9 @@ public class CLI implements View{
         }
     }
 
+    /**Prints the LightPlayerBoard:
+     * LightFaithTrack + LightWarehouseDepot + LightStrongbox + LightCardSlots
+     */
     private void printMenu(){
         System.out.println(LightColour.YELLOW+"###############################################################################################################################"+LightColour.WHITE);
         System.out.println(controller.getPlayerBoard().getFaithTrack().toString());
@@ -206,6 +203,9 @@ public class CLI implements View{
         System.out.println(LightColour.YELLOW+"###############################################################################################################################"+LightColour.WHITE);
     }
 
+    /**Prints the LightMarketBoard and the LightDevelopmentBoard by User choice
+     * It doesn't imply any action, just a method to check Table status
+     */
     private void askShow(){
         int ans;
         do ans = askInt("1 to show the development board\n\b" +
@@ -220,6 +220,9 @@ public class CLI implements View{
         askTurn();
     }
 
+    /**
+     * Handles all the LeaderCard relatives actions (activation and throwing)
+     */
     private void askLeader(){
         int ans ;
         do ans = askInt("CHOOSE YOUR ACTION\n\b" +
@@ -235,6 +238,10 @@ public class CLI implements View{
         askTurn();
     }
 
+    /**
+     * Handles all the production relatives actions (production from a DevelopmentCard and production
+     * from the PlayerBoard)
+     */
     private void askProduction(){
         int ans;
         do ans = askInt("1 to activate the production from a development card\n" +
@@ -406,6 +413,9 @@ public class CLI implements View{
     }
 
 
+    /**Handles the choosing of the LeaderCard to add to the action's request (Production, Market purchase and DevelopmentCard purchase)
+     * @return a LightLeaderCard
+     */
     private LightLeaderCard askLeaderCardUse(){
         ArrayList<LightLeaderCard> cards = controller.getPlayerBoard().getLeaderSlot();
         int choice;
@@ -445,10 +455,10 @@ public class CLI implements View{
         askTurn();
     }
 
-    private void handleNculet(){
-        System.out.println("NNNNNNNNCUUUUUUUUULEEEEEEEEET");
-    }
-
+    /**Handles the right-formatted String input
+     * @param message the Message to print (the CLI question)
+     * @return a String (the User answer)
+     */
     private String askString(String message){
         System.out.println(message);
         try{
@@ -460,6 +470,10 @@ public class CLI implements View{
         }
     }
 
+    /**Handles the right-formatted Int input
+     * @param message the Message to print (the CLI question)
+     * @return an int (the User answer)
+     */
     private Integer askInt(String message){
         System.out.println(message);
         try{
@@ -471,6 +485,9 @@ public class CLI implements View{
         }
     }
 
+    /**Handles the correctly formatted LightResource query to User
+     * @return a LightResource new instance
+     */
     private LightResource askResource(){
         int res;
         do res = askInt("choose resource:\n" +

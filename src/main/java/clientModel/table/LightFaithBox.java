@@ -48,6 +48,9 @@ public class LightFaithBox {
         popeFlag[2] = flagThree;
     }
 
+    /**Method to print LightFaithBox in CLI
+     * @return a String
+     */
     @Override
     public String toString(){
         String s = new String();

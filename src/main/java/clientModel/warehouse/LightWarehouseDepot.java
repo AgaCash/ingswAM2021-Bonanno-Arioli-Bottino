@@ -4,25 +4,40 @@ import clientModel.resources.LightResource;
 
 import java.util.ArrayList;
 
+/**
+ * LightModel copy of Player's WarehouseDepot in model
+ */
 public class LightWarehouseDepot {
 
     private ArrayList<LightResource> warehouse = new ArrayList<>();
     private ArrayList<LightResource> extraWarehouse = new ArrayList<>();
 
+    /**Updates the LightWarehouseDepot with the current Model's WarehouseDepot status
+     * @param image a LightResource ArrayList
+     */
     public void setWarehouse(ArrayList<LightResource> image){
-        this.warehouse.clear();
+        //this.warehouse.clear();
         this.warehouse = image;
     }
 
+    /**Updates the LightWarehouseDepot extra Resources (ExtraDepot Card ability) with the current Model's WarehouseDepot extra Resources
+     * @param image a LightResource ArrayList
+     */
     public void setExtraWarehouse(ArrayList<LightResource> image){
-        this.extraWarehouse.clear();
+        //this.extraWarehouse.clear();
         this.extraWarehouse = image;
     }
 
+    /**Returns the current LightWarehouseDepot
+     * @return a LightWarehouseDepot instance
+     */
     public ArrayList<LightResource> getWarehouse() {
         return warehouse;
     }
 
+    /**Method to print LightMarketBoard in CLI
+     * @return a String
+     */
     @Override
     public String toString(){
         String s = "\nWAREHOUSE: \n";

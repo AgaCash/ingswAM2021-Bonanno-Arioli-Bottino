@@ -1,6 +1,7 @@
 package clientModel.table;
 
 import clientModel.cards.LightDevelopmentCard;
+import clientModel.colour.LightColour;
 
 import java.util.ArrayList;
 
@@ -44,16 +45,17 @@ public class LightDevelopmentBoard {
         for(int i=0; i<decks.size(); i++) {
             String[] levels = decks.get(i).toString().split("\n");
             for(int j = 0; j<5; j++) {
-                s[j] += levels[j];
+                s[j] += LightColour.WHITE+ "|"+ levels[j];
             }
             if(i==3 || i==7 || i==11) {
                 for (int k = 0; k < 5; k++) {
-                    ans += s[k].replace("null", "") + "\n";
+                    ans +=s[k].replace("null", "") + "\n";
                 }
+                ans+="----------------------------------------------------------------------------------------------------------------\n";
                 s = new String[5];
             }
         }
-        return ans+ "\n----------------------------------------------------------------------------------------------------------------\n";
+        return ans;
     }
 
 }

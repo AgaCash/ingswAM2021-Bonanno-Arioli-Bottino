@@ -279,15 +279,18 @@ public class Controller {
     public synchronized void endTurn(String username) {
         EndTurnResponse response;
         Lobby currL = LobbyHandler.getInstance().getLobby(lobbyId);
+
+        ArrayList<LightPlayer> players = new ArrayList<>();
+        for(Player p: game.getPlayers())
+            players.add(p.convert());
+
         if (game.isSinglePlayer()) {
             game.updateTurn();
             if(!game.isOver()) {
                 response = new EndTurnResponse(username,
-                        game.getDevBoard().convert(),
-                        game.getCurrentPlayer().getFaithTrack().convert(),
-                        game.getCurrentPlayer().getPlayerBoard().getCardSlots().convert(),
-                        game.getCurrentPlayer().getPlayerBoard().getStrongbox().convert(),
-                        game.getLorenzo().convert());
+                        game.getLorenzo().convert(),
+                        players,
+                        game.getDevBoard().convert());
                 //getViews().get(0).getVirtualView().sendEndTurnNotify(response);
             }else {
                 response = new EndTurnResponse(username, game.endingSinglePlayerGame());
@@ -299,7 +302,7 @@ public class Controller {
 
         }
         else{
-            Player lastPlayer = game.getCurrentPlayer();
+            //multiplayer
             game.updateTurn();
             if(game.lastTurnIsOver()){
                 response = new EndTurnResponse(username, game.getRanking(), game.getWinner());
@@ -312,14 +315,15 @@ public class Controller {
             else {
                 response = new EndTurnResponse(username,
                         game.getCurrentPlayer().getNickname(),
-                        lastPlayer.getPlayerBoard().getStrongbox().convert());
+                        players);
                 EndTurnResponse finalResponse1 = response;
                 getViews().forEach((element) -> element.getVirtualView().sendEndTurnNotify(finalResponse1));
                 while (disconnectedPlayer.contains(game.getCurrentPlayer().getNickname()) && !views.isEmpty()){
                     game.updateTurn();
+                    //todo guardami se crasha
                     response = new EndTurnResponse(username,
                             game.getCurrentPlayer().getNickname(),
-                            lastPlayer.getPlayerBoard().getStrongbox().convert());
+                            players);
                     EndTurnResponse finalResponse2 = response;
                     getViews().forEach((element) -> element.getVirtualView().sendEndTurnNotify(finalResponse2));
                 }

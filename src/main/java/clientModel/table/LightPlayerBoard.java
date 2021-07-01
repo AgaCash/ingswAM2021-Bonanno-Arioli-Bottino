@@ -8,6 +8,9 @@ import clientModel.warehouse.LightWarehouseDepot;
 
 import java.util.ArrayList;
 
+/**
+ * LightModel's copy of Player's PlayerBoard in Model.
+ */
 public class LightPlayerBoard {
     private LightCardSlots cardSlots = new LightCardSlots();
     private LightWarehouseDepot warehouseDepot = new LightWarehouseDepot();
@@ -18,31 +21,67 @@ public class LightPlayerBoard {
     private boolean hasInkwell;
     private int faithPoints = 0;
 
+    //todo sta cosa serve ancora?
     public void setInkwell(boolean value){ this.hasInkwell=value; }
     public boolean getInkwell(){ return this.hasInkwell; }
 
+    /**Updates the LightPlayer's points with the current Victory Points in Model's PlayerBoard
+     * @param points an int
+     *///todo serve anche questo?
     public void setPoints(int points){ this.faithPoints = points;}
-    public int getPoints(){ return  this.faithPoints;}
 
+    /**Returns current LightStrongbox
+     * @return a LightStrongbox instance
+     */
     public LightStrongbox getStrongbox(){
         return strongbox;
     }
+
+    /**Updates the LightStrongbox instance with the current Model's Strongbox status
+     * @param strongbox a LightStrongbox status
+     */
     public void setStrongbox(LightStrongbox strongbox){ this.strongbox = strongbox;}
 
+    /**Returns current LightCardSlots
+     * @return a LightCardSlots instance
+     */
     public LightCardSlots getCardSlots(){ return cardSlots; }
+
+    /**Updates the LightCardSlots instance with the current Model's CardSlots status
+     * @param cardSlots a LightCardSlots instance
+     */
     public void setCardSlots(LightCardSlots cardSlots){ this.cardSlots = cardSlots;}
 
+    /**Returns current LightWarehouseDepot
+     * @return a LightWarehouseDepot instance
+     */
     public LightWarehouseDepot getWarehouseDepot(){return warehouseDepot;}
+
+    /**Updates the LightWarehouseDepot instance with the current Model's WarehouseDepot status
+     * @param warehouseDepot a LightWarehouseDepot instance
+     */
     public void setWarehouse(LightWarehouseDepot warehouseDepot){ this.warehouseDepot = warehouseDepot;}
 
-    public LightFaithBox getFaithBox(){ return faithBox; }
-
+    /**Returns current LightFaithTrack
+     * @return a LightFaithTrack instance
+     */
     public LightFaithTrack getFaithTrack(){ return faithTrack;}
+
+    /**Updates the LightWarehouseDepot instance with the current Model's FaithTrack status
+     * @param faithTrack a LightFaithTrack instance
+     */
     public void setFaithTrack(LightFaithTrack faithTrack){ this.faithTrack = faithTrack;}
 
+    /**Returns the current LightLeaderCardSlot
+     * @return a LightLeaderCard instance
+     */
     public ArrayList<LightLeaderCard> getLeaderSlot(){
         return leaderSlot;
     }
+
+    /**Updates the LightLeaderCardSlots with the current Model's LeaderCardSlot status
+     * @param cards a LightLeaderCard ArrayList
+     */
     public void setLeaderSlot(ArrayList<LightLeaderCard> cards){
         this.leaderSlot = cards;
     }

@@ -1,5 +1,7 @@
 package clientModel.cards;
 
+import clientModel.colour.LightColour;
+
 import java.util.ArrayList;
 
 /**
@@ -47,7 +49,7 @@ public class LightCardSlots {
         for(int i=0; i< slots.size(); i++) {
             String[] levels = slots.get(i).toString().split("\n");
             for(int j = 0; j<5; j++) {
-                s[j] += levels[j];
+                s[j] += LightColour.WHITE+"|"+levels[j];
             }
         }
         for (int k = 0; k < 5; k++) {

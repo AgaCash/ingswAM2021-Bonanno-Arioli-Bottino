@@ -4,11 +4,17 @@ import clientModel.marbles.LightMarble;
 
 import java.util.ArrayList;
 
+/**
+ * LightModel's copy of MarketBoard in Model.
+ */
 public class LightMarketBoard {
 
     private ArrayList<ArrayList<LightMarble>> marbleGrid = new ArrayList<>(3);
     private LightMarble freeMarble;
 
+    /**Updates the LightMarketBoard with the new Model's MarketBoard status
+     * @marbles a LightMarble ArrayList representing the Model's MarketBoard status
+     */
     public void setMarketBoard (ArrayList<LightMarble> marbles){
         for (int n = 0; n < 3; n++)
             marbleGrid.add(new ArrayList(4));
@@ -22,32 +28,27 @@ public class LightMarketBoard {
         freeMarble = marbles.get(k);
     }
 
+    /**Returns the current free Marble
+     * @return a LightMarble instance
+     */
     public LightMarble getFreeMarble (){
         return freeMarble;
     }
-/*
-    public void addMarketLine (int line, LeaderCard card){
-        int i;
 
-        freeMarble = marbleGrid.get(line).get(3);
-        for(i =3 ; i>0; i--)
-            marbleGrid.get(line).set(i, marbleGrid.get(line).get(i-1));
-        marbleGrid.get(line).set(i, freeMarble);
-    }
-
-    public void addMarketColumn (int col, LeaderCard card){
-        freeMarble = marbleGrid.get(2).get(col);
-        marbleGrid.get(1).set(col, marbleGrid.get(0).get(col));
-        marbleGrid.get(0).set(col, freeMarble);
-    }
-
- */
-
+    /**Returns the coordinates corresponding LightMarble
+     * @param whichOneLine the number of Line
+     * @param whichOneCol the number of Column
+     * @return a LightMarble instance
+     */
     public LightMarble getMarble (int whichOneLine, int whichOneCol){
         LightMarble mar;
         mar = marbleGrid.get(whichOneLine).get(whichOneCol);
         return mar;
     }
+
+    /**Method to print LightMarketBoard in CLI
+     * @return a String
+     */
     @Override
     public String toString(){
         String s = "______________________\n";
