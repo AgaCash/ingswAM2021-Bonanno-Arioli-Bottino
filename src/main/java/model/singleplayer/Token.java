@@ -52,8 +52,11 @@ public class Token {
      * @param developmentBoard passed to link Lorenzo with the development model.cards to discard
      */
     public DevelopmentCard cardAction(DevelopmentBoard developmentBoard){
+        DevelopmentCard card, test;
         try {
-            return developmentBoard.popCardFromDeckColour(colour);
+            card =  developmentBoard.popCardFromDeckColour(colour);
+            test = developmentBoard.getDeck(colour).getCard();
+            return card;
         }catch(EmptyDeckException e){
             return null;
         }

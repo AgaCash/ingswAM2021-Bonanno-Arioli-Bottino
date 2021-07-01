@@ -140,7 +140,7 @@ public class Player {
         player.setNickname(getNickname());
         player.setPoints(this.points);
         player.setPlayerBoard(this.playerboard.convert());
-
+        //player.getPlayerBoard().getFaithTrack().isSinglePlayer(false);
         return player;
     }
 

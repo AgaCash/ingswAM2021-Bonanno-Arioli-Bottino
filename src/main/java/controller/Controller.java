@@ -136,11 +136,17 @@ public class Controller {
      */
     public void notifyReadiness(){
         this.readyPlayers++;
-        if(readyPlayers == this.views.size()){
+        if(game.isSinglePlayer())
+            views.get(0).getVirtualView().updateSetup(new SetupResponse(views.get(0).getVirtualView().getUsername(),
+                    game.getCurrentPlayer().convert(),
+                    game.getMarketBoard().convert(),
+                    game.getDevBoard().convert(),
+                    game.getLorenzo().convert()));
+
+        else if(readyPlayers == this.views.size()){
             for(VirtualClient v : views){
                 ArrayList<LightPlayer> players = new ArrayList<>();
                 game.getPlayers().forEach(element -> players.add(element.convert()));
-                //System.out.println(game.getPlayers());
                 v.getVirtualView().updateSetup(new SetupResponse(v.getVirtualView().getUsername(),
                                                                 getCurrentPlayer().getNickname(),
                                                                 game.getMarketBoard().convert(),

@@ -511,7 +511,7 @@ public class LightController {
     public LightDevelopmentBoard getDevBoard(){ return this.game.getDevBoard();}
 
     public void setPlayers(ArrayList<LightPlayer> players){
-        this.game.setPlayers(players);
+        this.game.setPlayers(getUsername(), players);
     }
 
     public void setPlayer(ArrayList<LightPlayer> players){
@@ -599,9 +599,9 @@ public class LightController {
             }
         }
         try{
-            view.updateCardSlots(username, game.getPlayer(username).getPlayerBoard().getCardSlots());
             view.updateWarehouseDepot(username, game.getPlayer(username).getPlayerBoard().getWarehouseDepot());
             view.updateStrongbox(username, game.getPlayer(username).getPlayerBoard().getStrongbox());
+            view.updateCardSlots(username, game.getPlayer(username).getPlayerBoard().getCardSlots());
         } catch (NoSuchUsernameException e) {
             view.showError("SÉ SPACCATO TUTTO");
         }
@@ -619,8 +619,8 @@ public class LightController {
             }
         }
         try{
-            view.updateWarehouseDepot(username, game.getPlayer(username).getPlayerBoard().getWarehouseDepot());
             view.updateFaithTrack(username, game.getPlayer(username).getPlayerBoard().getFaithTrack());
+            view.updateWarehouseDepot(username, game.getPlayer(username).getPlayerBoard().getWarehouseDepot());
         } catch (NoSuchUsernameException e) {
             view.showError("SÉ SPACCATO TUTTO");
         }
@@ -640,9 +640,9 @@ public class LightController {
             }
         }
         try{
+            view.updateFaithTrack(username, game.getPlayer(username).getPlayerBoard().getFaithTrack());
             view.updateWarehouseDepot(username, game.getPlayer(username).getPlayerBoard().getWarehouseDepot());
             view.updateStrongbox(username, game.getPlayer(username).getPlayerBoard().getStrongbox());
-            view.updateFaithTrack(username, game.getPlayer(username).getPlayerBoard().getFaithTrack());
         } catch (NoSuchUsernameException e) {
             view.showError("SÉ SPACCATO TUTTO");
         }
@@ -692,6 +692,7 @@ public class LightController {
             game.updateStrongbox(username, player.getPlayerBoard().getStrongbox());
             //game.updateCardSlots(username, player.getPlayerBoard().getCardSlots());
             game.updateFaithTrack(username, player.getPlayerBoard().getFaithTrack());
+            game.getPlayer().getPlayerBoard().getFaithTrack().setLorenzoPos(cpu.getPosition());
         }catch (NoSuchUsernameException e) {
             //IT NEVER HAPPENS !!!!!!!!!!!!!!!!!
             view.showError(e.getMessage());

@@ -68,21 +68,21 @@ public class Lorenzo {
             for (int i = 0; i < token.getRemoveQuantity(); i++) {
                 DevelopmentCard card  = token.cardAction(developmentBoard);
                 if (card == null){
-                    this.lorenzoLastAction+="GAME OVER: LORENZO HA PESCATO L'ULTIMA CARTA";
+                    this.lorenzoLastAction+="GAME OVER: LORENZO PICKED THE LAST CARD!";
                     this.gameIsOver = true;
                     return;
                 }
                 else {
-                    this.lorenzoLastAction += " picked the card: " + card.convert().toString();
+                    this.lorenzoLastAction += " > Lorenzo has removed the card:\n" + card.convert().toString();
                     cards.add(card.convert());
                 }
             }
         } else {
             for(int i=0; i< token.getBlackCrossFaithPoints();i++) {
                 faithBox = faithTrack.faithAdvance();
-                this.lorenzoLastAction += "\nLorenzo ha avanzato sul tracciato ";
+                this.lorenzoLastAction += "\n > Lorenzo has advanced on the track\n";
                 if (faithBox.getPosition() == 24) {
-                    this.lorenzoLastAction+="\nGAME OVER: LORENZO HA RAGGIUNTO LA FINE DEL TRACCIATO";
+                    this.lorenzoLastAction+="\nGAME OVER: LORENZO HAS REACHED THE END OF FAITH TRACK";
                     this.gameIsOver = true;
                     return;
                 }
@@ -93,7 +93,7 @@ public class Lorenzo {
             if (token.getShuffle()) {
                 shuffle();
                 this.shuffle ++;
-                this.lorenzoLastAction+="\nLorenzo ha rimescolato i segnalini";
+                this.lorenzoLastAction+="\n > Lorenzo has shuffled tokens\n";
             }
         }
         tmp = tokens.get(0);
@@ -112,7 +112,7 @@ public class Lorenzo {
     }
 
     public LightLorenzo convert(){
-        LightLorenzo convertedLorenzo = new LightLorenzo();
+        LightLorenzo convertedLorenzo = new LightLorenzo(faithBox.getPosition());
         if(!cards.isEmpty())
             convertedLorenzo.hasPickedCards(cards);
         if(position!=0)
