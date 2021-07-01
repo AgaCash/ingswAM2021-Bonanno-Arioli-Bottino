@@ -639,17 +639,16 @@ public class LightController {
 
     public void updateBuyResources(String username, ArrayList<LightPlayer> players){
         for(LightPlayer p: players){
-            String name = p.getNickname();
             try {
                 if(p.getNickname().equals(username))
                     game.updateWarehouse(p.getNickname(), p.getPlayerBoard().getWarehouseDepot());
                 game.updateFaithTrack(p.getNickname(), p.getPlayerBoard().getFaithTrack());
+                view.updateFaithTrack(p.getNickname(), game.getPlayer(p.getNickname()).getPlayerBoard().getFaithTrack());
             }catch (NoSuchUsernameException e) {
                 view.showError("INTERNAL ERROR");
             }
         }
         try{
-            view.updateFaithTrack(username, game.getPlayer(username).getPlayerBoard().getFaithTrack());
             view.updateWarehouseDepot(username, game.getPlayer(username).getPlayerBoard().getWarehouseDepot());
         } catch (NoSuchUsernameException e) {
             view.showError("INTERNAL ERROR");
