@@ -510,33 +510,33 @@ public class CLI implements View{
 
     @Override
     public void updateCardSlots(String username, LightCardSlots cardSlots) {
-        //if(!controller.getUsername().equals(username))
-          //  showOthersActions(username+"'s new CardSlots: "+cardSlots.toString().indent(3));
+        if(!controller.getUsername().equals(username))
+          showOthersActions(username+"'s new CardSlots: "+cardSlots.toString().indent(3));
     }
 
     @Override
     public void updateWarehouseDepot(String username, LightWarehouseDepot warehouseDepot) {
-        //if(!controller.getUsername().equals(username))
-          //  showOthersActions(username+"'s new Warehouse: "+warehouseDepot.toString().indent(3));
+        if(!controller.getUsername().equals(username))
+            showOthersActions(username+"'s new Warehouse: "+warehouseDepot.toString().indent(3));
     }
 
     @Override
     public void updateStrongbox(String username, LightStrongbox strongbox) {
-        //if(!controller.getUsername().equals(username))
-          //  showOthersActions(username+"'s new Strongbox: "+strongbox.toString().indent(3));
+        if(!controller.getUsername().equals(username))
+            showOthersActions(username+"'s new Strongbox: "+strongbox.toString().indent(3));
 
     }
 
     @Override
     public void updateFaithTrack(String username, LightFaithTrack faithTrack) {
-        //if(!controller.getUsername().equals(username))
-          //  showOthersActions(username+"'s new FaithTrack: "+faithTrack.toString().indent(3));
+        if(!controller.getUsername().equals(username))
+            showOthersActions(username+"'s new FaithTrack: "+faithTrack.toString().indent(3));
     }
 
     @Override
     public void updateLeaderSlot(String username, ArrayList<LightLeaderCard> leaderSlot) {
-       // if(!controller.getUsername().equals(username))
-         //   showOthersActions(username+"'s new LeaderSlot: "+leaderSlot.toString().indent(3));
+       if(!controller.getUsername().equals(username))
+         showOthersActions(username+"'s new LeaderSlot: "+leaderSlot.toString().indent(3));
 
     }
 
