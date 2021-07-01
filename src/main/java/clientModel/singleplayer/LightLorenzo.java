@@ -66,6 +66,7 @@ public class LightLorenzo {
         return s;
     }
 
+
     /**Returns the current Lorenzo's position on LightFaithTrack
      * @return an int
      */

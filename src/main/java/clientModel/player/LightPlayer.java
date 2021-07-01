@@ -51,4 +51,5 @@ public class LightPlayer {
      * @param playerBoard the LightPlayerBoard copy of PlayerBoard in Model
      */
     public void setPlayerBoard(LightPlayerBoard playerBoard){ this.playerBoard = playerBoard; }
+
 }
