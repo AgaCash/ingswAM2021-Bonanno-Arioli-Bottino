@@ -756,21 +756,28 @@ public class LightController {
      */
     public void updateMultiPlayerEndTurn(String username, ArrayList<LightPlayer> players, String newPlayer){
         for(LightPlayer p: players) {
-            if (p.getNickname().equals(username))
+            if (p.getNickname().equals(username)) {
                 try {
                     game.updateStrongbox(username, p.getPlayerBoard().getStrongbox());
-                    view.updateStrongbox(username, game.getPlayer(username).getPlayerBoard().getStrongbox());
                 } catch (NoSuchUsernameException e) {
                     view.showError(e.getMessage());
                     //AAAAAAAAAAAAAA CORRI SCAPPA C'È IL NEMESIS
                 }
+            }
         }
+        try {
+            view.updateStrongbox(username, game.getPlayer(username).getPlayerBoard().getStrongbox());
+        }catch(NoSuchUsernameException e){
+            view.showError(e.getMessage());
+        }
+
         if(game.getUsername().equals(newPlayer)) {
             view.showSuccess("IT'S YOUR TURN!");
             startTurn();
         }
-        else
-            view.showOthersActions(username+" has ended turn. "+newPlayer+" has started turn");
+        else {
+            view.showOthersActions(username + " has ended turn. " + newPlayer + " has started turn");
+        }
 
     }
 }
