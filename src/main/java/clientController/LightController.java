@@ -28,6 +28,10 @@ import utilities.LightLeaderCardDeserializer;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * LightController is the part of Controller in the Client that handle the LightModel updates, the
+ * Messages sending and receiving and the View calls
+ */
 public class LightController {
     private View view;
     private Client client;
@@ -413,12 +417,14 @@ public class LightController {
     }
 
     public void updateCardSlots(String username, LightCardSlots cardSlots){
-        try {
-            game.updateCardSlots(username, cardSlots.getCards());
+        /*try {
+            //game.updateCardSlots(username, cardSlots.getCards());
             //view.updateCardSlots(username, );
         }catch (NoSuchUsernameException e){
             view.showError(e.getMessage());
         }
+        todo SISTEMAREEEEEEEE
+         */
     }
 
     public void updateDevBoard(LightDevelopmentBoard board) {
@@ -472,7 +478,7 @@ public class LightController {
         }
     }
 
-    public void updateLeaderSlot(String username, ArrayList<LightLeaderCard> cards){
+   /* public void updateLeaderSlot(String username, ArrayList<LightLeaderCard> cards){
         try{
             game.updateLeaderSlot(username, cards);
             view.updateLeaderSlot(username, cards);
@@ -480,6 +486,7 @@ public class LightController {
             view.showError(e.getMessage());
         }
     }
+    */
 
     public void chooseStartItems(ArrayList<LightLeaderCard> quartet, int numResources, boolean faithPoints){
         view.askStartItems(quartet, numResources, faithPoints);
@@ -612,9 +619,9 @@ public class LightController {
             if (p.getNickname().equals(username)) {
                 String name = p.getNickname();
                 try {
-                    game.getPlayer(name).getPlayerBoard().setCardSlots(p.getPlayerBoard().getCardSlots());
-                    game.getPlayer(name).getPlayerBoard().setWarehouse(p.getPlayerBoard().getWarehouseDepot());
-                    game.getPlayer(name).getPlayerBoard().setStrongbox(p.getPlayerBoard().getStrongbox());
+                    game.updateCardSlots(p.getNickname(), p.getPlayerBoard().getCardSlots());
+                    game.updateWarehouse(p.getNickname(), p.getPlayerBoard().getWarehouseDepot());
+                    game.updateStrongbox(p.getNickname(), p.getPlayerBoard().getStrongbox());
                 } catch (NoSuchUsernameException e) {
                     view.showError("SÉ SPACCATO TUTTO");
                 }
@@ -630,8 +637,8 @@ public class LightController {
             String name = p.getNickname();
             try {
                 if(p.getNickname().equals(username))
-                        game.getPlayer(name).getPlayerBoard().setWarehouse(p.getPlayerBoard().getWarehouseDepot());
-                game.getPlayer(name).getPlayerBoard().setFaithTrack(p.getPlayerBoard().getFaithTrack());
+                    game.updateWarehouse(p.getNickname(), p.getPlayerBoard().getWarehouseDepot());
+                game.updateFaithTrack(p.getNickname(), p.getPlayerBoard().getFaithTrack());
             }catch (NoSuchUsernameException e) {
                 view.showError("SÉ SPACCATO TUTTO");
             }
@@ -645,9 +652,9 @@ public class LightController {
             String name = p.getNickname();
             try {
                 if(p.getNickname().equals(username)) {
-                    game.getPlayer(name).getPlayerBoard().setWarehouse(p.getPlayerBoard().getWarehouseDepot());
-                    game.getPlayer(name).getPlayerBoard().setStrongbox(p.getPlayerBoard().getStrongbox());
-                    game.getPlayer(name).getPlayerBoard().setFaithTrack(p.getPlayerBoard().getFaithTrack());
+                    game.updateWarehouse(p.getNickname(), p.getPlayerBoard().getWarehouseDepot());
+                    game.updateStrongbox(p.getNickname(), p.getPlayerBoard().getStrongbox());
+                    game.updateFaithTrack(p.getNickname(), p.getPlayerBoard().getFaithTrack());
                 }
             }catch (NoSuchUsernameException e) {
                     view.showError("SÉ SPACCATO TUTTO");
@@ -687,6 +694,42 @@ public class LightController {
             view.updateLeaderSlot(p.getNickname(), p.getPlayerBoard().getLeaderSlot());
             view.updateFaithTrack(p.getNickname(), p.getPlayerBoard().getFaithTrack());
         }
+    }
+    //todo p.getnickname(), game.getPlayer(p.getNickname).getPlayerbBoard().getmazzCazz()
+    public void updateSinglePlayerEndTurn(String username, LightLorenzo cpu, LightPlayer player, LightDevelopmentBoard board){
+        try {
+            game.updateStrongbox(username, player.getPlayerBoard().getStrongbox());
+            //game.updateCardSlots(username, player.getPlayerBoard().getCardSlots());
+            game.updateFaithTrack(username, player.getPlayerBoard().getFaithTrack());
+        }catch (NoSuchUsernameException e) {
+            //IT NEVER HAPPENS !!!!!!!!!!!!!!!!!
+            view.showError(e.getMessage());
+        }
+        game.updateDevBoard(board);
+        updateLorenzo(cpu);
+        view.updateStrongbox(username, game.getPlayerBoard().getStrongbox());
+        view.updateFaithTrack(username, game.getPlayerBoard().getFaithTrack());
+        view.updateDevBoard(game.getDevBoard());
+        startTurn();
+    }
+
+    public void updateMultiPlayerEndTurn(String username, ArrayList<LightPlayer> players, String newPlayer){
+        for(LightPlayer p: players) {
+            if (p.getNickname().equals(username))
+                try {
+                    game.updateStrongbox(username, p.getPlayerBoard().getStrongbox());
+                } catch (NoSuchUsernameException e) {
+                    view.showError(e.getMessage());
+                    //AAAAAAAAAAAAAA CORRI SCAPPA C'È IL NEMESIS
+                }
+        }
+        if(game.getUsername().equals(newPlayer)) {
+            view.showSuccess("IT'S YOUR TURN!");
+            startTurn();
+        }
+        else
+            view.showOthersActions(username+" has ended turn. "+newPlayer+" has started turn");
+
     }
 
 
