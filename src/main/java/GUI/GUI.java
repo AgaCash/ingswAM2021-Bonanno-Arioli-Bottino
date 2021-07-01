@@ -470,6 +470,8 @@ public class GUI implements View {
 
     @Override
     public void updateLeaderSlot(String username, ArrayList<LightLeaderCard> leaderSlot) {
-
+        Platform.runLater(()->{
+            gameGuiController.updateLeaderCards(username, leaderSlot);
+        });
     }
 }

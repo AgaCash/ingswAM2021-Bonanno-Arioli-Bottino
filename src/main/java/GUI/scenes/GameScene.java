@@ -217,11 +217,8 @@ public class GameScene implements GenericScene{
         });
             // leader cards
         leaderPane.getChildren().forEach((thing)->{
-            if(thing instanceof ImageView){
-                enableImage((ImageView) thing);
-            }else{
-                thing.setDisable(false);
-            }
+            if(thing instanceof Button)
+                thing.setVisible(true);
         });
         marketPane.getChildren().forEach((marbleImage)->{
             if(marbleImage instanceof ImageView){
@@ -245,11 +242,8 @@ public class GameScene implements GenericScene{
         });
             // leader cards
         leaderPane.getChildren().forEach((thing)->{
-            if(thing instanceof ImageView){
-                disableImage((ImageView) thing);
-            }else{
-                thing.setDisable(true);
-            }
+            if(thing instanceof Button)
+                thing.setVisible(false);
         });
             // market board
         marketPane.getChildren().forEach((marbleImage)->{
@@ -401,6 +395,32 @@ public class GameScene implements GenericScene{
                 }
             }
         });
+    }
+
+
+    public void updateLeaderCards(String username, ArrayList<LightLeaderCard> leaderCards){
+        leaderPane.getChildren().forEach((e)->{
+            if(e instanceof ImageView)
+                disableImage((ImageView) e);
+            else
+                e.setDisable(true);
+        });
+        System.out.println(leaderPane.getChildren());
+        leaderPane.getChildren().forEach((e)->{
+            if(e.getId() != null) {
+                leaderCards.forEach((lc) -> {
+                    if (Integer.parseInt(e.getId()) == lc.getId()) {
+                        if (e instanceof ImageView)
+                            enableImage((ImageView) e);
+                        if (!lc.isEnabled()) {
+                            e.setDisable(false);
+                        }
+                    }
+                });
+            }
+        });
+
+
     }
 
     //helper
@@ -712,7 +732,9 @@ public class GameScene implements GenericScene{
             imageView.fitWidthProperty().bind(pane.widthProperty().divide(2));
             imageView.setPreserveRatio(true);
             imageView.relocate(x, y);
+            imageView.setId(""+lCards.get(i).getId());
             x+=200;
+            i++;
         }
         x = 175;
         y += 250;
@@ -722,17 +744,25 @@ public class GameScene implements GenericScene{
         ArrayList<Button> dropButtons = new ArrayList<>();
         dropButtons.add(new Button("Drop"));
         dropButtons.add(new Button("Drop"));
+        i = 0;
         for(Button b: activateButtons){
             //set position
             b.relocate(x, y);
             x+=200;
             //add code
-            b.setId(i+"");
+            b.setId(lCards.get(i).getId()+"");
             b.setOnAction((mouseEvent)->{
                 ArrayList<LightLeaderCard> lc = GUI.getInstance().getController().getPlayerBoard().getLeaderSlot();
                 int btnId = Integer.parseInt(((Button)mouseEvent.getTarget()).getId());
-                //if(!lCards.get(btnId).isEnabled())
-                GUI.getInstance().getController().sendLeaderCardActivationRequest(lc.get(btnId));
+                if(lc == null)
+                    return;
+                for(LightLeaderCard l: lc){
+                    if(l.getId() == btnId){
+                        GUI.getInstance().getController().sendLeaderCardActivationRequest(l);
+                        return;
+                    }
+                }
+                GUI.getInstance().getController().showError("Leader card not found");
             });
             i++;
         }
@@ -745,14 +775,22 @@ public class GameScene implements GenericScene{
             b.relocate(x, y);
             x+=200;
             //add code
-            b.setId(i+"");
+            b.setId(lCards.get(i).getId()+"");
             b.setOnAction((mouseEvent)->{
                 ArrayList<LightLeaderCard> lc = GUI.getInstance().getController().getPlayerBoard().getLeaderSlot();
                 int btnId = Integer.parseInt(((Button)mouseEvent.getTarget()).getId());
-                if(!lc.get(btnId).isEnabled())
-                    GUI.getInstance().getController().sendLeaderCardThrowRequest(lc.get(btnId));
-                else
-                    GUI.getInstance().getController().showError("You can't drop an active leader card");
+                if(lc == null)
+                    return;
+                for(LightLeaderCard l: lc){
+                    //scorre l'array per eseguire l'azione sulla carta corretta
+                    if(l.getId() == btnId){
+                        if(!l.isEnabled())
+                            GUI.getInstance().getController().sendLeaderCardThrowRequest(l);
+                        else
+                            GUI.getInstance().getController().showError("You can't drop an active leader card");
+                        return;
+                    }
+                }
             });
             i++;
         }
