@@ -3,11 +3,13 @@ package clientView;
 import clientModel.cards.LightCardSlots;
 import clientModel.cards.LightLeaderCard;
 import clientModel.resources.LightResource;
+import clientModel.singleplayer.LightLorenzo;
 import clientModel.strongbox.LightStrongbox;
 import clientModel.table.LightDevelopmentBoard;
 import clientModel.table.LightFaithTrack;
 import clientModel.table.LightMarketBoard;
 import clientModel.warehouse.LightWarehouseDepot;
+import model.singleplayer.Lorenzo;
 import network.server.Lobby;
 
 import java.util.ArrayList;
@@ -68,7 +70,7 @@ public interface View {
     //si può togliere
     void endGame();
     void showOthersActions(String message);
-    void showLorenzoActions(String message);
+    void showLorenzoActions(LightLorenzo lollo);
 
     void updateCardSlots(String username, LightCardSlots cardSlots);
     void updateWarehouseDepot(String username, LightWarehouseDepot warehouseDepot);

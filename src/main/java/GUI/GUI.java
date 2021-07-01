@@ -8,6 +8,7 @@ import clientController.LightController;
 import clientModel.cards.LightCardSlots;
 import clientModel.cards.LightLeaderCard;
 import clientModel.resources.LightResource;
+import clientModel.singleplayer.LightLorenzo;
 import clientModel.strongbox.LightStrongbox;
 import clientModel.table.LightDevelopmentBoard;
 import clientModel.table.LightFaithTrack;
@@ -388,9 +389,9 @@ public class GUI implements View {
     }
 
     @Override
-    public void showLorenzoActions(String message) {
+    public void showLorenzoActions(LightLorenzo lollo) {
         Platform.runLater(()-> {
-            showSuccess(message);
+            showSuccess(lollo.plainActions(controller.getPlayerBoard().getFaithTrack()));
             gameGuiController.updateFaithTrack(getController().getUsername(), getController().getPlayerFull(getController().getUsername()).getPlayerBoard().getFaithTrack());
         });
     }

@@ -35,9 +35,9 @@
                   <Insets top="5.0" />
                </BorderPane.margin>
                <children>
-                  <Button fx:id="marketBTN" mnemonicParsing="false" onAction="#goToMarket" prefHeight="150.0" prefWidth="150.0" />
-                  <Button fx:id="devBoardBTN" mnemonicParsing="false" onAction="#goToDevBoard" prefHeight="150.0" prefWidth="150.0" />
-                  <Button fx:id="leaderBTN" mnemonicParsing="false" onAction="#goToLeader" prefHeight="100.0" prefWidth="150.0" />
+                  <Button fx:id="marketBTN" mnemonicParsing="false" onAction="#goToMarket" prefHeight="150.0" prefWidth="150.0" text="MARKET" />
+                  <Button fx:id="devBoardBTN" mnemonicParsing="false" onAction="#goToDevBoard" prefHeight="150.0" prefWidth="150.0" text="DEVELOPMENT BOARD" />
+                  <Button fx:id="leaderBTN" mnemonicParsing="false" onAction="#goToLeader" prefHeight="100.0" prefWidth="150.0" text="LEADER SLOTS" />
                </children>
             </VBox>
          </left>

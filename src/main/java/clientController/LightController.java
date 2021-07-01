@@ -581,8 +581,9 @@ public class LightController {
 
     }
 
+    //game.getPlayerBoard().getFaithTrack())
     public void updateLorenzo(LightLorenzo lorenzo){
-        view.showLorenzoActions(lorenzo.actions(game.getPlayerBoard().getFaithTrack()));
+        view.showLorenzoActions(lorenzo);
     }
 
     public void updateBuyDevCard(String username, ArrayList<LightPlayer> players) {

@@ -75,7 +75,7 @@ public class LightLorenzo {
         String s = new String();
         if(!this.cards.isEmpty())
             for(LightDevelopmentCard card: cards)
-                s+=" > Lorenzo has removed the a "+card.getColour()+" level "+card.getLevel()+" card\n";
+                s+=" > Lorenzo has removed the a "+card.getColour().name()+" level "+card.getLevel()+" card\n";
 
         if(this.shuffles!=0)
             for(int i = 0; i<shuffles; i++)

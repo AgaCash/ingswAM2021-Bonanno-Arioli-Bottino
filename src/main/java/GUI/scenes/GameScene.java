@@ -379,7 +379,8 @@ public class GameScene implements GenericScene{
                 double offsetY = 0;
                 for(int i=0; i<resS.size(); i++) {
                     LightResource r = resS.get(i);
-                    ImageView im = new ImageView("/images/RESOURCES/"+r.name()+".png");
+                    System.out.println(r.name());
+                    ImageView im = new ImageView("/images/RESOURCES/"+r.name().toLowerCase()+".png");
                     im.setPreserveRatio(true);
                     depotPane.getChildren().add(im);
                     im.setX(offsetX);

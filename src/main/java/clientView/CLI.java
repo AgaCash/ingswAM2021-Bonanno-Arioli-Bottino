@@ -5,6 +5,7 @@ import clientModel.cards.LightCardSlots;
 import clientModel.cards.LightLeaderCard;
 import clientModel.colour.LightColour;
 import clientModel.resources.LightResource;
+import clientModel.singleplayer.LightLorenzo;
 import clientModel.strongbox.LightStrongbox;
 import clientModel.table.LightDevelopmentBoard;
 import clientModel.table.LightFaithTrack;
@@ -512,8 +513,8 @@ public class CLI implements View{
     }
 
     @Override
-    public void showLorenzoActions(String message){
-        System.out.println(message.indent(3));
+    public void showLorenzoActions(LightLorenzo lorenzo){
+        System.out.println(lorenzo.actions(controller.getPlayerBoard().getFaithTrack()));
     }
 
     @Override
