@@ -1,6 +1,6 @@
 # ingswAM2021-Bonanno-Arioli-Bottino
 
-Implementatio of board game Master of Renaissance
+Implementation of board game Master of Renaissance
 ## Functions and Advanced Functions
 - Complete Rules
 - CLI 
@@ -11,7 +11,7 @@ Implementatio of board game Master of Renaissance
   while the player is not connected, the game continues skipping his turns.
 
 ##Running SERVER
-To run Server please type: java -jar AM34-1.0-SNAPSHOT.jar --server 1234
+To run Server please type: java -jar AM34-1.0-SNAPSHOT.jar --server port
 
 ##Running CLI
 To run CLI please type: java -jar AM34-1.0-SNAPSHOT.jar --cli 
