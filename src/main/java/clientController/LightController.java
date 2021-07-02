@@ -5,7 +5,9 @@ import clientModel.cards.LightLeaderCard;
 import clientModel.player.LightPlayer;
 import clientModel.resources.LightResource;
 import clientModel.singleplayer.LightLorenzo;
+import clientModel.strongbox.LightStrongbox;
 import clientModel.table.LightDevelopmentBoard;
+import clientModel.table.LightFaithTrack;
 import clientModel.table.LightMarketBoard;
 import clientModel.table.LightPlayerBoard;
 import clientView.View;
@@ -557,6 +559,26 @@ public class LightController {
         view.showSuccess(message);
     }
 
+    //todo da rimuovere (CHEAT)
+    public void updateStrongbox(String username, LightStrongbox strongbox){
+        try {
+            game.updateStrongbox(username, strongbox);
+            view.updateStrongbox(username, strongbox);
+        } catch(NoSuchUsernameException e){
+            view.showError(e.getMessage());
+        }
+    }
+
+    //todo da rimuovere (CHEAT)
+    public void updateFaithTrack(String username, LightFaithTrack newFaithTrack){
+        try{
+            game.updateFaithTrack(username, newFaithTrack);
+        }catch(NoSuchUsernameException e){
+            view.showError(e.getMessage());
+        }
+    }
+
+
     /**Shows the 4 LeaderCard that Player has to choose and eventually the free choice Resource and the notify that
      * Player earned a FaithPoint
      * @param quartet a 4-length LightLeaderCard ArrayList
@@ -689,6 +711,21 @@ public class LightController {
     public void endMultiPlayerGame(String winner, String rank){
         view.showRanking(winner, rank);
         //view.endGame();
+    }
+
+    //todo da rimuovere
+    public void sendCheat(int ans){
+        Gson gson = new Gson();
+        CheatRequest request = new CheatRequest(getUsername(), ans);
+        client.send(gson.toJson(request));
+        try{
+            String s = client.recv();
+            CheatResponse response = gson.fromJson(s, CheatResponse.class);
+            response.executeCommand(this);
+        } catch(IOException e){
+            view.showError(e.getMessage());
+        }
+
     }
 
     /**Shows to View the actions that Lorenzo did in its turn

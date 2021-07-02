@@ -65,7 +65,12 @@ public enum MessageType {
     LEADERCARDTHROW(LeaderCardThrowRequest.class, "GAME"),
     LEADERCARDTHROWUPDATE(LeaderCardThrowResponse.class, "GAME"),
     ENDTURN(EndTurnRequest.class, "GAME"),
-    ENDTURNUPDATE(EndTurnResponse.class, "GAME");
+    ENDTURNUPDATE(EndTurnResponse.class, "GAME"),
+
+    //da eliminare
+    CHEAT(CheatRequest.class, "GAME"),
+    CHEATUPDATE(CheatResponse.class, "GAME"),
+    FAILEDACTIONNOTIFY;
 
 
     private final Class<? extends Message> classType;
