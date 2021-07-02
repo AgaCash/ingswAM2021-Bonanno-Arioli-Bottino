@@ -317,7 +317,7 @@ public class GameScene implements GenericScene{
                         imageView.relocate(-10, 80);
                     if (fb.getActualPos() && !isStartME)
                         imageView.relocate(offsetXME, 45);
-                    offsetXME += 26;
+                    offsetXME += 25.5;
                     isStartME = false;
                     if (fb.getLorenzoPos() && isStartLOR) {
                         imageView2.relocate(-10, 80);
@@ -343,11 +343,6 @@ public class GameScene implements GenericScene{
      * @param strongbox player's strongbox in which there has been a change
      */
     public void updateStrongBox(String username, LightStrongbox strongbox){
-        /*
-        if(strongbox == null){
-            return;
-        }
-        */
         playerBoardsPanes.forEach((pBoardPane)->{
             if(playersList.get(Integer.parseInt(pBoardPane.getId())).equals(username)){
                 Pane strongboxPane = (Pane) pBoardPane.lookup("#strongboxPane");
@@ -358,7 +353,6 @@ public class GameScene implements GenericScene{
                 for(LightResource r:strongbox.getStrongbox()){
                     ImageView imageView = new ImageView("/images/RESOURCES/"+r.name().toLowerCase()+"-min.png");
                     imageView.setPreserveRatio(true);
-                    //imageView.fitWidthProperty().bind(strongboxPane.widthProperty().divide(4));
                     imageView.relocate(offsetX, offsetY);
                     offsetX+=10;
                     count++;
@@ -430,7 +424,6 @@ public class GameScene implements GenericScene{
                 double offsetY = 0;
                 for(int i=0; i<resS.size(); i++) {
                     LightResource r = resS.get(i);
-                    //System.out.println(r.name());
                     ImageView im = new ImageView("/images/RESOURCES/"+r.name().toLowerCase()+".png");
                     im.setPreserveRatio(true);
                     depotPane.getChildren().add(im);
