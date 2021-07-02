@@ -1,5 +1,8 @@
 package exceptions;
-//todo aga
+
+/**
+ * Exception if the message received is not valid
+ */
 public class InvalidMessageException extends Exception{
 
     public InvalidMessageException(){

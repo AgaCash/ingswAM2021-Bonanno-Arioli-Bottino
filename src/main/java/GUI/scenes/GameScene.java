@@ -76,7 +76,6 @@ public class GameScene implements GenericScene{
     /** method to initialise all the graphic components of the game scene
      * @param numOfPlayers the players in-game number for setting the buttons and the pane division properly
      */
-    //todo togliere num of players: ricavabile da playersList
     public void init(int numOfPlayers){
         this.numOfPlayers = numOfPlayers;
         this.playersList = GUI.getInstance().getController().getUsernamesList();
@@ -792,7 +791,6 @@ public class GameScene implements GenericScene{
     /** method called by init to load the leader cards images in the leader pane after the selection iin choosing starting things scene
      * @param pane the correct leader pane in which insert the leader card images
      */
-    //todo fixare i possibili scenari
     private void loadLeaderPane(Pane pane){
         // 2 leader with an activation and dropping button each
         String basePath = "/images/LEADERS/Leader";
@@ -1068,7 +1066,11 @@ public class GameScene implements GenericScene{
         }
     }
 
-    //todo agaaaaaaaaaaaaaaa questo metodo
+    /**
+     * Method that recreate the base ImageView that allow the click for activate production
+     * @param prodPane base pane of the production
+     * @param playerIndex position of the player
+     */
     private void recreateProdBaseImageview(Pane prodPane, int playerIndex){
         ImageView im = new ImageView();
         im.fitHeightProperty().bind(prodPane.heightProperty());

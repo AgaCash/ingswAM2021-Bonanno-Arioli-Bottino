@@ -19,8 +19,9 @@ public class LightDevelopmentBoard {
             decks.add(cards.get(i));
     }
 
-    /**todo aga
-     * @return
+    /**
+     * Method that get the size of the decks of the development board
+     * @return size of the decks
      */
     public int getDecksSize(){
         return decks.size();

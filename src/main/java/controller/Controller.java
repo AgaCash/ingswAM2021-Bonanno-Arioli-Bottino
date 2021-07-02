@@ -33,7 +33,7 @@ public class Controller {
     private int readyPlayers = 0;
     private final int lobbyId;
 
-    /**Constructor todo aga
+    /**Constructor that build the controller
      * @param id the controller ID in the Server
      * @param views the VirtualClient ArrayList to send and receive the Messages
      * @param lobbyId the lobby ID that generated the Controller
@@ -56,7 +56,13 @@ public class Controller {
             message.executeCommand(this, client);
     }
 
-    //PING todo aga
+    //PING
+
+    /**
+     * Method that manage the disconnection of a player.
+     * It removes the Virtual View of the disconnected player and add his username in a list
+     * @param username username of the disconnected player
+     */
     public synchronized void disconnectPlayer(String username){
         System.out.println(username+" disconnected!");
         for(VirtualClient v: views){
@@ -73,7 +79,13 @@ public class Controller {
         views.forEach((v)->v.getVirtualView().sendPlayerResilienceMessage(pdm));
     }
 
-    //RESILIENCE todo aga
+    //RESILIENCE
+
+    /**
+     * Method that check if a player username is in the disconnected list
+     * @param username username of the player to check
+     * @return return true if the username is in the disconnected list, else false
+     */
     public synchronized boolean isUsernameDisconnected(String username){
         if(disconnectedPlayer.contains(username))
             return true;
@@ -87,7 +99,12 @@ public class Controller {
         return game.isSinglePlayer();
     }
 
-    //todo aga
+    /**
+     * Method called when a player reconnect to a game. It removes his username in the disconnected list and
+     * add his new VirtualClient
+     * @param username Username of the reconnected player
+     * @param virtualClient The new VirtualClient of the reconnected player
+     */
     public synchronized void reconnectUsername(String username, VirtualClient virtualClient){
         disconnectedPlayer.remove(username);
         PlayerReconnectedMessage prm = new PlayerReconnectedMessage(username);

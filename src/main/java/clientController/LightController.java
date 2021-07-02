@@ -106,7 +106,11 @@ public class LightController {
     }
 
     //RESILIENCE
-    //todo aga divertiti da qua
+
+    /**
+     * Method that sends the request for reconnection to game left before the disconnection (if present)
+     * and execute the response's code
+     */
     public void reconnectToGame(){
         view.showReconnectionToGame();
         UpdateReconnectionRequest request = new UpdateReconnectionRequest(username);
@@ -120,14 +124,26 @@ public class LightController {
         }
     }
 
+    /**
+     * Notify to player that "username" left the game
+     * @param username Username of the disconnected player
+     */
     public void notifyPlayerDisconnected(String username){
         view.notifyPlayerDisconnected(username);
     }
 
+    /**
+     * Notify to player that "username" rejoined the game
+     * @param username Username of the reconnected player
+     */
     public void notifyPlayerReconnected(String username){
         view.notifyPlayerReconnected(username);
     }
 
+    /**
+     * Notify to player that lobby doesn't exist anymore because the creator left it.
+     * Close the game after notification
+     */
     public void notifyCreatorDisconnected(){
         view.notifyCreatorDisconnected();
         quittingApplication();
@@ -135,21 +151,36 @@ public class LightController {
 
     //PING
 
+    /**
+     * Method that warns the user that server is not responding
+     * It close the game.
+     */
     public void serverDisconnected(){
         view.serverLostConnection();
     }
 
+    /**
+     * Answer to server ping to let him know he's still playing
+     */
     public void sendGamePong(){
         PongGameMessage pongMessage = new PongGameMessage(username);
         client.send(gson.toJson(pongMessage));
     }
 
+    /**
+     * Answer to server ping to let him know he's still online
+     */
     public void sendLobbyPong(){
         PongLobbyMessage pongLobbyMessage = new PongLobbyMessage(username);
         client.send(gson.toJson(pongLobbyMessage));
     }
 
-
+    /**
+     * Method that starts the socket connection with the server.
+     * It will show errors in case of host unreachable or any other type of errors
+     * @param address The address of the server
+     * @param port  The port of the server
+     */
     public void connectToServer(String address, int port){
         new Thread(()->{
             try{
@@ -162,7 +193,6 @@ public class LightController {
             }
         }).start();
     }
-    //todo a qua
 
     /**Sets the username received by User (this method it's called by View) and stores it until a Player registration in the Lobby
      * Sends a RegisterUsernameRequest to Lobby in the Server and execute the RegisterUsernameResponse
@@ -241,9 +271,11 @@ public class LightController {
         }
     }
 
-    //RICORDA CHE 2 RECV IN CONTEMPORANEA FREGANO IL TUTTO
-
-    //V1 (t'appooo!!)todo tutto tuo agaaaaaa
+    /**
+     *  Method that put the lobby creator in a stand by state waiting for other players to join.
+     *  Also it shows the waiting lobby and it ask the creator the start game signal
+     */
+    //V1 funzionante
     public void createLobbyWaiting(){
         view.showCreatorWaitingRoom();
         new Thread(()->{
@@ -267,7 +299,10 @@ public class LightController {
         }).start();
         view.askStartGame();
     }
-    //todo aga
+
+    /**
+     * Method that wait for the start game signal from the creator.
+     */
     public void waitStartGameString(){
         view.waitStartGameString();
     }
@@ -278,7 +313,11 @@ public class LightController {
     public void notifyPlayerJoined(String username){
         view.notifyPlayerJoined(username);
     }
-//TODO AGA
+
+    /**
+     * This method put the user in a stand by state waiting for the creator that starts the game
+     * @param usernameList The list of players already present in the lobby
+     */
     public void joinLobbyWaiting(ArrayList<String> usernameList){
         //mostra che è entrato nella lobby
         //notifica attesa che il gioco inizi
@@ -333,13 +372,13 @@ public class LightController {
             view.showError("INTERNAL ERROR");
         }
     }
-//TODO AGA DIVERTITI CIAO BELLO
+
+    /**
+     * This method is called by the lobby creator and it sends the starting signal to server
+     */
     public void sendSignalMultiPlayerGame(){
         StartMultiPlayerRequest request = new StartMultiPlayerRequest(username);
         client.send(gson.toJson(request));
-        //MA DAI ERA QUA IL PROBLEMA VERAMENTE???
-        //2 client.recv in contemporanea bastano a spaccare tutto??????
-        //    :( :( :(
     }
 
     /**Sends a GetLobbyRequest to Server and runs the GetLobbyResponse with the List of available Lobbies
@@ -610,7 +649,11 @@ public class LightController {
 
     }
 
-    //todo aga
+    /**
+     *  Method that reach other players assets in game (boards, points, resources)
+     * @param username Username of the player you want to get
+     * @return The chosen player with all the assets of the current game
+     */
     public LightPlayer getPlayerFull(String username){
         try {
             return game.getPlayer(username);
@@ -663,13 +706,17 @@ public class LightController {
         game.setPlayer(player);
     }
 
-    //todo aga
+    /**
+     * Method that is invoked when user reconnected in a single player game,
+     * it sends an end turn request so when player reconnect he can see lorenzo's actions
+     */
     public void reconnectSinglePlayer(){
         sendEndTurnRequest();
     }
 
-    /**todo agatinoooooo
-     *
+    /**
+     * Method that put player in a stand by state waiting for his turn to start.
+     * Meanwhile he will execute update messages he receives so he can show in real time players choices
      */
     public void waitForMyTurn(){
         view.waitingForMyTurn();

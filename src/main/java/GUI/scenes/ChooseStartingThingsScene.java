@@ -50,10 +50,19 @@ public class ChooseStartingThingsScene {
     private boolean faithPoints;
     private int deservedResources;
 
+    /**
+     * Method that set the label
+     * @param text text that it will shown in label
+     */
     public void setMainTitleLabel(String text) {
         this.mainTitleLabel.setText(text);
     }
-//todo aga devi fartelo tutto
+
+    /**
+     * Method that handle the button click.
+     * It will get the selected items thanks to selection panes.
+     * @param actionEvent the event of the start button
+     */
     @FXML
     public void sendStartingThings(ActionEvent actionEvent) {
         setLoadingSituation(true);
@@ -105,6 +114,10 @@ public class ChooseStartingThingsScene {
 
     }
 
+    /**
+     * Start the loading situation
+     * @param bool boolean indicating if the loading has to start or to end
+     */
     private void setLoadingSituation(boolean bool){
         sendStartingThingsBtn.setVisible(!bool);
         loadingIndicator.setVisible(bool);

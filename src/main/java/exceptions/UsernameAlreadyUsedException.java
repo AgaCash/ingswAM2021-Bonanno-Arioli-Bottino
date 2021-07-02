@@ -1,6 +1,8 @@
 package exceptions;
 
-//todo aga
+/**
+ * Exception if username is already used
+ */
 public class UsernameAlreadyUsedException extends Exception{
 
     public UsernameAlreadyUsedException(){

@@ -67,9 +67,9 @@ public class LightLorenzo {
         return s;
     }
 
-    /**todo te lo scrivi te stronzo!
-     * @param track
-     * @return
+    /**Returns a String containing all the Lorenzo actions done in the last turn but in plain text without colors
+     * @param track the LightPlayer's LightFaithTrack instance
+     * @return a String for View
      */
     public String plainActions(LightFaithTrack track){
         String s = new String();
