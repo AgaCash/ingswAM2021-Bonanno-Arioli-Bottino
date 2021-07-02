@@ -22,7 +22,6 @@ public enum MessageType {
     RECONNECTION_UPDATE_REQUEST(UpdateReconnectionRequest.class, ""),
     RECONNECTION_UPDATE_RESPONSE(UpdateReconnectionResponse.class, ""),
 
-    //SETUP //SERVE ANCORA? //STA COSA LA FA GIA' REGISTER_USERNAME
     CHECK_USERNAME_REQUEST,
     CHECK_USERNAME_RESPONSE,
 
@@ -49,7 +48,6 @@ public enum MessageType {
     SETUPRESPONSE(SetupResponse.class, "GAME"),
 
     //ACTIONS
-    // PRONTO AD ESPLODERE (GUARDAMI PER FUTURI PROBLEMI)
     STARTINGTURNCHOOSES,
     STARTINGUPDATE,
     MARKET(BuyResourcesRequest.class, "GAME"),
@@ -67,7 +65,7 @@ public enum MessageType {
     ENDTURN(EndTurnRequest.class, "GAME"),
     ENDTURNUPDATE(EndTurnResponse.class, "GAME"),
 
-    //da eliminare
+
     CHEAT(CheatRequest.class, "GAME"),
     CHEATUPDATE(CheatResponse.class, "GAME"),
     FAILEDACTIONNOTIFY;

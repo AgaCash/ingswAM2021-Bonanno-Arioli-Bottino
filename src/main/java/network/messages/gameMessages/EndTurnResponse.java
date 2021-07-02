@@ -86,7 +86,7 @@ public class EndTurnResponse extends GameMessage{
         }
     }
 
-    /**Returns the Player's username that starts the turn in Multi Player Game sessione
+    /**Returns the Player's username that starts the turn in Multi Player Game session
      * @return a String
      */
     public String getNewPlayerName() {

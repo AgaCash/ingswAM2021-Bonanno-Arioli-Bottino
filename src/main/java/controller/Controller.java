@@ -92,7 +92,7 @@ public class Controller {
         return false;
     }
 
-    /**Returns true if Game is in a Single Player session, false if it's in a Multi Player sessione
+    /**Returns true if Game is in a Single Player session, false if it's in a Multi Player session
      * @return a boolean
      */
     public boolean isSinglePlayer(){
@@ -378,7 +378,7 @@ public class Controller {
      * @return a Player ArrayList
      */
     public ArrayList<Player> getPlayers(){
-        System.out.println(" dovrebbe ritornare questo:" + game.getPlayers());
+        System.out.println("should return this:" + game.getPlayers());
         return game.getPlayers();
     }
 
@@ -435,7 +435,7 @@ public class Controller {
     public Lorenzo getLorenzo(){
         return game.getLorenzo();
     }
-//todo da rimuovere
+
     public void cheat(){
         game.cheat();
     }

@@ -22,23 +22,7 @@ public class CreateLobbyRequest extends LobbyMessage{
             CreateLobbyResponse s = new CreateLobbyResponse(getUsername());
             virtualClient.getVirtualView().sendLobbyResponse(s);
         }catch (SizeLimitExceededException s){
-            //non entrerà mai qua
             s.printStackTrace();
         }
     }
-    /*
-    public static void main(String[] args){
-        Gson gson = new Gson();
-        CreateLobbyRequest c = new CreateLobbyRequest(" ");
-        System.out.println(gson.toJson(c));
-        GetLobbyRequest d = new GetLobbyRequest(" ");
-        System.out.println(gson.toJson(d));
-        LoginMultiPlayerRequest l = new LoginMultiPlayerRequest(" ", 777);
-        System.out.println(gson.toJson(l));
-        StartMultiPlayerRequest s = new StartMultiPlayerRequest(" ");
-        System.out.println(gson.toJson(s));
-        StartSinglePlayerRequest ss = new StartSinglePlayerRequest(" ");
-        System.out.println(gson.toJson(ss));
-
-    }*/
 }

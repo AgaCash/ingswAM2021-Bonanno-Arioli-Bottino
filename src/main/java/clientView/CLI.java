@@ -448,7 +448,7 @@ public class CLI implements View{
     }
 
     private void cheat(){
-        System.out.println("BURLONEEEE");
+        System.out.println("CHEATER!");
         int ans;
         do ans = askInt("choose 1 if you're a liar, 2 for the strength of the Pope");
         while(ans!=1 && ans!=2);

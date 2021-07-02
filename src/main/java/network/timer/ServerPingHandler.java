@@ -80,7 +80,6 @@ public class ServerPingHandler extends Thread {
             //System.out.println("PING SPARATOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOo");
             virtualClient.getVirtualView().sendPing(p);
         } else {
-            //non ha risposto
             // non è più online
             //disconnettilo dal gioco
             stop.set(true);

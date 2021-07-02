@@ -24,7 +24,7 @@ public class RegisterUsernameRequest extends LobbyMessage{
                         .resetController(virtualClient);
                 virtualClient.getController().reconnectUsername(super.getUsername(), virtualClient);
                 sendReconnection(virtualClient);
-            } catch (NoSuchUsernameException ignored) { //non entrerà mai qua
+            } catch (NoSuchUsernameException ignored) {
             }
         } catch (UsernameAlreadyUsedException e) {
             sendError(virtualClient, e.getMessage());

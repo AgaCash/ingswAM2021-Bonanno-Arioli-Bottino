@@ -53,11 +53,11 @@ public class StartGameRequest extends GameMessage{
                     view.getVirtualView().updateStartGame(new StartGameResponse(getUsername(), quartet,
                             2, true, numPlayers, usersList));
                     break;}
-                default: System.out.println("bordello fratm "); break;
+                default: System.out.println("not nice "); break;
             }
         } catch(NoSuchUsernameException e){
             view.getVirtualView().updateStartGame(new StartGameResponse(getUsername(), e.getMessage()));
-            System.out.println("errore"+e.getMessage());
+            System.out.println("error"+e.getMessage());
         }
     }
 

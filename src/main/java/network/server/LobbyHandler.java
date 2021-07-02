@@ -49,7 +49,7 @@ public class LobbyHandler {
             l.startGame();
             //virtualClient.setController(l.getSharedController());
         } catch (NotEnoughPlayersException e) {
-            e.printStackTrace(); //NON SUCCEDERA' MAI
+            e.printStackTrace();
         }
     }
 

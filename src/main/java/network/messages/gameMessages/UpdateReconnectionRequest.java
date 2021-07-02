@@ -17,9 +17,6 @@ public class UpdateReconnectionRequest extends GameMessage{
 
     @Override
     public void executeCommand(Controller controller, VirtualClient client) {
-        //fatto dal server
-
-        //sto messaggio alla fine deve solo creare l'update
 
         ArrayList<LightPlayer> playersssss = new ArrayList<>();
         int numOfPlayersInLobby;

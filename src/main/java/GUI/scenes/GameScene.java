@@ -227,7 +227,7 @@ public class GameScene implements GenericScene{
      * @param actionEvent end turn button click
      */
     public void endTurn(ActionEvent actionEvent) {
-        //per attivare i cheat (da togliere)
+        //to activate cheats
         clickCount = 0;
         GUI.getInstance().getController().sendEndTurnRequest();
     }
@@ -1084,8 +1084,6 @@ public class GameScene implements GenericScene{
         });
     }
 
-
-    //todo CHEATS (da togliere)
     @FXML
     HBox cheatHbox;
     private int clickCount = 0;

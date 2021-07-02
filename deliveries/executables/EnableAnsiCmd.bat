@@ -1,0 +1,1 @@
+reg add hkcu\console /f /v VirtualTerminalLevel /t REG_DWORD /d 1

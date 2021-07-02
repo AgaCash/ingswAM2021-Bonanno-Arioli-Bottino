@@ -275,7 +275,6 @@ public class LightController {
      *  Method that put the lobby creator in a stand by state waiting for other players to join.
      *  Also it shows the waiting lobby and it ask the creator the start game signal
      */
-    //V1 funzionante
     public void createLobbyWaiting(){
         view.showCreatorWaitingRoom();
         new Thread(()->{
@@ -319,8 +318,8 @@ public class LightController {
      * @param usernameList The list of players already present in the lobby
      */
     public void joinLobbyWaiting(ArrayList<String> usernameList){
-        //mostra che è entrato nella lobby
-        //notifica attesa che il gioco inizi
+        //show that entered the lobby
+        //notify waiting for the game to start
         view.showWaitingRoom(usernameList);
         new Thread(()-> {
             boolean gameStarted = false;
@@ -598,7 +597,6 @@ public class LightController {
         view.showSuccess(message);
     }
 
-    //todo da rimuovere (CHEAT)
     public void updateStrongbox(String username, LightStrongbox strongbox){
         try {
             game.updateStrongbox(username, strongbox);
@@ -608,7 +606,6 @@ public class LightController {
         }
     }
 
-    //todo da rimuovere (CHEAT)
     public void updateFaithTrack(String username, LightFaithTrack newFaithTrack){
         try{
             game.updateFaithTrack(username, newFaithTrack);
@@ -760,7 +757,6 @@ public class LightController {
         //view.endGame();
     }
 
-    //todo da rimuovere
     public void sendCheat(int ans){
         Gson gson = new Gson();
         CheatRequest request = new CheatRequest(getUsername(), ans);
@@ -809,7 +805,7 @@ public class LightController {
 
     /**Updates LightModel and notifies View after a successful BuyResourceRequest
      * @param username the Player who purchased the Resources
-     * @param players theentire list of LightPlayers
+     * @param players the entire list of LightPlayers
      */
     public void updateBuyResources(String username, ArrayList<LightPlayer> players){
         for(LightPlayer p: players){

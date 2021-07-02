@@ -14,13 +14,10 @@ public abstract class LobbyMessage extends Message {
 
     public void executeCommand(VirtualClient virtualClient) {
         System.out.println("default executeCommand LOBBY");
-        //
-        //STESSO DISCORSO DI GAMEMESSAGE MA FORSE QUI NON SERVE
+        //STESSO DISCORSO DI GAMEMESSAGE
     }
 
     public void executeCommand(LightController lightController){
         //SARA' ESEGUITO DAL CLIENT
-        //  COLUI CHE CAMBIERA' LO STATO DELL'AUTOMA DEL123.
-        //  CLIENT
     }
 }

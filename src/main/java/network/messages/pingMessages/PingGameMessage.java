@@ -4,7 +4,7 @@ import clientController.LightController;
 import network.messages.MessageType;
 import network.messages.gameMessages.GameMessage;
 
-//PING PARTE DAL SERVER
+//PING STARTS FROM THE SERVER
 public class PingGameMessage extends GameMessage {
     public PingGameMessage(String username) {
         super(username, MessageType.PING_GAME);

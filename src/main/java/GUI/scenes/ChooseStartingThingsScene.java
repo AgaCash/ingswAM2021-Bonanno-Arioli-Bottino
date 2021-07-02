@@ -44,8 +44,7 @@ public class ChooseStartingThingsScene {
     public Label mainTitleLabel;
     @FXML
     public Label whatYouDeserveLabel;
-    //@FXML
-    //+ le label da cambiare
+
 
     private boolean faithPoints;
     private int deservedResources;
@@ -95,7 +94,6 @@ public class ChooseStartingThingsScene {
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                //CONTROLLI
                 if(chosenLeaderCards.size()==2 && (chosenResources.size() == deservedResources))
                     GUI.getInstance().getController().sendStartItems(chosenLeaderCards, chosenResources, faithPoints);
                 else if(chosenLeaderCards.size() != 2) {

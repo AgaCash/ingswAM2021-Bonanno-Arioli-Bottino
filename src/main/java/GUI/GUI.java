@@ -188,7 +188,7 @@ public class GUI implements View {
         });
     }
 
-    /** sets the waiting room scene as a main stage for all the non-creators who join the looby
+    /** sets the waiting room scene as a main stage for all the non-creators who join the lobby
      * @param usernames the usernames' list of the players who are already on the lobby
      */
     @Override
@@ -412,7 +412,7 @@ public class GUI implements View {
         showSuccess(message);
     }
 
-    /** sets the alert box giving information about lorenzo's action and makes an update of the faithtrack
+    /** sets the alert box giving information about lorenzo's action and makes an update of the faith track
      * @param lollo the reference to Lorenzo
      */
     @Override
@@ -447,7 +447,7 @@ public class GUI implements View {
         Platform.runLater(()->{
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("ENDGAME");
-            alert.setHeaderText("Singleplayer has ended");
+            alert.setHeaderText("Single Player has ended");
             alert.setContentText(message);
             alert.showAndWait();
             controller.instantQuittingApplication();
