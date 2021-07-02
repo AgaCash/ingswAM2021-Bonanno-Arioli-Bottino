@@ -53,7 +53,7 @@ public class ChooseStartingThingsScene {
     public void setMainTitleLabel(String text) {
         this.mainTitleLabel.setText(text);
     }
-
+//todo aga devi fartelo tutto
     @FXML
     public void sendStartingThings(ActionEvent actionEvent) {
         setLoadingSituation(true);

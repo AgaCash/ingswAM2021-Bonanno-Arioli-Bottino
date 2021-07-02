@@ -24,6 +24,9 @@ import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 
+/**
+ * The method called to run the GUI at the start of the application, showing the ask server info stage
+ */
 public class GuiStart extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {

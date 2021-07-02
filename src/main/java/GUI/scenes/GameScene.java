@@ -1068,10 +1068,7 @@ public class GameScene implements GenericScene{
         }
     }
 
-    /**
-     * @param prodPane
-     * @param playerIndex
-     */
+    //todo agaaaaaaaaaaaaaaa questo metodo
     private void recreateProdBaseImageview(Pane prodPane, int playerIndex){
         ImageView im = new ImageView();
         im.fitHeightProperty().bind(prodPane.heightProperty());
@@ -1083,7 +1080,7 @@ public class GameScene implements GenericScene{
     }
 
 
-    //CHEATS (da togliere)
+    //todo CHEATS (da togliere)
     @FXML
     HBox cheatHbox;
     private int clickCount = 0;

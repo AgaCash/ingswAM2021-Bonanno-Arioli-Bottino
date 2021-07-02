@@ -29,6 +29,9 @@ import network.server.Lobby;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Singleton Class that handles the GUI view situations and calling the right showing methods, communicating with Light Controller and the Game Scenes
+ */
 public class GUI implements View {
     private LightController controller;
     private Stage primaryStage;
@@ -39,41 +42,40 @@ public class GUI implements View {
 
     private static GUI instance = null;
 
+    /** it returns the current GUI instance if it already exists, otherwise it creates a new one
+     * @return
+     */
     public static GUI getInstance() {
         if(instance == null)
             instance = new GUI();
         return instance;
     }
 
+    /**
+     * it initialise the GUI connecting it to a controller
+     */
     private GUI(){
         isGameBeenInitialized = false;
         this.controller = new LightController(this);
     }
 
+    /** Sets the current view stage
+     * @param stage the stage to set
+     */
     public void setStage(Stage stage) {
         this.primaryStage = stage;
     }
 
-    /*
-    SAMPLE
-
-        Parent root = null;
-        try {
-            fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/.fxml"));
-            root = fxmlLoader.load();
-            //fxmlLoader.getController();
-            primaryStage.setScene(new Scene(root));
-            primaryStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+    /** It gets the current light controller
+     * @return the light controller
      */
-
     public LightController getController() {
         return controller;
     }
 
+    /**
+     * it sets the ask info scene as a main stage
+     */
     @Override
     public void askServerInfo() {
         Platform.runLater(()->{
@@ -81,7 +83,6 @@ public class GUI implements View {
             try {
                 fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/serverSetup.fxml"));
                 root = fxmlLoader.load();
-                //fxmlLoader.getController();
                 primaryStage.setScene(new Scene(root));
                 primaryStage.show();
             } catch (IOException e) {
@@ -90,6 +91,9 @@ public class GUI implements View {
         });
     }
 
+    /**
+     * it sets the ask username scene as a main stage
+     */
     @Override
     public void askUsername() {
         Platform.runLater(()->{
@@ -106,6 +110,9 @@ public class GUI implements View {
         });
     }
 
+    /**
+     * it handles the connection lost error by calling the proper alert showing
+     */
     @Override
     public void serverLostConnection() {
         Platform.runLater(()->{
@@ -118,6 +125,9 @@ public class GUI implements View {
         });
     }
 
+    /**
+     * Sets the ask menu scene as a main stage
+     */
     @Override
     public void askMenu() {
         Platform.runLater(()->{
@@ -125,7 +135,6 @@ public class GUI implements View {
             try {
                 fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/menuSelection.fxml"));
                 root = fxmlLoader.load();
-                //fxmlLoader.getController();
                 primaryStage.setScene(new Scene(root));
                 primaryStage.show();
             } catch (IOException e) {
@@ -135,6 +144,9 @@ public class GUI implements View {
     }
 
 
+    /** it calls the showing notify of a new player in the lobby
+     * @param username the name of the new player to show
+     */
     @Override
     public void notifyPlayerJoined(String username) {
         Platform.runLater(()->{
@@ -151,16 +163,15 @@ public class GUI implements View {
 
     @Override
     public void askStartGame() {
-        //non serve in Gui
-        //si può togliere da view
     }
 
     @Override
     public void waitStartGameString() {
-        //non serve in Gui
-        //si può togliere da view
     }
 
+    /**
+     * Sets the waiting room scene as a main stage for the lobby creator
+     */
     @Override
     public void showCreatorWaitingRoom() {
         Platform.runLater(()-> {
@@ -177,6 +188,9 @@ public class GUI implements View {
         });
     }
 
+    /** sets the waiting room scene as a main stage for all the non-creators who join the looby
+     * @param usernames the usernames' list of the players who are already on the lobby
+     */
     @Override
     public void showWaitingRoom(ArrayList<String> usernames) {
         Platform.runLater(()->{
@@ -198,10 +212,12 @@ public class GUI implements View {
         });
     }
 
+    /**
+     * method to call the re-showing game scene after a successful reconnection
+     */
     @Override
     public void showReconnectionToGame() {
         Platform.runLater(()->{
-            //ricarica la pagina del gioco
             try {
                 fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/game.fxml"));
                 gameRoot = fxmlLoader.load();
@@ -217,9 +233,11 @@ public class GUI implements View {
         showSuccess("Reconnected to game");
     }
 
+    /** It calls the lobbies list scene to show
+     * @param lobbies the list of lobbies to load and show
+     */
     @Override
     public void askLobbyID(ArrayList<Lobby> lobbies) {
-        //mostro la finestra con le lobby
         Parent root = null;
         try {
             fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/joinAndWait.fxml"));
@@ -233,21 +251,30 @@ public class GUI implements View {
         }
     }
 
+    /** it calls the showing of a player disconnection alert to all the other players
+     * @param username the disconnected player username
+     */
     @Override
     public void notifyPlayerDisconnected(String username) {
         showSuccess(username+" disconnected :(");
     }
 
+    /** it calls the showing of a player reconnection alert to all the other players
+     * @param username the reconnected player username
+     */
     @Override
     public void notifyPlayerReconnected(String username) {
         showSuccess(username+" reconnected :)");
     }
 
     @Override
-    public void notifyCreatorDisconnected() {
+    public void notifyCreatorDisconnected() {}
 
-    }
-
+    /** Sets and calls the showing of the ask start items scene
+     * @param quartet the 4 leader cards the player has to chose between
+     * @param numResources the number of resource the player can choose
+     * @param faithPoints a boolean that establish if the player has a starting faith point
+     */
     @Override
     public void askStartItems(ArrayList<LightLeaderCard> quartet, int numResources, boolean faithPoints) {
         Platform.runLater(()->{
@@ -268,10 +295,12 @@ public class GUI implements View {
         });
     }
 
+    /**
+     * it sets the main game page and initialises it, giving the turn to the proper player
+     */
     @Override
     public void askTurn() {
         Platform.runLater(()->{
-            //carico la main page e la inizializzo
             try {
                 if(!isGameBeenInitialized){
                     fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/game.fxml"));
@@ -289,10 +318,11 @@ public class GUI implements View {
         });
     }
 
+    /**
+     * it sets the alert boxes to call and show for the players who are not playing their turn
+     */
     @Override
     public void waitingForMyTurn() {
-        //System.out.println("\n\n\n\n\n\n\n\n\nFUORI "+this+"\n\n\n\n\n\n\n\n\n");
-
         Platform.runLater(()->{
             try {
                 if (!isGameBeenInitialized) {
@@ -315,47 +345,29 @@ public class GUI implements View {
     }
 
     @Override
-    public void askLeaderCardActivation() {
-        //non serve in Gui
-        //si può togliere da view
-    }
+    public void askLeaderCardActivation() {}
 
     @Override
-    public void askLeaderCardThrowing() {
-        //non serve in Gui
-        //si può togliere da view
-    }
+    public void askLeaderCardThrowing() {}
 
     @Override
-    public void askBuyResources() {
-        //non serve in Gui
-        //si può togliere da view
-    }
+    public void askBuyResources() {}
 
     @Override
-    public void askBuyDevCards() {
-        //non serve in Gui
-        //si può togliere da view
-    }
+    public void askBuyDevCards() {}
 
     @Override
-    public void askDevCardProduction() {
-        //non serve in Gui
-        //si può togliere da view
-    }
+    public void askDevCardProduction() {}
 
     @Override
-    public void askDefaultProduction() {
-        //non serve in Gui
-        //si può togliere da view
-    }
+    public void askDefaultProduction() {}
 
     @Override
-    public void askEndTurn() {
-        //non serve in Gui
-        //si può togliere da view
-    }
+    public void askEndTurn() {}
 
+    /** it sets and calls the showing of the resources thrown by a player after a market request
+     * @param threwResources the resources that has benn thrown
+     */
     @Override
     public void showThrewResources(ArrayList<LightResource> threwResources) {
         String s = "";
@@ -365,6 +377,9 @@ public class GUI implements View {
         showError("Thrown resources: \n"+s);
     }
 
+    /** it shows the error alert boxes with the given message
+     * @param message the message to show
+     */
     @Override
     public void showError(String message) {
         Platform.runLater(()->{
@@ -375,7 +390,9 @@ public class GUI implements View {
             alert.showAndWait();
         });
     }
-
+    /** it shows the success alert boxes with the given message
+     * @param message the message to show
+     */
     @Override
     public void showSuccess(String message) {
         Platform.runLater(()->{
@@ -387,11 +404,17 @@ public class GUI implements View {
         });
     }
 
+    /** sets the alert box giving information about other players' actions
+     * @param message the message to show
+     */
     @Override
     public void showOthersActions(String message) {
         showSuccess(message);
     }
 
+    /** sets the alert box giving information about lorenzo's action and makes an update of the faithtrack
+     * @param lollo the reference to Lorenzo
+     */
     @Override
     public void showLorenzoActions(LightLorenzo lollo) {
         Platform.runLater(()-> {
@@ -400,6 +423,10 @@ public class GUI implements View {
         });
     }
 
+    /** sets and shows the alert box of the final ranking, then calls the instant quitting
+     * @param winner the username of the winner
+     * @param rank the final rank
+     */
     @Override
     public void showRanking(String winner, String rank) {
         Platform.runLater(()->{
@@ -412,6 +439,9 @@ public class GUI implements View {
         });
     }
 
+    /** sets and shows the alert box of endgame, then quits the application
+     * @param message the end game message to show
+     */
     @Override
     public void endSinglePlayerGame(String message){
         Platform.runLater(()->{
@@ -424,6 +454,9 @@ public class GUI implements View {
         });
     }
 
+    /**
+     * calls the controller to quit the application
+     */
     @Override
     public void endGame() {
         Platform.runLater(()-> {
@@ -431,48 +464,68 @@ public class GUI implements View {
         });
     }
 
+    /** sends a request to the game scene controller of updating the card graphics
+     * @param username the username who made the change
+     * @param cardSlots the reference to the user card slots
+     */
     @Override
     public void updateCardSlots(String username, LightCardSlots cardSlots) {
         Platform.runLater(()->{
             gameGuiController.updateCardSlots(username, cardSlots.getCards());
         });
     }
-
+    /** sends a request to the game scene controller of updating the strongbox
+     * @param username the username who made the change
+     * @param strongbox the reference to the user strongbox
+     */
     @Override
     public void updateStrongbox(String username, LightStrongbox strongbox) {
         Platform.runLater(()->{
             gameGuiController.updateStrongBox(username, strongbox);
         });
     }
-
+    /** sends a request to the game scene controller of updating the development board
+     * @param board the reference to the game development board
+     */
     @Override
     public void updateDevBoard(LightDevelopmentBoard board) {
         Platform.runLater(()-> {
             gameGuiController.updateDevBoard(board);
         });
     }
-
+    /** sends a request to the game scene controller of updating the market board
+     * @param market the reference to the game development board
+     */
     @Override
     public void updateMarketBoard(LightMarketBoard market){
         Platform.runLater(()-> {
             gameGuiController.updateMarketBoard(market);
         });
     }
-
+    /** sends a request to the game scene controller of updating the warehouse
+     * @param username the username who made the change
+     * @param warehouseDepot the reference to the user depot
+     */
     @Override
     public void updateWarehouseDepot(String username, LightWarehouseDepot warehouseDepot) {
         Platform.runLater(()-> {
             gameGuiController.updateWarehouseDepot(username, warehouseDepot);
         });
     }
-
+    /** sends a request to the game scene controller of updating the faith track
+     * @param username the username who made the change
+     * @param faithTrack the reference to the user faith track
+     */
     @Override
     public void updateFaithTrack(String username, LightFaithTrack faithTrack) {
         Platform.runLater(()->{
             gameGuiController.updateFaithTrack(username, faithTrack);
         });
     }
-
+    /** sends a request to the game scene controller of updating the leader slots
+     * @param username the username who made the change
+     * @param leaderSlot the reference to the user leader slots
+     */
     @Override
     public void updateLeaderSlot(String username, ArrayList<LightLeaderCard> leaderSlot) {
         Platform.runLater(()->{
