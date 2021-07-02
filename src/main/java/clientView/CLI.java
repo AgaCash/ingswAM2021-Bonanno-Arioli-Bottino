@@ -450,7 +450,7 @@ public class CLI implements View{
     private void cheat(){
         System.out.println("BURLONEEEE");
         int ans;
-        do ans = askInt("choose 1 if you're a fucking liar, 2 for the strength of the Pope");
+        do ans = askInt("choose 1 if you're a liar, 2 for the strength of the Pope");
         while(ans!=1 && ans!=2);
         controller.sendCheat(ans);
         askTurn();
