@@ -9,6 +9,10 @@ import network.messages.MessageType;
 
 import java.util.ArrayList;
 
+/**
+ * Response that updates LightModel with the tha Player's starting status classes and starts the LightController turns
+ *
+ */
 public class SetupResponse extends GameMessage {
     private String firstPlayer;
     private LightDevelopmentBoard board;
@@ -19,6 +23,13 @@ public class SetupResponse extends GameMessage {
     private boolean isSinglePlayer;
 
 
+    /**Multi Player Game session Constructor
+     * @param username the request sender's username
+     * @param firstPlayer the first turn Player's username
+     * @param marketBoard the initial LightMarketBoard status
+     * @param board the initial LightDevelopmentBoard status
+     * @param players the entire LightPlayer ArrayList
+     */
     public SetupResponse(String username, String firstPlayer,
                          LightMarketBoard marketBoard, LightDevelopmentBoard board, ArrayList<LightPlayer> players){
         super(username, MessageType.SETUPRESPONSE);
@@ -29,6 +40,13 @@ public class SetupResponse extends GameMessage {
         this.isSinglePlayer = false;
     }
 
+    /**Single Player Game session Constructor
+     * @param username the request sender's username
+     * @param player the Player's username
+     * @param marketBoard the initial LightMarketBoard status
+     * @param board the initial LightDevelopmentBoard status
+     * @param lorenzo the LightLorenzo startup status
+     */
     public SetupResponse(String username, LightPlayer player,
                          LightMarketBoard marketBoard, LightDevelopmentBoard board, LightLorenzo lorenzo){
         super(username, MessageType.SETUPRESPONSE);
@@ -40,7 +58,6 @@ public class SetupResponse extends GameMessage {
     }
     @Override
     public void executeCommand(LightController controller){
-        //controller.setPlayer(this.players);
         controller.setDevBoard(this.board);
         controller.setMarketBoard(this.market);
         if (isSinglePlayer) {

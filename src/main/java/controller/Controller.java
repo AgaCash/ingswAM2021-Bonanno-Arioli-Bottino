@@ -365,13 +365,6 @@ public class Controller {
         }
     }
 
-    public void handleError(String message){
-        System.out.println(message);
-        //BIG TODO AGA: QUESTO METODO GESTISCE LA RICEZIONE DELLE CARTE LEADER ALL`INIZIO.
-        //TODO: SE SETUPGAME SI SPACCA CHIAMA LUI MA NON FA NIENTE
-        //TODO: POTREBBE ESSERE LUI IL COLPEVOLE?
-    }
-
     /**Returns the Player by username
      * @param username the Player username
      * @return the Player instance

@@ -16,6 +16,9 @@ import java.util.stream.Collectors;
  */
 public class StartGameRequest extends GameMessage{
 
+    /**Constructor
+     * @param username the Player's username who asks for start items
+     */
     public StartGameRequest(String username){
         super(username, MessageType.STARTGAME);
     }
@@ -58,6 +61,10 @@ public class StartGameRequest extends GameMessage{
         }
     }
 
+    /**Calls the Controller 4-length LeaderCard ArrayList to choose and convert it in a LightLeaderCard ArrayList
+     * @param controller the controller instance
+     * @return a LightLeaderCard ArrayList
+     */
     private ArrayList<LightLeaderCard> getQuartet(Controller controller){
         ArrayList<LeaderCard> quartet = controller.getLeaderCards();
         ArrayList<LightLeaderCard> lQuartet = new ArrayList<>();
