@@ -39,34 +39,24 @@ public class SetupRequest extends GameMessage{
     public void executeCommand(Controller controller, VirtualClient view){
         System.out.println(this.couple);
         Gson gson = new GsonBuilder().registerTypeAdapter(LeaderCard.class, new LeaderCardDeserializer()).create();
+        try{
+            ArrayList<LeaderCard> couple = new ArrayList<>();
+            for(LightLeaderCard card : this.couple)
+                couple.add(gson.fromJson(gson.toJson(card), LeaderCard.class));
 
-        ArrayList<LeaderCard> couple = new ArrayList<>();
-        for(LightLeaderCard card : this.couple)
-            couple.add(gson.fromJson(gson.toJson(card), LeaderCard.class));
-        try {
             controller.setLeaderCards(getUsername(), couple);
 
-        } catch(NoSuchUsernameException e){
-            controller.handleError(e.getMessage());
+            ArrayList<Resource> chosenResources = new ArrayList<>();
+            for(LightResource res : this.chosenResources)
+                chosenResources.add(Resource.valueOf(res.toString()));
 
-        }
-
-        ArrayList<Resource> chosenResources = new ArrayList<>();
-        for(LightResource res : this.chosenResources)
-            chosenResources.add(Resource.valueOf(res.toString()));
-        try{
             controller.setChosenStartup(getUsername(), chosenResources);
 
-        } catch(NoSuchUsernameException | FullWarehouseException e){
-            controller.handleError(e.getMessage());
-        }
-        try{
             if(this.faithPoint)
                 controller.getPlayer(getUsername()).getPlayerBoard().getFaithTrack().faithAdvance();
             controller.notifyReadiness();
-        } catch(NoSuchUsernameException e){
-            controller.handleError(e.getMessage());
-        }
+        } catch(NoSuchUsernameException | FullWarehouseException ignore){}
+
     }
 
 }
