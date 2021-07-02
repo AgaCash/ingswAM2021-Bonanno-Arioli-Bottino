@@ -2,10 +2,8 @@ package GUI.scenes;
 
 import GUI.FXMLLoaderCustom;
 import GUI.GUI;
-import clientModel.cards.LightCardSlots;
 import clientModel.cards.LightDevelopmentCard;
 import clientModel.cards.LightLeaderCard;
-import clientModel.colour.LightColour;
 import clientModel.marbles.LightMarble;
 import clientModel.resources.LightResource;
 import clientModel.strongbox.LightStrongbox;
@@ -14,26 +12,18 @@ import clientModel.table.LightFaithBox;
 import clientModel.table.LightFaithTrack;
 import clientModel.table.LightMarketBoard;
 import clientModel.warehouse.LightWarehouseDepot;
-import javafx.beans.binding.ObjectBinding;
-import javafx.css.Style;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.effect.ColorAdjust;
-import javafx.scene.effect.Glow;
-import javafx.scene.effect.Light;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
-import model.cards.DevelopmentCard;
-import model.table.DevelopmentBoard;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -228,8 +218,6 @@ public class GameScene implements GenericScene{
      * @param actionEvent end turn button click
      */
     public void endTurn(ActionEvent actionEvent) {
-        //per attivare i cheat (da togliere)
-        clickCount = 0;
         GUI.getInstance().getController().sendEndTurnRequest();
     }
 
@@ -1073,25 +1061,5 @@ public class GameScene implements GenericScene{
     }
 
 
-    //todo CHEATS (da togliere)
-    @FXML
-    HBox cheatHbox;
-    private int clickCount = 0;
-    public void cheatActivation(MouseEvent mouseEvent) {
-        if(!isMyTurn)
-            return;
-        clickCount++;
-        System.out.println(clickCount);
-        if(clickCount>5){
-            clickCount = 0;
-            if(mouseEvent.isShiftDown()) {
-                GUI.getInstance().getController().sendCheat(2);
-                System.out.println("Cheat FAITH SENT");
-            }
-            else {
-                GUI.getInstance().getController().sendCheat(1);
-                System.out.println("Cheat RES SENT");
-            }
-        }
-    }
+
 }

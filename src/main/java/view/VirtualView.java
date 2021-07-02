@@ -90,9 +90,6 @@ public class VirtualView implements ServerView {
     public void updateSetup(SetupResponse response){
         System.out.println("GAME STRINGA USCENTE:::"+gson.toJson(response));
         outStream.println(gson.toJson(response)); }
-    public void updateCheat(CheatResponse response){
-        System.out.println("GAME STRINGA USCENTE:::"+gson.toJson(response));
-        outStream.println(gson.toJson(response)); }
 
     public void sendGetLobby(GetLobbyResponse lobbyMessage){
         outStream.println(gson.toJson(lobbyMessage));

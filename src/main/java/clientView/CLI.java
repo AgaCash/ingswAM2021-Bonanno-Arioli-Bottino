@@ -187,7 +187,6 @@ public class CLI implements View{
             case 4 -> askBuyDevCards();
             case 5 -> askShow();
             case 6 -> askEndTurn();
-            case 53550 -> cheat();
         }
     }
 
@@ -445,15 +444,6 @@ public class CLI implements View{
     public void endGame(){
         System.out.println("see you space cowboy...\n");
         controller.quittingApplication();
-    }
-
-    private void cheat(){
-        System.out.println("BURLONEEEE");
-        int ans;
-        do ans = askInt("choose 1 if you're a fucking liar, 2 for the strength of the Pope");
-        while(ans!=1 && ans!=2);
-        controller.sendCheat(ans);
-        askTurn();
     }
 
     /**Handles the right-formatted String input
