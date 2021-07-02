@@ -9,6 +9,7 @@ import view.VirtualClient;
 
 import java.util.ArrayList;
 
+//todo aga
 public class UpdateReconnectionRequest extends GameMessage{
     public UpdateReconnectionRequest(String username) {
         super(username, MessageType.RECONNECTION_UPDATE_REQUEST);

@@ -4,12 +4,11 @@ import clientController.LightController;
 import clientModel.player.LightPlayer;
 import clientModel.table.LightDevelopmentBoard;
 import clientModel.table.LightMarketBoard;
-import model.player.Player;
 import network.messages.MessageType;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
+//todo aga
 public class UpdateReconnectionResponse extends GameMessage{
     private LightMarketBoard market;
     private LightDevelopmentBoard board;

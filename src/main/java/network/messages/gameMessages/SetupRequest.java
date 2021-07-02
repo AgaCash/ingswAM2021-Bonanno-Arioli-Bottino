@@ -15,12 +15,20 @@ import view.VirtualClient;
 
 import java.util.ArrayList;
 
-
+/**
+ * Message that sends to server the chosen starting items
+ */
 public class SetupRequest extends GameMessage{
     private ArrayList<LightLeaderCard> couple;
     private ArrayList<LightResource> chosenResources;
     private boolean faithPoint;
 
+    /**Constructor
+     * @param username the Sender's username
+     * @param couple the 2 -length LeaderCard ArrayList that will be added to PlayerBoard
+     * @param chosenResources the Resource ArrayList will be added to WarehouseDepot
+     * @param faithPoint true if Player's gained a FaithPoint
+     */
     public SetupRequest(String username, ArrayList<LightLeaderCard> couple, ArrayList<LightResource> chosenResources, boolean faithPoint){
         super(username, MessageType.SETUP);
         this.couple = couple;
