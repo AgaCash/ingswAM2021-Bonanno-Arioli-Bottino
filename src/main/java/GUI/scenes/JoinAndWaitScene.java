@@ -14,11 +14,17 @@ import java.awt.event.ActionEvent;
 import java.net.Socket;
 import java.util.ArrayList;
 
+/**
+ * the active lobbies list showed to the players who clicks join multiplayer
+ */
 public class JoinAndWaitScene {
 
     @FXML
     ListView<Lobby> lobbyList;
 
+    /** handles the user click on a lobby to join it
+     * @param contextMenuEvent the clicking event made on the list view
+     */
     @FXML
     public void lobbyElementClicked(MouseEvent contextMenuEvent) {
         Lobby lobby = lobbyList.getSelectionModel().getSelectedItem();
@@ -27,6 +33,9 @@ public class JoinAndWaitScene {
         }
     }
 
+    /** loads the lobbies to show to the players
+     * @param lobbies the list of lobbies to show on to the list view
+     */
     public void loadLobbies(ArrayList<Lobby> lobbies){
         lobbyList.getItems().addAll(lobbies);
     }

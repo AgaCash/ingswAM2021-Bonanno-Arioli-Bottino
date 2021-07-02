@@ -17,6 +17,9 @@ import utilities.JsonParser;
 
 import java.util.ArrayList;
 
+/**
+ * Class representing the graphic scene of the leader's (and eventually resources) selection at the start of the game
+ */
 public class ChooseStartingThingsScene {
 
     @FXML

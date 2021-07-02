@@ -37,6 +37,9 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Optional;
 
+/**
+ * Graphic Scene to handle all the in-game events, starting from the first turn to th end of the game
+ */
 public class GameScene implements GenericScene{
 
     @FXML
@@ -70,6 +73,9 @@ public class GameScene implements GenericScene{
     private int myPlayerIndex;
     private boolean isMyTurn;
 
+    /** method to initialise all the graphic components of the game scene
+     * @param numOfPlayers the players in-game number for setting the buttons and the pane division properly
+     */
     //todo togliere num of players: ricavabile da playersList
     public void init(int numOfPlayers){
         this.numOfPlayers = numOfPlayers;
@@ -114,7 +120,7 @@ public class GameScene implements GenericScene{
             plPane.setId(i+"");
             playerBoardsPanes.add(plPane);
         }
-        //mettere i nomi dei player sui bottoni in alto ("ME" se è la propria playerboard)
+        //assign the correct names to the buttons (ME if it is the user player board)
         playerBoardsButtons.forEach((btn)->{
             int btnId = Integer.parseInt(btn.getId());
             btn.setText(playersList.get(btnId));
@@ -122,7 +128,7 @@ public class GameScene implements GenericScene{
                 btn.setText("ME");
             }
         });
-        //dividere il playerboard in 4 pane (faith, depot, strongB, prod)
+        //dividing the player board in 4 panes (faith track, depot, strongbox, production)
         playerBoardsPanes.forEach((pbPane)->{
             Pane faithPane = new Pane();
             faithPane.resize(622, 135);
@@ -145,8 +151,6 @@ public class GameScene implements GenericScene{
 
             pbPane.getChildren().addAll(faithPane, depotPane, strongboxPane, productionPane);
         });
-        //aggiungere le varie croci nelle posizioni corrette (player 3 ha 1 faithPoint bonus)
-        //productions
         //          !!ALWAYS EMPTY AT START!!
         //          -> when slot is clicked
         //              if (card && !Effect) -> production
@@ -167,47 +171,73 @@ public class GameScene implements GenericScene{
     }
 
 
-
+    /** handling market button click to change the central game scene
+     * @param event market button click
+     */
     @FXML
     private void goToMarket(ActionEvent event){
        gamePane.setCenter(marketPane);
    }
+
+    /** handling development board button click to change the central game scene
+     * @param event development button click
+     */
     @FXML
     private void goToDevBoard(ActionEvent event) {
        gamePane.setCenter(devBoardPane);
    }
 
+    /** handling the leader button click to change the central game scene
+     * @param event leader button click
+     */
     @FXML
     private void goToLeader(ActionEvent event){
        gamePane.setCenter(leaderPane);
    }
 
+    /** handling the player 1 button click to change the central game scene
+     * @param event player 1 button click
+     */
     @FXML
     private void goToPlayer1(ActionEvent event){
         gamePane.setCenter(playerBoardsPanes.get(0));
     }
+    /** handling the player 2 button click to change the central game scene
+     * @param event player 2 button click
+     */
     @FXML
     private void goToPlayer2(ActionEvent event){
         gamePane.setCenter(playerBoardsPanes.get(1));
     }
+    /** handling the player 3 button click to change the central game scene
+     * @param event player 3 button click
+     */
     @FXML
     private void goToPlayer3(ActionEvent event){
         gamePane.setCenter(playerBoardsPanes.get(2));
     }
+    /** handling the player 4 button click to change the central game scene
+     * @param event player 4 button click
+     */
     @FXML
     private void goToPlayer4(ActionEvent event){
         gamePane.setCenter(playerBoardsPanes.get(3));
     }
 
+    /** handling the end turn button click to change player's turn
+     * @param actionEvent end turn button click
+     */
     public void endTurn(ActionEvent actionEvent) {
         //per attivare i cheat (da togliere)
         clickCount = 0;
         GUI.getInstance().getController().sendEndTurnRequest();
     }
 
+    /**
+     * method to enable all the graphic things user can interact with during his turn, invoked after the precedent player ends his turn
+     */
     public void enableTurn(){
         this.isMyTurn = true;
-        //ENABLE ALL THE THINGS THAT USER CAN INTERACT WITH
             // development board
         devBoardPane.getChildren().forEach((imageView)->{
             enableImage((ImageView) imageView);
@@ -230,9 +260,11 @@ public class GameScene implements GenericScene{
         gamePane.lookup("#endTurnBTN").setDisable(false);
     }
 
+    /**
+     * method to disable all the graphic things user cannot interact no more after his turn ended
+     */
     public void disableTurn(){
         this.isMyTurn = false;
-        //DISABLE ALL THE THINGS THAT USER CAN INTERACT WITH
             // development board
         devBoardPane.getChildren().forEach((imageView)->{
             disableImage((ImageView) imageView);
@@ -260,6 +292,10 @@ public class GameScene implements GenericScene{
     //|  UPDATES |
     //|----------|
 
+    /** graphic updating method invoked every time there is a changing on the faith track
+     * @param username the username of the player who made a faith move, in order to select the right player pane in which update the red cross
+     * @param faithTrack the user faith track in which the red cross has moved on
+     */
     public void updateFaithTrack(String username, LightFaithTrack faithTrack) {
         playerBoardsPanes.forEach((pBoardPane)->{
             if(playersList.get(Integer.parseInt(pBoardPane.getId())).equals(username)) {
@@ -302,6 +338,10 @@ public class GameScene implements GenericScene{
         });
     }
 
+    /** method to update the graphic elements in the player's strongbox after a strongbox change
+     * @param username the player's username who had a strongbox change in order to apply the right graphic update
+     * @param strongbox player's strongbox in which there has been a change
+     */
     public void updateStrongBox(String username, LightStrongbox strongbox){
         /*
         if(strongbox == null){
@@ -333,6 +373,10 @@ public class GameScene implements GenericScene{
         });
     }
 
+    /** method to update graphically a user card slots on his player board every time there is a slot change
+     * @param username player's username to handle correctly the changes in the right player' slots
+     * @param cardSlots player's card slots in which graphically change the elements
+     */
     public void updateCardSlots(String username, ArrayList<LightDevelopmentCard> cardSlots){
         playerBoardsPanes.forEach((pBoardPane)->{
             if(playersList.get(Integer.parseInt(pBoardPane.getId())).equals(username)){
@@ -347,7 +391,6 @@ public class GameScene implements GenericScene{
                     if(c.getColour()!=null){
                         fileName = c.getColour().name().substring(0, 1).toUpperCase()+c.getColour().name().substring(1).toLowerCase();
                     }
-                    //System.out.println(fileName+c.getId());
                     ImageView imageView = new ImageView("/images/DEVBOARD/"+fileName+c.getId()+".png");
                     imageView.setPreserveRatio(true);
                     imageView.fitWidthProperty().bind(developmentPane.widthProperty().divide(3.7));
@@ -359,15 +402,24 @@ public class GameScene implements GenericScene{
         });
     }
 
+    /** method to update graphic changes in the development board
+     * @param board the reference to the game development bord in which insert the updated cards
+     */
     public void updateDevBoard(LightDevelopmentBoard board){
         loadDevCards(devBoardPane, board);
     }
 
+    /** method to update graphic change in the game market board
+     * @param market the reference to the game market board in which insert the updated marbles
+     */
     public void updateMarketBoard(LightMarketBoard market){
         loadMarbles(marketPane, market);
     }
 
-    //todo fix dimensions
+    /** method to update graphic elements every time there is a player depot change
+     * @param username the player's username to correctly identify the player pane in which apply the change
+     * @param warehouseDepot the player's depot in which there has been a change
+     */
     public void updateWarehouseDepot(String username, LightWarehouseDepot warehouseDepot){
         playerBoardsPanes.forEach((pbPane)->{
             if(playersList.get(Integer.parseInt(pbPane.getId())).equals(username)){
@@ -398,6 +450,10 @@ public class GameScene implements GenericScene{
     }
 
 
+    /** method to update graphic elements in the leader panes of the players
+     * @param username the player's username in order to apply the graphic changes in the correct leader pane
+     * @param leaderCards the player's leader cards to insert in the player leader pane
+     */
     public void updateLeaderCards(String username, ArrayList<LightLeaderCard> leaderCards){
         if(!playersList.get(myPlayerIndex).equals(username))
             return;
@@ -424,25 +480,27 @@ public class GameScene implements GenericScene{
 
     }
 
-    //helper
-    //
-    //
-    //
-    //
-    //
-    //
-
+    /** graphically disable images that players cannot click on when it's not their turn
+     * @param imageView the image view to disable
+     */
     private void disableImage(ImageView imageView){
         ColorAdjust monochrome = new ColorAdjust();
         monochrome.setSaturation(-0.8);
         imageView.setEffect(monochrome);
     }
 
+    /** enabling the image players can interact with during his turn
+     * @param imageView the image view to set enabled
+     */
     private void enableImage(ImageView imageView){
         imageView.setEffect(null);
     }
 
 
+    /** method called by init to set graphically the starting situation of the development board pane
+     * @param pane the graphic pane in which insert all the development cards at the start of the game
+     * @param developmentBoard the development board passed to set the correct cards
+     */
     private void loadDevCards(Pane pane, LightDevelopmentBoard developmentBoard){
         pane.getChildren().clear();
         ArrayList<ImageView> ims = new ArrayList<>();
@@ -474,6 +532,9 @@ public class GameScene implements GenericScene{
         pane.getChildren().addAll(ims);
     }
 
+    /** method to handle the actions made onto the development cards in the development board, and calling the game action referred to that card
+     * @param mouseEvent the mouse event click on the card image view
+     */
     private void devCardClick(MouseEvent mouseEvent){
         if(!isMyTurn)
             return;
@@ -485,9 +546,8 @@ public class GameScene implements GenericScene{
         int deck = Integer.parseInt(currImage.getId());
 
         if(currImage.getEffect() == null){
-            //compra la devCard
-            //ALERT_BOXES  ||
-            //             \/
+            //buy the development card
+            //ALERT_BOXES
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Asking for slot");
             alert.setHeaderText("In which slot do you want to add the card?");
@@ -508,7 +568,6 @@ public class GameScene implements GenericScene{
                 GUI.getInstance().getController().showError("Card not bought");
                 return;
             }
-
 
             alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("LeaderCard Activation");
@@ -559,7 +618,6 @@ public class GameScene implements GenericScene{
                 }
 
                 alert.setGraphic(p);
-
                 alert.setX(150);
                 alert.setY(120);
                 result = alert.showAndWait();
@@ -574,16 +632,15 @@ public class GameScene implements GenericScene{
             }else{
                 GUI.getInstance().getController().sendBuyDevCardRequest(deck, slot-1, null);
             }
-
             //ALERT_BOXES  /\   (askSlot & askLeader)
-            //             ||
-            //-----------------------------
-
         }
     }
 
+    /** method called by the init to set the starting game situation of the market board to show on the market pane
+     * @param pane the graphic pane in which insert the images of the marbles
+     * @param marketBoard the game market board to set the marbles properly
+     */
     public void loadMarbles(Pane pane, LightMarketBoard marketBoard) {
-        //LightMarketBoard marketBoard = GUI.getInstance().getController().getMarketBoard();
         Pane marbles = (Pane) pane.lookup("#marblesPane");
         marbles.getChildren().clear();
         ArrayList<ImageView> ims = new ArrayList<>();
@@ -615,6 +672,9 @@ public class GameScene implements GenericScene{
         marbles.getChildren().addAll(ims);
     }
 
+    /** method called by init to set graphically the arrow button in the market selection
+     * @param pane the graphic market pane in which insert the arrow images
+     */
     private void loadMarbleSelections(Pane pane){
         ArrayList<ImageView> ims = new ArrayList<>();
         double x = 120;
@@ -645,6 +705,9 @@ public class GameScene implements GenericScene{
         pane.getChildren().addAll(ims);
     }
 
+    /** method to handle the user selection on the market pane, by clicking the arrow
+     * @param mouseEvent the clicking event on the arrow image view
+     */
     private void marketClick(MouseEvent mouseEvent) {
         if(!isMyTurn)
             return;
@@ -709,7 +772,6 @@ public class GameScene implements GenericScene{
                 }
 
                 alert.setGraphic(p);
-
                 alert.setX(150);
                 alert.setY(120);
                 result = alert.showAndWait();
@@ -724,13 +786,15 @@ public class GameScene implements GenericScene{
             }else{
                 GUI.getInstance().getController().sendBuyResourceRequest(line, whichOne, null);
             }
-            //loadMarbles(marketPane);
         }
     }
 
+    /** method called by init to load the leader cards images in the leader pane after the selection iin choosing starting things scene
+     * @param pane the correct leader pane in which insert the leader card images
+     */
     //todo fixare i possibili scenari
     private void loadLeaderPane(Pane pane){
-       // 2 leaderCard con sotto 4 bottoni (2 a testa: attiva e scarta)
+        // 2 leader with an activation and dropping button each
         String basePath = "/images/LEADERS/Leader";
         ArrayList<LightLeaderCard> lCards = GUI.getInstance().getController().getPlayerBoard().getLeaderSlot();
         ArrayList<ImageView> im = new ArrayList<>();
@@ -794,7 +858,7 @@ public class GameScene implements GenericScene{
                 if(lc == null)
                     return;
                 for(LightLeaderCard l: lc){
-                    //scorre l'array per eseguire l'azione sulla carta corretta
+                    //look in the array for the correct card
                     if(l.getId() == btnId){
                         GUI.getInstance().getController().sendLeaderCardThrowRequest(l);
                         return;
@@ -809,6 +873,10 @@ public class GameScene implements GenericScene{
         pane.getChildren().addAll(dropButtons);
     }
 
+    /** method to handle the user click onto the leader pane and handle the leader action
+     * @param mouseEvent the mouse clicking event on the leader pane buttons
+     * @param playerIndex the active player index in that particular turn
+     */
     private void productionClick(MouseEvent mouseEvent, int playerIndex){
         if(!isMyTurn)
             return;
@@ -817,14 +885,9 @@ public class GameScene implements GenericScene{
         if(!askConfirmation("Activate this production?"))
             return;
 
-
-        //0     - 82.0
-        //82.1  - 202.0
-        //202.1 - 323.0
-        //323.1 - EOF
         double x = mouseEvent.getX();
         if(x > 0 && x < 82.0){
-            //default prod
+            //default production
             defaultProd();
         }else if(x > 82.1 && x < 202.0){
             cardProd(0);
@@ -833,9 +896,11 @@ public class GameScene implements GenericScene{
         }else if (x > 323.1){
             cardProd(2);
         }
-
     }
 
+    /**
+     * method to handle the default production request, by asking two resources in exchange of one
+     */
     private void defaultProd(){
         ArrayList<LightResource> input = new ArrayList<>();
         GUI.getInstance().showSuccess("Choose 2 resources for input and 1 for output");
@@ -860,12 +925,12 @@ public class GameScene implements GenericScene{
                 return;
             }
             GUI.getInstance().getController().sendDefaultProductionRequest(input, output, leader, lastRes);
-
         }
-
     }
 
-    //slot 0->2 compresi
+    /** method to handle a card production request, by the selected card slot in the pane
+     * @param slot the card slot containing the card the player want to product
+     */
     private void cardProd(int slot){
         int numSlots = GUI.getInstance().getController().getPlayerBoard().getCardSlots().getSize();
         if(numSlots == 0) {
@@ -887,6 +952,9 @@ public class GameScene implements GenericScene{
         }
     }
 
+    /** the graphic alert box creation and handing of the resource request made by a user
+     * @return the light resource asked by the player by clicking the proper button
+     */
     private LightResource askResources(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Asking for resources...");
@@ -914,10 +982,10 @@ public class GameScene implements GenericScene{
         }
     }
 
+    /** the alert box creation and handling of a leader card power request after an action made by the player
+     * @return the light leader card requested by the player
+     */
     private LightLeaderCard askLeaderCard(){
-        //compra la devCard
-        //ALERT_BOXES  ||
-        //             \/
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("LeaderCard Activation");
         alert.setHeaderText("Do you want to use a leader card?");
@@ -965,7 +1033,6 @@ public class GameScene implements GenericScene{
         }
 
         alert.setGraphic(p);
-
         alert.setX(150);
         alert.setY(120);
         result = alert.showAndWait();
@@ -978,6 +1045,10 @@ public class GameScene implements GenericScene{
         }
     }
 
+    /** the creation and handling of an alert box asking the username if he is sure about the action he is requesting
+     * @param message the proper message to show related to the action requested
+     * @return a boolean to confirm or not the action
+     */
     private boolean askConfirmation(String message){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Asking for confirmation");
@@ -997,6 +1068,10 @@ public class GameScene implements GenericScene{
         }
     }
 
+    /**
+     * @param prodPane
+     * @param playerIndex
+     */
     private void recreateProdBaseImageview(Pane prodPane, int playerIndex){
         ImageView im = new ImageView();
         im.fitHeightProperty().bind(prodPane.heightProperty());
