@@ -316,7 +316,7 @@ public class GameScene implements GenericScene{
                         imageView.relocate(-10, 80);
                     if (fb.getActualPos() && !isStartME)
                         imageView.relocate(offsetXME, 45);
-                    offsetXME += 26;
+                    offsetXME += 25.5;
                     isStartME = false;
                     if (fb.getLorenzoPos() && isStartLOR) {
                         imageView2.relocate(-10, 80);

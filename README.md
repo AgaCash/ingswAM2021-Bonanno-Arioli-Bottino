@@ -11,13 +11,16 @@ Implementation of board game Master of Renaissance
   while the player is not connected, the game continues skipping his turns.
 
 ##Running SERVER
-To run Server please type: java -jar AM34-1.0-SNAPSHOT.jar --server port
+To run Server please type: java -jar AM34-1.0-SNAPSHOT.jar --server < port >
 
 ##Running CLI
 To run CLI please type: java -jar AM34-1.0-SNAPSHOT.jar --cli 
 
 ##Running GUI
 To run GUI please type: java -jar AM34-1.0-SNAPSHOT.jar
+
+## Suggested Command Prompt
+- Linux Shell
 
 ##Group Components
 - Arioli Teodoro
