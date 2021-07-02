@@ -832,7 +832,10 @@ public class GameScene implements GenericScene{
                     return;
                 for(LightLeaderCard l: lc){
                     if(l.getId() == btnId){
-                        GUI.getInstance().getController().sendLeaderCardActivationRequest(l);
+                        if(!l.isEnabled())
+                            GUI.getInstance().getController().sendLeaderCardActivationRequest(l);
+                        else
+                            GUI.getInstance().getController().showError("Leader card already active");
                         return;
                     }
                 }
