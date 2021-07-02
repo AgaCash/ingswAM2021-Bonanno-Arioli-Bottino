@@ -2,8 +2,10 @@ package GUI.scenes;
 
 import GUI.FXMLLoaderCustom;
 import GUI.GUI;
+import clientModel.cards.LightCardSlots;
 import clientModel.cards.LightDevelopmentCard;
 import clientModel.cards.LightLeaderCard;
+import clientModel.colour.LightColour;
 import clientModel.marbles.LightMarble;
 import clientModel.resources.LightResource;
 import clientModel.strongbox.LightStrongbox;
@@ -12,18 +14,26 @@ import clientModel.table.LightFaithBox;
 import clientModel.table.LightFaithTrack;
 import clientModel.table.LightMarketBoard;
 import clientModel.warehouse.LightWarehouseDepot;
+import javafx.beans.binding.ObjectBinding;
+import javafx.css.Style;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.Glow;
+import javafx.scene.effect.Light;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
+import model.cards.DevelopmentCard;
+import model.table.DevelopmentBoard;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -218,6 +228,8 @@ public class GameScene implements GenericScene{
      * @param actionEvent end turn button click
      */
     public void endTurn(ActionEvent actionEvent) {
+        //per attivare i cheat (da togliere)
+        clickCount = 0;
         GUI.getInstance().getController().sendEndTurnRequest();
     }
 
@@ -305,7 +317,7 @@ public class GameScene implements GenericScene{
                         imageView.relocate(-10, 80);
                     if (fb.getActualPos() && !isStartME)
                         imageView.relocate(offsetXME, 45);
-                    offsetXME += 25.5;
+                    offsetXME += 26;
                     isStartME = false;
                     if (fb.getLorenzoPos() && isStartLOR) {
                         imageView2.relocate(-10, 80);
@@ -331,6 +343,11 @@ public class GameScene implements GenericScene{
      * @param strongbox player's strongbox in which there has been a change
      */
     public void updateStrongBox(String username, LightStrongbox strongbox){
+        /*
+        if(strongbox == null){
+            return;
+        }
+        */
         playerBoardsPanes.forEach((pBoardPane)->{
             if(playersList.get(Integer.parseInt(pBoardPane.getId())).equals(username)){
                 Pane strongboxPane = (Pane) pBoardPane.lookup("#strongboxPane");
@@ -341,6 +358,7 @@ public class GameScene implements GenericScene{
                 for(LightResource r:strongbox.getStrongbox()){
                     ImageView imageView = new ImageView("/images/RESOURCES/"+r.name().toLowerCase()+"-min.png");
                     imageView.setPreserveRatio(true);
+                    //imageView.fitWidthProperty().bind(strongboxPane.widthProperty().divide(4));
                     imageView.relocate(offsetX, offsetY);
                     offsetX+=10;
                     count++;
@@ -412,6 +430,7 @@ public class GameScene implements GenericScene{
                 double offsetY = 0;
                 for(int i=0; i<resS.size(); i++) {
                     LightResource r = resS.get(i);
+                    //System.out.println(r.name());
                     ImageView im = new ImageView("/images/RESOURCES/"+r.name().toLowerCase()+".png");
                     im.setPreserveRatio(true);
                     depotPane.getChildren().add(im);
@@ -1061,5 +1080,25 @@ public class GameScene implements GenericScene{
     }
 
 
-
+    //todo CHEATS (da togliere)
+    @FXML
+    HBox cheatHbox;
+    private int clickCount = 0;
+    public void cheatActivation(MouseEvent mouseEvent) {
+        if(!isMyTurn)
+            return;
+        clickCount++;
+        System.out.println(clickCount);
+        if(clickCount>5){
+            clickCount = 0;
+            if(mouseEvent.isShiftDown()) {
+                GUI.getInstance().getController().sendCheat(2);
+                System.out.println("Cheat FAITH SENT");
+            }
+            else {
+                GUI.getInstance().getController().sendCheat(1);
+                System.out.println("Cheat RES SENT");
+            }
+        }
+    }
 }
