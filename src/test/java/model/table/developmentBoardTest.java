@@ -13,6 +13,7 @@ public class developmentBoardTest {
     @Test
     void createDevBoardTest(){
         d = new DevelopmentBoard();
+        System.out.println(d.convert());
         assertNotNull(d);
     }
 

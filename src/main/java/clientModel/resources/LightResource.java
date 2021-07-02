@@ -10,7 +10,7 @@ public enum LightResource {
     SHIELD,
     STONE;
 
-    /**Method to print in CLI
+    /**Method to print in CLI. It's distinguished than toString for not broke the Message conversion in Server Controller
      * @return a String
      */
     public String toColoredString(){

@@ -147,7 +147,10 @@ public class DevelopmentCard extends Card {
                     this.level);
     }
 
-    //just 4 tests
+
+    /**Just for test
+     * @return a String
+     */
     @Override
     public String toString(){
         StringBuilder s = new StringBuilder();

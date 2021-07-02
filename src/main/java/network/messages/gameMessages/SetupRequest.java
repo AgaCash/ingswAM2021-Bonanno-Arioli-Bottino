@@ -15,6 +15,7 @@ import view.VirtualClient;
 
 import java.util.ArrayList;
 
+
 public class SetupRequest extends GameMessage{
     private ArrayList<LightLeaderCard> couple;
     private ArrayList<LightResource> chosenResources;

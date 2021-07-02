@@ -117,7 +117,6 @@ public class CLI implements View{
         System.out.println(LightColour.BLUE+" > Others are playing, waiting for your turn starts"+LightColour.WHITE);
     }
 
-
     @Override
     public void askLobbyID(ArrayList<Lobby> lobbies) {
         System.out.println("\tID\tPlayers");

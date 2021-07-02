@@ -92,7 +92,6 @@ public class Deck {
     /**Returns the card on the top of Deck without removing it
      * @return
      */
-    //only 4 tests
     public DevelopmentCard getCard() throws EmptyDeckException {
         if(isEmpty())
             throw new EmptyDeckException();

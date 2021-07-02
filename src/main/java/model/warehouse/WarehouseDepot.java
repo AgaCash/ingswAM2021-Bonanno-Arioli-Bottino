@@ -103,7 +103,6 @@ public class WarehouseDepot {
                 warehouse.remove(tmp);
             else
                 warehouse.put(tmp, i-1);
-            return;
         }
         else {
             throw new ResourceNotFoundException();
@@ -185,7 +184,7 @@ public class WarehouseDepot {
     }
 
     /**Implements the WarehouseDepot's TreeMap to ArrayList conversion
-     * @return
+     * @return a LightWarehouseDepot instance
      */
     private ArrayList<Resource> toArray(){
         ArrayList<Resource> image = new ArrayList<>();

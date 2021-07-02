@@ -11,6 +11,9 @@ import utilities.JsonParser;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Class that implements Lorenzo, the CPU in single player game session
+ */
 public class Lorenzo {
     private FaithTrack faithTrack = new FaithTrack();
     private FaithBox faithBox = faithTrack.getFaithBox();
@@ -18,8 +21,6 @@ public class Lorenzo {
     private DevelopmentBoard developmentBoard;
     private String lorenzoLastAction = new String();
     private boolean gameIsOver = false;
-
-
     private ArrayList<LightDevelopmentCard> cards;
     private int position;
     private int shuffle;
@@ -36,30 +37,32 @@ public class Lorenzo {
         this.position = 0;
     }
 
+    /**
+     * Shuffles the Lorenzo's tokens
+     */
     private void shuffle(){
         Collections.shuffle(tokens);
     }
 
-    public DevelopmentBoard getDevelopmentBoard() {
-        return developmentBoard;
-    }
-
-    public FaithTrack getFaithTrack() {
-        return faithTrack;
-    }
-
+    /**Returns the current FaithBox where Lorenzo is
+     * @return a FaithBox instance
+     */
     public FaithBox getFaithBox() {
         return faithBox;
     }
 
-    public void setFaithBox(FaithBox newBox){
-        this.faithBox = newBox;
-    }
-
+    /**Returns all the Lorenzo's tokens
+     * @return a Token ArrayList
+     */
     public ArrayList<Token> getTokens(){
         return this.tokens;
     }
 
+    /**
+     * Implements all the Lorenzo's actions in its turn. It picks and execute the Token
+     * Saves the action as a String in lorenzoLastAction attribute that will be sent to the User
+     * if Lorenzo win the Game
+     */
     public void pick () {
         this.lorenzoLastAction = "";
         Token token = tokens.get(0);
@@ -102,15 +105,24 @@ public class Lorenzo {
         }
         tokens.set(tokens.size()-1, tmp);
     }
-    
+
+    /**Returns lorenzoLastAction attribute
+     * @return a String containing a final message
+     */
     public String getLorenzoLastAction(){
          return this.lorenzoLastAction;
     }
 
+    /**Returns true if Lorenzo has won
+     * @return a boolean
+     */
     public boolean gameIsOver(){
         return this.gameIsOver;
     }
 
+    /**Converts the current Lorenzo state in a LightLorenzo instance for LightModel
+     * @return a LightLorenzo instance
+     */
     public LightLorenzo convert(){
         LightLorenzo convertedLorenzo = new LightLorenzo(faithBox.getPosition());
         if(!cards.isEmpty())

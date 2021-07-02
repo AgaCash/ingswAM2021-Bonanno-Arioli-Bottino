@@ -32,12 +32,19 @@ public class LightFaithBox {
         return actualPos;
     }
 
-    /**
-     * @param pos
+    /**Sets the LightFaithBox instance as actual Player's position on the FaithTrack
+     * @param pos true if it's Player's current position, false if not
      */
     public void setPos(boolean pos){ this.actualPos = pos;}
 
+    /**Sets the LightFaithBox instance as actual Lorenzo's position on the FaithTrack
+     * @param pos true if it's Lorenzo current position, false if not
+     */
     public void setLorenzoPos(boolean pos){this.lorenzoPos = pos;}
+
+    /**Returns true if LightFaithBox is the current Lorenzo's position
+     * @return a boolean
+     */
     public boolean getLorenzoPos(){
         return lorenzoPos;
     }

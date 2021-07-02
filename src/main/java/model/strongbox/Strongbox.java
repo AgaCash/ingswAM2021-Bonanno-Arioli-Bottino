@@ -6,12 +6,10 @@ import exceptions.ResourceNotFoundException;
 import model.resources.Resource;
 
 import java.util.ArrayList;
-
+/**
+ * Class that stores all the Resources created by productions
+ */
 public class Strongbox {
-    /**
-     * class that stores all the model.resources created by productions
-     */
-
     private ArrayList<Resource> strongbox = new ArrayList<>();
     private ArrayList<Resource> tmpStrongbox = new ArrayList<>();
 
@@ -22,7 +20,7 @@ public class Strongbox {
         tmpStrongbox.add(resource);
     }
 
-    /** this method checks if the model.strongbox contains the demanded resource, then removes it
+    /** this method checks if the strongbox contains the demanded resource, then removes it
      * @param resource is the resource to remove
      */
     public void removeResource (Resource resource) throws ResourceNotFoundException {
@@ -63,8 +61,10 @@ public class Strongbox {
         return true;
     }
 
+    /**
+     * Updates Strongbox at the end of the turn adding the tmpStrongbox containment in strongbox
+     */
     public void updateStrongbox(){
-        System.out.println(" update strongbox riga 67");
         strongbox.addAll(tmpStrongbox);
         tmpStrongbox.clear();
     }
@@ -72,7 +72,6 @@ public class Strongbox {
     /**Returns the current Strongbox state as an ArrayList
      * @return a Resource ArrayList
      */
-    //only 4 tests
     public ArrayList<Resource> status(){
         return this.strongbox;
     }

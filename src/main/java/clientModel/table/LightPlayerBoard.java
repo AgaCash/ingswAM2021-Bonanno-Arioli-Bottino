@@ -21,14 +21,8 @@ public class LightPlayerBoard {
     private boolean hasInkwell;
     private int faithPoints = 0;
 
-    //todo sta cosa serve ancora?
-    public void setInkwell(boolean value){ this.hasInkwell=value; }
-    public boolean getInkwell(){ return this.hasInkwell; }
 
-    /**Updates the LightPlayer's points with the current Victory Points in Model's PlayerBoard
-     * @param points an int
-     *///todo serve anche questo?
-    public void setPoints(int points){ this.faithPoints = points;}
+    public void setInkwell(boolean value){ this.hasInkwell=value; }
 
     /**Returns current LightStrongbox
      * @return a LightStrongbox instance

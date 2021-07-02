@@ -22,6 +22,9 @@ import view.VirtualClient;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 
+/**
+ * The Controller implementation in MVC pattern
+ */
 public class Controller {
     private final int id;
     private final Game game;
@@ -30,13 +33,17 @@ public class Controller {
     private int readyPlayers = 0;
     private final int lobbyId;
 
+    /**Constructor todo aga
+     * @param id the controller ID in the Server
+     * @param views the VirtualClient ArrayList to send and receive the Messages
+     * @param lobbyId the lobby ID that generated the Controller
+     */
     public Controller(int id, ArrayList<VirtualClient> views, int lobbyId){
         this.views = views;
         this.id = id;
         boolean isSinglePlayer = (views.size()==1);
         game = new Game(isSinglePlayer);
         disconnectedPlayer = new ArrayList<>();
-        //System.out.println("CONTROLLER CREATED");
         this.lobbyId = lobbyId;
     }
 
@@ -49,7 +56,7 @@ public class Controller {
             message.executeCommand(this, client);
     }
 
-    //PING
+    //PING todo aga
     public synchronized void disconnectPlayer(String username){
         System.out.println(username+" disconnected!");
         for(VirtualClient v: views){
@@ -66,17 +73,21 @@ public class Controller {
         views.forEach((v)->v.getVirtualView().sendPlayerResilienceMessage(pdm));
     }
 
-    //RESILIENCE
+    //RESILIENCE todo aga
     public synchronized boolean isUsernameDisconnected(String username){
         if(disconnectedPlayer.contains(username))
             return true;
         return false;
     }
 
+    /**Returns true if Game is in a Single Player session, false if it's in a Multi Player sessione
+     * @return a boolean
+     */
     public boolean isSinglePlayer(){
         return game.isSinglePlayer();
     }
 
+    //todo aga
     public synchronized void reconnectUsername(String username, VirtualClient virtualClient){
         disconnectedPlayer.remove(username);
         PlayerReconnectedMessage prm = new PlayerReconnectedMessage(username);
@@ -84,8 +95,8 @@ public class Controller {
         views.add(virtualClient);
     }
 
-    /**
-     *todo da fare
+    /**Calls the Game method that setups the Player's startingTurn attributes and order them in the
+     * Game's Players ArrayList
      */
     public void setOrder(){
         game.setOrder();
@@ -297,7 +308,6 @@ public class Controller {
                         game.getLorenzo().convert(),
                         players,
                         game.getDevBoard().convert());
-                //getViews().get(0).getVirtualView().sendEndTurnNotify(response);
             }else {
                 response = new EndTurnResponse(username, game.endingSinglePlayerGame());
                 if(currL != null){
@@ -325,7 +335,6 @@ public class Controller {
                 getViews().forEach((element) -> element.getVirtualView().sendEndTurnNotify(finalResponse1));
                 while (disconnectedPlayer.contains(game.getCurrentPlayer().getNickname()) && !views.isEmpty()){
                     game.updateTurn();
-                    //todo guardami se crasha
                     response = new EndTurnResponse(username,
                             game.getCurrentPlayer().getNickname(),
                             players);
@@ -341,7 +350,9 @@ public class Controller {
 
     public void handleError(String message){
         System.out.println(message);
-        //todo metodo fuffa
+        //BIG TODO AGA: QUESTO METODO GESTISCE LA RICEZIONE DELLE CARTE LEADER ALL`INIZIO.
+        //TODO: SE SETUPGAME SI SPACCA CHIAMA LUI MA NON FA NIENTE
+        //TODO: POTREBBE ESSERE LUI IL COLPEVOLE?
     }
 
     /**Returns the Player by username
@@ -408,6 +419,9 @@ public class Controller {
         return game.getDevBoard();
     }
 
+    /**Returns Lorenzo
+     * @return a Lorenzo instance
+     */
     public Lorenzo getLorenzo(){
         return game.getLorenzo();
     }

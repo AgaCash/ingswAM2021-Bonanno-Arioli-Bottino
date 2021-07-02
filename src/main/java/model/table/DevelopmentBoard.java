@@ -11,6 +11,10 @@ import utilities.JsonParser;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 
+/**
+ * Class that implements the Development Board. It contains 12 decks each containing 4 DevelopmentCards by same Level and colour
+ * It handle the DevelopmentCard purchase returning the card but the Resource cost handling is implemented in Game (see the Game documentation)
+ */
 public final class DevelopmentBoard {
     private final ArrayList<Deck> decks = new ArrayList<>();  //12 decks
 

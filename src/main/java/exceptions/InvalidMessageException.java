@@ -1,5 +1,5 @@
 package exceptions;
-
+//todo aga
 public class InvalidMessageException extends Exception{
 
     public InvalidMessageException(){

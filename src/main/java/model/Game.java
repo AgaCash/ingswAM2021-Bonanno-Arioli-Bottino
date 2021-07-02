@@ -14,6 +14,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.InputMismatchException;
 
+/**
+ * The class handling all the Model's state changing. Handles all Players actions, changing turns and internal
+ * instances changing
+ */
 public class Game {
     private ArrayList<Player> players = new ArrayList<>();
     private Table table;
@@ -25,8 +29,8 @@ public class Game {
     private boolean lastTurnIsEnded;
     private String finalMessage;
 
-    /**todo da scrivere
-     * @param singlePlayer
+    /**Constructor
+     * @param singlePlayer true if Game is in a Single player session, false if it's in multi
      */
     public Game(boolean singlePlayer){
         this.singlePlayer = singlePlayer;

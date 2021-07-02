@@ -10,7 +10,7 @@ import model.table.PlayerBoard;
  * Represents and encapsulates all the Player tools
  */
 public class Player {
-    private String nickname;
+    private final String nickname;
     private int startingTurn;
     private int points = 0;
     private PlayerBoard playerboard;
@@ -33,12 +33,6 @@ public class Player {
      */
     public void addPoints(int pts){
         points += pts;
-    }
-
-    public int getNewPoints(){
-        //todo da scrivere
-        //capiamo
-        return 69;
     }
 
     /**Returns Player's current victory points
@@ -92,9 +86,7 @@ public class Player {
             try {
                 DevelopmentCard card = this.playerboard.getCardSlots().getCard(i);
                 points += card.getVictoryPoints();
-            }catch(NullPointerException e){
-                ;
-            }
+            }catch(NullPointerException ignored){}
         for(LeaderCard card: this.playerboard.getLeaders())
             if(card.isEnabled())
                 points += card.getVictoryPoints();
@@ -122,7 +114,7 @@ public class Player {
 
 
     /**just 4 tests
-     * @return
+     * @return a String
      */
     @Override
     public String toString() {
@@ -132,7 +124,7 @@ public class Player {
     }
 
     /**Returns the current state Player in a LightPlayer instance for LightModel
-     * @return
+     * @return a LightPlayer instance
      */
     public LightPlayer convert(){
         LightPlayer player = new LightPlayer();
@@ -140,7 +132,6 @@ public class Player {
         player.setNickname(getNickname());
         player.setPoints(this.points);
         player.setPlayerBoard(this.playerboard.convert());
-        //player.getPlayerBoard().getFaithTrack().isSinglePlayer(false);
         return player;
     }
 
@@ -193,8 +184,8 @@ public class Player {
         this.didProduction = true;
     }
 
-    /**Player can't do another LeaderAction in this turn
-     * @return
+    /**Returns true if Player can't do another LeaderAction in this turn, false if it can
+     * @return a boolean
      */
     public boolean cantDoLeader(){
         return this.didLeader != 0 && (!didAction && !didProduction);

@@ -16,10 +16,6 @@ public class LightLeaderCard{
         this.type = null;
     }
 
-    public boolean isDiscarded(){
-        return this.type == null;
-    }
-
     /**Returns card's ID
      * @return an int
      */

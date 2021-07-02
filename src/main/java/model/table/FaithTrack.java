@@ -6,6 +6,10 @@ import utilities.JsonParser;
 
 import java.util.ArrayList;
 
+/**
+ * Class representing the Faith Track in the Game. It's a collection of FaithBox instances with relatives method to handle
+ * the advancing and the points gaining
+ */
 public class FaithTrack {
     private ArrayList<FaithBox> box ;
     private FaithBox actualBox;

@@ -13,15 +13,15 @@ public enum LightMarble {
 
     private transient String fileName;
 
-    /**
-     * @param col todo  mi servite voi
+    /**It's the reference to Marble's image filename
+     * @param col its colour
      */
     LightMarble(String col){
         fileName = col+".png";
     }
 
-    /**
-     * @return todo mi servite voi
+    /**Returns the Marble's image filename for GUI
+     * @return a String containing the filename
      */
     public String getFileName() {
         return fileName;

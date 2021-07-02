@@ -15,7 +15,7 @@ public enum Marble{
 
 	/**Converts the Marble in its corresponding Resource
 	 * @param convertWhiteMarble the WhiteMarble corresponding Resource. It it's null, WhiteMarble will be converted in nothing
-	 * @returna a Resource instance
+	 * @return a Resource instance
 	 */
 	public Resource convertMarble(Resource convertWhiteMarble){
 		switch(this){

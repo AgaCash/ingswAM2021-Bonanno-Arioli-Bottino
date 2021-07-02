@@ -16,7 +16,6 @@ public class LightWarehouseDepot {
      * @param image a LightResource ArrayList
      */
     public void setWarehouse(ArrayList<LightResource> image){
-        //this.warehouse.clear();
         this.warehouse = image;
     }
 

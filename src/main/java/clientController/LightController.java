@@ -29,7 +29,7 @@ import java.util.ArrayList;
 
 /**
  * LightController is the part of Controller in the Client that handle the LightModel updates, the
- * Messages sending and receiving and the View calls
+ * Messages sending and receiving and the call to View's method
  */
 public class LightController {
     private View view;
@@ -51,34 +51,42 @@ public class LightController {
         usernamesList = new ArrayList<>();
     }
 
-    //helper for gui
-    /**Returns true if Game is in single player mode
+    /**helper for gui: Returns true if Game is in single player mode
      * @return a boolean
      */
     public boolean isSinglePlayer(){
         return usernamesList.size()==1;
     }
 
+    /**helper for gui: Sets the number of Player's in Lobby
+     * @param numOfPlayerInLobby an int
+     */
     public synchronized void setNumOfPlayerInLobby(int numOfPlayerInLobby) {
         this.numOfPlayerInLobby = numOfPlayerInLobby;
     }
 
+    /**helper for gui: Gets the number of Player's in Lobby
+     */
     public synchronized int getNumOfPlayerInLobby() {
         return numOfPlayerInLobby;
     }
 
+    /**helper for gui: Sets a Player's username List
+     * @param usernamesList a String ArrayList
+     */
     public synchronized void setUsernamesList(ArrayList<String> usernamesList) {
         this.usernamesList = usernamesList;
     }
 
+    /**helper for gui: Gets a Player's username List
+     * @return a String ArrayList
+     */
     public synchronized ArrayList<String> getUsernamesList() {
         return usernamesList;
     }
 
-    //quitting app
-
-    /**todo da scrivere
-     *
+    /**Method called to quit the application at the end of the Game to quit all the process
+     *It's last 5 seconds before the System exit
      */
     public void quittingApplication(){
         view.showSuccess("Quitting the game in 5 seconds");
@@ -90,12 +98,15 @@ public class LightController {
         System.exit(0);
     }
 
+    /**Method called to quit the application at the end of the Game to quit all the process
+     *It instantly exit the System
+     */
     public void instantQuittingApplication(){
         System.exit(0);
     }
 
     //RESILIENCE
-
+    //todo aga divertiti da qua
     public void reconnectToGame(){
         view.showReconnectionToGame();
         UpdateReconnectionRequest request = new UpdateReconnectionRequest(username);
@@ -151,7 +162,12 @@ public class LightController {
             }
         }).start();
     }
+    //todo a qua
 
+    /**Sets the username received by User (this method it's called by View) and stores it until a Player registration in the Lobby
+     * Sends a RegisterUsernameRequest to Lobby in the Server and execute the RegisterUsernameResponse
+     * @param username the username chosen by User in the View
+     */
     public void setUsername(String username) {
         boolean success = false;
         RegisterUsernameRequest registerUsernameRequest = new RegisterUsernameRequest(username);
@@ -176,14 +192,23 @@ public class LightController {
         }
     }
 
+    /**Returns the Client Player username
+     * @return a String
+     */
     public String getUsername() {
         return username;
     }
 
+    /**Calls the askMenu method in View
+     * that permit User to choose the Game modality
+     */
     public void askLobbyMenu(){
         view.askMenu();
     }
 
+    /**Creates a SinglePlayer Lobby to start a aSingle player game
+     * Sends a StartSinglePlayerRequest and runs the StartSinglePlayerResponse
+     */
     public void createSinglePlayerLobby(){
         this.game = new LightGame();
         StartSinglePlayerRequest request = new StartSinglePlayerRequest(username);
@@ -199,6 +224,9 @@ public class LightController {
         }
     }
 
+    /**Creates a MultiPlayer Lobby to start a Multi Player Lobby
+     * Sends a CreateLobbyRequest and runs the CreateLobbyResponse
+     */
     public void createMultiLobby(){
         CreateLobbyRequest request = new CreateLobbyRequest(username);
         String requestS = gson.toJson(request);
@@ -215,7 +243,7 @@ public class LightController {
 
     //RICORDA CHE 2 RECV IN CONTEMPORANEA FREGANO IL TUTTO
 
-    //V1 (t'appooo!!)
+    //V1 (t'appooo!!)todo tutto tuo agaaaaaa
     public void createLobbyWaiting(){
         view.showCreatorWaitingRoom();
         new Thread(()->{
@@ -239,15 +267,18 @@ public class LightController {
         }).start();
         view.askStartGame();
     }
-
+    //todo aga
     public void waitStartGameString(){
         view.waitStartGameString();
     }
 
+    /**Prints in the Lobby Menu that a Player joined the Lobby in the server
+     * @param username the Player's username who just joined
+     */
     public void notifyPlayerJoined(String username){
         view.notifyPlayerJoined(username);
     }
-
+//TODO AGA
     public void joinLobbyWaiting(ArrayList<String> usernameList){
         //mostra che è entrato nella lobby
         //notifica attesa che il gioco inizi
@@ -272,14 +303,24 @@ public class LightController {
     }
 
 
+    /**
+     * Calls startGameProcedure method
+     */
     public void startSinglePlayerGame() {
         startGameProcedure();
     }
 
+    /**
+     * Calls startGameProcedure method
+     */
     public void startMultiPlayerGame(){
         startGameProcedure();
     }
 
+
+    /**Sends a StartGameRequest and runs the StartGameResponse that contains the initial 4 LightLeaderCard
+     * and eventually the free choice LightResource
+     */
     private void startGameProcedure() {
         StartGameRequest startGameRequest = new StartGameRequest(getUsername());
         String request = gson.toJson(startGameRequest);
@@ -289,12 +330,10 @@ public class LightController {
             StartGameResponse startGameResponse = gson.fromJson(response, StartGameResponse.class);
             startGameResponse.executeCommand(this);
         } catch (IOException e){
-            //System.out.println("errore");
-            view.showError("error ");
-            //todo da abbellire
+            view.showError("INTERNAL ERROR");
         }
     }
-
+//TODO AGA DIVERTITI CIAO BELLO
     public void sendSignalMultiPlayerGame(){
         StartMultiPlayerRequest request = new StartMultiPlayerRequest(username);
         client.send(gson.toJson(request));
@@ -303,6 +342,10 @@ public class LightController {
         //    :( :( :(
     }
 
+    /**Sends a GetLobbyRequest to Server and runs the GetLobbyResponse with the List of available Lobbies
+     * in the Server with relatives owner
+     *
+     */
     public void getLobbyList(){
         GetLobbyRequest request = new GetLobbyRequest(username);
         client.send(gson.toJson(request));
@@ -316,10 +359,17 @@ public class LightController {
 
     }
 
+    /**Calls the View method to receive the Lobby id chosen by User
+     * @param lobbies the Lobby ArrayList (copied by server)
+     */
     public void askLobbyId(ArrayList<Lobby> lobbies){
         view.askLobbyID(lobbies);
     }
 
+    /**Sends a LoginMultiPlayerRequest to make join the Player to a Lobby and runs the LoginMultiPlayerResponse
+     * that notifies all the other Players its join to the Lobby
+     * @param id the Lobby ID
+     */
     public void joinLobbyById(int id){
         LoginMultiPlayerRequest request = new LoginMultiPlayerRequest(username, id);
         client.send(gson.toJson(request));
@@ -332,6 +382,12 @@ public class LightController {
         }
     }
 
+    /**Sends a DefaultProductionRequest and runs the DefaultProductionResponse
+     * @param input the LightResource ArrayList that User has chosen as production input
+     * @param output the LightResource that User has chosen as production output
+     * @param card the LightLeaderCard User has chosen to add to the production. null if User didn't want to benefit of a LeaderAction
+     * @param chosenOutput the free choice LightResource that user has chosen as extra production output. null if User didn't add a LightLeaderCard
+     */
     public void sendDefaultProductionRequest (ArrayList<LightResource> input, LightResource output, LightLeaderCard card, LightResource chosenOutput){
         DefaultProductionRequest request = new DefaultProductionRequest(game.getUsername(), input, output, card, chosenOutput);
         client.send(gson.toJson(request));
@@ -345,6 +401,11 @@ public class LightController {
 
     }
 
+    /**Sends a DevCardProductionRequest and runs the DevCardProductionResponse
+     * @param slot the CardSlot number where to take from the DevelopmentCard
+     * @param chosenResource the free choice LightResource that user chosen as extra production output. null if User didn't add a LightLeaderCard
+     * @param card the LightLeaderCard User chosen to add to the production. null if User didn't want to benefit of a LeaderAction
+     */
     public void sendDevCardProductionRequest (int slot, LightResource chosenResource, LightLeaderCard card){
         DevCardProductionRequest request = new DevCardProductionRequest(game.getUsername(), slot, chosenResource, card);
         client.send(gson.toJson(request));
@@ -357,6 +418,11 @@ public class LightController {
         }
     }
 
+    /**Sends a BuyResourceRequest and runs the BuyResourceRequest
+     * @param line true if User has chosen a Market line, false if User has chosen a Market column
+     * @param num the line/column number
+     * @param lightCard the LightLeaderCard User chosen to add to the production. null if User didn't want to benefit of a LeaderAction
+     */
     public void sendBuyResourceRequest (boolean line, int num, LightLeaderCard lightCard){
         BuyResourcesRequest request = new BuyResourcesRequest(game.getUsername(), line, num, lightCard);
         client.send(gson.toJson(request));
@@ -369,6 +435,11 @@ public class LightController {
         }
     }
 
+    /**Sends a BuyDevCardRequest and runs the BuyDevCardResponse
+     * @param deck the deck's number in DevelopmentBoard
+     * @param slot the Slot number in CardSlots where put the DevelopmentCard purchased
+     * @param card the LightLeaderCard User chosen to add to the production. null if User didn't want to benefit of a LeaderAction
+     */
     public void sendBuyDevCardRequest (int deck, int slot, LightLeaderCard card){
         BuyDevCardRequest request = new BuyDevCardRequest(game.getUsername(), deck, slot, card);
         client.send(gson.toJson(request));
@@ -382,6 +453,9 @@ public class LightController {
         }
     }
 
+    /**Sends a LeaderCardActivationRequest and runs a LeaderCardActivationResponse
+     * @param card a LightLeaderCard copy of the LeaderCard in server will be activated
+     */
     public void sendLeaderCardActivationRequest (LightLeaderCard card){
         LeaderCardActivationRequest request = new LeaderCardActivationRequest(getUsername(), card);
         client.send(gson.toJson(request));
@@ -394,6 +468,9 @@ public class LightController {
         }
     }
 
+    /**Sends a LeaderCardThrownResponse and runs a LeaderCardThrownResponse
+     * @param card a LightLeaderCard copy of the LeaderCard in server will be thrown
+     */
     public void sendLeaderCardThrowRequest (LightLeaderCard card){
         LeaderCardThrowRequest request = new LeaderCardThrowRequest(getUsername(), card);
         client.send(gson.toJson(request));
@@ -406,6 +483,10 @@ public class LightController {
         }
     }
 
+    /**Sends a EndTurnRequest and runs a EndTurnResponse. If it's in MultiPlayer Game modality,
+     * puts the LightController in wait (see waitForMyTurn). If it's in SinglePlayer Game modality
+     * runs the executeCommand that updates LightModel with the Lorenzo's last actions.
+     */
     public void sendEndTurnRequest(){
         EndTurnRequest request = new EndTurnRequest(getUsername());
         client.send((gson.toJson(request)));
@@ -421,40 +502,64 @@ public class LightController {
         }
     }
 
+    /**Updates the LightModel's LightDevelopmentBoard with the current Model's DevelopmentBoard status
+     * @param board a LightDevelopmentBoard instance
+     */
     public void updateDevBoard(LightDevelopmentBoard board) {
         game.updateDevBoard(board);
         view.updateDevBoard(board);
     }
 
+    /**Updates the LightModel's LightMarketBoard with the current Model's MarketBoard status
+     * @param market a LightDevelopmentBoard instance
+     */
     public void updateMarketBoard(LightMarketBoard market){
         game.updateMarketBoard(market);
         view.updateMarketBoard(market);
     }
 
+    /**Calls the view method to show the Resource list that were thrown by WarehouseDepot in Model
+     * @param username the Player's username who purchased the Resources
+     * @param threwResources a LightResourceArrayList
+     */
     public void showThrewResources(String username, ArrayList<LightResource> threwResources){
         if(game.getUsername().equals(username))
             view.showThrewResources(threwResources);
     }
 
+    /**Prints an error message
+     * @param username the Player's username who message is directed to
+     * @param message the String containing the message
+     */
     public void showError(String username, String message) {
         if(getUsername().equals(username))
             view.showError(message);
     }
 
+    /**Prints an error message
+     * @param message the String containing the message
+     */
     public void showError(String message) {
             view.showError(message);
     }
 
+    /**Prints a success message
+     * @param username the Player's username who message is directed to
+     * @param message the String containing the message
+     */
     public void showSuccess(String username, String message){
         if(getUsername().equals(username))
             view.showSuccess(message);
     }
 
+    /**Prints an error message
+     * @param message the String containing the message
+     */
     public void showSuccess(String message){
         view.showSuccess(message);
     }
 
-    //todo da rimuovere
+    //todo da rimuovere (CHEAT)
     public void updateStrongbox(String username, LightStrongbox strongbox){
         try {
             game.updateStrongbox(username, strongbox);
@@ -464,7 +569,7 @@ public class LightController {
         }
     }
 
-    //todo da rimuovere
+    //todo da rimuovere (CHEAT)
     public void updateFaithTrack(String username, LightFaithTrack newFaithTrack){
         try{
             game.updateFaithTrack(username, newFaithTrack);
@@ -474,10 +579,11 @@ public class LightController {
     }
 
 
-    /**
-     * @param quartet
-     * @param numResources
-     * @param faithPoints
+    /**Shows the 4 LeaderCard that Player has to choose and eventually the free choice Resource and the notify that
+     * Player earned a FaithPoint
+     * @param quartet a 4-length LightLeaderCard ArrayList
+     * @param numResources the number of free choice LightResources
+     * @param faithPoints true if Player earned a FaithPoint, false if not
      */
     public void chooseStartItems(ArrayList<LightLeaderCard> quartet, int numResources, boolean faithPoints){
         view.askStartItems(quartet, numResources, faithPoints);
@@ -504,6 +610,7 @@ public class LightController {
 
     }
 
+    //todo aga
     public LightPlayer getPlayerFull(String username){
         try {
             return game.getPlayer(username);
@@ -513,37 +620,55 @@ public class LightController {
         return null;
     }
 
+    /**Returns the Player's PlayerBoard
+     * @return a LightPlayerBoard instance
+     */
     public LightPlayerBoard getPlayerBoard(){ return game.getPlayerBoard(); }
 
+    /**First LightModel's LightMarketBoard update
+     * @param market a LightMarketBoard instance
+     */
     public void setMarketBoard(LightMarketBoard market){
         this.game.setMarketBoard(market);
-        //view.updateMarketBoard(market);
     }
+
+    /**Returns the current LightModel's LightMarketBoard status
+     * @return a LightMarketBoard instance
+     */
     public LightMarketBoard getMarketBoard(){ return this.game.getMarketBoard(); }
 
+    /**First LightModel's LightDevelopmentBoard update
+     * @param board a LightDevelopmentBoard instance
+     */
     public void setDevBoard(LightDevelopmentBoard board){
         this.game.setDevBoard(board);
-        //view.updateDevBoard(board);
     }
+
+    /**Returns the current LightModel's LightDevelopmentBoard status
+     * @return a LightDevelopmentBoard instance
+     */
     public LightDevelopmentBoard getDevBoard(){ return this.game.getDevBoard();}
 
+    /**First LightModel's LightPlayers setup
+     * @param players a LightPlayer ArrayList
+     */
     public void setPlayers(ArrayList<LightPlayer> players){
         this.game.setPlayers(getUsername(), players);
     }
 
+    /**First LightModel's User LightPlayer setup
+     * @param player a LightPlayer ArrayList
+     */
     public void setPlayer(LightPlayer player){
         game.setPlayer(player);
     }
 
-    public LightPlayer getPlayer(){
-        return this.game.getPlayer();
-    }
-
+    //todo aga
     public void reconnectSinglePlayer(){
         sendEndTurnRequest();
     }
 
-    /**todo
+    /**todo agatinoooooo
      *
      */
     public void waitForMyTurn(){
@@ -567,7 +692,6 @@ public class LightController {
     }
 
     /**Calls the View method to print the potential turn's actions and make the User to choose them
-     *
      */
     public void startTurn(){
         view.askTurn();
@@ -578,7 +702,6 @@ public class LightController {
      */
     public void endSinglePlayerGame(String message){
         view.endSinglePlayerGame(message);
-        //view.endGame();
     }
 
     /**Sends to View the final rank amd the winner Player's username
@@ -614,7 +737,7 @@ public class LightController {
 
     /**Updates LightModel and notifies View after a successful BuyDevCardRequest
      * @param username the Player who purchased a DevelopmentCard
-     * @param players the entire list of Players
+     * @param players the entire list of LightPlayers
      */
     public void updateBuyDevCard(String username, ArrayList<LightPlayer> players) {
         for (LightPlayer p : players) {
@@ -637,6 +760,10 @@ public class LightController {
         }
     }
 
+    /**Updates LightModel and notifies View after a successful BuyResourceRequest
+     * @param username the Player who purchased the Resources
+     * @param players theentire list of LightPlayers
+     */
     public void updateBuyResources(String username, ArrayList<LightPlayer> players){
         for(LightPlayer p: players){
             try {
@@ -657,7 +784,7 @@ public class LightController {
 
     /**Updates LightModel and notifies View after a successful DevCardProductionRequest or a DefaultProductionRequest
      * @param username the Player who activated a production
-     * @param players the entire list of Players
+     * @param players the entire list of LightPlayers
      */
     public void updateProduction(String username, ArrayList<LightPlayer> players){
         for(LightPlayer p: players){
@@ -682,7 +809,7 @@ public class LightController {
 
     /**Updates LightModel and notifies View after a successful LeaderCardActivationRequest
      * @param username the Player who activated a LeaderCard username
-     * @param players the entire list of Players
+     * @param players the entire list of LightPlayers
      */
     public void updateLeaderCardActivation(String username, ArrayList<LightPlayer> players){
         for(LightPlayer p: players){
@@ -704,7 +831,7 @@ public class LightController {
 
     /**Updates LightModel and notifies View after a successful LeaderCardThrowRequest
      * @param username the Player who thrown a LeaderCard username
-     * @param players the entire list of Players
+     * @param players the entire list of LightPlayers
      */
     public void updateLeaderCardThrow(String username, ArrayList<LightPlayer> players){
         for(LightPlayer p: players){
@@ -760,7 +887,6 @@ public class LightController {
                     game.updateStrongbox(username, p.getPlayerBoard().getStrongbox());
                 } catch (NoSuchUsernameException e) {
                     view.showError(e.getMessage());
-                    //AAAAAAAAAAAAAA CORRI SCAPPA C'È IL NEMESIS
                 }
             }
         }

@@ -11,6 +11,9 @@ import view.VirtualClient;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+/**
+ * Message that ask the Server for the initial items to choose (LeaderCards and Resources)
+ */
 public class StartGameRequest extends GameMessage{
 
     public StartGameRequest(String username){

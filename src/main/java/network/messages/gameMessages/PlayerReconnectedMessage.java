@@ -2,7 +2,7 @@ package network.messages.gameMessages;
 
 import clientController.LightController;
 import network.messages.MessageType;
-
+//todo aga
 public class PlayerReconnectedMessage extends GameMessage{
 
     public PlayerReconnectedMessage(String username) {

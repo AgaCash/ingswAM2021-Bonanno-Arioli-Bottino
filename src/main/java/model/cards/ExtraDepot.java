@@ -49,8 +49,7 @@ public class ExtraDepot extends LeaderCard{
     @Override
     public boolean removeResource(Resource tmp){
         if(isEnabled())
-            if(extraWarehouseDepot.remove(tmp))
-                    return true;
+            return extraWarehouseDepot.remove(tmp);
         return false;
     }
 
@@ -70,7 +69,7 @@ public class ExtraDepot extends LeaderCard{
     }
     /**
      * for tests
-     * @return
+     * @return a String
      */
     @Override
     public String toString(){

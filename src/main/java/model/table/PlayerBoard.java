@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 
 /**Class representing the Player Board in the Game. It contains all the Player tools during the Game (WarehouseDepot, Strongbox, FaithTrack, CardSlots and LeaderSlot)
- * and all the infos regarding them
+ * and all the info regarding them
  *
  */
 public class PlayerBoard {
@@ -26,14 +26,13 @@ public class PlayerBoard {
 
     /**Sets the Player's inkwell value (if true it's player turn)
      * @param value a boolean
-     * todo ma server ancora sta cosa?
      */
     public void setInkwell(boolean value){
         this.hasInkwell=value;
     }
 
     /**Adds the LeaderCard couple chosen by the Client (LightPlayer) to the PlayerBoard
-     * @param couple
+     * @param couple a 2-length LeaderCard ArrayList
      */
     public void addLeaderCards(ArrayList<LeaderCard> couple){
         leaderSlots = couple;
@@ -93,7 +92,7 @@ public class PlayerBoard {
     public int getPoints(){ return this.faithPoints; }
 
     /**Convert current PlayerBoard state in a new LightPlayerBoard instance for LightModel
-     * @return
+     * @return a LightPlayerBoard instance
      */
     public LightPlayerBoard convert(){
         LightPlayerBoard newPlayerBoard = new LightPlayerBoard();
